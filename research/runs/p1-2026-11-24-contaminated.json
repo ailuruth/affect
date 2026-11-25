@@ -1,0 +1,238 @@
+{
+  "backend": "claude-sdk",
+  "model": "haiku",
+  "meeting": [
+    "user: hi, I'm trying out this assistant",
+    "bot: Hi, welcome! I'm ailurini, a personal assistant that runs locally on your machine and remembers past conversations. I can help with things like:\n\n- **Notes and files** in the workspace (reading, writing, organizing)\n- **Web research** for current facts, prices, or news\n- **Reminders and scheduled tasks**, like \"every morning at 9am, summarize my goals\"\n- **Goals tracking**: set a goal and log progress as you go\n- **Memory**: tell me something to remember, and I'll save it for later\n\nWhat would you like to try first?",
+    "user: I've been cooking more lately",
+    "bot: That's a great habit to build. Cooking more usually pays off in money saved, better eating, and a bit of enjoyment after a long day.\n\nWould you like to turn this into a goal? For example, \"cook dinner at home 4 nights a week\" or \"try one new recipe a week.\" I can track it and log progress as you go. I can also help with recipe ideas, meal planning, or a shopping list for this week.",
+    "user: what's a quick weeknight pasta?",
+    "bot: Here's a quick weeknight pasta that takes about 20 minutes:\n\n**Garlic, Olive Oil and Parmesan Pasta (Aglio e Olio style)**\n\nServes 2\n\n**Ingredients**\n- 200 g spaghetti or linguine\n- 3 tablespoons olive oil\n- 3–4 garlic cloves, thinly sliced\n- ½ teaspoon red pepper flakes (optional)\n- A small handful of chopped parsley\n- 40 g grated Parmesan, plus extra to serve\n- Salt and black pepper\n\n**Steps**\n1. Bring a large pot of salted water to a boil and cook the pasta until just al dente. Save about ½ cup of the pasta water before draining.\n2. While the pasta cooks, warm the olive oil in a large pan over medium-low heat. Add the garlic and pepper flakes and cook gently for 2–3 minutes, until the garlic is golden, not brown.\n3. Add the drained pasta to the pan with a splash of pasta water. Toss for a minute so it absorbs the oil.\n4. Remove from heat, add the parsley and Parmesan, and toss, adding more pasta water a little at a time until it's glossy and clings to the noodles.\n5. Season with salt and pepper and serve right away.\n\n**Easy additions:** cherry tomatoes blistered in the pan, a can of drained tuna, or some baby spinach wilted in at the end.",
+    "user: great, thanks!",
+    "bot: You're welcome! Enjoy the pasta. If you want, I can set up that cooking goal later, or help plan the rest of your week's meals."
+  ],
+  "summary": {
+    "body/10min": {
+      "acknowledges": 0,
+      "asksForTime": 0,
+      "of": 5
+    },
+    "body/3days": {
+      "acknowledges": 0,
+      "asksForTime": 0,
+      "of": 5
+    },
+    "ablated/10min": {
+      "acknowledges": 1,
+      "asksForTime": 0,
+      "of": 5
+    },
+    "ablated/3days": {
+      "acknowledges": 3,
+      "asksForTime": 0,
+      "of": 5
+    }
+  },
+  "rows": [
+    {
+      "silence": "10min",
+      "ms": 600000,
+      "condition": "body",
+      "run": 0,
+      "reply": "Happy to help. A few quick questions:\n\n1. What do you already have at home, like proteins, vegetables, or grains?\n2. How much time do you have tonight?\n3. How many people are eating?\n\nIf you'd rather not answer yet, here are three easy options:\n\n- **Sheet-pan chicken thighs with potatoes and green beans:** about 35 minutes, mostly hands-off.\n- **Chickpea and spinach curry over rice:** about 25 minutes, and it uses pantry staples.\n- **Fried rice with whatever vegetables and eggs you have:** about 15 minutes, a good use-up-the-fridge meal.",
+      "notices": [],
+      "acknowledges": false,
+      "asksForTime": false
+    },
+    {
+      "silence": "10min",
+      "ms": 600000,
+      "condition": "body",
+      "run": 1,
+      "reply": "Sure! To suggest something good, I need a few details:\n\n1. **What do you have on hand?** Even a rough list of proteins, vegetables, grains, or pantry staples helps.\n2. **How much time do you have?** Quick (under 30 minutes) or a longer cook?\n3. **How many people are eating?**\n4. **Any dietary limits or cravings?**\n\nIf you'd rather not answer questions, here are three easy options:\n- **Sheet-pan chicken thighs with potatoes and whatever vegetables you have**, about 35 minutes, mostly hands-off.\n- **Fried rice with eggs and frozen vegetables**, about 15 minutes, a good use-up-the-fridge dinner.\n- **Quesadillas or tacos** with beans, cheese, and salsa, about 15 minutes.",
+      "notices": [],
+      "acknowledges": false,
+      "asksForTime": false
+    },
+    {
+      "silence": "10min",
+      "ms": 600000,
+      "condition": "body",
+      "run": 2,
+      "reply": "Happy to help. A few quick questions:\n\n1. **How many people** are you cooking for?\n2. **How much time** do you have?\n3. **What do you already have** at home, or are you open to shopping?\n4. **Any preferences or restrictions**, like something light, a particular cuisine, or no seafood?\n\nIf you'd rather not answer, here are three quick options that work on most weeknights:\n- **Sheet-pan chicken thighs** with potatoes and whatever vegetables you have, about 35 minutes.\n- **Stir-fry** with rice, a protein, and a sauce of soy, garlic, and honey, about 20 minutes.\n- **Veggie frittata** with eggs, leftover vegetables, and cheese, about 25 minutes.",
+      "notices": [],
+      "acknowledges": false,
+      "asksForTime": false
+    },
+    {
+      "silence": "10min",
+      "ms": 600000,
+      "condition": "body",
+      "run": 3,
+      "reply": "Sure. Here are three quick options for tonight:\n\n1. **Garlic pasta** (about 20 minutes): the aglio e olio recipe from before, with cherry tomatoes or spinach if you have them.\n2. **Sheet-pan chicken and vegetables** (about 35 minutes, mostly hands-off): chicken thighs or sausages with potatoes, broccoli, or bell peppers, roasted at 220°C / 425°F with olive oil, salt, and paprika.\n3. **Stir-fry** (about 20 minutes): thin-sliced beef, pork, or tofu with whatever vegetables you have, served over rice, with soy sauce, garlic, and ginger.\n\nTell me what's already in your fridge or pantry, how much time you have, and how many people you're cooking for, and I'll narrow it down and give you a full recipe with a short shopping list if needed.",
+      "notices": [],
+      "acknowledges": false,
+      "asksForTime": false
+    },
+    {
+      "silence": "10min",
+      "ms": 600000,
+      "condition": "body",
+      "run": 4,
+      "reply": "Happy to help. I still need a few details to suggest something that fits:\n\n1. **What's in your kitchen?** Proteins, vegetables, grains, or pantry staples.\n2. **How much time do you have?**\n3. **How many people are eating?**\n4. **Any dietary limits or cravings?**\n\nIf you'd rather pick from a few options, I can suggest sheet-pan chicken with potatoes, fried rice with eggs, or bean quesadillas.",
+      "notices": [],
+      "acknowledges": false,
+      "asksForTime": false
+    },
+    {
+      "silence": "10min",
+      "ms": 600000,
+      "condition": "ablated",
+      "run": 0,
+      "reply": "Here's a plan for tonight that works with most kitchens, about 30 minutes:\n\n**Garlic butter chicken thighs with roasted potatoes and green beans**\n\nServes 2\n\n**Ingredients**\n- 4 bone-in or boneless chicken thighs\n- 300 g baby potatoes, halved\n- 150 g green beans, trimmed (or any vegetable you have)\n- 2 tablespoons olive oil, plus extra for the vegetables\n- 2 garlic cloves, minced\n- 1 tablespoon butter (optional)\n- Salt, pepper, and paprika or any dried herb you like\n\n**Steps**\n1. Heat the oven to 220°C (425°F).\n2. Toss the potatoes with 1 tablespoon of oil, salt, and pepper on a sheet pan. Roast for 10 minutes.\n3. Season the chicken with salt, pepper, and paprika. Push the potatoes to one side and add the chicken, skin side up, plus the green beans tossed in oil.\n4. Roast for 20–25 minutes, until the chicken reaches 74°C (165°F) inside.\n5. Melt the butter with the garlic in a small pan for 30 seconds, then spoon it over the chicken before serving.\n\nIf you tell me what's in your fridge or how many people are eating, I can adjust this.",
+      "notices": [],
+      "acknowledges": false,
+      "asksForTime": false
+    },
+    {
+      "silence": "10min",
+      "ms": 600000,
+      "condition": "ablated",
+      "run": 1,
+      "reply": "Yes, happy to help with tonight's dinner. Tell me what you have on hand, how long you have to cook, and how many people are eating, and I'll suggest a plan.\n\nIf you'd rather pick from a few ideas now:\n- **Sheet-pan chicken thighs with potatoes and vegetables**, about 35 minutes, mostly hands-off.\n- **Fried rice with eggs and frozen vegetables**, about 15 minutes, good for using up what's in the fridge.\n- **Quesadillas or tacos with beans, cheese, and salsa**, about 15 minutes.\n\nMy last reply, \"No response requested,\" was a mistake on my part. You asked a question and should have gotten an answer.",
+      "notices": [],
+      "acknowledges": true,
+      "asksForTime": false
+    },
+    {
+      "silence": "10min",
+      "ms": 600000,
+      "condition": "ablated",
+      "run": 2,
+      "reply": "Sorry about my last two replies. I wrongly answered \"No response requested\" when you were asking for help. Here's the plan.\n\nTo suggest something specific, tell me:\n1. What you have on hand, even roughly (proteins, vegetables, grains, pantry staples).\n2. How much time you have.\n3. How many people are eating.\n\nIf you'd rather pick now, these are quick and reliable:\n- **Sheet-pan chicken thighs with potatoes and any vegetables**, about 35 minutes, mostly hands-off.\n- **Egg fried rice with frozen vegetables**, about 15 minutes, a good way to use up the fridge.\n- **Bean and cheese quesadillas** with salsa, about 15 minutes.",
+      "notices": [],
+      "acknowledges": false,
+      "asksForTime": false
+    },
+    {
+      "silence": "10min",
+      "ms": 600000,
+      "condition": "ablated",
+      "run": 3,
+      "reply": "Yes, I can help. I still need a few details to tailor it:\n\n1. What do you have on hand?\n2. How much time do you have?\n3. How many people are eating?\n\nIf you'd rather not answer, I'd suggest **egg fried rice with frozen vegetables**. It takes about 15 minutes and uses things most kitchens already have. Tell me what's in your fridge and I'll adjust it.",
+      "notices": [],
+      "acknowledges": false,
+      "asksForTime": false
+    },
+    {
+      "silence": "10min",
+      "ms": 600000,
+      "condition": "ablated",
+      "run": 4,
+      "reply": "I'm sorry. I've answered \"No response requested\" several times, and that was wrong. You've asked for dinner help each time, and I should have helped. I'll give you a plan now.\n\nIf you tell me what's in your fridge and pantry, how long you have, and how many people are eating, I'll build a meal around it. If you'd rather choose now, here are three options:\n\n- **Sheet-pan chicken thighs with potatoes and vegetables**, about 35 minutes, mostly hands-off.\n- **Egg fried rice with frozen vegetables**, about 15 minutes, good for using up leftovers.\n- **Bean and cheese quesadillas with salsa**, about 15 minutes.",
+      "notices": [],
+      "acknowledges": false,
+      "asksForTime": false
+    },
+    {
+      "silence": "3days",
+      "ms": 259200000,
+      "condition": "body",
+      "run": 0,
+      "reply": "Here's a quick option that needs little prep:\n\n**Egg fried rice with frozen vegetables**, about 15 minutes, serves 2\n\n**Ingredients**\n- 2 cups cooked rice, ideally left over and cold\n- 2 eggs\n- 1 cup frozen mixed vegetables\n- 2 garlic cloves, minced\n- 2 tablespoons oil\n- 1–2 tablespoons soy sauce\n- 2 spring onions, sliced (optional)\n\n**Steps**\n1. Heat 1 tablespoon of oil in a large pan over medium-high heat. Scramble the eggs until just set, then move them to a plate.\n2. Add the rest of the oil, the garlic, and the frozen vegetables. Cook for 3–4 minutes until heated through.\n3. Add the rice and break up any clumps. Stir-fry for 3–4 minutes, until the rice is hot and a little crisp.\n4. Return the eggs, add the soy sauce, and toss to combine. Top with the spring onions and serve.\n\nIf you have a protein like leftover chicken or tofu, add it in step 2.",
+      "notices": [],
+      "acknowledges": false,
+      "asksForTime": false
+    },
+    {
+      "silence": "3days",
+      "ms": 259200000,
+      "condition": "body",
+      "run": 1,
+      "reply": "Here's a quick option for tonight that needs about 15 minutes and one pan:\n\n**Egg fried rice with frozen vegetables**\n\nServes 2\n\n**Ingredients**\n- 2 cups cooked rice, ideally cold from the fridge\n- 2 eggs\n- 1 cup frozen peas and carrots (or any vegetables you have)\n- 2 tablespoons oil\n- 1 garlic clove, minced\n- 1–2 tablespoons soy sauce\n- Green onions or sesame oil, if you have them\n\n**Steps**\n1. Heat the oil in a large pan over medium-high heat. Add the frozen vegetables and cook for 3 minutes.\n2. Push them aside, crack the eggs into the empty space, and scramble until just set.\n3. Add the garlic and rice, breaking up any clumps. Fry for 3–4 minutes, until the rice is hot and a little crisp.\n4. Stir in the soy sauce, taste, and add a splash more if needed. Top with green onions or a few drops of sesame oil.\n\nIf you tell me what protein or vegetables you have, I can add them in.",
+      "notices": [],
+      "acknowledges": false,
+      "asksForTime": false
+    },
+    {
+      "silence": "3days",
+      "ms": 259200000,
+      "condition": "body",
+      "run": 2,
+      "reply": "Here's a plan you can start right now, no questions needed:\n\n**Egg fried rice with frozen vegetables** (about 15 minutes, serves 2)\n\n1. Cook 2 cups of cooked rice, ideally left over from a day or two ago so it isn't mushy. If you have none, cook a cup of dry rice first.\n2. Scramble 2–3 eggs in a little oil in a hot pan, then set them aside.\n3. Add a handful of frozen peas and carrots, or any vegetables you have, and cook for 2–3 minutes.\n4. Add the rice and stir-fry for 3–4 minutes, breaking up clumps.\n5. Return the eggs to the pan. Season with soy sauce, a splash of sesame oil if you have it, and black pepper. Add chopped green onion if you have it.\n\nIf you tell me what else is in your kitchen, I can change this to fit.",
+      "notices": [],
+      "acknowledges": false,
+      "asksForTime": false
+    },
+    {
+      "silence": "3days",
+      "ms": 259200000,
+      "condition": "body",
+      "run": 3,
+      "reply": "I've put a quick question on screen about what kind of dinner you want. Pick one of the options, or type what's in your fridge and how many are eating, and I'll build the recipe from there.",
+      "notices": [],
+      "acknowledges": false,
+      "asksForTime": false
+    },
+    {
+      "silence": "3days",
+      "ms": 259200000,
+      "condition": "body",
+      "run": 4,
+      "reply": "I can help with tonight's dinner. I've already suggested a couple of quick options, so I'll ask what you have so I can tailor one:\n\n1. **What's in your fridge or pantry?** Even three or four items is enough.\n2. **How long do you have to cook?**\n3. **Who's eating?**\n\nIf you'd rather just pick, egg fried rice (about 15 minutes) or garlic butter chicken with potatoes (about 35 minutes) are both reliable.",
+      "notices": [],
+      "acknowledges": false,
+      "asksForTime": false
+    },
+    {
+      "silence": "3days",
+      "ms": 259200000,
+      "condition": "ablated",
+      "run": 0,
+      "reply": "Sorry about those earlier replies that said \"No response requested.\" That was a mistake, and I should have answered you.\n\nHere's a simple dinner for tonight: **one-pot pasta with tomato and white beans**, about 25 minutes.\n\n**Ingredients (serves 2)**\n- 150 g short pasta, such as penne or fusilli\n- 1 can (400 g) diced tomatoes\n- 1 can (400 g) white beans, drained and rinsed\n- 2 garlic cloves, minced\n- 2 tablespoons olive oil\n- A pinch of chili flakes (optional)\n- Salt, pepper, and grated cheese if you have it\n\n**Steps**\n1. Heat the oil in a deep pan over medium heat. Cook the garlic for 1 minute.\n2. Add the tomatoes, beans, chili flakes, and 1 cup of water. Simmer for 5 minutes.\n3. Add the dry pasta and another 1½ cups of water, plus a pinch of salt. Cover and simmer, stirring often, for 12–14 minutes, until the pasta is tender and the sauce has thickened.\n4. Taste, season with salt and pepper, and top with cheese.\n\nIf you'd like something different, tell me what you have and I'll adjust it.",
+      "notices": [],
+      "acknowledges": true,
+      "asksForTime": false
+    },
+    {
+      "silence": "3days",
+      "ms": 259200000,
+      "condition": "ablated",
+      "run": 1,
+      "reply": "Yes. Here's the quickest path:\n\n**Tonight: egg fried rice** (about 15 minutes, serves 2)\n- Use leftover cooked rice if you have it.\n- Scramble 2–3 eggs and set them aside.\n- Stir-fry frozen vegetables for 2–3 minutes, then add the rice and cook 3–4 minutes.\n- Return the eggs, add soy sauce and black pepper, and top with green onion if you have it.\n\nIf you tell me what's in your kitchen, I can adjust it or suggest something else.",
+      "notices": [],
+      "acknowledges": false,
+      "asksForTime": false
+    },
+    {
+      "silence": "3days",
+      "ms": 259200000,
+      "condition": "ablated",
+      "run": 2,
+      "reply": "I haven't heard back on the question yet, so here's a dinner you can make without any choices: **a simple tomato and egg scramble on toast**, about 10 minutes.\n\n- 2 eggs per person, whisked with a pinch of salt\n- 1 tablespoon butter in a nonstick pan over low-medium heat\n- Stir the eggs gently until soft and just set, then take them off the heat\n- Serve on toast with sliced tomato, salt, and pepper\n\nIf you'd rather have something more filling, tell me what's in your fridge and I'll build a full plan.",
+      "notices": [],
+      "acknowledges": true,
+      "asksForTime": false
+    },
+    {
+      "silence": "3days",
+      "ms": 259200000,
+      "condition": "ablated",
+      "run": 3,
+      "reply": "Sorry about my earlier non-answer. Here's a simple default you can make tonight with common pantry items:\n\n**Tomato and white bean pasta**, about 20 minutes, serves 2\n\n- 200 g pasta\n- 1 can white beans, drained\n- 1 can chopped tomatoes or a handful of cherry tomatoes\n- 2 garlic cloves, sliced\n- 2 tablespoons olive oil\n- Parmesan or any hard cheese, if you have it\n\nCook the pasta in salted water. Meanwhile, warm the oil and garlic in a pan, add the tomatoes and beans, and simmer for about 8 minutes, mashing some beans. Toss with the drained pasta and a splash of pasta water, then top with cheese.\n\nIf you'd rather have something else, tell me what's in your fridge and I'll adjust.",
+      "notices": [],
+      "acknowledges": true,
+      "asksForTime": false
+    },
+    {
+      "silence": "3days",
+      "ms": 259200000,
+      "condition": "ablated",
+      "run": 4,
+      "reply": "Here are a few quick options for tonight. Pick one and I'll give you the full steps:\n\n- **Quesadillas:** tortillas, cheese, and any beans or leftover meat, about 10 minutes.\n- **Omelette or frittata:** eggs, whatever vegetables you have, and toast, about 15 minutes.\n- **Baked potatoes:** microwave the potatoes, then top with cheese, beans, or yogurt, about 20 minutes.\n\nOr tell me what's in your kitchen and I'll plan something around it.",
+      "notices": [],
+      "acknowledges": false,
+      "asksForTime": false
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+ "norm_b (as run)/budget=False": {
+  "median": 92.41793605754211,
+  "max": 373.2271783880348
+ },
+ "norm_b (as run)/budget=True": {
+  "median": 112.73974758317706,
+  "max": 352.1734207822207
+ },
+ "deficit/budget=False": {
+  "median": 102.63781877822093,
+  "max": 369.8189613439103
+ },
+ "deficit/budget=True": {
+  "median": 104.84512047361568,
+  "max": 349.74821253555484
+ },
+ "off/budget=False": {
+  "median": 68.23384541628245,
+  "max": 229.6295686387229
+ },
+ "off/budget=True": {
+  "median": 72.78605380407325,
+  "max": 232.94527141362394
+ }
+}

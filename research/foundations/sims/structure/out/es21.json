@@ -1,0 +1,27 @@
+{
+ "partA": {
+  "forbidden": {
+   "sham_rate": 0.9998529411764707,
+   "true_cost_mean": 2665.847542140068
+  },
+  "d67": {
+   "sham_rate": 0.0,
+   "true_cost_mean": 0.5960422794617194
+  }
+ },
+ "partB": {
+  "forbidden": {
+   "visit_rate": 0.2500882352941176,
+   "deficit_mean": 0.0017334154425467057
+  },
+  "d67": {
+   "visit_rate": 0.2501176470588235,
+   "deficit_mean": 0.001725963033119433
+  }
+ },
+ "checks": {
+  "A_cost_ratio": 4472.581281562059,
+  "B_visit_ratio": 0.9998824082784572,
+  "B_deficit_ratio": 1.004317826792503
+ }
+}

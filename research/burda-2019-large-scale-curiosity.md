@@ -1,0 +1,25 @@
+# Burda, Edwards, Pathak, Storkey, Darrell & Efros 2019, "Large-Scale Study of Curiosity-Driven Learning" (ICLR 2019; arXiv 1808.04355v1)
+
+Source read: the arXiv PDF v1 (13 Aug 2018, the only arXiv version), main text §1-5 in full and Appendix A (implementation details) and the opening of Appendix B. Figure 6 (the noisy-TV result) was read from the page image. Read on 2026-11-25. Not read: the ICLR camera-ready on OpenReview (the PDF request returned an HTML page, so any changes in that version are unknown), Appendix B tables and Figures 7-8 in detail, the reference list.
+
+## Claims
+- The curiosity reward is prediction error of a forward model in a feature space: "rt = − log p(φ(xt+1)|xt, at), also called the surprisal". In practice "mean-squared error corresponding to a fixed-variance Gaussian density as surprisal, i.e., ||f(xt, at) − φ(xt+1)||²₂".
+- Pure curiosity, with no extrinsic reward and no "done" signal, plays many games: "an IDF-curious agent collects more game reward than a random agent in 75% of the Atari games, an RF-curious agent does better in 70%", across "54 diverse simulated environments". Random features "are sufficient for many popular RL game benchmarks", while learned (inverse-dynamics) features "appear to generalize better".
+- Death is avoided only because it is boring: "death is just another transition to the agent, to be avoided only if it is boring"; agents avoid dying "since that brings it back to the beginning of the game, an area it has already seen many times and where it can predict the dynamics well."
+- The stochasticity failure: "If the transitions in the environment are random, then even with a perfect dynamics model, the expected reward will be the entropy of the transition, and the agent will seek out transitions with the highest entropy. Even if the environment is not truly random, unpredictability caused by a poor learning algorithm, an impoverished model class or partial observability can lead to exactly the same problem." And in §1: "if the agent itself is the source of stochasticity in the environment, it can reward itself without making any actual progress."
+
+## Evidence
+Noisy-TV setup (§3.3 and §5): the Unity 3D maze "with 9 rooms and a sparse terminal reward"; actions "move forwards, look left 15 degrees, look right 15 degrees and no-op"; the agent "starts in the room-1, which is furthest away from room-9 which contains the goal"; extrinsic reward "+1 when the goal is reached, 0 otherwise", combined with curiosity. For the noisy TV they "add a TV to the maze along with an action to change the channel" ("a TV that randomly changes channels when an action is taken"). Compared: IDF and RF features, TV on and off. Unity hyperparameters (App. A): "32 parallel environments", "512 length rollouts", "8 epochs", learning rate "0.0001", batchnorm on the embedding network.
+
+Result: the text gives no numbers. It says "As expected the presence of the TV drastically slows down learning, but we note that if you run the experiment for long enough the agents do sometimes converge to getting the extrinsic reward consistently." Figure 6 (y-axis "Extrinsic Reward per Episode", x-axis "Frames (millions)", to about 8.5 M), read approximately off the plot: TV off, RF reaches about 0.8 and IDF about 0.95 by 8 M frames; TV on, both stay near 0 (IDF about 0.05, RF about 0) after an early bump to about 0.1-0.2. The "sometimes converge" claim is not shown in the figure. Extrinsic-only PPO "never finds the goal in all our trials". All curves are "the average of three runs with different seeds".
+
+## License
+Paper: arXiv non-exclusive distribution license (arxiv.org/licenses/nonexclusive-distrib/1.0). Code: github.com/openai/large-scale-curiosity, archived, and the GitHub API reports no license file, so reuse terms are unclear.
+
+## Runs on this Mac without a GPU?
+Not at the paper's scale: 128 to 2048 parallel environments, Atari and Unity. The mechanism (a forward model on fixed random features) is a few small networks and would run on a CPU for a toy agent (our judgment).
+
+## Verdict: adopt (as the canonical demonstration of the noisy-TV failure), reject (prediction error as our curiosity source)
+- It is the cited empirical case that error-seeking curiosity is captured by an agent-controlled noise source: with a channel-switching TV, both feature types stay near zero task reward over about 8 M frames. It matches the noisy-TV branch of D62's toy.
+- It also shows the other side: in its games, pure prediction error did not fall into a dark room, because "an area it has already seen many times" is predictable and so unrewarding. Error-seeking avoids the dark room but not the TV; surprisal-minimizing does the reverse. Learning progress (Oudeyer 2007, Schmidhuber 2010) is the standard proposal that avoids both. This paper does not test it; it only lists "improvement" of a forward model among prior approaches.
+- Nothing here on satiation or set points: the reward is to be maximized; "what is new and novel becomes old and boring with time" is treated as a source of non-stationarity to normalize away.

@@ -1,0 +1,15 @@
+{
+ "A1_min_second_diff_b": 1.0148294593281815e-06,
+ "A2_max_increase_mu_b": -5.0741472966409074e-05,
+ "A3_bids_at_b_ge_0.9_policy_cells": 0,
+ "A3_bids_at_b_ge_0.9_trajectory": 0,
+ "A3_mean_b_last24h": 0.6484377866845888,
+ "A4_maximizer_mean_b_last24h": 2.304084206043456,
+ "A4_ratio": 3.5532849154643755,
+ "A5_valence_max_rel_err": 2.759376902696916e-14,
+ "A5_arousal_max_rel_err": 1.1355373714494838e-13,
+ "A5_rawnorm_ratio_range": [
+  7.742993675471686,
+  9.873207433671677
+ ]
+}

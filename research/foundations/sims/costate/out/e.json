@@ -1,0 +1,15 @@
+{
+ "E1_first10_F_frac": 1.0,
+ "E1_bored_N_frac": 1.0,
+ "E1_n_bored_steps": 134,
+ "E2_hour1_mean_absdev": 0.040059581271545214,
+ "E3_hour4_mean_bp": 0.9010953403438194,
+ "E4_session2_mean_absdev": 0.03966307918589882,
+ "N_frac_by_hour_s1": [
+  0.43333333333333335,
+  0.8333333333333334,
+  1.0,
+  1.0
+ ],
+ "E5_ablation_hour1_N_frac": 0.0
+}

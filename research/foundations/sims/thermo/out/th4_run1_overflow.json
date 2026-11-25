@@ -1,0 +1,9 @@
+{
+ "TH4a_integral_v_departure_19_21": NaN,
+ "TH4a_integral_v_return_59_61": 0.5534434244594634,
+ "TH4a_max_abs_v_between_switches": NaN,
+ "TH4a_b_at_departure": 1.133031864529587,
+ "TH4a_b_at_return": 0.5487974778557273,
+ "TH4b_min_arousal_absence_22_58": 0.034991451683824164,
+ "TH4c_costate_style_abs_integral_25_55": 0.24510514216645388
+}

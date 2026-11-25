@@ -1,0 +1,56 @@
+{
+ "n_field_ge4": 10,
+ "mean_collapsed_B": 2.1,
+ "runs": [
+  {
+   "seed": 0,
+   "field_B_top5": 5,
+   "collapsed_B_top5": 0
+  },
+  {
+   "seed": 1,
+   "field_B_top5": 5,
+   "collapsed_B_top5": 0
+  },
+  {
+   "seed": 2,
+   "field_B_top5": 5,
+   "collapsed_B_top5": 0
+  },
+  {
+   "seed": 3,
+   "field_B_top5": 5,
+   "collapsed_B_top5": 4
+  },
+  {
+   "seed": 4,
+   "field_B_top5": 5,
+   "collapsed_B_top5": 5
+  },
+  {
+   "seed": 5,
+   "field_B_top5": 5,
+   "collapsed_B_top5": 4
+  },
+  {
+   "seed": 6,
+   "field_B_top5": 5,
+   "collapsed_B_top5": 2
+  },
+  {
+   "seed": 7,
+   "field_B_top5": 5,
+   "collapsed_B_top5": 1
+  },
+  {
+   "seed": 8,
+   "field_B_top5": 5,
+   "collapsed_B_top5": 4
+  },
+  {
+   "seed": 9,
+   "field_B_top5": 5,
+   "collapsed_B_top5": 1
+  }
+ ]
+}

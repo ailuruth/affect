@@ -1,0 +1,25 @@
+{
+ "present_A": {
+  "field_face": 0.9664307767185175,
+  "field_voice": 0.03356922328148252,
+  "collapsed_face": 0.5
+ },
+ "present_B": {
+  "field_face": 0.03356922328148252,
+  "field_voice": 0.9664307767185175,
+  "collapsed_face": 0.5
+ },
+ "cues_field": {
+  "A_face": 0.4832,
+  "A_voice": 0.0168,
+  "B_face": 0.0168,
+  "B_voice": 0.4832
+ },
+ "cues_collapsed": {
+  "A_face": 0.25,
+  "A_voice": 0.25,
+  "B_face": 0.25,
+  "B_voice": 0.25
+ },
+ "CP4-3_field_Aface_plus_Bvoice": 0.9664307767185175
+}

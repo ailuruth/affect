@@ -1,0 +1,70 @@
+{
+  "backend": "fake",
+  "tickEveryHours": 1,
+  "rows": [
+    {
+      "arm": "subsystem",
+      "dose": "short",
+      "duringMeeting": 0,
+      "after10min": 0,
+      "silence1Hours": [
+        16
+      ],
+      "silence2Hours": [
+        19
+      ]
+    },
+    {
+      "arm": "subsystem",
+      "dose": "long",
+      "duringMeeting": 0,
+      "after10min": 0,
+      "silence1Hours": [
+        26
+      ],
+      "silence2Hours": [
+        4
+      ]
+    },
+    {
+      "arm": "A-removed",
+      "dose": "short",
+      "duringMeeting": 0,
+      "after10min": 0,
+      "silence1Hours": [],
+      "silence2Hours": []
+    },
+    {
+      "arm": "A-removed",
+      "dose": "long",
+      "duringMeeting": 0,
+      "after10min": 0,
+      "silence1Hours": [],
+      "silence2Hours": []
+    },
+    {
+      "arm": "B-timer",
+      "dose": "short",
+      "duringMeeting": 0,
+      "after10min": 0,
+      "silence1Hours": [
+        24
+      ],
+      "silence2Hours": [
+        24
+      ]
+    },
+    {
+      "arm": "B-timer",
+      "dose": "long",
+      "duringMeeting": 0,
+      "after10min": 0,
+      "silence1Hours": [
+        24
+      ],
+      "silence2Hours": [
+        24
+      ]
+    }
+  ]
+}

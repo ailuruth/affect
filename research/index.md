@@ -1,0 +1,383 @@
+# Affect research index
+
+last scan: 2026-11-24 (seed reading and a 2025-2026 scan; companion-harm literature; S0 tick 1: evaluation instruments, primary sources; S0 tick 3: sources for the Costate candidate; S0 tick 5: sources for the thermodynamic candidate; S0 tick 8: sources for the contingency candidate; S0 tick 10: curiosity sources; S0 tick 16: control-theory sources; S0: structured-needs and salience sources (2026-11-25); S0: satiation-gaming sources (2026-11-25); S0: dyadic dataset scouting (2026-11-25); S0: listener-reaction baselines (2026-11-25))
+
+One line per item: note, year, verdict, reason. Verdicts are measured against the Principles in design/affect/brief.md.
+
+## Homeostasis, interoception, active inference
+
+- [Simulating Emotions (Smith, Parr & Friston)](smith-parr-friston-2019-simulating-emotions.md) — 2019 — watch — hidden states are hand-named emotions trained on correct-report feedback (against Principles 1-2); its finding that state stability gates concept learning matters for S1.
+- [Deeply Felt Affect (Hesp et al.)](hesp-2021-deeply-felt-affect.md) — 2021 — adopt (affective-charge readout only) — valence computed from change in policy confidence, not set; its lesion result fits Principle 5.
+- [Empathic / homeostatic coupling (Yoshida & Man)](yoshida-man-homeostatic-coupling.md) — 2024/2025 — adopt — Principle 3 in code: satiable coupled drive plus a self-trained decoder of the other's state; MIT, CPU.
+- [Homeostasis and soft robotics in feeling machines (Man & Damasio)](man-damasio-2019-feeling-machines.md) — 2019 — watch (unread) — closed access; abstract and captions only.
+- [Linking homeostasis to RL (Yoshida, Sprekeler & Gutkin)](yoshida-sprekeler-gutkin-2025-hrrl.md) — 2025 — adopt — drive-reduction reward penalises overshoot: Principle 6 in maths.
+- [Prosociality by coupling (Sanyal)](sanyal-2026-prosociality-by-coupling.md) — 2026 — watch — hand-set valence/arousal, nothing learned; its true/estimate/error update and sham, coupling-off and shuffled-partner lesions are worth copying.
+- [Interoceptive attention in AffectWorld (Grimbly et al.)](grimbly-2026-interoceptive-attention.md) — 2026 — watch — a fixed precision budget routed to the neediest body variable; idea, not the pymdp/JAX code.
+- [Embodied mortal agent (Chen & Chen)](chen-2026-embodied-mortal-agent.md) — 2026 — reject — learns speech that gets the partner to protect it, the flattery path Principle 6 forbids; its body-reset ablation is worth borrowing.
+
+## Emotion theory, emotion in language models, critiques
+
+- [Emotion concepts and their function in an LLM (Anthropic)](anthropic-emotion-concepts.md) — 2026 — adopt — Claude's emotion representations are token-local, not persistent, so persistence must live in the Bot's own state; steering toward positive emotion raises sycophancy.
+- [Do LLMs have emotions? (Goldenberg & Gross)](goldenberg-gross-llm-emotions.md) — 2026 — adopt (evaluation criterion) — an emotion must reorganize processing over an episode (attention, speed, motivation), not just wording.
+- [samuel (vvolhejn)](samuel.md) — 2026 — watch — analysis by synthesis with a frozen perceptual loss; motor layer at most; GPL-3.0.
+- [BabyX: Creating Connection with Autonomous Facial Animation (Sagar, Seymour & Henderson, CACM)](babyx-autonomous-facial-animation.md) — 2016 — watch (now read; reject as architecture) — deliberately "Lego-like"; the face interpolates a precomputed finite-element simulation; mimicry learned from babbling, caregiver mirroring and a dopamine-gated association, with no numbers; lesions only proposed.
+- [Theory of constructed emotion (Barrett)](barrett-constructed-emotion.md) — 2017 — adopt — allostatic body variables; valence/arousal read out, not set; Claude as the categorizing layer.
+- [Primal affective systems (Panksepp)](panksepp-primary-affective-systems.md) — 2011 — adopt (trigger and reflex functions only) — basis for separation distress, contact seeking, play, novelty seeking, without the names.
+- [Rethinking the emotional brain (LeDoux)](ledoux-survival-circuits.md) — 2012 — adopt — survival circuits are not emotions; a separate workspace detects and labels, matching Claude's role.
+- [Arousal, comfort and caregiver responsiveness (Hiolle, Cañamero et al.)](canamero-attachment-robotics.md) — 2014 — adopt (mechanism) — satiable comfort traces whose decay adapts to responsiveness; evidence thin (5 runs).
+- [Human-robot facial coexpression, Emo (Hu et al.)](emo-facial-coexpression.md) — 2024 — watch (motor layer only) — maps partner face to motors; code unlicensed; abstract and code only.
+- [Functional valence in LLMs (Williams)](williams-functional-valence.md) — 2026 — adopt (evaluation criteria) — motivational role, common currency, mineness, cognitive biasing.
+- [Explicit state dynamics for LLM agents (Subaharan)](subaharan-explicit-state-dynamics.md) — 2026 — reject — sentiment-classifier-driven VAD state breaks Principles 1-2; keep its recovery and hysteresis metrics as a baseline.
+- [Social reality of emotion via social allostasis (Nomura et al.)](nomura-2026-social-reality-of-emotion.md) — 2026 — watch — shared names for body states; one run, no ablation; partner shifts setpoints (conformity risk).
+
+## Companion harms and safeguards
+- [Harmful traits of AI companions (Knox et al.)](knox-2025-harmful-traits-ai-companions.md) — 2025 — adopt (design constraint) — agents that display need make users feel responsible; bounds any contact bid to one per silence, unlearned, and makes delivery the operator's call.
+
+## Faces, perception, voice (S2)
+
+- [MIMo infant simulator](mimo.md) — 2024 — reject — face is six basic-emotion texture swaps (emotion presets).
+- [OpenFACS](openfacs.md) — 2019 — reject — Linux UE4 build only, mesh not in repo; copy its 18-AU-plus-speed interface.
+- [FACSvatar](facsvatar.md) — 2018 — reject — depends on noncommercial OpenFace; Unity/Blender; dormant.
+- [ArtiSynth face model](artisynth-face.md) — 2012-2026 — watch — BSD, runs on Apple silicon, but only 12 mouth-region muscles.
+- [Phace](phace.md) — 2017 — watch — theory for a muscle model under an AU interface; ~22 s/frame on CPU, no code.
+- [Avatar Forcing](avatar-forcing.md) — 2026 — reject — H100, CC BY-NC, mirroring learned straight from partner audio/video.
+- [AVTR-1](avtr-1.md) — 2026 — reject (watch R-DGG metric) — NVIDIA/TensorRT, noncommercial; R-DGG could test whether the user predicts the Bot's face.
+- [Meta Seamless Interaction](seamless-interaction.md) — 2025 — watch (dataset only) — no weights; CC-BY-NC; bundles emotion-classifier outputs; AU intensities as an offline reference.
+- [CANDOR corpus (Reece et al.)](candor-corpus.md) — 2023 — watch — 1,656 stranger video calls with per-second smile/nod/gaze and turn tables, no AUs; gated, no-redistribution license with 30-day deletions (operator decision).
+- [SEWA DB (Kossaifi et al.)](sewa-db.md) — 2019 — reject — familiar pairs but ~3-min chats, AUs only on 500 short clips; download site 404, terms unreadable.
+- [NoXi (Cafaro et al.)](noxi.md) — 2017 — reject — expert-novice video only, no released per-frame features; EULA non-commercial and needs a permanent academic signer.
+- [MediaPipe Face Landmarker](mediapipe-face-landmarker.md) — 2022/2026 — adopt, pinned to @mediapipe/tasks-vision 0.10.35 — Apache-2.0, 3.76 MB, measured 13.1 ms/frame on CPU; 1.x sends usage telemetry to Google, 0.10.35 does not.
+- [LibreFace](libreface.md) — 2024/2026 — watch — true AU intensities for offline checks; noncommercial, no browser build, has an expression-classifier head.
+- [pitchy](pitchy.md) — v4.1.0 — adopt — 0BSD, measured ~0.12 ms/frame, pitch plus clarity as voicing.
+- [Meyda](meyda.md) — 2024 — watch — MIT, no pitch, deprecated ScriptProcessorNode, spectralFlux throws in 5.6.3.
+- [macOS speech synthesis](macos-speech-synthesis.md) — current — adopt as S2 voice — local, per-word pitch base, range, rate, volume; f0 measured to follow pitch base.
+- [Kokoro-82M](kokoro-82m.md) — 2025 — watch — Apache-2.0, ~0.6x real time on CPU, speed is its only prosody control.
+- [Piper TTS](piper-tts.md) — 2025-2026 — watch — local, GPL-3, no pitch control; per-voice license chains.
+- [Chatterbox](chatterbox.md) — 2025 — reject — retired Aug 2026; label-like exaggeration control; voice cloned from a clip.
+- [Loom3](loom3.md) — 2025 — watch — MIT three.js setAU/transitionAU, presets only for CC4 rigs.
+- [TalkingHead](talkinghead.md) — 2023-2026 — watch (asset only) — mpfb.glb is the only CC0 ARKit-52 rig found; the class runs mood presets and defaults to Google TTS.
+- [aniface](aniface.md) — 2025 — reject — maps the user's tracked face straight onto the avatar.
+
+## Evaluation instruments (S0, for evaluation.md)
+
+Verdicts here judge each source as an instrument or method for evaluation.md, not as a mechanism.
+
+- [Lesion method in connectionist models (Plaut & Shallice)](plaut-shallice-1993-deep-dyslexia.md) — 1993 — adopt — 20 lesion instances per type, severity sweep, chance baseline, means over a fixed performance band: the E1 ablation protocol.
+- [Interpreting double dissociations (Plaut)](plaut-2003-double-dissociations.md) — 2003 — adopt — single lesions give reliable but uninformative dissociations; only means over many instances count.
+- [Connectionist neuropsychology (Bullinaria)](bullinaria-2005-connectionist-neuropsychology.md) — 2005 — adopt — small-network artefacts; dissociations dissolve as networks grow; check at another size.
+- [WWC single-case design documentation (Kratochwill et al.)](kratochwill-2010-wwc-single-case-standards.md) — 2010 — adopt — three demonstrations, six visual-analysis features, strong/moderate/no-evidence rule.
+- [WWC Handbook v5.0, single-case designs](wwc-2022-handbook-v5-scd.md) — 2022 — adopt — first baseline at least 6 points, NAP at most .85 for trend and reversibility, carryover gives Does Not Meet.
+- [Still-face meta-analysis (Mesman et al.)](mesman-2009-still-face-meta-analysis.md) — 2009 — adopt — still-face and reunion effect sizes for gaze, positive and negative affect, with published coding.
+- [Dynamic still-face effect (Ekas et al.)](ekas-2012-dynamic-still-face.md) — 2012 — adopt — 3/2/3-minute episodes; bidding declines within the still-face.
+- [Strange Situation (Ainsworth et al.)](ainsworth-1978-strange-situation.md) — 1978 — reject as published for this Bot — three of four reunion scales are anchored on locomotion and touch; watch the avoidance scale.
+- [Cross-cultural Strange Situation coding (van IJzendoorn & Kroonenberg)](vanijzendoorn-kroonenberg-1990-ss-coding-consistency.md) — 1990 — watch — mean kappa .66 across labs.
+- [History of the D classification (Duschinsky)](duschinsky-2015-disorganized-attachment-history.md) — 2015 — reject — for this Bot.
+- [iCub still-face (Mongile et al.)](mongile-2022-icub-still-face.md) — 2022 — reject as precedent — robot did not move; outcome tuned to the human literature.
+- [Coupled-oscillator attachment robots (Htet et al.)](htet-2024-coupled-oscillator-attachment-robots.md) — 2024 — reject as precedent — no separation or reunion episodes; hand-set attachment style.
+- [Attachment as a control system (Gagliardi)](gagliardi-2022-attachment-control-system.md) — 2022 — reject as precedent — qualitative by the author's own account.
+- [Attachment classification in human-robot dyads (Khan & Blagrove)](khan-blagrove-2026-hri-attachment-classification.md) — 2026 — watch — robot-still-face proposal; timing at odds with the meta-analysis it cites.
+- [Rapid facial reactions, EMG (Dimberg & Thunberg)](dimberg-thunberg-2012-rapid-facial-reactions.md) — 2012 — adopt — mimicry = differential zygomaticus/corrugator change from baseline, clear after 500 ms.
+- [Facial EMG contagion (Lundqvist)](lundqvist-1995-facial-emg-contagion.md) — 1995 — adopt — long-window scoring; some responses track valence, not the specific expression.
+- [OpenFace 2.0](openface-2.md) — 2018 — adopt (human side, offline) — AU intensity 0-5, DISFA r .59 mean; noncommercial research license; Apple silicon unverified.
+- [Py-Feat](py-feat.md) — 2023 — watch (human side) — MIT code, some CC BY-NC weights, MPS support, presence probability by default, ~1.5 s/image on CPU.
+- [Windowed cross-correlation (Boker et al.) and wcc](wcc-windowed-cross-correlation.md) — 2002 — adopt — window, lag and peak-picking parameters; paper itself read only in abstract.
+- [Synchrony surrogates (Moulder et al.)](moulder-2018-synchrony-surrogates.md) — 2018 — adopt — 1,000 surrogates, 95th percentile; pass only against segment shuffling and data sliding; at least 500 samples.
+- [Head and body synchrony (Ramseyer & Tschacher)](ramseyer-tschacher-2014-head-body-synchrony.md) — 2014 — adopt — 1-min windows, lags to ±5 s, shuffled surrogates.
+- [rMEA](rmea.md) — 2020 — adopt — R implementation of the surrogate tests (GPL-3).
+- [Godspeed (Bartneck et al.)](bartneck-2009-godspeed.md) — 2009 — adopt (multi-rater only) — 24 items, five scales, comparison not absolute values; not usable at n=1.
+- [Godspeed translations and usage (Bartneck)](bartneck-2023-godspeed-translations-usage.md) — 2023 — adopt — usage rules; Anthropomorphism or Animacy, not both.
+- [RoSAS European Portuguese validation (Oliveira et al.)](oliveira-2021-rosas-portuguese-validation.md) — 2021 — watch — RoSAS primary paper unread; original factor structure did not replicate.
+- [Networked Minds social presence (Harms & Biocca)](harms-biocca-2004-networked-minds.md) — 2004 — adopt (two affect subscales, multi-rater only) — failed to separate text from video chat.
+- [Networked Minds pilot (Biocca, Harms & Gregg)](biocca-harms-gregg-2001-networked-minds-pilot.md) — 2001 — reject as the version to run — provenance only.
+- [Conversational AI dependence scale (Chen et al.)](chen-2025-caids-conversational-ai-dependence.md) — 2025 — watch — 20 items, no cut-off, past-year framing; no accepted companion-dependence instrument exists.
+- [Sentience criteria, cephalopods and decapods (Birch et al.)](birch-2021-sentience-cephalopods-decapods.md) — 2021 — watch — 8 criteria; only 5-7 have agent analogues.
+- [Indicator properties for consciousness in AI (Butlin, Long et al.)](butlin-long-2023-consciousness-in-ai.md) — 2023 — watch — 14 indicators, architecture audit only.
+- [The gaming problem (Birch, Edge of Sentience ch. 16)](birch-2024-edge-of-sentience-gaming-problem.md) — 2024 — adopt (constraint) — discount markers that could have been gamed; look for deep computational markers.
+
+## Foundations: sources for candidates (S0)
+
+- [Sensory detection of food modulates arcuate circuits (Chen et al.)](chen-2015-sensory-detection-arcuate.md) — 2015 — adopt — AgRP activity drops 37% within τ ≈ 20 s of food detection, 96% before eating, and not when fed: an anticipatory need signal.
+- [AgRP neurons transmit a negative-valence teaching signal (Betley et al.)](betley-2015-agrp-negative-valence.md) — 2015 — adopt — mildly aversive, teaches Pavlovian cue preferences, not instrumental; a fast learned drop plus a slow nutrient-dependent baseline.
+- [Homeostatic reinforcement learning (Keramati & Gutkin)](keramati-gutkin-2014-homeostatic-rl.md) — 2014 — adopt — reward is drive reduction, r ≅ −K·∇D; the authors say it cannot explain social or novelty reward.
+- [Motivation concepts in behavioral neuroscience (Berridge)](berridge-2004-motivation-concepts.md) — 2004 — adopt as the critique to answer — drive reduction "not true"; wanting without deficit; wanting and liking dissociate; cue-triggered wanting.
+- [Prioritized experience replay (Schaul et al.)](schaul-2016-prioritized-experience-replay.md) — 2016 — adopt the mechanism, watch the |δ| priority — importance correction needed; unlearnable transitions dominate.
+- [Path integrals and symmetry breaking (Kappen)](kappen-2005-path-integrals-symmetry-breaking.md) — 2005 — adopt — linear Feynman–Kac solution when ν = λBR⁻¹Bᵀ: noise and control must share directions.
+- [Linearly solvable MDPs (Todorov)](todorov-2009-linearly-solvable-mdps.md) — 2009 — adopt — KL control cost, desirability z = exp(−v), linear Bellman equation; the average-cost case is an eigenproblem.
+- [Stochastic thermodynamics review (Seifert)](seifert-2012-stochastic-thermodynamics.md) — 2012 — adopt — Sekimoto work and heat; integral fluctuation theorem; feedback can extract work in a cycle.
+- [Steady-state thermodynamics (Hatano & Sasa)](hatano-sasa-2001-steady-state-thermodynamics.md) — 2001 — adopt the split, watch per-cycle use — inequality in φ = −log ρ_ss, not the energy.
+- [Contraction analysis (Lohmiller & Slotine)](lohmiller-slotine-1998-contraction.md) — 1998 — adopt — contraction condition; observers converge if the plant is a particular solution; mismatch gives a ball.
+- [PCCA+ (Deuflhard & Weber)](deuflhard-weber-2005-pcca-plus.md) — 2005 — adopt, watch reversibility — k chosen from the spectral gap and checked by diagonal dominance.
+- [What does the FEP tell us about the brain? (Gershman)](gershman-2019-free-energy-principle.md) — 2019 — adopt as a critique to answer — planning as inference is a notational variant of decision theory unless predictions differ.
+- [The emperor's new Markov blankets (Bruineberg et al.)](bruineberg-2022-emperors-new-markov-blankets.md) — 2022 — adopt as a critique to answer — formal abstractions are not worldly entities; the formalism fits even a Watt governor.
+- [Social biofeedback theory of affect-mirroring (Gergely & Watson)](gergely-watson-1996-social-biofeedback.md) — 1996 — adopt with caveats — infants learn their own states from contingent mirroring; sufficiency and necessity indices; satiability not claimed by the source.
+- [Proprioceptive-visual contingency (Bahrick & Watson)](bahrick-watson-1985-proprioceptive-visual-contingency.md) — 1985 — adopt — 5-month-olds looked .65–.69 at the noncontingent display even with their own body hidden; 3-month-olds split bimodally (no group preference); the yoked replay works as a partner-model test.
+- [Measuring information transfer (Schreiber)](schreiber-2000-transfer-entropy.md) — 2000 — adopt the definition — call it predictive dependence, not flow.
+- [Granger causality and TE are equivalent for Gaussian variables (Barnett et al.)](barnett-barrett-seth-2009-granger-te-equivalence.md) — 2009 — adopt as the estimator — F = 2·TE; no latent-driver removal.
+- [Information flows? A critique of transfer entropies (James et al.)](james-barnett-crutchfield-2016-information-flows-critique.md) — 2016 — adopt as a design constraint — TE conflates unique and synergistic information; compute on joint vectors; pair with interventions.
+- [Neonatal imitation challenged (Oostenbroek et al.)](oostenbroek-2016-neonatal-imitation.md) — 2016 — adopt provisionally — no imitation over controls (n = 106); do not hard-wire mimicry.
+- [Imitation by human neonates (Meltzoff & Moore)](meltzoff-moore-1977-neonatal-imitation.md) — 1977 — watch — original claim; its controls are a template.
+- [Intrinsic motivation systems, IAC (Oudeyer, Kaplan & Hafner)](oudeyer-kaplan-hafner-2007-iac.md) — 2007 — adopt the definition — learning progress as a windowed error comparison, per region; to be "kept maximal" (not satiable in the source).
+- [Formal theory of creativity and intrinsic motivation (Schmidhuber)](schmidhuber-2010-formal-theory-creativity.md) — 2010 — adopt the argument — compression progress; dark and white noise are both boring; reward vanishes where nothing is learnable.
+- [Neuroscience of active sampling and curiosity (Gottlieb & Oudeyer)](gottlieb-oudeyer-2018-active-sampling-curiosity.md) — 2018 — watch — abstract only; full text paywalled.
+- [Large-scale study of curiosity-driven learning (Burda et al.)](burda-2019-large-scale-curiosity.md) — 2019 — adopt as the noisy-TV demonstration — prediction-error curiosity collapses with a TV in the maze.
+- [Free-energy minimization and the dark-room problem (Friston, Thornton & Clark)](friston-thornton-clark-2012-dark-room.md) — 2012 — watch — the dark room is avoided only through priors; no answer to the noisy TV.
+- [Internal model principle (Francis & Wonham; read via Wonham 2018, Bin et al. 2022, DFT)](francis-wonham-1976-internal-model-principle.md) — 1976 — adopt — robust regulation forces an internal model of the exosystem, generating the cancelling input, not a copy of the other.
+- [Input-to-state stability and small gain (Sontag)](sontag-iss-small-gain.md) — 1989/2008 — adopt — ISS definition; small-gain gives practical stability; an uncertified gain needs saturation.
+- [Respect the unstable (Stein)](stein-2003-respect-the-unstable.md) — 2003 — adopt, scope narrowed — the Bode integral; the waterbed binds only with finite bandwidth or non-minimum phase.
+- [Allostasis (Sterling)](sterling-2012-allostasis.md) — 2012 — watch — abstract only; error-correcting homeostasis called inefficient.
+- [Homeostasis and allostasis clarified (Ramsay & Woods)](ramsay-woods-2014-homeostasis-allostasis.md) — 2014 — adopt — no invariant set point in the classics; anticipation does not distinguish allostasis.
+- [Having multiple selves helps learning agents explore and adapt (Dulberg, Dubey, Berwian & Cohen)](dulberg-2023-multiple-selves-modular-homeostasis.md) — 2023 — adopt (reference ablation) — per-need Q-heads summed beat one scalar HRRL drive at matched parameters; gap grows with drift and with 4→8 needs, shrinks when static and well explored.
+- [Hybrid Reward Architecture (van Seijen et al.)](vanseijen-2017-hybrid-reward-architecture.md) — 2017 — watch — one value head per entity, spawned on first encounter and summed; pays when each term depends on few features; summed heads are not jointly optimal; heavy domain knowledge.
+- [Reward Bases (Millidge, Song, Lak, Walton & Bogacz)](millidge-2024-reward-bases.md) — 2024 — adopt (zero-shot revaluation) — V = Σ m_i V_i re-weights per-need values instantly when needs change; scalar TD and HRRL must re-experience reward; linear, bases fixed in advance.
+- [A neural computational model of incentive salience (Zhang, Berridge et al.)](zhang-berridge-2009-incentive-salience-model.md) — 2009 — adopt (need-specific salience) — per-need gain κ_i on cached cue values; first-ever salt appetite raised the salt cue only, which one shared gain cannot do.
+- [Hunger shifts attention and attribute weighting (March & Gluth)](march-gluth-2025-hunger-attention.md) — 2025 — watch (human benchmark) — n = 70; attention mediates part of hunger's effect on choice; hunger raises attention discounting of health but not taste.
+- [WTA vs voting behavior selection (Ho, Avila-García & Nehaniv)](ho-avilagarcia-nehaniv-2005-wta-voting.md) — 2005 — watch — hand-set rules: WTA gives lower need variance but misses opportunities; voting is opportunistic but fragile to resource rates; numbers in figures only.
+- [Opponent-process theory, temporal dynamics of affect (Solomon & Corbit)](solomon-corbit-1974-opponent-process.md) — 1974 — adopt (two time scales) with a bound — fast a plus slow, use-strengthened b per attachment object gives separation distress; unbounded b means escalating dependence.
+- [Satisfied, Not Solving: wireheading of bounded homeostatic rewards (Metoyer)](metoyer-2026-satisfied-not-solving.md) — 2026 — adopt (design constraint and test design) — a free need-reset action collapsed PPO (DoorKey 2/80 vs 71/80) despite a provable cap; the exact optimum also tampers, so a planner will use any cheap fill route; a press cost above threshold (0.1) restored the task.
+- [Reward tampering problems and solutions (Everitt, Hutter, Kumar & Krakovna)](everitt-2021-reward-tampering.md) — 2021 — adopt (tamper-audit vocabulary) — separates acting on b, on its measurement (RF-input) and on d (RF tampering); fix by frozen current-version evaluation and private inputs; learning progress falls outside the safe class.
+- [Categorizing wireheading in partially embedded agents (Majha, Sarkar & Zagami)](majha-2019-categorizing-wireheading.md) — 2019 — watch — six tamper arrows including belief and belief-update tampering; AIXIjs demos only, no numbers.
+
+## Listener-reaction models (S0, candidate baselines)
+
+Verdicts here ask whether a published listener model with released weights runs as published on this Mac and on Seamless `FAUValue` AUs, transcripts and VAD (no video or audio).
+
+- [Learning to Listen (Ng et al.)](ng-2022-learning-to-listen.md) — 2022 — not runnable — DECA/FLAME speaker motion plus mel audio in, FLAME out; four 212 MB TV-host models, no license, `.cuda()` hard-coded; reuse its Mirror/Delayed-Mirror/Median/NN baselines and L2/FD/P-FD/TLCC metrics on AUs.
+- [Can Language Models Learn to Listen? (Ng, Subramanian et al.)](ng-2023-lm-listener.md) — 2023 — not runnable — timestamped transcript in (Seamless has it), Trevor Noah EMOCA/FLAME out (Seamless does not); 2026 erratum found train/test overlap.
+- [Responsive Listening Head Generation, ViCo (Zhou et al.)](zhou-2022-rlhg-vico.md) — 2022 — not runnable — no listener weights released; audio plus BFM 3DMM in.
+- [REACT challenge baselines: Trans-VAE, BeLFusion, REGNN (Song et al.)](react-challenge-baselines.md) — 2023-2026 — not runnable — BeLFusion takes only speaker facial attributes but in REACT's 15-GraphAU + emotion-classifier format; copying the speaker (B_Mime) beats every learned baseline on FRCorr.
+- [FaceAIS, REACT 2024 winner (Dam et al.)](faceais-react24.md) — 2024 — not runnable — wav2vec audio plus FaceVerse 3DMM in; MIT, ~2.1 GB weights; paper not read.
+- [Dyadic Interaction Modeling, DIM (Tran et al.)](tran-2024-dim.md) — 2024 — not runnable — best L2L-family numbers but no weights; EMOCA plus HuBERT.
+- [DiffListener (Jung & Kim)](jung-2025-difflistener.md) — 2025 — not runnable — face plus MFCC plus text in, FLAME out; 8.8 GB Trevor-only checkpoint.
+- [ReactFace, PerFRDiff, ReactDiff](react-followups-reactface-reactdiff-perfrdiff.md) — 2024-2025 — not runnable — all need raw audio and FaceVerse 3DMM; ReactFace has no weights, PerFRDiff 13 GB, ReactDiff 359 MB unlicensed; papers not read.
+- [Audio2Photoreal (Ng et al.)](ng-2024-audio2photoreal.md) — 2024 — not runnable — both partners' raw audio in, person-specific Codec Avatar codes out; CC BY-NC.
+
+## How new mechanisms were found (S0 cycle 1, 2026-11-25)
+- [Neural machine translation by jointly learning to align and translate (Bahdanau, Cho & Bengio)](bahdanau-2014-attention.md) — 2014 — adopt (as pattern) — a measured BLEU-vs-length curve, then a signature change from c = q(input) to c_i = f(reader state, stored set); a recombination by the parts test.
+- [Attention is all you need (Vaswani et al.)](vaswani-2017-transformer.md) — 2017 — adopt (as pattern) — novelty is a subtraction (no recurrence); one head is 0.9 BLEU worse than eight; the 1/√d_k temperature comes from a variance argument, not tuning.
+- [Long Short-Term Memory (Hochreiter & Schmidhuber)](hochreiter-schmidhuber-1997-lstm.md) — 1997 — watch — a derived invariant (∂s/∂s = 1) places the old parts; it separates what a cell stores from when it may perturb.
+- [Deep residual learning (He et al.)](he-2016-resnet.md) — 2015 — adopt (as pattern) — degradation measured with the usual explanations ruled out; the self path is "never closed"; the residual form still makes copying easy to learn.
+- [HiPPO and S4 (Gu et al.)](gu-2020-2021-hippo-s4.md) — 2020/2021 — watch — the state is the optimal projection of the past under a measure; LegS has no timescale dial by construction.
+- [Neural ODEs (Chen et al.)](chen-2018-neural-odes.md) — 2018 — watch — the adjoint is the costate the project excludes; the trace identity makes the dial a diagnostic (diffusive coupling has trace −κn).
+- [Neural Turing Machines (Graves et al.)](graves-2014-neural-turing-machine.md) — 2014 — watch — content addressing is a recombination; the moving soft pointer is a new operation; the partner could address while the self authors.
+- [AKOrN (Miyato et al.)](miyato-2025-akorn.md) — 2025 — watch — Kuramoto, Heisenberg and attention parts; feeding the partner in as the field recreates the dial; non-reciprocal coupling and a phase-invariant readout are worth testing.
+- [Test-time training layers (Sun et al.)](sun-2024-test-time-training-layers.md) — 2024 — watch — equal to linear attention and DeltaNet by the paper's own theorems; the learning rate η is a gain.
+- [Growing neural cellular automata (Mordvintsev et al.)](mordvintsev-2020-neural-cellular-automata.md) — 2020 — watch — a residual CNN rule; training on its own past states and on damage makes a shape an attractor; the partner as perturbation or frame change.
+- [Liquid time-constant networks (Hasani et al.)](hasani-2021-liquid-time-constant.md) — 2021 — reject as core, watch the steady state — a conductance neuron bounded by its own reversal levels; the partner can select among them but not author a level.
+- [Complex AE and Rotating Features (Löwe et al.)](lowe-2022-2023-complex-autoencoder-rotating-features.md) — 2022/2023 — watch — orientation carries "whose", magnitude carries "how much", with summation gated by agreement.
+- [Self-referential weight matrix (Irie et al.; Kirsch & Schmidhuber)](irie-kirsch-2022-self-referential-weight-matrix.md) — 2022 — reject as core, watch W_t = W₀·M_t — no more expressive than a memory RNN.
+- [New mechanisms: synthesis](new-mechanisms-synthesis.md) — 2026 — synthesis — new mechanisms came from a measured failure plus a derived invariant that removes a free scalar; proposes a second clause for the novelty test and five directions.
+
+## Documented failures of reaction and avatar systems (S0 cycle 1, 2026-11-25; table in foundations/known-failures.md)
+- [REACT 2025 challenge (Song et al.)](song-2025-react2025-challenge.md) — copying the speaker (FRCorr 0.52) beats Trans-VAE and nearly ties the best model (0.58); a never-moving mean face beats three models on distance; REGNN sample diversity 0.0012 vs human 0.1876.
+- [REACT 2026 challenge (Song et al.)](song-2026-react2026-challenge.md) — conditioning on the listener's history or personality lowers FRCorr to the copy-the-speaker level; the mean face still beats online models on distance.
+- [MAFRG: what, why and how (Song et al. 2023)](song-2023-mafrg-what-why-how.md) — the REACT task invokes the listener's internal state but labels "appropriate" only by speaker-behaviour similarity.
+- [GENEA Challenge 2023 (Kucherenko et al.)](kucherenko-2023-genea-dyadic.md) — swap only the interlocutor and raters cannot tell: 13 of 14 systems within ±0.1 of chance vs human 0.63.
+- [Seamless Interaction: own limitations](seamless-interaction-limitations.md) — emotion is an external valence-arousal knob; frozen speech model feeds motion one way; raters prefer active synthetic motion over real behaviour.
+- [Creating Rapport with Virtual Agents (Gratch et al. 2007)](gratch-2007-creating-rapport.md) — the same nods replayed non-contingently roughly double speaker disfluencies (22.17 vs 11.75); no face, no content.
+- [Digital Chameleons (Bailenson & Yee 2005)](bailenson-yee-2005-digital-chameleons.md) — 4 s delayed head mimicry raised persuasion (η² = .21); 7 of 35 detected it; mimicry confounded with contingency.
+- [Detecting Digital Chameleons (Bailenson et al. 2008)](bailenson-2008-detecting-digital-chameleons.md) — mirror mimicry detected by 80% (primed) or 11% (naive); detectors rate the agent less trustworthy and warm.
+- [Mimicry, trust and rapport in VR (Hale & Hamilton 2016)](hale-hamilton-2016-vr-mimicry-rapport.md) — mimicry at 1 s detected by 30.5% vs 3.8% at 3 s; pre-registered replication found no rapport benefit.
+- [Upper-face expression and the uncanny valley (Tinwell et al. 2011)](tinwell-2011-uncanny-upper-face.md) — a frozen upper face during emotional speech lowers familiarity, most for fear.
+- [Data-driven co-speech gesture review (Nyatsanga et al. 2023)](nyatsanga-2023-gesture-generation-review.md) — no deep model represents communicative intent; verbal and nonverbal generation separate; regression to the mean.
+- [Body and face motion survey (Sookha et al. 2025)](sookha-2025-body-face-motion-survey.md) — person-specific traits ignored, short context, mode collapse, real-time cost.
+
+## Facial mimicry in context: the human dial question (S0 cycle 1, 2026-11-25; Q15)
+- [Emotional Mimicry as Social Regulation (Hess & Fischer)](hess-fischer-2013-emotional-mimicry-social-regulation.md) — 2013 review: people copy the other's emotion only when affiliative, otherwise react to it; evidence supports valence-level mimicry only.
+- [Impact of social context on mimicry (Bourgeois & Hess)](bourgeois-hess-2008-social-context-mimicry.md) — 2008: smiles returned to in- and out-group; sadness only to in-group; anger only when aimed at a shared foe.
+- [Competition priming and facial reactions (Weyers et al.)](weyers-2009-competition-priming-mimicry.md) — 2009: an unconscious competition prime removes mimicry; the effect is on the brow and appears from about second 4.
+- [Facial mimicry in its social setting (Seibt et al.)](seibt-2015-facial-mimicry-social-setting.md) — 2015 review: "not just a matter of more or less mimicry"; rivals relax the brow at distress; cooperators smile at sad and angry faces.
+- [Mimicry of disgust and pride, intimates vs strangers (Fischer, Becker & Veenstra)](fischer-becker-veenstra-2012-disgust-pride-intimates.md) — 2012 live dyads: disgust never mimicked; smiles coupled only between intimates (r = .47/.59 vs ≈0).
+- [Mimicking emotions (Fischer & Hess)](fischer-hess-2017-mimicking-emotions.md) — 2017 review: mimicry is goal-driven; withholding it signals distance.
+- [You smile – I smile (Hess & Bourgeois)](hess-bourgeois-2010-you-smile-i-smile.md) — 2010 live dyads: listener smiles track the speaker's (r ≈ .55), frowns do not (r = .08).
+- [Power transforms facial mimicry (Carr, Winkielman & Oveis)](carr-2014-power-transforms-mirror.md) — 2014: power reverses smile responses (smiling at anger, d ≈ .7–.8); brow matching early, smile effects late (2–4 s).
+- [Fairness modulates facial mimicry (Hofman et al.)](hofman-2012-fairness-mimicry.md) — 2012: unfair offers remove smile return at once; an unfair reputation later raises anger mimicry.
+- [Different shades of laughter (Mauersberger et al.)](mauersberger-2022-laughter-mimicry.md) — 2022: the same laughter mimicked or not depending on what it is about; webcam OpenFace AUs, N = 329.
+- [Attitudes modulate facial mimicry (Likowski et al.)](likowski-2008-attitudes-mimicry.md) — 2008, abstract only: a few sentences about a character flip the brow response to its sad face.
+- [Facial mimicry in context: synthesis](mimicry-context-synthesis.md) — mimicry changes shape: each expression gated separately, some responses flip sign, context acts later than matching, partner history is learned.
+
+## Necessary elements of emotion across theories (S0 cycle 1, 2026-11-25)
+- [A framework for studying emotions across phylogeny (Anderson & Adolphs)](anderson-adolphs-2014-emotion-primitives.md) — 2014 — adopt (measurement checklist) — four primitives (scalability, valence, persistence, generalization) plus pleiotropy, not seven; acid test: perturb the state, all outputs move together. Read via a summarizing fetch.
+- [Emotion states, concepts, and experiences (Adolphs)](adolphs-2017-emotion-states-concepts-experiences.md) — 2017 — adopt — functional states that decouple stimulus from response, persist, coordinate and interrupt; concepts a separate stratum. Read via a summarizing fetch.
+- [A higher-order theory of emotional consciousness (LeDoux & Brown)](ledoux-brown-2017-higher-order-emotion.md) — 2017 — adopt (cortical pole of the locus test) — feeling needs a self-referential re-representation; subcortical damage should "mute but not eliminate" fear.
+- [Interoceptive predictions in the brain, EPIC (Barrett & Simmons)](barrett-simmons-2015-epic-interoceptive-predictions.md) — 2015 — adopt — one visceromotor prediction is both command and expected input; affect follows the predicted body, not the sensed one.
+- [Interoceptive inference, emotion, and the embodied self (Seth)](seth-2013-interoceptive-inference.md) — 2013 — adopt — emotion as the inferred cause of body change; others' responses confirm one's own state.
+- [The nature of feelings (Damasio & Carvalho)](damasio-carvalho-2013-nature-of-feelings.md) — 2013 — adopt (subcortical pole) — valence fixed by homeostatic value; bilateral insula loss leaves feelings intact. Read in part.
+- [How do you feel — now? (Craig)](craig-2009-anterior-insula-awareness.md) — 2009 — watch — "global emotional moment" with a buffer comparing now against predicted feeling; anterior-insula necessity disputed.
+- [Emotions are emergent processes (Scherer)](scherer-2009-component-process-emergence.md) — 2009 — adopt — no affect programmes; each appraisal check drives face and voice directly; testable check order and hysteresis.
+- [Appraisal theories of emotion (Moors, Ellsworth, Scherer & Frijda)](moors-2013-appraisal-theories.md) — 2013 — adopt — appraisal relative to concerns; agency and coping potential; infant distress splits into sadness and anger once agency is perceived.
+- [Core affect and the psychological construction of emotion (Russell)](russell-2003-core-affect.md) — 2003 — adopt — valence/arousal as an always-present readout; emotion components share only 10–15% of variance.
+- [Pleasure systems in the brain (Berridge & Kringelbach)](berridge-kringelbach-2015-pleasure-systems.md) — 2015 — adopt — liking in tiny opioid hotspots, wanting via dopamine (liking intact at 1% dopamine); context flips desire to dread.
+- [Decoding the nature of emotion in the brain (Kragel & LaBar)](kragel-labar-2016-decoding-emotion.md) — 2016 — adopt (evaluation method) — categories decode beyond valence/arousal (37.3% vs 14.3% chance); a dimensionality target, not a case for named categories.
+- [Elements of emotion across theories (synthesis)](emotion-elements-synthesis.md) — 2026 — synthesis — 16 elements with signature and ablation each; 8 theory disagreements the engine can test.
+
+## Interpersonal coordination beyond one gain (S0 cycle 1, 2026-11-25)
+- [Interpersonal synergies (Riley, Richardson, Shockley & Ramenzoni)](riley-2011-interpersonal-synergies.md) — 2011 — adopt (measurement concept), watch (evidence) — a synergy is reciprocal compensation on a task variable, not similarity; UCM ratio 2.31 in-phase vs 1.68 anti-phase.
+- [Virtual Partner Interaction; The metastable brain (Kelso et al.; Tognoli & Kelso)](kelso-2009-virtual-partner-interaction.md) — 2009/2014 — adopt (formal vocabulary) — the sign of μ, not its size, sets the partner's preferred mode; conflicting goals produced patterns neither chose (n = 10).
+- [On strong anticipation (Stepp & Turvey)](stepp-turvey-2010-strong-anticipation.md) — 2010 — adopt (mechanism option), with a bound — delay coupling leads a chaotic partner by 200–400 ms without a model, but the output is still a leading copy.
+- [Self-organized complementary joint action (Richardson et al.)](richardson-2015-complementary-joint-action.md) — 2015 — adopt (complementarity template) — attraction plus a partner-specific repeller; roles emerged without instruction (role correlation .08 → .85; 11 pairs).
+- [Conversational dynamics: alignment vs interpersonal synergy (Fusaroli & Tylén)](fusaroli-tylen-2016-conversational-dynamics.md) — 2016 — adopt — role-blind recurrence on the joint turn sequence predicted performance (r = .89) where alignment did not (r = .58); n = 16.
+- [Dialog as interpersonal synergy (Fusaroli, Rączaszek-Leonardi & Tylén)](fusaroli-2014-dialog-interpersonal-synergy.md) — 2014 — watch — the partner's contribution is "completed (rather than copied)"; turn-taking anti-phase, speech rate in-phase.
+- [The self-organization of human interaction (Dale, Fusaroli, Duran & Richardson)](dale-2013-self-organization-human-interaction.md) — 2013 — watch — synergy as cross-channel structure that reconfigures; belief about the partner as control parameter in a bistable model.
+- [Mirroring and beyond: coupled dynamics (Hasson & Frith)](hasson-frith-2016-mirroring-and-beyond.md) — 2016 — adopt — three couplings: alignment, conditional transformation, synergy; lag asymmetry marks the leader.
+- [Emotional coregulation in close relationships (Butler & Randall)](butler-randall-2013-emotional-coregulation.md) — 2013 — adopt (test criteria) — coregulation is damped return to a set level; contagion is positive feedback; correlation cannot tell them apart.
+- [TIES, rties coupled oscillator, Close TIES (Butler; Kuelz, Boyd & Butler)](butler-2011-temporal-interpersonal-emotion-systems.md) — 2011/2022 — adopt (instrument) — 8 signed parameters per couple; in-phase in skin conductance, anti-phase in HRV; one partner damps while the other amplifies. 2011 abstract only.
+- [Physiological linkage in couples (Timmons, Margolin & Saxbe)](timmons-2015-physiological-linkage-couples.md) — 2015 — adopt — partner effect flips from anti-phase to in-phase as influence rises; the two directions differ.
+- [Coregulation, dysregulation, self-regulation (Sbarra & Hazan)](sbarra-hazan-2008-coregulation.md) — 2008 — watch, abstract only — the partner is a learned "hidden regulator"; losing it causes dysregulation, not a return to baseline.
+- [Interpersonal physiology in psychotherapy (Kleinbub)](kleinbub-2017-interpersonal-physiology-psychotherapy.md) — 2017 — watch — physiology together in tension, opposite in antagonism; secure priming changed who leads, not how much.
+- [Interactional synchrony (Hoehl, Fairhurst & Schirmer)](hoehl-2021-interactional-synchrony.md) — 2021 — adopt (design constraint) — tracking the partner is automatic, aligning is gated by relationship; the optimum is mid-range.
+- [Coordination synthesis: interpersonal coupling beyond one gain](coordination-synthesis.md) — 2026 — synthesis — seven structural properties a single gain cannot produce; formal tools; eight open problems.
+
+## Face motor control and infant development (S0 cycle 1, 2026-11-25)
+- [The amygdalo-motor pathways and the control of facial expressions (Gothard)](gothard-2014-amygdalo-motor-facial.md) — 2014 — adopt — five cortical face motor areas: deliberate (M1, premotor, SMA) and emotional (cingulate M3/M4), upper/lower face split; the amygdala responds after the face moves, so the loop is closed.
+- [Consciousness, volition, and the neuropsychology of facial expressions (Matsumoto & Lee), stand-in for Rinn 1984](matsumoto-lee-1993-volition-facial-neuropsychology.md) — 1993 — adopt — Rinn's evidence for separate pyramidal and extrapyramidal routes; display rules as a learned layer inhibiting the emotional route; Rinn himself not read.
+- [Volitional facial palsy from pontine ischaemia (Töpper et al.)](topper-1995-volitional-facial-palsy-pons.md) — 1995 — adopt — cannot bare teeth on command but laughs symmetrically; voluntary and emotional fibres separate in the pons; n = 1.
+- [The development of imitation in infancy (Jones)](jones-2009-development-of-imitation.md) — 2009 — adopt — only newborn tongue protrusion replicates, and it also follows music and lights; imitation appears act by act in year two; parents imitate infants far more than the reverse.
+- [Re-examination of Oostenbroek et al. (Meltzoff et al.)](meltzoff-2018-reexamination-oostenbroek.md) — 2018 — adopt (dispute open) — re-analysis finds tongue-protrusion matching at every age (d = .24–.40); one act only, small effects.
+- [Imitation in infancy: the wealth of the stimulus (Ray & Heyes)](ray-heyes-2011-wealth-of-the-stimulus.md) — 2011 — adopt — associative sequence learning: contingent seeing-and-doing builds the self–other map; crossed experience builds counter-imitation; being imitated is the richest source.
+- [Mirror neurons: from origin to function (Cook et al.)](cook-2014-mirror-neurons-origin.md) — 2014 — adopt — mirror neurons from contingency-based associative learning; 50–90 min of crossed training abolishes or reverses mirror responses.
+- [The interactive development of social smiling (Messinger & Fogel)](messinger-fogel-2007-social-smiling.md) — 2007 — adopt — sleeping newborns produce Duchenne smiles (innate synergy); the smile's trigger moves from voice to mutual gaze by week 8; smiles graded, not types.
+- [Emotional facial expressions in infancy (Camras & Shutter)](camras-shutter-2010-infant-facial-expressions.md) — 2010 — adopt — infant negative faces don't match adult prototypes (3 of 19); anger and fear situations give the same faces at 11 months.
+- [Functional architecture of mother-infant communication (Murray et al.)](murray-2016-functional-architecture-mother-infant.md) — 2016 — adopt — overall contingent-response rate did not predict infant expressiveness; mirroring 15% of social acts did; form matters, not just timing.
+- [Face motor control and development: synthesis](face-development-synthesis.md) — 2026 — synthesis — two or three routes meeting at the facial nucleus; innate synergies not emotion presets; the face map learned by contingency; two risks (sparse adult mirroring; learning from being smiled at vs Principle 6).
+
+## Precise mathematical objects for a dyadic core (S0 cycle 1, 2026-11-25; Q17)
+- [RoFormer / RoPE (Su et al.)](su-2021-roformer-rope.md) — 2021 — adopt as time encoding, reject as a source of non-dial coupling — relative-position property exact; unique up to frequencies under "linear and shared" assumptions (our proof); the decay bound is weaker than claimed.
+- [ALiBi (Press et al.)](press-2021-alibi.md) — 2021/2022 — watch — fixed log-spaced recency time constants; without content each head is a moving average of the partner, a smoothed copy.
+- [Group Equivariant CNNs (Cohen & Welling)](cohen-welling-2016-group-equivariant-cnn.md) — 2016 — adopt as a constraint — swap-equivariant cores are [[A,B],[B,A]] with B free; swap-invariance forces A=B and erases "whose".
+- [Geometric Deep Learning (Bronstein et al.)](bronstein-2021-geometric-deep-learning.md) — 2021 — watch — self/other swap symmetry gives consensus; an irreducible gauge group on one edge gives a scalar gain (Schur).
+- [Clifford Group Equivariant Networks (Ruhe et al.)](ruhe-2023-clifford-group-equivariant.md) — 2023 — reject as core, adopt for pose/gaze — O(d)-equivariance over expression space leaves only a scalar gain on a copy.
+- [Hamiltonian NNs (Greydanus et al.)](greydanus-2019-hamiltonian-nn.md) — 2019 — reject as core — a closed conservative flow has no attractors, so it can neither copy nor rest.
+- [Port-Hamiltonian NNs (Desai; Zhong; Neary & Topcu)](desai-2021-neary-2023-port-hamiltonian-nn.md) — 2020–2023 — adopt as scaffold — power balance gives bounded influence; a passive body cannot counter-mimic on the same channel; sign must sit in the coupling.
+- [Signed consensus (Altafini 2013, via tutorials)](altafini-2013-signed-consensus.md) — 2013 — adopt as lemma and test — balanced signs = consensus in a sign-flipped frame; unbalanced signs decay to a flat face. Original not read.
+- [Multidimensional Friedkin–Johnsen (Parsegov et al.)](parsegov-2017-multidimensional-friedkin-johnsen.md) — 2017 — adopt as baseline and reduction test — W⊗C plus an anchor is "whose ⊗ what"; C = cI gives one gain.
+- [Neural Sheaf Diffusion (Bodnar et al.)](bodnar-2022-neural-sheaf-diffusion.md) — 2022 — adopt as the frame for copy-collapse — identity, symmetric or same-signed maps provably collapse a two-node graph; one edge has no holonomy.
+- [Spectral theory of cellular sheaves (Hansen & Ghrist)](hansen-ghrist-2019-spectral-theory-cellular-sheaves.md) — 2019 — adopt as math base — Hodge, consensus, harmonic extension theorems with proofs; time scales as spectral sums.
+- [Opinion dynamics on discourse sheaves (Hansen & Ghrist)](hansen-ghrist-2021-discourse-sheaves.md) — 2020/2021 — adopt — private state vs public expression; stubbornness as harmonic extension; "learning to lie"; a conserved Q giving a floor against flat affect (our derivation).
+- [Precise mathematical objects for the dyadic core: synthesis](math-objects-synthesis.md) — 2026 — synthesis — exact reductions to copy, gain or flat face; on one edge any invertible group-element coupling is a change of frame; proposes "dial rank ≥ 2" and the conserved Q.
+
+## Memory, sleep replay and continual learning (S0 cycle 1, 2026-11-25)
+- [Complementary learning systems (McClelland, McNaughton & O'Reilly)](mcclelland-1995-complementary-learning-systems.md) — 1995 — adopt — fast store, slow store, interleaved replay with fitted equations; context reaches the slow store only if replays carry it.
+- [CLS theory updated (Kumaran, Hassabis & McClelland)](kumaran-2016-cls-updated.md) — 2016 — adopt — replay reweighted by significance; consolidation speed depends on prior knowledge.
+- [Hippocampal indexing theory updated (Teyler & Rudy)](teyler-rudy-2007-hippocampal-indexing.md) — 2007 — watch (abstract only) — the hippocampus stores a pointer to cortical patterns; store tags and feature streams, not old latents.
+- [Amygdala modulates consolidation of arousing memories (McGaugh)](mcgaugh-2004-amygdala-modulates-consolidation.md) — 2004 — adopt (abstract only; 2005/2013 papers as stand-ins) — a valence-blind arousal signal acting minutes to hours after an event decides storage strength.
+- [Synaptic tagging and capture (Redondo & Morris)](redondo-morris-2011-synaptic-tagging-capture.md) — 2011 — adopt — encoding makes a trace eligible; a non-specific signal within about ±90 min decides what lasts.
+- [Reconsolidation (Nader, Schafe & LeDoux; Nader & Hardt)](nader-2000-hardt-2009-reconsolidation.md) — 2000/2009 — adopt — retrieval reopens a memory to change for hours; only reactivated memories can be rewritten.
+- [Sleep and emotional memory (Walker & van der Helm; Payne & Kensinger)](sleep-emotional-memory-walker-payne-kensinger.md) — 2009/2008/2018 — adopt — a tag set at encoding selects what is replayed; whether replay strips the affect is contested.
+- [Schemas and memory consolidation (Tse et al.; McClelland 2013)](tse-2007-schemas-rapid-consolidation.md) — 2007/2013 — adopt (primary abstract only) — once a schema exists, new pairs are learned in one trial.
+- [Brain-inspired replay (van de Ven, Siegelmann & Tolias)](van-de-ven-2020-brain-inspired-replay.md) — 2020 — adopt — removing conditional replay or context gating drops 100-task permuted MNIST from about 0.81 to 0.40.
+- [EWC and synaptic intelligence (Kirkpatrick et al.; Zenke et al.; Huszár)](ewc-si-2017-weight-importance.md) — 2017 — watch — importance penalties need task boundaries (each night can be one); weight anchors do not survive model upgrades.
+- [Experience Replay for Continual Learning (CLEAR; Rolnick et al.)](rolnick-2019-experience-replay-continual.md) — 2019 — adopt the mechanism — a 50-50 mix of new and replayed data with cloning to past outputs nearly removes forgetting; uniform reservoir replay is the strong null.
+- [Replay in deep learning: missing biology (Hayes et al.)](hayes-2021-replay-missing-biology.md) — 2021 — watch — replay chosen by TD error or reward alone did not prevent forgetting; replay chosen for coverage did.
+- [Memory, sleep replay and continual learning: synthesis for S6](memory-replay-synthesis.md) — 2026 — synthesis — "state tagging" splits into priority, context reinstatement and re-tagging; only context reinstatement is predicted to remove operator specificity.
+
+## Coupling the state to Claude without text (S0 cycle 2, 2026-11-25)
+- [Claude Code CLI / Agent SDK controls (Anthropic docs)](claude-code-agent-sdk-controls.md) — 2026 — adopt (constraint set) — no temperature, logprobs or prefill; effort has 5 levels; the levers are model, effort, timing, interrupt, N drafts, context, tools.
+- [Activation Addition / ActAdd (Turner et al.)](turner-2023-activation-addition.md) — 2023 — reject — needs activations; the prompt version costs 13% perplexity vs 0.6% for the vector; prompting made toxicity worse.
+- [Representation Engineering / RepE (Zou et al.)](zou-2023-representation-engineering.md) — 2023 — reject (keep its tests) — direct prompting ineffective vs internal steering; +happiness steering took harmful compliance from 0% to 100%.
+- [Prefix-tuning and prompt tuning (Li & Liang; Lester et al.)](li-2021-lester-2021-soft-prompts.md) — 2021 — watch (formal ideal, unusable) — a non-word vector conditions a frozen LM; needs embedding access.
+- [Plug and Play LMs / PPLM (Dathathri et al.)](dathathri-2020-pplm.md) — 2020 — adopt rerank-only as baseline — reranking 10 samples raised judged sentiment from 19.3% to 41.5% with no fluency cost.
+- [FUDGE: future discriminators (Yang & Klein)](yang-klein-2021-fudge.md) — 2021 — watch — targets the same P(x|a) as draft resampling; borrow its prefix-scorer design.
+- [GeDi (Krause et al.)](krause-2021-gedi.md) — 2021 — reject (borrow scoring rules) — per-token tilt needs full-vocabulary logits.
+- [Persona Vectors (Chen et al.)](chen-2025-persona-vectors.md) — 2025 — adopt (as evidence) — the last-prompt-token projection predicts the expressed trait at r = 0.63–0.83 as context varies (Qwen/Llama).
+- [WebGPT best-of-n (Nakano et al.)](nakano-2021-webgpt-best-of-n.md) — 2021 — adopt (precedent) — best-of-64 preferred 68% over the base model vs 58% for RL.
+- [Reward-model overoptimization (Gao, Schulman & Hilton)](gao-2023-reward-overoptimization.md) — 2023 — adopt (Goodhart model) — R_bon(d) = d(α − βd), d = √KL; overoptimization starts well above realistic N of 4–16.
+- [Best-of-n KL guarantees (Beirami et al.)](beirami-2024-best-of-n-kl.md) — 2024 — adopt — KL ≤ log N − (N−1)/N for any model and score; best-of-N is an exact exponential tilt.
+- [Generative agents retrieval (Park et al.)](park-2023-generative-agents-retrieval.md) — 2023 — adopt pattern, watch evidence — recency + importance + relevance retrieval; terms never tested separately.
+- [LLM coupling synthesis: admissible channels to Claude](llm-coupling-synthesis.md) — 2026 — synthesis — the state may reweight Claude's or the world's text, never write it; per-turn information bounds; homeostatic scoring makes the tilt vanish at satiety.
+
+## The emotional voice and conversational timing (S0 cycle 2, 2026-11-25)
+- [Acoustic profiles in vocal emotion expression (Banse & Scherer)](banse-scherer-1996-acoustic-profiles.md) — 1996 — adopt — with speaker identity removed, emotion explains 50–55% of variance in F0 and energy; spectral balance can move against activation.
+- [Vocal communication of emotion: review (Scherer)](scherer-2003-vocal-communication-review.md) — 2003 — adopt — lens model; appraisal checks map to body settings (wide/narrow, tense/lax); F0 range has the largest resynthesis effect.
+- [Vocal expression and music performance: same code? (Juslin & Laukka)](juslin-laukka-2003-vocal-music-same-code.md) — 2003 — watch (unread, abstract only) — 104 voice and 41 music studies share accuracy and cue patterns.
+- [GeMAPS (Eyben et al.)](eyben-2016-gemaps.md) — 2016 — adopt (feature definitions only) — 18 label-free low-level descriptors; ~80% binary arousal but only 65–67% valence from voice.
+- [Acoustic-prosodic entrainment (Levitan & Hirschberg; Levitan et al.)](levitan-2011-2012-acoustic-prosodic-entrainment.md) — 2011/2012 — adopt — coupling differs per feature: loudness converges early, pitch adjusts locally, voice quality converges late; jitter matching goes with awkwardness.
+- [Phonetic convergence in conversation (Pardo)](pardo-2006-phonetic-convergence.md) — 2006 — adopt — partial, cumulative, outlasts the conversation; direction set by role and sex, not automatic priming.
+- [Universals in turn-taking timing (Stivers et al.)](stivers-2009-turn-taking-universals.md) — 2009 — adopt — 10 languages, gap mode 0–200 ms; disconfirmations ~200 ms later. Read via summarizing fetch.
+- [Timing in turn-taking (Levinson & Torreira)](levinson-torreira-2015-turn-taking-timing.md) — 2015 — adopt — ~200 ms gaps vs 600–1500 ms to produce speech: listeners predict, prepare and release on a go-signal.
+- [Low pitch cues back-channels (Ward & Tsukahara)](ward-tsukahara-2000-backchannel-low-pitch.md) — 2000 — adopt — a 110 ms low-pitch region cues back-channels; silence is a worse cue than chance.
+- [Functional flexibility of protophones (Oller et al.)](oller-2013-functional-flexibility-protophones.md) — 2013 — adopt — cry and laugh fixed-valence; squeals, vowel-like sounds and growls carry any valence by 3–4 months. Read via summarizing fetch.
+- [Social feedback shapes babbling (Goldstein & Schwade)](goldstein-schwade-2008-social-feedback-babbling.md) — 2008 — adopt — contingent responses reshaped babbling within 10 minutes; non-contingent did not.
+- [WORLD vocoder (Morise et al.)](morise-2016-world-vocoder.md) — 2016 — adopt as the voice body — controllable F0, envelope, aperiodicity; resynthesis at 0.007 of real time on this Mac's CPU; not a physiological glottal source.
+- [The emotional voice and conversational timing: synthesis](voice-synthesis.md) — 2026 — synthesis — innate vs learned, per-feature coupling table, real-time timing budget, a proposed voice body and five ablation predictions.
+
+## Social appraisal and affective theory of mind (S0 cycle 2, 2026-11-25)
+- [Social appraisal and emotions as evidence (synthesis)](social-appraisal-synthesis.md) — 2026 — synthesis — two routes; formal models; how gating and sign flips arise; five places a flat-to-copy scalar can still hide, with a guard for each; grounding without labels.
+- [Affective cognition: lay theories of emotion (Ong, Zaki & Goodman)](ong-zaki-goodman-2015-affective-cognition.md) — 2015 — adopt — face and outcome combined by reliability (r = .81 vs .73 face-only); one fitted likelihood precision is a dial, but it acts on belief.
+- [Computational models of emotion inference: review and roadmap (Ong, Zaki & Goodman)](ong-zaki-goodman-2019-emotion-inference-review.md) — 2019 — adopt — reverse appraisal sums the emotion out (the label-free form); relational emotion is the main open problem.
+- [Formalizing emotion concepts in Bayesian theory of mind (Saxe & Houlihan)](saxe-houlihan-2017-emotion-concepts-bayesian-tom.md) — 2017 — adopt — faces are coarse evidence; events choose between distinct appraisals.
+- [Rational inference of beliefs and desires from emotional expressions (Wu et al.)](wu-2018-inferring-beliefs-desires-from-emotions.md) — 2018 — adopt — a model with no free parameters fits at r ≥ .95; belief read only from the change in the face around the outcome; model-free regression only r = .58.
+- [Emotion prediction over a generative theory of mind (Houlihan et al.)](houlihan-2023-emotion-prediction-generative-tom.md) — 2023 — adopt — inverse planning over social and reputation utilities; the relationship is a set of signed concern weights, not a gain.
+- [Interpersonal emotion transfer: contagion and social appraisal (Parkinson)](parkinson-2011-contagion-social-appraisal.md) — 2011 — watch (abstract only) — transfer "does not seem to depend directly on mimicry"; gaze direction decides what an expression changes.
+- [Social appraisal and contagion in everyday decisions (Parkinson & Simons)](parkinson-simons-2009-social-appraisal-decisions.md) — 2009 — adopt — diary, N = 41; appraisals partly explain anxiety transfer, but a same-sign transfer survives control of all measured appraisals.
+- [Social appraisal (Manstead & Fischer)](manstead-fischer-2001-social-appraisal.md) — 2001 — watch (secondary only) — others' reactions feed my appraisal and shape whether I display.
+- [Reverse engineering of appraisals (Hareli & Hess)](hareli-hess-2010-reverse-engineering-appraisals.md) — 2010 — adopt — anger, sadness and calm read as different appraisals of the same event (N = 243, 183).
+- [The EASI model (van Kleef)](van-kleef-2009-easi-model.md) — 2009 — adopt — two routes (inference vs caught feeling); one mixing weight between them is the dial again.
+- [EASI in social decision making (van Kleef, De Dreu & Manstead)](van-kleef-2010-easi-social-decision-making.md) — 2010 — adopt — four expressions flip in four different ways between cooperation and competition; felt anger matches while concessions follow inference.
+- [The social effects of emotions (van Kleef & Côté)](van-kleef-cote-2022-social-effects-of-emotions.md) — 2022 — adopt — evidence "casts doubt" on mimicry-then-feedback; two-way ongoing interaction unstudied.
+- [Empathy: a motivated account (Zaki)](zaki-2014-motivated-empathy.md) — 2014 — adopt — motives act through situation selection, attention and appraisal; only appraisal produces sign flips; context effects within 110–200 ms.
+- [Perception-action model of empathy (Preston & de Waal)](preston-de-waal-2002-perception-action-model.md) — 2002 — reject as mechanism — every moderator multiplies one matched representation: the flat-to-copy gain in its original form.
+
+## Telling "they respond to me" from "I follow them" (S0 cycle 2, 2026-11-25)
+- [Contingency and its two indices (Watson)](watson-1997-contingency-two-indices.md) — 1997 — adopt, with caveat — sufficiency and necessity against base rate; they do not separate "I follow it" from "it follows me".
+- [Spatial determinants of self-produced leg movement (Rochat & Morgan; Rochat 1998)](rochat-morgan-1995-spatial-self-perception.md) — 1995/1998 — adopt — with timing perfect, infants detect a left-right reversal; delays of 0.5–3 s not told apart from live.
+- [Self- and interactive contingency in mother–infant play (Beebe et al.)](beebe-2016-self-interactive-contingency.md) — 2016 — adopt (estimator and prior) — self-effects 4–52× partner effects; partner β ≈ .02–.14.
+- [Expectancies for social contingency in 2-month-olds (Nadel et al.)](nadel-1999-expectancies-social-contingency.md) — 1999 — watch (abstract only) — live–replay–live; replay lowered smiles and gaze; n = 10.
+- [Double-video live vs replay paradigm (Murray & Trevarthen; replications)](murray-trevarthen-1985-double-video.md) — 1985/1986 — adopt the paradigm, watch the findings — replay cuts only the partner's dependence on the viewer.
+- [Are young infants sensitive to interpersonal contingency? (Rochat, Neisser & Marian)](rochat-neisser-marian-1998-interpersonal-contingency.md) — 1998 — adopt (methodological caution) — counterbalanced, the replay effect vanished (gaze 75.8 vs 75.3%).
+- [Sensitivity to social contingencies 1–3 months (Striano, Henning & Stahl)](striano-2005-social-contingency-1-3-months.md) — 2005 — adopt — being imitated raised gaze but lowered smiling; a copier is not the best partner.
+- [Self-recognition by probabilistic reasoning over time (Gold & Scassellati)](gold-scassellati-2009-robot-self-recognition.md) — 2009 — adopt — a human mimicking the robot was ambiguous; 5 s of independent motion settled it.
+- [Self-detection in robots by temporal contingency (Stoytchev)](stoytchev-2011-self-detection-temporal-contingency.md) — 2011 — adopt — learn your own action-to-feedback delay alone and freeze it; a mimic during learning corrupts it.
+- [Closed-loop identification revisited (Forssell & Ljung)](forssell-ljung-1999-closed-loop-identification.md) — 1999 — adopt — closed-loop bias in closed form; only externally excited input power is informative.
+- [Causal Inference: What If, ch. 16, 19–21 (Hernán & Robins)](hernan-robins-2020-what-if-iv-gmethods.md) — 2020 — adopt — instrument conditions; treatment–confounder feedback; an agent knowing its own randomisation can weight by it.
+- [Toward causal representation learning (Schölkopf et al.)](scholkopf-2021-causal-representation-learning.md) — 2021 — adopt (principle) — the partner model must not change when only the agent's own following changes.
+- [Social influence as intrinsic motivation (Jaques et al.)](jaques-2019-social-influence-intrinsic-motivation.md) — 2019 — watch — counterfactual-influence KL is the right quantity, but influence as reward conflicts with Principle 6.
+- [Causal influence detection (Seitzer, Schölkopf & Martius)](seitzer-2021-causal-influence-detection.md) — 2021 — adopt with caveat — CAI = I(S′;A|S=s); fit on probe steps only.
+- [Telling what answers me from what I follow: synthesis](contingency-causal-synthesis.md) — 2026 — synthesis — closed-form bias of the naive rule; the agent's own logged variation as an instrument (R = Σ_zb Σ_xb⁻¹); why the engine has it worse than infants.
+
+## Agency, coping potential, wanting vs liking (S0 cycle 2, 2026-11-25)
+- [Learned helplessness at fifty (Maier & Seligman)](maier-seligman-2016-learned-helplessness-at-fifty.md) — 2016 — adopt (constraint on sign and time scales) — passivity is the unlearned default; detected control is a learned prefrontal inhibitor of it; detect, act and expect separately lesionable.
+- [A Bayesian formulation of behavioral control (Huys & Dayan)](huys-dayan-2009-bayesian-behavioral-control.md) — 2009 — adopt — controllability as a prior over action→outcome matrices; low χ flattens values and removes the exploration bonus.
+- [Controllability governs Pavlovian vs instrumental balance (Dorfman & Gershman)](dorfman-gershman-2019-controllability-pavlovian-instrumental.md) — 2019 — adopt — the Pavlovian weight is a posterior of an action-free over an action-conditioned model.
+- [Stress-sensitive inference of task controllability (Ligneul et al.)](ligneul-2022-stress-sensitive-controllability-inference.md) — 2022 — adopt — controllability as transfer entropy I(A;S'|S), actor vs spectator model; separates control from predictability.
+- [Model-based and model-free Pavlovian reward learning (Dayan & Berridge)](dayan-berridge-2014-model-based-pavlovian.md) — 2014 — adopt — the need gain requires the outcome's identity: model-based revaluation under the current body state.
+- [From prediction error to incentive salience (Berridge)](berridge-2012-prediction-error-to-incentive-salience.md) — 2012 — adopt — only a never-seen body state separates wanting from learned prediction; liking intact after 98% dopamine loss.
+- [Incentive sensitization theory of addiction (Robinson & Berridge)](robinson-berridge-2008-incentive-sensitization.md) — 2008 — adopt as a hazard — the non-satiable wanting term Principle 6 forbids.
+- [Abnormalities in the awareness of action (Blakemore, Wolpert & Frith)](blakemore-wolpert-frith-2002-awareness-of-action.md) — 2002 — adopt (ablation map) — comparator plus attenuation; removing the efference copy makes the partner's mirroring look partner-initiated.
+- [From comparator to cue integration in agency (Synofzik et al.)](synofzik-2008-2013-agency-cue-integration.md) — 2008/2013 — adopt — authorship as a reliability-weighted posterior over cues; feeling vs judgement of agency.
+- [Sense of agency in the human brain (Haggard)](haggard-2017-sense-of-agency.md) — 2017 — adopt — instrumental agency vs social attribution vs self-efficacy; agency has a prospective part.
+- [Patterns of cognitive appraisal in emotion (Smith & Ellsworth)](smith-ellsworth-1985-appraisal-patterns.md) — 1985 — adopt (measured target) — agency is two axes; situational control alone classifies the core negative emotions about as well as all six dimensions.
+- [The appraisal basis of anger (Kuppens et al.)](kuppens-2003-appraisal-basis-anger.md) — 2003 — adopt (constraint) — other-accountability specific to anger but neither necessary nor sufficient; coping potential must be future-directed.
+- [Fear, anger, and risk (Lerner & Keltner)](lerner-keltner-2001-fear-anger-risk.md) — 2001 — adopt with replication caveat — felt control carries over between situations.
+- [Controllability, agency and wanting vs liking in one core (synthesis)](agency-wanting-synthesis.md) — 2026 — synthesis — controllability and agency as posteriors over edges in a learned causal model; coping as the value of acting under them; wanting as a gain on predicted drive reduction, liking as realized reduction.
+
+## Embodied affective robots and agents (S0 cycle 3, 2026-11-25)
+- [Emotion and sociable humanoid robots, Kismet (Breazeal)](breazeal-2003-kismet-emotion.md) — 2003 — reject as architecture; adopt two-sided drives and "expression leads action" — designer-set affect tags, nine named emotions by winner-take-all; no learning, persistence or ablation.
+- [Cost-based anticipatory action selection (Hoffman & Breazeal)](hoffman-breazeal-2007-anticipatory-action.md) — 2007 — watch (adopt the fluency measures) — acting ahead of the partner made people rate the robot as committed.
+- [Keepon (Kozima, Michalowski & Nakagawa)](kozima-2009-keepon.md) — 2009 — watch — mostly operator-run; well-timed responses, not a rich face, drove engagement.
+- [BabyX turn-taking (Sagar, Henderson et al., J R Soc NZ)](babyx-2023-turn-taking.md) — 2023 — watch — the turn-taking switch is wired; predictions tested only on human caregiver–infant pairs, BabyX never measured.
+- [BabyX's emotion model and ethics (Knott, Sagar & Takac)](knott-sagar-takac-2022-babyx-ethics-emotion-model.md) — 2022 — watch — six named basic-emotion circuits, "rather similar to the if–then rules", drive 8 named neurochemicals.
+- [Modeling motivations and emotions (Cañamero)](canamero-1997-motivations-emotions.md) — 1997 — watch (abstract only) — origin of the homeostatic-motivation line.
+- [Hedonic quality or reward? (Lewis & Cañamero)](lewis-canamero-2016-hedonic-pleasure.md) — 2016 — watch — pleasure scales cue salience; m = d(1 + α·cue) is the scalar ancestor of need-conditioned attention.
+- [The feeling of action tendencies (Lowe & Ziemke)](lowe-ziemke-2011-feeling-of-action-tendencies.md) — 2011 — watch (theory only) — feeling as predicted action readiness corrected by bodily feedback.
+- [Towards artificial empathy (Asada)](asada-2015-towards-artificial-empathy.md) — 2015 — watch (framing only) — empathy as synchronization, sympathy as inhibited synchronization; nothing implemented.
+- [Facial expression to internal state by intuitive parenting (Watanabe, Ogino & Asada)](watanabe-ogino-asada-2007-intuitive-parenting.md) — 2007 — watch (mechanism rejected) — hand-set state, wired face, same-instant Hebbian pairing; one caregiver, one run.
+- [Robot head learns expressions because the human imitates it (Boucenna, Gaussier et al.)](boucenna-2008-2014-imitation-game-facial-expressions.md) — 2008–2014 — adopt (identifiability condition, lag) — the face map forms only if the partner mirrors; a 0.8–1.6 s human lag unlearns it.
+- [Emotion in RL agents and robots: a survey (Moerland, Broekens & Jonker)](moerland-2018-emotion-rl-survey.md) — 2018 — adopt (map of prior designs) — 52 papers, almost all hand-wired; 2 of 43 learn their emotion links.
+- [Affect-driven robot behaviour (Churamani et al.)](churamani-2022-affect-driven-robot-behaviour.md) — 2022/2020 — reject; watch its lesion design — rewarded by user mood improvement; users steered it by smiling; the lesion had no effect on 31 users.
+- [Synthesis: embodied affective robots and agents](affective-robots-synthesis.md) — 2026 — synthesis — 13 systems: all assembled, all hand-name emotion, none persists, no ablation predicted from equations; 9 things the engine must do that none did.
+
+## Biological computation for affect beyond the excluded frameworks (S0 cycle 3, 2026-11-26)
+- [Neuromodulation of neuronal circuits: back to the future (Marder)](marder-2012-neuromodulation-switches-circuits.md) — 2012 — adopt (invariants only) — modulators configure which circuit exists; reversal potential, receptor occlusion and oscillator saturation give derived ceilings without a ceiling parameter.
+- [From the connectome to brain function (Bargmann & Marder)](bargmann-marder-2013-connectome-to-function.md) — 2013 — adopt (two-channel edges) — one wiring diagram encodes many circuits; influence is a type assignment, not a weight.
+- [Dendritic computation (London & Häusser)](london-hausser-2005-dendritic-computation.md) — 2005 — adopt (two mechanisms) — shunting inhibition is a number plus an address; a bistable dendritic front stores an integral as a position.
+- [Dendritic action potentials in human L2/3 neurons (Gidon et al.)](gidon-2020-human-dcaap-anticoincidence.md) — 2020 — adopt (candidate primitive) — a spike maximal at its own threshold and damped above it: anti-coincidence, non-monotone in input with no copy end.
+- [Arousal, apical amplification and conscious state (Phillips, Larkum et al.)](phillips-2016-apical-amplification-arousal.md) — 2016 — adopt — coupling between two zones inactivates with depolarisation; with no basal drive any apical magnitude maps to zero.
+- [Stimulus-specific hypothalamic encoding of a persistent defensive state (Kennedy et al.)](kennedy-2020-stimulus-specific-persistent-state.md) — 2020 — adopt — persistence carries stimulus identity; raising gain fit content but broke autocorrelation, only slow synapses or structure fit both.
+- [An approximate line attractor encodes an aggressive state (Nair et al.)](nair-2023-vmhvl-line-attractor.md) — 2023 — adopt (the primitive) — position on a slow manifold (τ > 100 s) selects which behaviour is emitted; τ predicts aggressiveness (r² = 0.77).
+- [Causal evidence of a line attractor encoding an affective state (Vinograd et al.)](vinograd-2024-causal-line-attractor.md) — 2024 — adopt — on-manifold stimulation integrates and saturates; off-manifold returns to the current position; slow transmission removes the weight-tuning knife-edge.
+- [A line attractor requires neuropeptide signalling (Mountoufaris et al.)](mountoufaris-2024-neuropeptide-line-attractor.md) — 2024 — adopt (key dissociation) — removing peptide receptors left content decoding ~100% but collapsed the attractor to a point: a peptide decides whether a persistent state exists.
+- [Female mating dynamics and a hypothalamic line attractor (Liu et al.)](liu-2024-female-line-attractor-hormone.md) — 2024 — adopt — the attractor appears and vanishes with hormonal state with no change in mean activity; partner acts enter only as input; the state is about the self.
+- [Neurons within an integrator promoting a persistent state (Jung et al.)](jung-2020-pcd-persistence-network.md) — 2020 — adopt — fast command path separable from slow integrator; persistence exists only as a loop property (no write port); the state raises own input sensitivity.
+- [Oxytocin, neural plasticity, and social behavior (Froemke & Young)](froemke-young-2021-oxytocin-social-salience.md) — 2021 — adopt (write-enable + receptor map) — receptor placement decides the computation; the modulator becomes dispensable once plasticity has written.
+- [The emerging science of interoception (Chen et al.)](chen-2021-interoception-framework.md) — 2021 — watch (vocabulary only) — no computation or numbers; the affect link "mostly unknown".
+- [What the brain computes for affect beyond the excluded list (synthesis)](bio-computation-synthesis.md) — 2026 — synthesis — twelve candidate primitives, a reduction table, six directions; strongest: a slow chemical variable decides whether a persistent state exists (a bifurcation, not a gain).

@@ -1,0 +1,35 @@
+# Eyben, Scherer, Schuller, Sundberg, André, Busso, Devillers, Epps, Laukka, Narayanan & Truong 2016, "The Geneva Minimalistic Acoustic Parameter Set (GeMAPS) for voice research and affective computing"
+
+IEEE Transactions on Affective Computing 7(2):190-202. doi:10.1109/TAFFC.2015.2457417. CC BY 3.0.
+
+Source read: the accepted manuscript (CC BY 3.0, identical in content per the header, "may change prior to final publication"), from a USC lab mirror; the publisher and two repository copies were unreachable. Read in full: abstract, introduction, related work, parameter recommendation (sections 3.1-3.2), evaluation set-up and results, discussion, and the appendix on extraction details (frame sizes, algorithms). Database descriptions skimmed. Table 2 was recovered from the raw text; Table 3 and the appendix plots were not read.
+
+## Claims
+- Purpose: a small, standard, open parameter set so that voice and affect results can be compared across labs, chosen by (1) potential to index physiological changes in voice production during affect, (2) frequency and success of use in past work, (3) theoretical significance. Large brute-force sets (384 to 6,373 features) overfit small corpora and are uninterpretable.
+- Assumption stated: affective processes change autonomic arousal and the tension of striate musculature, which change phonation and articulation, measurable in the waveform.
+- GeMAPS: 18 low-level descriptors (LLDs):
+  - Frequency: pitch (log F0 in semitones from 27.5 Hz), jitter, formants F1-F3 frequency, F1 bandwidth.
+  - Energy / amplitude: shimmer, loudness (perceptual estimate), harmonics-to-noise ratio.
+  - Spectral balance: alpha ratio (energy 50-1000 Hz over 1-5 kHz), Hammarberg index (strongest peak 0-2 kHz over 2-5 kHz), spectral slope 0-500 Hz and 500-1500 Hz, F1-F3 relative energy, H1-H2, H1-A3 (source-related harmonic differences).
+  - Smoothed with a 3-frame moving average. Functionals: mean and coefficient of variation of all 18 (36); for pitch and loudness also 20th, 50th, 80th percentiles, 20-80 range, mean and SD of rising and falling slopes (16 more); unvoiced means of alpha ratio, Hammarberg, both slopes (4); 6 temporal features: rate of loudness peaks, mean and SD of voiced and of unvoiced segment lengths, voiced segments per second (a pseudo-syllable rate). Total 62.
+- eGeMAPS adds MFCC 1-4, spectral flux, F2-F3 bandwidth, equivalent sound level and voiced/unvoiced splits: 88 parameters. Low-order MFCCs are argued to approximate spectral tilt and broad energy distribution, which matter for affect more than phonetic detail.
+- Extraction details: F0, jitter, shimmer and HNR from 60 ms frames every 10 ms (Gaussian window, sigma 0.4); loudness, spectral and formant LLDs from 20-25 ms windows every 10 ms. All from openSMILE, automatic, without manual correction; only parameters extractable unsupervised in clean conditions are included.
+- Literature summary: intensity, F0 mean, variability and range, and high-frequency energy correlate with arousal-related expressions; speech rate matters for all; for valence, spectral shape and rhythm parameters are suggested; prosodic and voice-quality parameters lose importance under noise and reverberation, spectral shape gains. H1-H2 falls with cognitive load.
+- Evaluation: leave-one-speaker-out SVM, per-speaker z-normalisation, binary arousal and valence mapped from six corpora (FAU AIBO, TUM-AVIC, EMO-DB, GEMEP, SING, VAM). Average unweighted average recall (UAR), arousal / valence: GeMAPS 79.59 / 65.32; eGeMAPS 79.71 / 66.44; IS09 (384 features) 76.08 / 64.88; IS10 (1,582) 76.50 / 64.44; IS11 (4,368) 76.43 / 65.96; IS12 (6,125) 77.26 / 66.71; ComParE (6,373) 78.00 / 67.17. With the best C per database, the large sets win on categories and often on binary tasks. The authors conclude GeMAPS is comparable at under 2% of ComParE's size, valence needs parameters not yet identified, and cross-corpus generalisation is untested.
+- Future: arousal should go with fast phonatory and articulatory gestures, calm with slow ones; glottal adduction lengthens the closed phase, reduces flow pulse amplitude and lowers the level difference between the first two source partials (H1-H2); inverse filtering to measure source parameters directly is proposed.
+
+## Evidence with numbers
+Table 2 above; arousal is recognized at about 80% and valence at about 65-67% UAR by every set, small or large.
+
+## What it implies for an engine that perceives voices as continuous features (Principle 1) and produces its own voice from an innate vocal body
+- GeMAPS is the standard answer to "which continuous voice features": a label-free, physiologically motivated, documented list. The engine's voice perception should compute a frame-level subset in real time (the LLDs, not the utterance functionals, which are for offline analysis): semitone F0 relative to the speaker's baseline, loudness, HNR or a periodicity measure, alpha ratio or Hammarberg index (spectral balance), spectral slope, and the voiced/unvoiced timing that gives a syllable rate. pitchy (pitchy.md) already gives F0 and clarity; the spectral-balance features need an FFT per frame, cheap on CPU. The functionals (percentiles, slopes, segment lengths) are a good spec for the slower summaries the engine's memory and the evaluation store (Principle 7: features, not audio).
+- The same list specifies the output side: the vocal body should be able to move each of these, and the evaluation can measure the engine's own voice with exactly the parameters used to measure the operator's. Symmetric measurement is what Principle 3 needs for reading others through one's own body.
+- The ceiling on valence from acoustics (about 65-67% binary, for every set) is a reason not to expect the voice alone to carry valence. Consistent with oller-2013-functional-flexibility-protophones.md, valence must come from combining voice with face and context, which the engine's single latent state does by construction.
+- Prosodic and voice-quality features degrade first in noise; the operator's room and microphone are the transmission channel of scherer-2003-vocal-communication-review.md. Perception should weight spectral-shape features more when the signal is noisy, and the engine should track its own confidence in pitch and voice-quality estimates.
+- The classification benchmarks map features to emotion labels; that use is forbidden in the engine (Principle 1). Only the feature definitions transfer.
+
+## License
+Paper: CC BY 3.0. Reference implementation: openSMILE under the audEERING Research License (free for research and private use; commercial use needs a licence). The parameter definitions are public and can be reimplemented, which avoids the licence question for the engine's own code.
+
+## Verdict: adopt (feature definitions for voice perception and for measuring the engine's own voice; not the classifiers)
+Check the final published version for any parameter changes, and openSMILE release notes for later GeMAPS revisions (v01b and later).

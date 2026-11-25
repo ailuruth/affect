@@ -1,0 +1,70 @@
+{
+ "n_field_ge4": 10,
+ "mean_coll_B": 1.9,
+ "params": [
+  40,
+  40
+ ],
+ "runs": [
+  {
+   "field_B": 5,
+   "coll_B": 0,
+   "params_field": 40,
+   "params_coll": 40
+  },
+  {
+   "field_B": 5,
+   "coll_B": 1,
+   "params_field": 40,
+   "params_coll": 40
+  },
+  {
+   "field_B": 5,
+   "coll_B": 1,
+   "params_field": 40,
+   "params_coll": 40
+  },
+  {
+   "field_B": 5,
+   "coll_B": 1,
+   "params_field": 40,
+   "params_coll": 40
+  },
+  {
+   "field_B": 5,
+   "coll_B": 4,
+   "params_field": 40,
+   "params_coll": 40
+  },
+  {
+   "field_B": 5,
+   "coll_B": 5,
+   "params_field": 40,
+   "params_coll": 40
+  },
+  {
+   "field_B": 5,
+   "coll_B": 2,
+   "params_field": 40,
+   "params_coll": 40
+  },
+  {
+   "field_B": 5,
+   "coll_B": 1,
+   "params_field": 40,
+   "params_coll": 40
+  },
+  {
+   "field_B": 5,
+   "coll_B": 3,
+   "params_field": 40,
+   "params_coll": 40
+  },
+  {
+   "field_B": 5,
+   "coll_B": 1,
+   "params_field": 40,
+   "params_coll": 40
+  }
+ ]
+}

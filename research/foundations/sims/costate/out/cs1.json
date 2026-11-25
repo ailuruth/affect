@@ -1,0 +1,74 @@
+{
+ "costate_field": {
+  "top5_people": [
+   "C",
+   "C",
+   "C",
+   "C",
+   "C"
+  ],
+  "cues": {
+   "A_face": 0.0037,
+   "B_photo": 0.0316,
+   "C_photo": 0.3525,
+   "X_mention": 0.0002,
+   "Y_mention": 0.6119
+  },
+  "acts": {
+   "talk_A": 0.0037,
+   "message_B": 0.0315,
+   "message_C": 0.3508,
+   "open_X": 0.0002,
+   "open_Y": 0.6088,
+   "rest": 0.005
+  }
+ },
+ "deficit_field": {
+  "top5_people": [
+   "B",
+   "B",
+   "C",
+   "B",
+   "B"
+  ],
+  "cues": {
+   "A_face": 0.0,
+   "B_photo": 0.8521,
+   "C_photo": 0.1409,
+   "X_mention": 0.0,
+   "Y_mention": 0.007
+  },
+  "acts": {
+   "talk_A": 0.0,
+   "message_B": 0.8521,
+   "message_C": 0.1408,
+   "open_X": 0.0,
+   "open_Y": 0.007,
+   "rest": 0.0001
+  }
+ },
+ "collapsed": {
+  "top5_people": [
+   "A",
+   "B",
+   "B",
+   "A",
+   "C"
+  ],
+  "cues": {
+   "A_face": 0.2702,
+   "B_photo": 0.2702,
+   "C_photo": 0.2702,
+   "X_mention": 0.0946,
+   "Y_mention": 0.0946
+  },
+  "acts": {
+   "talk_A": 0.26,
+   "message_B": 0.26,
+   "message_C": 0.26,
+   "open_X": 0.0911,
+   "open_Y": 0.0911,
+   "rest": 0.0378
+  }
+ }
+}

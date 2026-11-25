@@ -1,0 +1,6 @@
+[project]
+name = "foundations-sims"
+version = "0.0.0"
+description = "Toy simulations for S0 foundation candidates (not engine code)"
+requires-python = ">=3.11"
+dependencies = ["numpy", "scipy", "matplotlib", "torch"]

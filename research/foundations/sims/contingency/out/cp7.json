@@ -1,0 +1,116 @@
+{
+ "own": {
+  "classes": [
+   "self",
+   "self",
+   "self",
+   "self",
+   "self",
+   "self",
+   "self",
+   "self",
+   "self",
+   "self"
+  ],
+  "lags": [
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1
+  ],
+  "R": [
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0
+  ]
+ },
+ "partner": {
+  "classes": [
+   "unclassified",
+   "unclassified",
+   "unclassified",
+   "unclassified",
+   "unclassified",
+   "unclassified",
+   "unclassified",
+   "unclassified",
+   "unclassified",
+   "unclassified"
+  ],
+  "lags": [
+   15,
+   15,
+   15,
+   15,
+   15,
+   15,
+   15,
+   15,
+   15,
+   15
+  ],
+  "R": [
+   0.019,
+   0.021,
+   0.02,
+   0.025,
+   0.022,
+   0.021,
+   0.023,
+   0.022,
+   0.017,
+   0.02
+  ]
+ },
+ "world": {
+  "classes": [
+   "unclassified",
+   "world",
+   "unclassified",
+   "world",
+   "unclassified",
+   "unclassified",
+   "world",
+   "unclassified",
+   "unclassified",
+   "unclassified"
+  ],
+  "lags": [
+   36,
+   39,
+   28,
+   2,
+   18,
+   4,
+   42,
+   60,
+   28,
+   41
+  ],
+  "R": [
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ }
+}

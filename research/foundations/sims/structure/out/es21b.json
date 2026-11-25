@@ -1,0 +1,14 @@
+{
+ "forbidden": {
+  "visit_rate": 0.0,
+  "deficit_mean": 1893.9351381139138
+ },
+ "d67": {
+  "visit_rate": 0.00791176470588235,
+  "deficit_mean": 1327.3973834311557
+ },
+ "checks": {
+  "visit_ratio": 0.0,
+  "deficit_ratio": 1.4268034288408262
+ }
+}

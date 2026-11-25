@@ -1,0 +1,9 @@
+research/data/
+__pycache__/
+.venv/
+*.npy
+*.npz
+.DS_Store
+
+# Lists of Seamless Interaction file and participant IDs derived from its metadata; kept on this Mac (regenerate with research/harness/splits_v3.py and pilot.py)
+research/harness/*.json

@@ -1,0 +1,4 @@
+ES2b companion: Costate vs Robust reg.: n=20 median ratio=0.978 geo-mean ratio=0.864 (95% CI 0.760-0.983) seeds where first arm lower: 11/20
+ES3  companion: Costate-rw vs Robust reg.: n=20 median ratio=0.866 geo-mean ratio=0.814 (95% CI 0.706-0.938) seeds where first arm lower: 14/20
+ES2b random: Costate vs Robust reg.: n=20 median ratio=1.186 geo-mean ratio=1.122 (95% CI 0.969-1.299) seeds where first arm lower: 8/20
+ES3  random: Costate-rw vs Robust reg.: n=20 median ratio=1.034 geo-mean ratio=1.047 (95% CI 0.916-1.197) seeds where first arm lower: 6/20

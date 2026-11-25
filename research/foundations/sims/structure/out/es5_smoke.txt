@@ -1,0 +1,1 @@
+Smoke run (timing) before the full ES5 run, disclosed: rollout arm, budget world, seed 0 → cost 110.48, agreement 0.617, approach rate 0.237. Parameters unchanged afterwards.

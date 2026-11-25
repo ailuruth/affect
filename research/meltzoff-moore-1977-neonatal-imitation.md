@@ -1,0 +1,28 @@
+# Meltzoff & Moore 1977, "Imitation of Facial and Manual Gestures by Human Neonates" (Science 198(4312):75-78, doi:10.1126/science.897687)
+
+Source read: the full article, from the scanned reprint hosted by the UW Institute for Learning & Brain Sciences (ilabs.uw.edu, "Reprinted from 7 October 1977, Volume 198, pp. 75-78"), via OCR text. Read: the abstract, the introduction, Experiments 1 and 2, the three candidate mechanisms, and notes 1-8. The figures were read only through their captions; bar heights in Fig. 2 and Fig. 4 were not legible in the OCR, so no per-gesture counts are given.
+
+## Claims
+- Abstract: "Infants between 12 and 21 days of age can imitate both facial and manual gestures; this behavior cannot be explained in terms of either conditioning or innate releasing mechanisms. Such imitation implies that human neonates can equate their own unseen behaviors with gestures they see others perform."
+- Favoured mechanism: imitation "is based on the neonate's capacity to represent visually and proprioceptively perceived information in a form common to both modalities". The infant compares its unseen motor behaviour to a "'supramodal' representation of the visually perceived gesture". "we hypothesize that the imitative responses observed are not innately organized and 'released,' but are accomplished through an active matching process and mediated by an abstract representational system."
+- On innateness: "Our recent observations of facial imitation in six newborns—one only 60 minutes old—suggest to us that the ability to use intermodal equivalences is an innate ability of humans." (These six newborns are not reported as an experiment in this paper.)
+- Rejected alternatives: reinforcement shaping, and Lorenz-Tinbergen fixed-action patterns, because of the "lack of stereotypy" and because infants imitate "not one, but four different gestures".
+
+## Evidence
+- Controls the authors set out: (i) cross-comparison of each gesture against another similar gesture by the same adult ("If differential imitation occurs, it cannot be attributed to a mere arousal of oral activity"); (ii) parents not told the study was about imitation, and the procedure designed so the experimenter could not adapt to the infant; (iii) scoring from videotape by coders "uninformed of the gesture shown to the infant".
+- Experiment 1: "six infants ranging in age from 12 to 17 days (X = 14.3 days)". Four gestures (lip protrusion, mouth opening, tongue protrusion, sequential finger movement), each "demonstrated four times in a 15-second stimulus-presentation period", followed by a 20-s response period; "a maximum of three stimulus presentations" per gesture. Six naive undergraduate coders per modality ranked which gesture was being imitated, and the ranks were collapsed to yes/no. Cochran Q: "lip protrusion, P < .01 ... mouth opening, P < .02 ... tongue protrusion, P < .05 ... sequential finger movement, P < .001". None of these effects is significant once the imitative-match judgments are excluded.
+- Experiment 1 weakness, stated by the authors: repeating presentations "opened the possibility that the experimenter might unwittingly have been prefiltering the data by readministering the stimulus presentations until the random behavior of the infant coincided with the behavior demonstrated."
+- Experiment 2 (pacifier technique, to fix that): "12 infants ranging in age from 16 to 21 days (X = 19.3)". Two gestures only (mouth opening, tongue protrusion), counterbalanced; a 150-s baseline; the gesture is shown while the infant sucks a pacifier; then a 150-s response period with a passive face. One coder, "uninformed of the structure of the experiment", tallied frequencies. Wilcoxon: more tongue protrusions after the TP demonstration than at baseline "(P < .005)" or after MO "(P < .005)"; more mouth openings after MO than at baseline "(P < .05)" or after TP "(P < .05)". "the infants had to delay their imitation until after the gesture to be imitated had vanished from the perceptual field."
+- Scoring criteria (note 5): TP "only when the tongue was thrust clearly beyond the lips"; MO "only when the infant fully opened his mouth". Intra-observer agreement was 93% (TP) and 92% (MO).
+- Experimenter check: "No smiles or vocalizations were noted in any trial"; the only deviation was "blink extremely rapidly" in three Experiment 1 trials.
+
+## License
+AAAS, Science, all rights reserved; the reprint is hosted by the authors' institute.
+
+## Runs on this Mac without a GPU?
+n.a. (empirical study).
+
+## Verdict: watch (as the original claim; the balance currently favours not building on innate mimicry)
+This is the founding evidence for neonatal imitation. It is small (n = 6 and n = 12), the infants are 2-3 weeks old rather than newborns, and the strongest design (Experiment 2) covers two oral gestures only. The authors themselves favour an active, learned-looking matching process over a released reflex, while calling the intermodal capacity innate. Against the much larger longitudinal null of Oostenbroek et al. 2016 (n = 106, 11 models, 4 ages; abstract only read), the foundation should not assume an innate own-other mapping. Keep two things from this paper:
+- Its controls are a template for testing any mimicry claim about the agent: cross-gesture comparison rather than baseline only, an experimenter blind to responses, coders blind to condition, and response windows after the stimulus is gone.
+- Tongue protrusion is the gesture with the strongest result here (P < .005 against both baseline and the other gesture). It is also the subject of the 2018 re-analysis of Oostenbroek's data (title seen only), so it is the probe to use if mimicry is ever tested.

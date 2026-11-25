@@ -1,0 +1,80 @@
+{
+ "derived": {
+  "spearman_rho": 0.8554045894786688,
+  "p_two_sided": 9.387130835636727e-30,
+  "means": [
+   0.1702310965015265,
+   0.28811178425143413,
+   0.30428292058936285,
+   0.34010650389037456,
+   0.34427543024190443
+  ]
+ },
+ "random": {
+  "spearman_rho": -0.028170540604251695,
+  "p_two_sided": 0.7808443375760243,
+  "means": [
+   0.3127397900006398,
+   0.3298829926655931,
+   0.3152153037704926,
+   0.328191948623747,
+   0.3081368936447797
+  ]
+ },
+ "past_satiety_seg95": 0.18023538106202666,
+ "past_satiety_score": 0.17034908145093905,
+ "s1a_intact": [
+  {
+   "score": 0.343284322948783,
+   "beats_seg": true,
+   "beats_sld": true
+  },
+  {
+   "score": 0.3077427750476555,
+   "beats_seg": true,
+   "beats_sld": true
+  },
+  {
+   "score": 0.3144961642880328,
+   "beats_seg": true,
+   "beats_sld": true
+  },
+  {
+   "score": 0.290696212705242,
+   "beats_seg": true,
+   "beats_sld": true
+  },
+  {
+   "score": 0.3483907686331585,
+   "beats_seg": true,
+   "beats_sld": true
+  }
+ ],
+ "s1c_lesion": [
+  {
+   "score": 0.18878079219015786,
+   "beats_seg": true,
+   "beats_sld": false
+  },
+  {
+   "score": 0.1642228845563166,
+   "beats_seg": false,
+   "beats_sld": false
+  },
+  {
+   "score": 0.16266008169680188,
+   "beats_seg": false,
+   "beats_sld": false
+  },
+  {
+   "score": 0.1602737529921553,
+   "beats_seg": false,
+   "beats_sld": false
+  },
+  {
+   "score": 0.14425511303608773,
+   "beats_seg": false,
+   "beats_sld": false
+  }
+ ]
+}

@@ -1,0 +1,14 @@
+{
+ "uniform": {
+  "median_nights": 9.0,
+  "n_never": 6,
+  "final_frac_within_0p1": 0.14,
+  "final_mean": 0.43608457447659127
+ },
+ "prioritized": {
+  "median_nights": 5.0,
+  "n_never": 0,
+  "final_frac_within_0p1": 0.22,
+  "final_mean": 0.4698062191494256
+ }
+}
