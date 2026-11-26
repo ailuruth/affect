@@ -444,7 +444,7 @@ To change: the operator reopens Q26.
 - **Author:** commits are authored by the operator (git author ailuruth).
 - **Co-author:** each commit carries exactly one trailer, `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>`.
 - **Nothing else:** no Claude-Session line and no "Generated with Claude Code" line, in commit messages or PR descriptions.
-- **History:** commits already on main are not rewritten.
+- **History:** on the operator's instruction (2026-11-26T16:18:05Z), all 114 earlier commits on main were rewritten to this rule (author and committer ailuruth; one Claude co-author trailer; Claude-Session and other trailers removed); file contents unchanged. Commit hashes cited in older notes no longer resolve.
 - **Numbering:** the Cayley-ledger build-candidate decision will be recorded as D87.
 
 To change: the operator asks for a different attribution.
