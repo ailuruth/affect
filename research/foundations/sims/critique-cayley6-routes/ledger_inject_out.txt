@@ -1,0 +1,6 @@
+   seed 0: injected before [2: 0.82, 10: 0.69, 60: 0.61]; ledger as specified [2: -9.00, 10: -9.00, 60: -9.00], clipped 0.479, |out|>|in| 0.346, min -7173571.16; rendered [2: -0.92, 10: -1.72, 60: -2.37]; attenuate-only [2: 0.37, 10: 0.34, 60: 0.33]  (c 0.35)
+      ledger output above the input by > 0.3 (a lip-pull flash the partner-caused part did not contain): 0.3011 of frames; frames rendered at the lip's top (1.0): 0.3011; at its floor (0): 0.0391
+   seed 1: injected before [2: 0.87, 10: 0.75, 60: 0.65]; ledger as specified [2: 0.36, 10: 0.46, 60: 0.34], clipped 0.464, |out|>|in| 0.059, min -848.14; rendered [2: 0.40, 10: 0.36, 60: 0.36]; attenuate-only [2: 0.36, 10: 0.33, 60: 0.32]  (c 0.35)
+      ledger output above the input by > 0.3 (a lip-pull flash the partner-caused part did not contain): 0.0001 of frames; frames rendered at the lip's top (1.0): 0.0000; at its floor (0): 0.0033
+   seed 2: injected before [2: 0.75, 10: 0.64, 60: 0.58]; ledger as specified [2: 0.38, 10: 0.35, 60: 0.35], clipped 0.472, |out|>|in| 0.016, min -14.29; rendered [2: 0.39, 10: 0.36, 60: 0.35]; attenuate-only [2: 0.37, 10: 0.35, 60: 0.34]  (c 0.35)
+      ledger output above the input by > 0.3 (a lip-pull flash the partner-caused part did not contain): 0.0003 of frames; frames rendered at the lip's top (1.0): 0.0001; at its floor (0): 0.0031

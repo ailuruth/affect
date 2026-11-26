@@ -1,0 +1,20 @@
+   4 h, seed 0: 1-min slope before 2.26, after 2.04 (c 0.35); clipped 0.067; |out|>|in| 0.067; sign flips 0.000; output where input 0 0.030; min output -1.335 (rest 0.09 below which the lip cannot go: 0.000 of frames); agent 1-min swing +0.041
+      rendered (clipped to the lip's range): 1-min slope 2.06; attenuate-only variant: 1-min slope 1.99, |out|>|in| 0.000
+   4 h, seed 1: 1-min slope before 2.26, after 2.01 (c 0.35); clipped 0.071; |out|>|in| 0.071; sign flips 0.000; output where input 0 0.041; min output -4.242 (rest 0.09 below which the lip cannot go: 0.003 of frames); agent 1-min swing +0.040
+      rendered (clipped to the lip's range): 1-min slope 2.08; attenuate-only variant: 1-min slope 2.01, |out|>|in| 0.000
+   4 h, seed 2: 1-min slope before 2.26, after 0.75 (c 0.35); clipped 0.408; |out|>|in| 0.407; sign flips 0.006; output where input 0 0.260; min output -5.372 (rest 0.09 below which the lip cannot go: 0.031 of frames); agent 1-min swing +0.015
+      rendered (clipped to the lip's range): 1-min slope 1.30; attenuate-only variant: 1-min slope 0.82, |out|>|in| 0.000
+   4 h, seed 3: 1-min slope before 2.26, after 0.65 (c 0.35); clipped 0.290; |out|>|in| 0.289; sign flips 0.009; output where input 0 0.169; min output -470.048 (rest 0.09 below which the lip cannot go: 0.035 of frames); agent 1-min swing +0.013
+      rendered (clipped to the lip's range): 1-min slope 1.58; attenuate-only variant: 1-min slope 0.81, |out|>|in| 0.000
+   4 h, seed 4: 1-min slope before 2.26, after 2.07 (c 0.35); clipped 0.048; |out|>|in| 0.048; sign flips 0.000; output where input 0 0.020; min output -5.341 (rest 0.09 below which the lip cannot go: 0.001 of frames); agent 1-min swing +0.041
+      rendered (clipped to the lip's range): 1-min slope 2.09; attenuate-only variant: 1-min slope 2.06, |out|>|in| 0.000
+   6 h, seed 0: 1-min slope before 2.26, after 1.55 (c 0.35); clipped 0.172; |out|>|in| 0.172; sign flips 0.001; output where input 0 0.077; min output -2.905 (rest 0.09 below which the lip cannot go: 0.005 of frames); agent 1-min swing +0.031
+      rendered (clipped to the lip's range): 1-min slope 1.67; attenuate-only variant: 1-min slope 1.48, |out|>|in| 0.000
+   6 h, seed 1: 1-min slope before 2.26, after 1.49 (c 0.35); clipped 0.221; |out|>|in| 0.221; sign flips 0.001; output where input 0 0.151; min output -4.242 (rest 0.09 below which the lip cannot go: 0.009 of frames); agent 1-min swing +0.030
+      rendered (clipped to the lip's range): 1-min slope 1.69; attenuate-only variant: 1-min slope 1.54, |out|>|in| 0.000
+   6 h, seed 2: 1-min slope before 2.26, after 0.66 (c 0.35); clipped 0.433; |out|>|in| 0.432; sign flips 0.006; output where input 0 0.281; min output -5.372 (rest 0.09 below which the lip cannot go: 0.032 of frames); agent 1-min swing +0.013
+      rendered (clipped to the lip's range): 1-min slope 1.23; attenuate-only variant: 1-min slope 0.72, |out|>|in| 0.000
+   6 h, seed 3: 1-min slope before 2.26, after 0.60 (c 0.35); clipped 0.348; |out|>|in| 0.346; sign flips 0.008; output where input 0 0.200; min output -470.048 (rest 0.09 below which the lip cannot go: 0.039 of frames); agent 1-min swing +0.012
+      rendered (clipped to the lip's range): 1-min slope 1.50; attenuate-only variant: 1-min slope 0.69, |out|>|in| 0.000
+   6 h, seed 4: 1-min slope before 2.26, after 1.54 (c 0.35); clipped 0.166; |out|>|in| 0.166; sign flips 0.001; output where input 0 0.082; min output -5.341 (rest 0.09 below which the lip cannot go: 0.006 of frames); agent 1-min swing +0.031
+      rendered (clipped to the lip's range): 1-min slope 1.66; attenuate-only variant: 1-min slope 1.49, |out|>|in| 0.000

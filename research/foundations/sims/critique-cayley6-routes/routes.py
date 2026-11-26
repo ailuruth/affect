@@ -1,7 +1,7 @@
 """Critique 6, route checks R1-R5 on the frozen fast gear, the onset lobe and the shadow ledger.
 Constructed partners; not evidence about people. Constants and the ledger are copied from ../design-g6/checks.py
 (the ledger verbatim, with an optional boxcar-window variant for the proposed fix).
-Run:  python3 -I routes.py     (numpy, scipy; about 10 minutes, the ledger is a per-step Python loop)
+Run:  python3 -I routes.py     (numpy, scipy; under a minute)
 """
 import numpy as np
 from scipy.signal import lfilter
@@ -37,7 +37,7 @@ def fast(u, G):
     xd = delay(u, d); return G * np.maximum(xd - lp(xd, 4.0), 0.0)
 
 
-def ledger(u, r, c, wins=(2.0, 10.0, 60.0), lags=(0.0, 0.5, 1.0, 2.0, 3.0), tauR=1800.0, tauC=1800.0, boxcar=()):
+def ledger(u, r, c, wins=(2.0, 10.0, 60.0), lags=(0.0, 0.5, 1.0, 2.0, 3.0), tauR=1800.0, tauC=1800.0, boxcar=(), atten_only=False):
     """verbatim from design-g6 J7, plus optional boxcar windows (seconds) at lag 0 (the fix tested in R5)"""
     T = len(u); out = np.zeros(T); dR = np.exp(-1 / (tauR * fs)); aC = 1 - np.exp(-1 / (tauC * fs))
     keys = [(Wd, l) for Wd in wins for l in (lags if Wd <= 2.0 else (0.0,))]
@@ -62,6 +62,7 @@ def ledger(u, r, c, wins=(2.0, 10.0, 60.0), lags=(0.0, 0.5, 1.0, 2.0, 3.0), tauR
             if pi > 1e-9: hi = min(hi, (b / pi - base) / a)
             elif pi < -1e-9: lo = max(lo, (b / pi - base) / a)
         x = r[t]; x2 = min(max(x, lo), hi) if lo <= hi else 0.0
+        if atten_only: x2 = min(max(x2, min(0.0, x)), max(0.0, x))   # fix F2: never write more than the partner-caused part
         hits += int(abs(x2 - x) > 1e-12); grow += int(abs(x2) > abs(x) + 1e-9); out[t] = x2
         for Wd in wins: rW[Wd] += aW[Wd] * (x2 - rW[Wd])
         rC += aC * (x2 - rC)

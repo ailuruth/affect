@@ -839,3 +839,40 @@ Checks: `sims/design-g6/checks.py` (J0–J16; out.txt, 13/13 pass). Revision 5 i
 **The own-body design's counterfactual self, considered and adopted as a whole-system check.** A shadow run with his expressive stream at his latched baseline and every declared route held at its factual value. It closes, for every within-session route, the class "an uncounted path from his face or voice to the agent's expression" (by a centred, windowed Γ projection at c_k) and the class "an F → T type leak" (by T equality every frame). It does not close routes through learned weights, words or turn times, or declared routes; those stay with the typed constraints. Its windows and lags are chosen so that it never binds on the counted fast reflex (J7: 0 frames clipped).
 
 **Status:** revision 6; to be critiqued. For the routes critic: R39 (the shape adversary), the posture as a route (R40), the calibration and face head as knowing-only (R41), the ledger (R42), and the frozen fast gear's onset lobe. For the agent critic: the posture in all scenarios, quiet and differently coded users from day 1, the play cue's precision, and the D84 build.
+
+## Critiques of revision 6 and the answer (recorded 2026-11-26T10:19:53Z, under Q19, D81–D85)
+
+**Routes** (critique-6-design-cayley-ledger-routes.md; sims/critique-cayley6-routes/). Two concrete failures, both in new safety machinery:
+1. **High: the shadow ledger is not attenuate-only.** When its running slope is over budget and his deviation crosses zero, its bound diverges, so it writes outputs of any size and either sign. On the design's own J7 recipe (one of three seeds), the lip renders at full smile on 30% of frames. R39's "0.78" is computed on unrenderable outputs; clipped to the lip's range it is 1.2–2.1. **Fix:** clamp the output to [0, partner-caused part] and skip the constraint when the deviation is near zero; with that, the injected route is held at 0.32–0.37 against 0.35.
+2. **Medium: a faithful mirror holds the concern posture on.** The posture is subtracted from his raw face, but he is read after rescaling (up to ×4), so a mirror holds it on whenever his spread over the agent's is ≤ 0.4. The design's own quiet user, or an ordinary user after six calm sessions, gets a held mutual copy (agent brow 0.24, his 0.22). **Fix:** remove the posture component in rescaled space, and add a 3-min release when only his face holds it.
+- **R39 (the declared weakest point) is an edge case, not a copy route:** absolute effect ≤ 0.045, and 0.015 for realistic partners. The fix is in the accounting: state it as a level bound and give the copy metric a conditioning floor.
+- **Accounting points for Q24:**
+  - the posture's inner-brow slope near its trigger is about 1.2, not 0.49;
+  - the posture exceeds the head-tilt ceiling and writes the upper lid, which has a zero ceiling;
+  - the arrival mask pools to 3–5 c on lip and cheek (appraisal under D83);
+  - the voice replacement leaves pause and latency uncovered.
+- **No concrete failure found** in: per-channel totals at 2 s to across sessions (all ≤ 0.62 c), per-person rescaling, the word-taught face head, the frozen word reader.
+
+**Agent and fitness** (critique-6-design-cayley-ledger-agent.md; sims/critique-cayley6-agent/). **Not yet fit, narrowly.** All of critique 5's required changes are closed. Three concrete failures remain:
+1. **The fixed fast laugh echo is context-blind:** it echoes a grieving person's nervous laugh (+0.14 burst) while the concern posture is on, and does the same with mocking laughter and laughter at misfortune (against D83 and Mauersberger 2022).
+2. **The posture's 60-s lockout blanks a second wave of crying** (about 53 s near neutral).
+3. **Principle 4 leak:** the winning draft's "attend to" line stays in Claude's history.
+- **Build items:**
+  - the 120-token cap versus thinking tokens;
+  - initial per-person baselines;
+  - a speaker split and fallback for the population reader (Seamless use now covered by D85).
+- **Operator choices:** Q24, including the binary posture looking the same for mild sadness and sobbing.
+- **Novelty:** recombination.
+
+**The answer (maintainer).** All findings are accepted. Revision 7 will:
+- make the shadow ledger attenuate-only with a deviation floor;
+- remove the posture component in rescaled space and give the posture a face-only release;
+- restate R39 as a level bound;
+- fix the posture's tilt and lid writes;
+- cover pause and latency in the voice replacement;
+- design the situational fixes (context-gated fast laugh echo; renewed crying) through the three D85 sources (Claude regulation; learning from recorded dyads; innate consolidation biases), with no hand-written rules;
+- remove the "attend to" record from Claude's history;
+- add the build items;
+- make the posture graded by the agent's own appraisal rather than binary, within its cap.
+
+Revision 6 saved as design-cayley-ledger.r6.md. **Status:** held.

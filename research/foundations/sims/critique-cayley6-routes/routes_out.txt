@@ -1,0 +1,24 @@
+=== R1: the author's shape adversary (aligned 1-min alternation, held 0.40 vs on/off bursts averaging 0.42), lip pull
+   R1 author's adversary: before 2 s 0.14, 10 s 0.47, 1 min 2.30, 10 min 2.32 | after ledger 0.14, 0.47, 2.30, 2.32 | frames clipped 0.000, |out|>|in| 0.0000  (c = 0.35)
+      absolute: agent 1-min LP mean, bursty minus held minutes: before +0.045, after +0.045
+=== R2: realistic mixtures of held smiling and laughing (random episodes), lip pull, fast gear only
+   a: held polite smile 0.30 vs neutral 0.12 + laughs (means ~equal), episodes ~2 min: his mean held 0.300, laughing 0.248; agent fast mean held 0.002, laughing 0.019
+   a:: before 2 s 0.12, 10 s 0.06, 1 min -0.10, 10 min -0.20 | after ledger 0.12, 0.06, -0.10, -0.20 | frames clipped 0.000, |out|>|in| 0.0000  (c = 0.35)
+   b: held 0.30 vs floor 0.20 + laughs (laughing minutes higher by ~0.05), ~2 min: his mean held 0.300, laughing 0.314; agent fast mean held 0.002, laughing 0.017
+   b:: before 2 s 0.15, 10 s 0.15, 1 min 0.22, 10 min 0.46 | after ledger 0.15, 0.15, 0.22, 0.46 | frames clipped 0.000, |out|>|in| 0.0000  (c = 0.35)
+   c: as a, episodes ~10 min: his mean held 0.300, laughing 0.239; agent fast mean held 0.002, laughing 0.018
+   c:: before 2 s 0.11, 10 s 0.02, 1 min -0.16, 10 min -0.25 | after ledger 0.11, 0.02, -0.16, -0.25 | frames clipped 0.000, |out|>|in| 0.0000  (c = 0.35)
+=== R2d: every LP route at its cap on mixture a (fast + cone at omega 1 + appraisal at cap, sign-gated), with the ledger
+   d (appraisal gate +1): before 2 s 0.12, 10 s 0.07, 1 min -0.07, 10 min -0.15 | after ledger 0.12, 0.07, -0.07, -0.15 | frames clipped 0.000, |out|>|in| 0.0000  (c = 0.35)
+   d (appraisal gate sign): before 2 s 0.12, 10 s 0.06, 1 min -0.09, 10 min -0.17 | after ledger 0.12, 0.06, -0.09, -0.17 | frames clipped 0.000, |out|>|in| 0.0000  (c = 0.35)
+=== R3: across sessions (ledger centres at 30-min means, so session-level DC is outside it): session-mean slope
+   held-smile sessions vs laughing sessions at nearly equal means (his session means 0.209-0.325): session-mean slope of the agent's fast LP -0.24 (-0.7 c); agent session-mean difference +0.014
+   natural: sessions differ only in laugh rate (1-12/min, floor 0.25): session-mean slope +0.13 (0.37 c)
+=== R4: per-channel fast totals at 10-min windows and across sessions on the author's J3 families (fast + cone + appraisal)
+   LP: block slope 10 min 0.228 c, 1 h 0.244 c
+   BU_L: block slope 10 min 0.578 c, 1 h 0.623 c
+   CR: block slope 10 min 0.211 c, 1 h 0.238 c
+=== R5: proposed fix: add boxcar 60-s and 600-s windows to the ledger (block means at every alignment); author's adversary and mixture a
+   R1 adversary with boxcar 60 s: 1-min block slope 2.30 (exp-window ledger 2.30); frames clipped 0.000
+   mixture a with boxcar 60 s: 1-min -0.10, 2 s 0.12; frames clipped 0.000
+   natural laughing partner with the fix: frames clipped 0.0000; echo rms kept 1.000

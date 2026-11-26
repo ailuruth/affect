@@ -2,6 +2,41 @@
 
 Decisions that are yours (visual identity, data leaving this Mac, new paid services, changes to existing Ailurini behavior). Work that these block is not built; work they do not block continues.
 
+## Report 6: one design refined six times, a second design, and what is left (no answer needed, 2026-11-26T10:19:53Z)
+
+**Where things stand.** Two designs are alive.
+
+**The main design.** Its central idea: the agent may know your face fully, but every path from what it knows to its own face and voice is limited per expression. Smile and laughter can come back quickly, up to a built-in ceiling, but it can never copy your whole face or get stuck copying you. Over six revisions the critics found leaks and each revision closed them:
+- your conversation rhythm leaking in;
+- slow drift over weeks;
+- face and voice moving together;
+- copying creeping in through learning.
+
+In the latest checks no channel goes above about 0.6 of its ceiling at any time scale, from 2 seconds to across sessions.
+
+Along the way it gained:
+- positive feelings that are satisfied, not endless;
+- care that learns from your words and choices, never from rewarding your face;
+- speaking first when you are silently sad;
+- Claude calming it by naming what it feels;
+- reading quiet people by their own range of expression;
+- no smiling at grief;
+- a concern look within 2–4 seconds of seeing distress;
+- all of it working through your subscription.
+
+**The second design.** It runs the agent a second time with your face set to neutral, so everything that differs is "what came from you". That idea, a known security technique applied to a self-model, is now folded into the main design as a whole-system check. The second design itself was too hollow to build: nothing in it turned its state into expression.
+
+**What the last critiques found** (all narrow, none in the core limit):
+- the new whole-system check can misbehave when it is actively limiting;
+- a mirroring partner can hold the concern look on;
+- the fast laugh echo is blind to context, so it laughs back at a grieving person's nervous laugh;
+- the concern look cannot return for a minute if crying starts again;
+- one line leaks the agent's focus into Claude's history.
+
+**Next.** A seventh revision closes these. Following your note, the situational ones are handled through Claude's judgement, learning from recorded conversations, and stronger learning from distressing moments, not hand-written rules. If its critics then find no concrete failure, it comes to you as a build candidate: a combination of existing mechanisms, stated plainly.
+
+**Your open question:** Q24 (the concern look before words). The critic adds that the look is currently on or off; the next revision will grade it by the agent's own judgement.
+
 ## Report 5: one design revised twice, and a question about novelty (Q21 below; 2026-11-26T06:31:55Z)
 
 **The design.** The seventh design puts one built-in limit, the same whichever way the agent learns, on every path from the agent's inner state to its own face and voice. Two revisions followed.
