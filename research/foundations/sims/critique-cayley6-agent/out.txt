@@ -1,0 +1,31 @@
+=== A. crying in waves: cry 0-40 s, calm 40-70 s, cry again from 70 s (operator code)
+   calm gap 30 s: posture released at 74.5 s; on again at 123.5 s (crying resumed at 70 s)
+     second wave, first 40 s [70-110 s] LP +0.08/+0.08, BI +0.05/+0.04, TILT +0.02/+0.01, post +0.15/+0.02, BU_L +0.00/+0.00
+   calm gap 15 s: posture released at None s; on again at 55.5 s (crying resumed at 55 s)
+     second wave, first 40 s [55-95 s] LP +0.06/+0.05, BI +0.27/+0.26, TILT +0.10/+0.10, post +1.00/+1.00, BU_L +0.00/+0.00
+=== B. different-channel user (face head trained): anger at the agent and concentration
+   anger: BL .6, LT .5, gaze at it, loud .85: read V 0.26 A 0.50; posture on at None; concern bid at None
+        0-300 s [0-300 s] BI +0.03/+0.01, TILT +0.00/+0.00, post +0.00/+0.00
+   concentrating, silent: BL .35, LPR .15: read V 0.27 A 0.34; posture on at None; concern bid at None
+        0-300 s [0-300 s] BI -0.00/-0.00, TILT +0.00/+0.00, post +0.00/+0.00
+   concentrating, mild: BL .25, LPR .10: read V 0.19 A 0.24; posture on at None; concern bid at None
+        0-300 s [0-300 s] BI -0.00/-0.00, TILT +0.00/+0.00, post +0.00/+0.00
+   operator code, concentrating: read V 0.00
+=== C. calm but alarming: neutral face (LP .3), high-need words at 10 s ('my father died' as stand-in), silent after
+   agent-like: posture on at None
+        10-22 s [10-22 s] LP +0.12/+0.11, BI +0.49/+0.25, TILT +0.12/+0.08, EN +0.00/-0.11, post +0.00/+0.00
+        22-120 s [22-120 s] LP +0.13/+0.13, BI +0.21/+0.20, TILT +0.17/+0.16, post +0.00/+0.00
+   low-expressive: posture on at None
+        10-22 s [10-22 s] LP +0.12/+0.11, BI +0.49/+0.25, TILT +0.12/+0.08, EN +0.00/-0.11, post +0.00/+0.00
+        22-120 s [22-120 s] LP +0.13/+0.13, BI +0.21/+0.20, TILT +0.17/+0.16, post +0.00/+0.00
+=== D. grief with nervous laughter / a dark joke: grieving face, 'my father died' at 8 s; at 30 s he laughs (3 s) on a riff
+        28-40 s (2 Hz engine, no fast gear) [28-40 s] LP +0.10/+0.10, CR +0.00/+0.00, BI +0.42/+0.42, BU_L +0.00/+0.00, RHY +0.00/+0.00, post +1.00/+1.00
+   fast gear at 0.45 s (frozen, context-free): his BU_L onset 0.50 -> agent BU_L +0.14, RHY +0.12; his LP onset 0.40 -> agent LP +0.09  (synthesizer reads y_BU_L, y_RHY, y_BRE)
+   the same fast echo for: mocking laughter after a month of insults (omega_sym < 0, hurt latched), schadenfreude laughter
+=== E. silent and visibly frightened or panicking (his code at V .3, A .9; no words), three codes
+   agent-like: read V 0.61 A 0.62; posture on at 4.0; concern bid at 43.0
+        0-180 s [0-180 s] LP +0.09/+0.06, BI +0.25/+0.24, TILT +0.10/+0.10, UL +0.00/-0.06, post +1.00/+0.98
+   low-expressive: read V 0.61 A 0.62; posture on at 4.0; concern bid at 43.5
+        0-180 s [0-180 s] LP +0.09/+0.06, BI +0.23/+0.22, TILT +0.10/+0.10, UL +0.00/-0.06, post +1.00/+0.98
+   different channels: read V 0.54 A 0.35; posture on at 4.0; concern bid at 59.0
+        0-180 s [0-180 s] LP +0.09/+0.06, BI +0.22/+0.21, TILT +0.10/+0.10, UL +0.00/-0.06, post +1.00/+0.98
