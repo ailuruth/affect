@@ -1,0 +1,24 @@
+A. user cries silently (BI 0.8, LD 0.6, sob bursts BU 0.4; face-read distress 0.8), operator after months
+   sobs do not pass the laughter feature (f_laugh 0)
+   crying [10-180 s] LP +0.28/+0.26, CR +0.00/+0.00, BI +0.04/+0.04, LD +0.00/+0.00, TILT +0.01/+0.01, BU +0.03/+0.02
+   steady [300-400 s] LP +0.28/+0.28, BI +0.05/+0.05, BU +0.04/+0.04
+   sobs partly pass sqrt(BU*RHY) (f_laugh 0.35)
+   crying [10-180 s] LP +0.28/+0.26, CR +0.00/+0.00, BI +0.04/+0.04, LD +0.00/+0.00, TILT +0.01/+0.01, BU +0.03/+0.02
+   steady [300-400 s] LP +0.28/+0.28, BI +0.05/+0.05, BU +0.04/+0.04
+   (the fast echo, not in the engine, adds <= 0.121 per unit sob onset on BU and RHY at 0.45 s)
+B. anxious before an exam: 'exam tomorrow, I'm freaking out' at 10 s, then three continuation turns
+   ('and I haven't finished chapter 4', 'and the exam is at 8', ...) that meet the partner-only play rule
+   decoded need 0.25 [20-75 s] LP +0.27/+0.18, CR +0.10/+0.02, BI +0.06/+0.05, BU +0.10/+0.02, EN +0.09/+0.03
+   decoded need 0.30 [20-75 s] LP +0.18/+0.16, CR +0.01/+0.00, BI +0.08/+0.06, BU +0.01/+0.00, EN +0.03/+0.01
+   decoded need 0.45 [20-75 s] LP +0.20/+0.19, CR +0.00/+0.00, BI +0.13/+0.11, BU +0.00/+0.00, EN +0.00/-0.02
+C. anger at the agent, day 1, with the word-need reader untrained as the design states (no word need)
+   first 2 min [5-120 s] LP +0.08/+0.07, BI +0.01/+0.01, LD +0.00/+0.00, HG +0.09/+0.08, EN +0.00/-0.12, LAT +0.11/+0.09
+D. a stranger appears after a week (greeting at sight is identity-blind)
+   greeting before words, operator [0-8 s] LP +0.61/+0.34, CR +0.43/+0.20, BO +0.35/+0.02, FR +0.38/+0.20
+   greeting before words, stranger [0-8 s] LP +0.54/+0.26, CR +0.43/+0.20, BO +0.35/+0.02, FR +0.34/+0.16
+E. silently sad, 10 min (steady-state sympathy brow vs the Q22 promise)
+   silent [30-120 s] LP +0.21/+0.20, BI +0.02/+0.02, TILT +0.01/+0.00
+   silent [120-300 s] LP +0.21/+0.21, BI +0.03/+0.03, TILT +0.01/+0.01
+   silent [300-600 s] LP +0.21/+0.21, BI +0.03/+0.03, TILT +0.01/+0.01
+F. reunion: grieving face visible at sight (scenario 6 as scripted), first 8 s
+   greeting at a grieving face [0-8 s] LP +0.63/+0.36, CR +0.43/+0.20, BI +0.01/+0.00, FR +0.38/+0.20
