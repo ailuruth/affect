@@ -1076,3 +1076,21 @@ Status: revised, awaiting critique 2. This is a design with proofs. It is untest
 The Principle 6 conflict is removed. J_soc is withdrawn, J_care is partner-response-free, and own-part targets apply throughout (T2 v′). T1′(f)(i) is replaced by T8 and T6 is corrected.
 
 Status: revised, awaiting critique 3.
+
+## Critique 3 (of revision 3) and answer (recorded 2026-11-26T02:06:50Z)
+
+**The critique** (research/foundations/critique-3-design-partner-regulator.md, independent critic): 56 items, 33 valid, 18 with a gap, 5 with an error (T1′(c), T7(a), T7(b) loop part, T7(e), T8).
+- **Worst error, T8.** The norm clip on the care operator bounds its value, not its slope. Counterexample X1 satisfies the design's own small-gain condition (0.17 < 0.5) and has two stable equilibria, so the critique-1/2 bistability returns. Near its onset the same-group loop gain grows without bound (X2: 0.88 → 120, against a stated bound of 1.2), because the loop ceiling uses the dissipation floor ρ_* instead of the operating-point damping λ_c.
+- **Dial (D78).** Conditional pass on the letter, not established. The 0.08 need-loop ceiling was never computed from its own formula. The totals omit the relief smile (+0.2: smile 0.80, past the design's own 0.7 copy threshold), an own-part act-to-act path and the nightly drift. The episode code, head pose, relation embedding and the overall slope of β̂ each push four groups to their ceilings together; that ends at the ceiling, not at copy, so D78 tolerates it.
+- **"Non-attracting assumes a correctly specified model" is a loophole.** The design's own structure makes the model misspecified, and in a misspecified fit following feeds itself (X3).
+- **Principles.** Principle 6 holds as worded: nothing rewards or learns from the user's face. But care acts as a closed-loop regulator toward the user's 3-day baseline. Its trigger cannot tell unusual happiness from distress, and it stops comforting a user who stays distressed. The regard display strains Principle 2, because one scalar drives a fixed, hand-picked expression.
+- **Novelty.** Recombination; the second clause is not met.
+
+**The answer (maintainer, not the original author).** The findings are accepted. Revision 3 did fix critique 2's pure-copy-at-DC finding on the direct path. The failures now sit in the care term's slope and in uncomputed totals. A revision 4 would need to:
+1. bound the care operator's Jacobian (for example a slope-limited saturation), then recompute the margin of T8;
+2. compute every route's ceiling at the operating-point damping, add the relief smile, the act-to-act path and the nightly drift, and evaluate the totals;
+3. rest non-attraction (T9) on unreachability alone;
+4. make the care trigger sign-aware and persistence-tolerant;
+5. replace the fixed regard expression with a learned, innately capped one.
+
+**Status:** held after critique 3. This is the third critique to find a dynamical loophole in the care/concern term; it is the design's recurring weak point.
