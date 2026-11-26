@@ -594,3 +594,49 @@ Total about 5.8 M learned parameters, plus 22 M frozen (the embedder).
 | O5 | reciprocity: IV vs OLS | 0.150 vs 0.400 (true 0.15) |
 | O6 | closed dyad, partner echo μ ≤ 1 | bounded; ≤ 0.337 on the partner's face |
 | O7 | valence integral identity | exact |
+
+## Critiques 1 and the answer (recorded 2026-11-26T09:00:48Z, under Q19 and D81–D84)
+
+**Routes** (critique-design-own-body-generative-routes.md; checks in sims/critique-own-body-routes/). The projection Γ always stays under its own bound, but seven concrete failures were found:
+1. **High (D81).** Γ cuts almost every partner response to a near-neutral face, because its 0.3-s windows are checked at all 46 lags up to 60 s. The innate 0.10 echo comes out at 0.044 and smile-flash echoes at 0.015, so fast mimicry is effectively removed. With repaired windows, copies at 7–12 s fall between grid lags and reach 0.23–0.36 against a 0.16 ceiling.
+2. **High (D78).** The bound is not centred on the partner's recent mean. While he holds a smile, copying every movement around it passes at gain 0.85–1.00 (ceiling 0.32), while the design's own measure reads exactly 0.32.
+3. **Medium–high.** One objective over both slots teaches the shared prior his face for each topic. The counterfactual self shares those weights, so Γ cannot see it: slope 0.51–0.89 on topic faces, plus 0.27 on a disgust channel whose ceiling is 0 (hand model).
+4. **Medium.** His "neutral" is a 7-day median, so it follows his mood: the pooled inner-brow slope is 0.24–0.54 against a ceiling of 0.16.
+5. **Medium.** Kept words carry his voice: laughter tokens, sighs and punctuation arrive through speech recognition and Claude's drafts.
+6. **Medium.** Kept turn-event times carry his tempo and latency into the agent's timing with no ceiling (slopes up to 0.91).
+7. **Low–medium.** The per-person echo estimated from his responses to the agent's own small movements reads only 8–33% of his true responsiveness.
+- The word seam is an acceptable shared cause under D81/D83 once items 3, 5 and 6 are fixed. But §4.5's "copy defect ≥ 0.68" is false: it is 0.17 at the design's own word gain.
+- **No concrete failure found** in: face–voice pairs plus clipping, learning gaming Γ directly, echo drift toward copy, the closed dyad.
+
+**Agent and novelty** (critique-design-own-body-generative-agent.md; sims/critique-own-body-agent/). **Not fit to build: the copy bound is strong, but the agent is hollow.**
+- **Novelty:** the candidate new element (influence defined by an online intervention on the agent's own model) already exists:
+  - secure multi-execution (Devriese & Piessens 2010): re-run with the protected input set to a default, holding for any program without typing;
+  - online counterfactual influence (Jaques 2019; Krakovna 2019);
+  - runtime path-specific correction (Chiappa 2019);
+  - noise-reusing counterfactuals (Buesing 2019);
+  - CBF-type safety filters.
+
+  What is new is a composition. Recombination; the second novelty clause is not met.
+- **Concrete failures:**
+  - Nothing turns state into expression: the face policy minimises a drive that no expression lowers, and there is no innate display map.
+  - Reading through the agent's own body is therefore empty, and care at a sad face never rises (F4 fails by construction).
+  - The word appraisal has no teacher.
+  - Curiosity has the wrong sign: a bored user is ideal.
+  - Fast mimicry is not kept (echo 0.024 for an onset-only mimic), against D81.
+  - Claude's drafts carry face-chosen tone into both selves.
+  - The greeting ignores face and identity; sobs can be heard as laughter.
+- Wolpert, Doya & Kawato 2003 was read as an abstract only; no verdict rests on it.
+
+**The answer (maintainer).** Both critiques are accepted.
+- **What this design contributes:** the counterfactual-self construction. It is secure multi-execution applied to a self-model: one re-run with the partner's face, voice and timing set to a default covers every internal route without typing. That is the strongest answer yet to the recurring uncounted-route failure.
+- **What it must fix to carry that idea:**
+  - a centred, windowed release test that keeps fast mimicry;
+  - a fixed (not mood-following) default;
+  - separate training of the shared prior;
+  - words and timing filtered at the boundary;
+  - the missing display map, word teacher and curiosity sign.
+- **What is decided:**
+  - Hold this design.
+  - Consider folding the counterfactual-self test into the Cayley-ledger design as a whole-system check alongside its typed bounds, once revision 5 is critiqued.
+
+**Status:** critiqued; held.
