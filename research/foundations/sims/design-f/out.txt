@@ -1,0 +1,21 @@
+[PASS] F1 product-set lemma: mismatches 0/2000
+[PASS] F2 joint budget: g_max = c/sqrt(K) attained, never exceeded (K=1,4,12,32)
+[PASS] F3 router: max mass 0.024 <= 0.6; caps ok True; pointwise ok True; incremental ok True
+[PASS] F3c mass under saturation: all 128 slots at max logit: sum|omega| = 0.300 <= tau; per-channel uniform gain 0.0094 = tau/32 ~ 0.0187
+[PASS] F3b softmax Lipschitz: max eig 0.4996 <= 1/2
+[PASS] F4a twisted, symmetric: max|corr| 0.0029, A 0.0275, sampling 4/sqrt(T) 0.0089
+[PASS] F4b twisted, skewed: max|corr| 0.1547 <= A 0.8910
+[PASS] F5 ratchet lemma: held level switches iff k*S > F_max=0.201: True; sawtooth (|phi|<=0.35D) ratchets 3 wells in 3 cycles; bucket fired 10 <= 11
+[PASS] F6 learning loop: linear rule: unique stable fixed point w*s*/(1-(1-a)g_p w) in all 12 cases; correlation rule: fixed points [np.float64(-0.35), np.float64(0.35)] (bistable, why it is not used)
+[PASS] F7 defect floor: C=0.1,sd=0.1: worst defect 0.686 >= 0.707 - 0.095; C=0.1,sd=0.15: worst defect 0.815 >= 0.832 - 0.095; C=0.35,sd=0.1: worst defect 0.265 >= 0.275 - 0.095; C=0.35,sd=0.15: worst defect 0.378 >= 0.394 - 0.095; C=0.6,sd=0.1: worst defect 0.160 >= 0.164 - 0.095; C=0.6,sd=0.15: worst defect 0.235 >= 0.243 - 0.095
+[PASS] F8 landscape persistence: max distance of equilibrium from its centre 0.0500 < r=0.1 (tilt 0.05)
+[PASS] F9 slew bound: RMS above corner 0.0902 <= V/w_c 0.2000
+     slow-route rate Sigma = 6.81e-04 /s
+     channel           T=4s   T=10s  T=30s  T=60s   (W_k + c_k + O_k + 2*Sigma*T), partner RMS a=1
+     smile/brow mid    0.535  0.544  0.571  0.612
+     smile/brow slow   0.485  0.494  0.521  0.562
+     other mid/slow    0.435  0.444  0.471  0.512
+[PASS] F10 totals: max single-channel 0.612; 4-channel subspace 0.319; whole Schur face 0.139; observable defect floors (sd=0.15, a=1): single 0.24, 4-ch 0.43, whole 0.73; at a=2: single 0.12, whole 0.48; loop gain Gamma_A 0.465
+[PASS] F11 attention-chasing worst case: varpi_4=0.859, varpi_32=0.236; worst whole Schur face 0.262 (floor 0.50); worst 4-channel 0.469 (floor 0.30)
+
+14/14 checks pass
