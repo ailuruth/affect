@@ -1,0 +1,21 @@
+=== R1s: per-channel slope (in c_k) of the fast gear alone and of the totals; ungated / revision-7 timing (previous sentence) / revision-8 timing (current sentence)
+-- 30 % of his sentences are troubles; a laugh after one is 1.0 x an ordinary laugh
+   LP   2 s: fast 0.30/0.21/0.21, totals 0.34/0.26/0.25 | 10 s: fast 0.16/0.11/0.12, totals 0.25/0.21/0.21 | 1 min: fast 0.04/0.03/0.04, totals 0.19/0.18/0.19
+   CR   2 s: fast 0.34/0.24/0.24, totals 0.35/0.25/0.25 | 10 s: fast 0.26/0.19/0.19, totals 0.29/0.22/0.22 | 1 min: fast 0.12/0.10/0.11, totals 0.21/0.18/0.19
+   BU_L 2 s: fast 0.48/0.35/0.34, totals 0.49/0.35/0.34 | 10 s: fast 0.43/0.32/0.31, totals 0.45/0.34/0.32 | 1 min: fast 0.38/0.32/0.31, totals 0.43/0.37/0.36
+   W' check BU_L: max over 2-s blocks of mean(y_fast) - G mean(u delayed) = +0.0000 (<= 0 holds)
+-- 30 % of his sentences are troubles; a laugh after one is 0.5 x an ordinary laugh
+   LP   2 s: fast 0.25/0.17/0.24, totals 0.31/0.23/0.30 | 10 s: fast 0.10/0.07/0.11, totals 0.22/0.19/0.23 | 1 min: fast 0.02/0.01/0.03, totals 0.17/0.17/0.18
+   CR   2 s: fast 0.33/0.23/0.31, totals 0.34/0.24/0.32 | 10 s: fast 0.22/0.16/0.23, totals 0.26/0.20/0.26 | 1 min: fast 0.08/0.06/0.09, totals 0.16/0.13/0.16
+   BU_L 2 s: fast 0.49/0.34/0.46, totals 0.49/0.34/0.46 | 10 s: fast 0.44/0.32/0.44, totals 0.46/0.34/0.46 | 1 min: fast 0.40/0.32/0.43, totals 0.45/0.37/0.47
+   W' check BU_L: max over 2-s blocks of mean(y_fast) - G mean(u delayed) = +0.0000 (<= 0 holds)
+-- 50 % of his sentences are troubles; a laugh after one is 0.5 x an ordinary laugh
+   LP   2 s: fast 0.24/0.12/0.21, totals 0.31/0.19/0.27 | 10 s: fast 0.10/0.06/0.10, totals 0.22/0.17/0.21 | 1 min: fast 0.02/0.01/0.02, totals 0.17/0.17/0.17
+   CR   2 s: fast 0.33/0.17/0.28, totals 0.34/0.18/0.29 | 10 s: fast 0.22/0.12/0.21, totals 0.26/0.16/0.25 | 1 min: fast 0.07/0.05/0.07, totals 0.16/0.13/0.16
+   BU_L 2 s: fast 0.49/0.25/0.42, totals 0.50/0.26/0.43 | 10 s: fast 0.46/0.25/0.43, totals 0.47/0.26/0.45 | 1 min: fast 0.41/0.27/0.44, totals 0.46/0.32/0.49
+   W' check BU_L: max over 2-s blocks of mean(y_fast) - G mean(u delayed) = +0.0000 (<= 0 holds)
+-- 30 % of his sentences are troubles; a laugh after one is 0.3 x an ordinary laugh
+   LP   2 s: fast 0.26/0.18/0.26, totals 0.32/0.24/0.31 | 10 s: fast 0.12/0.09/0.12, totals 0.23/0.20/0.23 | 1 min: fast 0.02/0.03/0.03, totals 0.17/0.17/0.17
+   CR   2 s: fast 0.34/0.24/0.33, totals 0.35/0.24/0.34 | 10 s: fast 0.24/0.18/0.25, totals 0.28/0.21/0.28 | 1 min: fast 0.09/0.08/0.10, totals 0.16/0.15/0.16
+   BU_L 2 s: fast 0.50/0.35/0.49, totals 0.51/0.35/0.50 | 10 s: fast 0.46/0.33/0.48, totals 0.48/0.35/0.49 | 1 min: fast 0.42/0.37/0.46, totals 0.47/0.42/0.51
+   W' check BU_L: max over 2-s blocks of mean(y_fast) - G mean(u delayed) = +0.0000 (<= 0 holds)
