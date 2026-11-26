@@ -385,3 +385,14 @@ To change: the operator reinstates Q11/Q15's measuring track.
 - a copy set that attracts under the design's own learning.
 
 To change: the operator reopens Q18.
+
+## D79. Commits co-author the operator (operator request; recorded 2026-11-26T03:25:35Z)
+
+Every commit made by the research cycle ends with these trailers:
+
+    Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+    Co-Authored-By: ailuruth <65430552+ailuruth@users.noreply.github.com>
+
+The operator's name and address are taken from his own earlier commit in this repository.
+
+To change: the operator asks for a different name or address, or for the trailer to be dropped.
