@@ -1,0 +1,12 @@
+keys 61: 2-s window lags 0-3 s; 10-s window 0-120 s; 60-s window 0-300 s
+N3b uncounted gain-1 copy delayed by L (worst slope over lags 0-300 s)
+   mood blocks 5 min L  90 s | W 2s +0.42@  90s W10s +0.39@  90s W60s +0.38@  91s | frames changed 0.70, grow 0.000, flip 0.000
+   mood blocks 5 min L 150 s | W 2s +0.46@ 150s W10s +0.44@ 150s W60s +0.41@ 149s | frames changed 0.55, grow 0.000, flip 0.000
+   mood blocks 5 min L 240 s | W 2s +0.47@ 240s W10s +0.44@ 240s W60s +0.41@ 241s | frames changed 0.57, grow 0.000, flip 0.000
+   mood blocks 30 s  L  90 s | W 2s +0.41@  90s W10s +0.38@  90s W60s +0.36@  80s | frames changed 0.60, grow 0.000, flip 0.000
+   mood blocks 30 s  L 150 s | W 2s +0.42@ 150s W10s +0.42@ 150s W60s +0.46@ 140s | frames changed 0.57, grow 0.000, flip 0.000
+   mood blocks 30 s  L 240 s | W 2s +0.43@ 240s W10s +0.42@ 240s W60s +0.44@ 242s | frames changed 0.54, grow 0.000, flip 0.000
+N2b counted routes (frames changed)
+   mood blocks 5 min fast gear + held 2-min route: frames changed 0.000 | after W 2s +0.10@   0s W10s +0.08@   0s W60s +0.08@  32s
+   mood blocks 30 s  fast gear + held 2-min route: frames changed 0.000 | after W 2s +0.08@   0s W10s +0.06@   0s W60s +0.05@  26s
+done in 135 s

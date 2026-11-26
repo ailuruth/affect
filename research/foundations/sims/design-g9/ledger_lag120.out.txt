@@ -1,0 +1,27 @@
+partners as the side item (seed 910): 2 h at 10 Hz; ceiling c = 0.35 (lip pull); ledger9 keys 43
+N1  uncounted gain-1 copy delayed by L; worst block-mean slope over lags 0-120 s (0-180 s for L 120) at W 2/10/60 s
+   mood blocks 5 min L   0 s | ledger7: W 2s +0.36@   0s W10s +0.37@   0s W60s +0.37@   0s | ledger9: W 2s +0.36@   0s W10s +0.37@   0s W60s +0.37@   0s | ledger9 grow 0.000 flip 0.000
+   mood blocks 5 min L  10 s | ledger7: W 2s +0.46@  10s W10s +0.45@  10s W60s +0.40@   8s | ledger9: W 2s +0.42@  10s W10s +0.39@  10s W60s +0.38@  11s | ledger9 grow 0.000 flip 0.000
+   mood blocks 5 min L  20 s | ledger7: W 2s +0.50@  20s W10s +0.47@  20s W60s +0.42@  20s | ledger9: W 2s +0.41@  20s W10s +0.39@  20s W60s +0.38@  20s | ledger9 grow 0.000 flip 0.000
+   mood blocks 5 min L  40 s | ledger7: W 2s +0.52@  40s W10s +0.49@  40s W60s +0.43@  38s | ledger9: W 2s +0.42@  40s W10s +0.39@  40s W60s +0.38@  39s | ledger9 grow 0.000 flip 0.000
+   mood blocks 5 min L  90 s | ledger7: W 2s +0.58@  90s W10s +0.54@  90s W60s +0.48@  88s | ledger9: W 2s +0.42@  90s W10s +0.39@  90s W60s +0.38@  91s | ledger9 grow 0.000 flip 0.000
+   mood blocks 5 min L 120 s | ledger7: W 2s +0.60@ 120s W10s +0.56@ 120s W60s +0.50@ 119s | ledger9: W 2s +0.41@ 120s W10s +0.39@ 120s W60s +0.38@ 120s | ledger9 grow 0.000 flip 0.000
+   mood blocks 30 s  L   0 s | ledger7: W 2s +0.36@   0s W10s +0.35@   0s W60s +0.34@   3s | ledger9: W 2s +0.36@   0s W10s +0.35@   0s W60s +0.34@   3s | ledger9 grow 0.000 flip 0.000
+   mood blocks 30 s  L  10 s | ledger7: W 2s +0.51@  10s W10s +0.48@  10s W60s +0.40@   8s | ledger9: W 2s +0.41@  10s W10s +0.38@  10s W60s +0.36@  10s | ledger9 grow 0.000 flip 0.000
+   mood blocks 30 s  L  20 s | ledger7: W 2s +0.48@  20s W10s +0.47@  20s W60s +0.47@  19s | ledger9: W 2s +0.40@  20s W10s +0.37@  19s W60s +0.36@  23s | ledger9 grow 0.000 flip 0.000
+   mood blocks 30 s  L  40 s | ledger7: W 2s +0.54@  40s W10s +0.56@  40s W60s +0.62@  41s | ledger9: W 2s +0.40@  40s W10s +0.38@  40s W60s +0.36@  31s | ledger9 grow 0.000 flip 0.000
+   mood blocks 30 s  L  90 s | ledger7: W 2s +0.96@  90s W10s +0.96@  90s W60s +0.96@  81s | ledger9: W 2s +0.41@  90s W10s +0.38@  90s W60s +0.36@  80s | ledger9 grow 0.000 flip 0.000
+   mood blocks 30 s  L 120 s | ledger7: W 2s +0.99@ 120s W10s +0.99@ 120s W60s +1.00@ 111s | ledger9: W 2s +0.40@ 120s W10s +0.38@ 120s W60s +0.36@ 111s | ledger9 grow 0.000 flip 0.000
+N2  counted routes on the natural partners, through ledger9 (frames changed; worst slope 0-120 s before -> after)
+   mood blocks 5 min fast gear 0.45 s         frames changed 0.000 | before W 2s +0.07@   0s W10s +0.04@   0s W60s +0.02@   0s | after W 2s +0.07@   0s W10s +0.04@   0s W60s +0.02@   0s
+   mood blocks 5 min held 2-min route 0.22 c  frames changed 0.000 | before W 2s +0.04@  67s W10s +0.05@  70s W60s +0.06@  91s | after W 2s +0.04@  67s W10s +0.05@  70s W60s +0.06@  91s
+   mood blocks 5 min both                     frames changed 0.000 | before W 2s +0.10@   0s W10s +0.08@   0s W60s +0.08@  32s | after W 2s +0.10@   0s W10s +0.08@   0s W60s +0.08@  32s
+   mood blocks 30 s  fast gear 0.45 s         frames changed 0.000 | before W 2s +0.07@   0s W10s +0.04@   0s W60s +0.02@   0s | after W 2s +0.07@   0s W10s +0.04@   0s W60s +0.02@   0s
+   mood blocks 30 s  held 2-min route 0.22 c  frames changed 0.000 | before W 2s +0.01@  31s W10s +0.02@  31s W60s +0.03@  49s | after W 2s +0.01@  31s W10s +0.02@  31s W60s +0.03@  49s
+   mood blocks 30 s  both                     frames changed 0.000 | before W 2s +0.08@   0s W10s +0.06@   0s W60s +0.05@  26s | after W 2s +0.08@   0s W10s +0.06@   0s W60s +0.05@  26s
+N3  beyond the scan: uncounted gain-1 copy delayed by 150 s or 240 s, ledger9 (worst slope over lags 0-300 s)
+   mood blocks 5 min L 150 s | ledger9: W 2s +0.51@ 150s W10s +0.48@ 150s W60s +0.42@ 148s | frames changed 0.52
+   mood blocks 5 min L 240 s | ledger9: W 2s +0.58@ 240s W10s +0.55@ 240s W60s +0.48@ 239s | frames changed 0.39
+   mood blocks 30 s  L 150 s | ledger9: W 2s +0.50@ 150s W10s +0.54@ 150s W60s +0.58@ 141s | frames changed 0.52
+   mood blocks 30 s  L 240 s | ledger9: W 2s +0.99@ 240s W10s +0.99@ 240s W60s +1.00@ 231s | frames changed 0.01
+done in 289 s
