@@ -1,44 +1,51 @@
 # Opinion dynamics on discourse sheaves (Hansen & Ghrist)
 
-Jakob Hansen & Robert Ghrist, "Opinion dynamics on discourse sheaves", *SIAM Journal on Applied Mathematics* 81(5):2033–2060, 2021; arXiv:2005.12798. Background: J. Hansen & R. Ghrist, "Toward a spectral theory of cellular sheaves", *J. Applied and Computational Topology* 3:315–358, 2019.
+Jakob Hansen & Robert Ghrist, "Opinion dynamics on discourse sheaves", *SIAM Journal on Applied Mathematics* 81(5):2033–2060, 2021; arXiv:2005.12798 (v1, 26 May 2020).
 
 ## What was read
-
-**Not read in full in this session.** arxiv.org failed DNS on this session's network allowlist. A web search returned the abstract-level content:
-- the authors build Laplacians and diffusion on "discourse sheaves";
-- the sheaves can represent selective opinion modulation and lying;
-- the paper covers controllability, reachability, bounded confidence and harmonic extension;
-- diffusion converges to a harmonic state in which agents express opinions consistent with their neighbours, while their private views may still differ.
-
-The sheaf-Laplacian definitions below are standard (Hansen & Ghrist 2019) and overlap `bodnar-2022-neural-sheaf-diffusion.md`, which was read earlier. Claims about the paper's specific theorems are limited to what the search confirmed.
+The arXiv v1 text in full: §§1–13, about 12,000 words, all theorems and proofs. Figures were seen only as captions; the reference list was skimmed. The companion "Toward a spectral theory of cellular sheaves" (2019) was not read. Statements marked **[own]** are my derivations, not the paper's.
 
 ## The computation, precisely
 
-**Discourse sheaf on a graph.**
-- **Stalks.** Each agent $v$ has a private opinion space $\mathcal F(v)$, and each edge $e$ has a discourse space $\mathcal F(e)$.
-- **Restriction maps.** A linear map $\mathcal F_{v\trianglelefteq e}:\mathcal F(v)\to\mathcal F(e)$ says how $v$ expresses its private opinion when talking to its neighbour on $e$. The maps can be selective (a projection) or "lying" (a sign flip or a distortion).
+**Cellular sheaf (§2.1).**
+> "a vector space F(v) for each vertex v of G, a vector space F(e) for each edge e of G, and a linear map F_{v⊴e} : F(v) → F(e) for each incident vertex-edge pair."
 
-**Coboundary and Laplacian.** $(\delta x)_e=\mathcal F_{u\trianglelefteq e}x_u-\mathcal F_{v\trianglelefteq e}x_v$ for an oriented edge $e=u\to v$, and $L_{\mathcal F}=\delta^\top\delta$.
-- **Global sections.** $H^0=\ker\delta=\ker L_{\mathcal F}$, the configurations where every pair agrees *in expression*.
+**Coboundary and Laplacian.**
+- For an oriented edge $e=u\to v$: $(\delta x)_e = F_{v⊴e}x_v - F_{u⊴e}x_u$ (2.3).
+- $H^0(G;F)=\ker\delta$, the global sections (2.4).
+- $L_F=\delta^\top\delta$ (2.5).
+- **Theorem 2.2 (Hodge):** $H^0=\ker L_F$.
 
-**Dynamics.**
-- **Opinion diffusion:** $\dot x=-\alpha L_{\mathcal F}x$ converges to the orthogonal projection of $x(0)$ onto $H^0$.
-- **Expression (edge) dynamics:** the paper also lets the restriction maps themselves evolve; I state that only at the level of the abstract.
-- **Stubborn agents:** with some agents held fixed, the limit is the *harmonic extension* of the fixed values.
+**Discourse sheaf (§3).**
+> "If the agents hold opinions x_u ∈ F(u) and x_v ∈ F(v), then they have expressed consensus when F_{u⊴e}(x_u) = F_{v⊴e}(x_v) ... this does not imply that u and v have the same opinions: it means that their expressions of personally held opinions have the appearance of agreement."
 
-**Obstruction.**
-- On a tree, every choice of invertible restriction maps can be gauged to the identity, so $\dim H^0=\dim$ stalk.
-- On a cycle, the composite map around the cycle (the holonomy) matters: $H^0$ restricted to the cycle equals $\mathrm{Fix}(\mathrm{Hol})$. A holonomy with no fixed vectors makes global agreement impossible. This is the sheaf form of Altafini's unbalanced cycle.
+On lying:
+> "Negative scalar multiplication in a restriction map permits falsehoods: one can model agents who lie. Such dissembling or deception can be done selectively."
+
+**Theorem 4.1.** The dynamics $\dot x=-\alpha L_Fx$ converge to the orthogonal projection of $x(0)$ onto $H^0$. The paper adds:
+> "If this sheaf has no nontrivial global sections, the only stable opinions will be everywhere zero: an uninteresting solution."
+
+**Theorem 5.1 (stubborn agents).** If the agents on $U$ are held fixed, the rest converge exponentially to "the harmonic extension of $u=(x_0)|_U$ nearest to $x_0$". This is "a minimizer of $\|\delta x\|^2$ subject to $x|_U=u$", and "harmonic extensions are not in general global sections."
+
+**Theorem 6.1 (control).** If $H^0(G,U;F)=0$, the system $\dot x=-\alpha L_Fx+Bu$ is stabilizable from $U$. Example 6.3 makes the point that for the constant sheaf, "it is only necessary to have arbitrary influence on a single individual in order to ensure eventual global consensus on any given opinion."
+
+**Theorem 8.1 (learning to lie).** Restriction maps evolve by $\dot F_{v⊴e}=-\beta(F_{v⊴e}x_v-F_{u⊴e}x_u)x_v^\top$. The sheaf converges to
+> "the nearest sheaf such that x is a global section ... measured by the squared Frobenius norm."
+
+In Example 8.2, an agent with opinion −4 facing +1 "changes their expressed opinion's sign, but also downplays its magnitude".
+
+**Joint opinion–expression diffusion (§9).** $\Psi=\tfrac12 x^\top\delta^\top\delta x$ is non-increasing (Lemma 9.1). The equilibria are a singular variety. Smooth equilibria are Lyapunov stable but not asymptotically stable (Thm 9.2). If a diagonal block of $\alpha\delta_0^\top\delta_0-\beta x_0x_0^\top$ is indefinite, the limit has $x_\infty\neq0$ (Thm 9.3).
+
+**Antagonistic edges (§12).** Edge potentials $-\|y\|^2$ on negative edges give $L^S_F=\delta^\top S\delta$, which "is not necessarily positive semidefinite, so its corresponding diffusion dynamics may be unstable". Proposition 12.1: a cutset of negative edges whose local sections do not extend gives an indefinite $L^S_F$. "For the constant sheaf on G ... a graph with a cutset of negative edges always has an indefinite signed Laplacian, and hence unstable opinion dynamics."
 
 ## What it means for the designs
+1. **The private/expressed split is the self/face split, and the paper's own result shows that agreement in expression is what learning finds.** Theorem 8.1 is a warning for any design with learned expression maps. If the maps are trained to reduce local disagreement, they converge to the nearest maps under which the current state looks like agreement: copy in a learned frame. The "lie" is a sign flip plus a shrink. Learned sign flips are not evidence against copying; they are how copy-in-a-frame is reached. This is the dyadic-sheaf design's failure, now with the paper's theorem behind it.
+2. **Harmonic extension is the drive–response case.** Make the partner the stubborn node. Theorem 5.1 then sends the self to the harmonic extension of the partner's expression, and Example 6.3 says one node with influence fixes everyone's consensus on a constant sheaf. That is copy, by the paper's own reading.
+3. **Obstruction to agreement only yields flat.** Theorem 4.1 and its remark: with no global sections, diffusion goes to zero. **[own]** On a cycle, the composite of restriction maps around it (the holonomy) decides which sections exist. The paper does not discuss holonomy; this is my derivation. A twisted holonomy forbids copy only by forbidding any lasting coupled state.
+4. **Antagonism gives instability, not structured non-copy.** Proposition 12.1: signed potentials make the Laplacian indefinite, so dynamics diverge. This is consistent with Shi, Altafini & Baras's repelling rule (see `altafini-2013-signed-consensus.md`).
+5. **What survives.** The relative-cohomology controllability test (Thm 6.1) is a precise tool. "Can the partner steer the self's expression to any section?" is decidable by computing $H^0(G,U;F)$ with the partner as the input set $U$. **[own]** A design can try to prove $H^0(G,\{P\};F)\neq0$ on the expression-copy subspace, meaning the partner cannot reach it. But under diffusion, unreachable directions are exactly the ones that decay.
 
-1. **Private versus expressed is exactly the self/face split.** Copy in expression ($\mathcal F_S x_S=\mathcal F_P x_P$) can coexist with any private state. A sheaf therefore cannot forbid *face* copy unless the restriction maps themselves are constrained. With one dyadic edge there is no holonomy (Bodnar note), so any invertible maps can be gauged away: copy-in-a-frame. This is the dyadic-sheaf design's failure.
-2. **A topological obstruction needs a cycle.** Add a third node, the shared world or event, or the agent's own past self. Then the holonomy $\mathrm{Hol}=\mathcal F_{SP}\mathcal F_{PW}\mathcal F_{WS}$ decides which agreements can exist. If structure fixes $\mathrm{Hol}$ to a twisted element (for example $-1$ on some channel subspace), then on that subspace **no global section other than zero exists**: copy is impossible for every scaling of the maps.
-3. **Under diffusion, frustration gives flat, not strong coupling.** Diffusion on a frustrated subspace decays to zero (Altafini: unbalanced means flat). The obstruction forbids copy only by also forbidding any lasting coupled state. So a sheaf obstruction must sit under non-diffusive dynamics, such as a conservative flow on $\delta$, or a twisted-equivariant response map, if coupling is to stay strong.
-4. **Harmonic extension is the drive-response case.** With the partner as a stubborn node, the self converges to the harmonic extension of the partner's expression, which is copy-in-a-frame on a tree. This confirms that with an exogenous partner the only structural lever is the *class* of the maps (their holonomy or twist), not the topology of a two-node graph.
-5. **Links to the symmetry route.** Fixing the holonomy to a group element $g$ with character $\chi(g)=-1$ is the twisted-intertwiner condition in sheaf language. The group-theoretic version (`golubitsky-2002-symmetry-perspective.md`) is stronger because it constrains the *response map*, whatever the dynamics, not only the diffusion's limit.
-
-**Is it an excluded framework?** Sheaf diffusion is a linear diffusion operator, close to the excluded list, and the dyadic-sheaf design was judged a recombination. The holonomy obstruction is usable as a constraint.
+**Is it an excluded framework?** It is linear diffusion: on the excluded list as a core. Usable as an analysis tool (relative cohomology for reachability), and as the clearest theorem that learned expression maps drift toward copy-in-a-frame.
 
 ## Verdict
-**watch (primary not read in full; obstruction usable only as a constraint).** Expression-level copy is forbidden only by fixing a non-trivial holonomy on a cycle. Under diffusion that yields a flat face, not strong coupling. Its private/expressed split restates the self/face problem; it does not solve it.
+**watch (analysis tool and warning).** Theorem 8.1 proves that learning restriction maps to reduce disagreement converges to the nearest maps that make the current state look like agreement. Obstruction gives only flat; antagonism gives only instability.
