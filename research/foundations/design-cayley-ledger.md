@@ -763,3 +763,18 @@ Checks: `sims/design-g81/checks.py` (K1–K5; out.txt), on revision 8's engine l
 **Costs added by 8.1, stated.** Steady genuine distress held by the face alone now loses the look for a 60-s test after 4 min (and 120 s after each further 8, 16 … min) instead of an 8-s half softening every 3 min; 15-min brow means 0.14–0.19 instead of 0.18–0.22. The test's margin at a 90-s lag is thin (ratio 0.67 against 0.70), and a noisy 90-s answerer can hold the look up to about 17 min or re-trigger it. A different-channel user whose grief is mostly brow lowerer gets a half look when he squints at the agent.
 
 **Status:** revision 8.1; goes to the operator as a build candidate under D82, stated as a recombination, with Q24 open.
+
+## Check of revision 8.1 and the answer (recorded 2026-11-26T16:02:37Z)
+
+**Independent check** (check-cayley-ledger-8.1.md; sims/check-cayley81/). **FAIL, one medium failure.**
+- The face-only cap releases the critic's partner at every lag from 0 to 90 s. But when his distress is carried on continuously, a slow answerer (time constant ≥ 300 s at gain 1.0; 240 s at 1.2; 90–180 s at gain 2–3) holds the look for 60 minutes in both the operator's and the different-channel code (agent inner brow +0.19 to +0.24). Because the cap doubles, its tests get rarer, so the hold is effectively permanent: D78 condition 4.
+- Pure delays ≥ 90 s cycle the look on and off indefinitely (on 85–91% of the time).
+- The squint fix works and opens no copy route; as a side effect, anger with a lip depressor or chin raise now gets the full look (not a failure).
+- Totals and laugh-gate timing are consistent.
+- **Summary corrections needed:** drop the claim that answering always releases the look; add the cap's cost (about 266 s per hour for steady silent sadness); fix stale "probe" mentions.
+
+**The answer (maintainer).** This is the second failure of the same step: releasing a face-only concern hold by testing whether his face answers. Under the loop rule (same step fails twice: stand it down), test-based release is stood down.
+- **Replacement, by construction:** a face-only hold has a fixed, non-doubling maximum. After that, the look continues only while non-face evidence of his distress is present (his words, voice, sobs or breathing). Face-only evidence alone can then restart it only after a fixed refractory period.
+- **Why it is robust:** no partner face dynamics, at any lag or gain, can then hold it indefinitely.
+- **Cost:** steady silent sadness without voice or words loses the look after the maximum. This trade-off goes to the operator in the build-candidate summary, under Q24.
+- **Next:** a small revision 8.2 applies this and the summary corrections, followed by one quick independent check.

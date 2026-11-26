@@ -1,1 +1,14 @@
 checks_g6:26: RuntimeWarning: invalid value encountered in scalar divide
+[engine loaded in 228 s]
+=== C1b: continuous slow answerer (his V starts at his sadness level 0.8/mu and then follows mu x low-pass(look)); 60 min
+   operator           low-pass tau 150 s mu 1.0: offs [(902.5, 'cap')], tests [(242.5, 'cap', 'held', 0.75), (782.5, 'cap', 'foll', 0.5)], look on in 50-60 min 0%, BI last 10 min -0.005
+   operator           low-pass tau 300 s mu 1.0: offs [], tests [(242.5, 'cap', 'held', 0.87), (782.5, 'cap', 'held', 0.71), (1862.5, 'cap', 'held', 0.71)], look on in 50-60 min 100%, BI last 10 min +0.235
+   operator           low-pass tau 600 s mu 1.0: offs [], tests [(242.5, 'cap', 'held', 0.93), (782.5, 'cap', 'held', 0.84), (1862.5, 'cap', 'held', 0.84)], look on in 50-60 min 100%, BI last 10 min +0.234
+   operator           low-pass tau 120 s mu 1.5: offs [(902.5, 'cap')], tests [(242.5, 'cap', 'held', 0.92), (782.5, 'cap', 'foll', 0.6)], look on in 50-60 min 0%, BI last 10 min -0.005
+   operator           low-pass tau 240 s mu 1.2: offs [], tests [(242.5, 'cap', 'held', 0.84), (782.5, 'cap', 'held', 0.71), (1862.5, 'cap', 'held', 0.74)], look on in 50-60 min 100%, BI last 10 min +0.238
+   different channels low-pass tau 150 s mu 1.0: offs [(902.5, 'cap')], tests [(242.5, 'cap', 'held', 0.75), (782.5, 'cap', 'foll', 0.5)], look on in 50-60 min 0%, BI last 10 min -0.005
+   different channels low-pass tau 300 s mu 1.0: offs [], tests [(242.5, 'cap', 'held', 0.87), (782.5, 'cap', 'held', 0.71), (1862.5, 'cap', 'held', 0.71)], look on in 50-60 min 100%, BI last 10 min +0.189
+   different channels low-pass tau 600 s mu 1.0: offs [], tests [(242.5, 'cap', 'held', 0.93), (782.5, 'cap', 'held', 0.84), (1862.5, 'cap', 'held', 0.84)], look on in 50-60 min 100%, BI last 10 min +0.189
+   different channels low-pass tau 120 s mu 1.5: offs [(902.5, 'cap')], tests [(242.5, 'cap', 'held', 0.92), (782.5, 'cap', 'foll', 0.6)], look on in 50-60 min 0%, BI last 10 min -0.005
+   different channels low-pass tau 240 s mu 1.2: offs [], tests [(242.5, 'cap', 'held', 0.84), (782.5, 'cap', 'held', 0.71), (1862.5, 'cap', 'held', 0.74)], look on in 50-60 min 100%, BI last 10 min +0.189
+[done in 277 s]
