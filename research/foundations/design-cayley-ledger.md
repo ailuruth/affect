@@ -1,484 +1,441 @@
-# Cayley–ledger core, revision 8.3: a concern posture that never reads what it writes and that his face alone holds for at most 3 minutes (his voice or breathing for at most 10), a laugh echo that waits for the current words, and the play laugh through the learned gate
+# Cayley–ledger core, revision 9 (build core): knowing him closely, every path to its own face and voice capped per expression, Claude through the subscription, and learning; no situation-specific rules
 
-Seventh design of the S0 cycle, revision 8.3 (2026-11-26): revision 8.2 with only the face-only limit's reset narrowed (only his words and sobs reset its clock; his voice and breathing may only extend it to 10 min) and the Build-candidate summary corrected, as the check of 8.2 asked ("Revision 8.3 history", at the end). Revision 8.2 was revision 8.1 with only the posture's face-only rule replaced and the Build-candidate summary corrected, as the answer to the check of 8.1 asked ("Revision 8.2 history", at the end). Revision 8.1 was revision 8 with only the narrow fixes its two critiques asked for ("Revision 8.1 history"); everything else is revision 8's text, written 2026-11-26 under:
-- questions.md Q16, and Q17 as relaxed by Q19 (DECISIONS.md D80): a precise object, a convincing argument, concrete failures only;
-- Q18 and its answer (D78): no single quantity runs the whole face from flat to copy; per channel, a bounded, sign-flippable, context- and relationship-set strength under an innate ceiling, never attracting;
-- the operator's answers of 2026-11-26T08:41:00Z: Q20 (D81), Q21 (D82), Q22 (D83), Q23 (D84);
-- Q26 (D85): situational appropriateness comes only from Claude's regulation path, from learning on recorded dyads (movement features and transcripts, no labels) and from general innate learning biases; no hand-written situational rule;
-- **Q24 (still open).** Work proceeds on its recommendation: a separate concern posture of the agent's own, triggered and graded by the agent's own judgement that he is distressed, capped on its own, not a copy of his face. Revision 8 makes the last clause true by construction (§2.10).
+Eighth design of the S0 cycle, revision 9 (2026-11-26), the **build core** the operator asked for (questions.md Q27 answer, DECISIONS.md D90). Written under:
+- **Q29 (D88): no situation-specific rules.** Innate parts are allowed only for the body, reflexes, the muscle patterns newborns have, and the per-expression copy ceilings. Situational appropriateness comes only from (1) Claude's regulation path, (2) learning from recorded human dyads (movement features and transcripts, no emotion labels; D70, D85), (3) general innate learning biases that make rare events learnable fast.
+- **Q24 (D89): no built-in concern posture; a concern face is learned.**
+- **Q27 (D90): build the core of revision 8.3** without the situation-specific rules, and close the delay gap in the shadow ledger (lags scanned to at least 120 s at its 10-s and 60-s windows; critique-design-commutator-coupling-routes.md, "Side item").
+- **Q26 (D85)**, Q20 (D81), Q22 (D83), Q23 (D84), Q18 (D78), Q19 (D80); brief.md Principles.
 
-Revisions 1–7 are kept as `design-cayley-ledger.r1.md` … `.r7.md`. Revision 7's two critiques:
-- `critique-7-design-cayley-ledger-routes.md`, checks in `sims/critique-cayley7-routes/`;
-- `critique-7-design-cayley-ledger-agent.md`, checks in `sims/critique-cayley7-agent/`.
+Revision 8.3 is saved verbatim as `design-cayley-ledger.r8.3.md`; revisions 1–8.2 as `.r1.md` … `.r8.2.md`. Every history section below ("Revision 2 history" onward) is kept as written. Mechanism sections that revision 9 removes are marked **REMOVED in revision 9** where they stood; their full text is in `.r8.3.md`.
 
-**Checks for revision 8.3:** `foundations/sims/design-g83/checks.py` (M1–M5; output in `out.txt`). It loads revision 8.2's definitions (engine, `Agent81`, `Agent82`, `lag_face`, `voice_read`) unchanged, as the 8.2 checker did, and changes only the face-only rule, in the class `Agent83`. Run `python3 -I checks.py > out.txt` (engine load about 4 min; checks about 3.5 min; 7.3 min in all).
+**Checks for revision 9:** `foundations/sims/design-g9/ledger_lag120.py` (N1–N3; output `ledger_lag120.out.txt`, about 5 min) and `ledger_lag300.py` (N2b, N3b; `ledger_lag300.out.txt`, about 2 min). Both read the revision-7 ledger function verbatim from `sims/design-g7/checks.py` and change only its set of (window, lag) constraints. Run `python3 -I <script> > <out>`. Everything else in revision 9 is removal, or a learned part whose numbers come from the Seamless fit (§6.7), so it is argued by construction (§3), not simulated: brief.md forbids validating a derived behaviour in a self-built world.
 
-**Checks for revision 8.2:** `foundations/sims/design-g82/checks.py` (L0–L4; output in `out.txt`). It loads revision 8.1's engine and `Agent81` unchanged, as the 8.1 checker did, and changes only the posture's face-only rule, in the class `Agent82`. Run `python3 -I checks.py > out.txt` (engine load about 4 min on an idle machine; checks about 3.5 min).
+**Status:** revision 9, build core. Not yet critiqued. The build specification and code follow from it (D90).
 
-**Checks for revision 8.1:** `foundations/sims/design-g81/checks.py` (K1–K5; output in `out.txt`). It loads revision 8's engine unchanged (as the revision-8 critics did) and changes only the posture's contingency test and its squint reading, in the class `Agent81`. Run `python3 -I checks.py > out.txt` (the engine load took about 4 min on an idle machine, 20–29 min under load; the checks about 4 min).
+## Revision 9 (build core): audit of situation-specific rules
 
-**Algebra checks for revision 8:** `foundations/sims/design-g8/checks.py` (J31–J39). Run `python3 -I checks.py > out.txt` (numpy and scipy, about 20 minutes, most of it loading revisions 5–7); the output is in `out.txt`.
-- It loads `sims/design-g7/checks.py` exactly as the revision-7 routes critic's `posture7.py` does: the J0 constants, the J20 dyad fit (the gate and Λ on the constructed corpus), `Agent7` and the helpers, skipping only revision 7's own result loops. That file in turn executes `design-g6` and `design-g5` unchanged. Revision 8's changes are the class `Agent8` and the functions above it.
-- Each critic's constructed partner is re-run: the routes critic's Q1 (static brow-only sweep), Q2 (held brow-only levels), Q3 (fading sadness plus a mirror) and S1 (slow mirrors), and the J22 mirror set (J32, J33); the agent critic's A (a laugh ending the misfortune sentence), A2 ("I got fired today, haha"), B (silent panic) and C (silent sadness and grief in each code's own face) (J34, J36, J39).
-- The dyad-learned parts are still fitted on revision 7's **constructed corpus** (J20, unchanged). Scenario numbers are what the equations give for stated inputs (brief: no toy worlds).
+**How the audit was done.** Every constant, rule, gate, timer, head and display row of revision 8.3 was read, including the parts 8.3 inherits from revisions 5–7 by reference ("as revision 7", "as revision 6", "(r5)"). A part is listed if it is a rule about a particular situation, scene, event type or user type, or a hand-set threshold or timer tied to one, or an innate part that a reader could suspect of being one. Pure structure that bounds copying in every situation alike (the ceilings c_k, Lemma S and S\*, the type rules T1 and E1, the shadow run and ledger, rule 10) is listed separately after the table, because it names no situation.
 
-**Status:** revision 8.3. The independent check of 8.2 found one medium failure: a partner whose face answers the look and who also speaks a few slightly soft words every 1–4 min, or whose breathing answers it strongly, reset the face-only clock with that voice or breathing and held the look indefinitely (agent inner brow +0.19 to +0.24). Now only his decoded distress words (C_L) and his sobs reset the clock; his voice and breathing may only extend the face-only maximum from 180 s to 600 s. So every partner without distress words or sobs gets the look at most 10 min on, then 2 min off. Checked once (M1–M5, all pass); independent check of 8.3: **PASS** (check-cayley-ledger-8.3.md). Revision 8.2 is saved as `design-cayley-ledger.r8.2.md`.
+**Verdicts.** REMOVE, or KEEP with the allowed innate category it falls under: **body**, **reflex**, **newborn** muscle pattern, per-expression copy **ceiling**, or general learning **bias** (D85 source 3). Two kept items are not innate at all (learned from dyads, or Claude's path); they are listed because they look like rules. For each removed item: which of the three sources now carries the behaviour (**S1** Claude's regulation; **S2** recorded dyads, fitted offline before day 1 on Seamless Interaction under D70; **S3** a general learning bias), how, and what is lost until it is learned. "Day 1" means the first session with the operator: the dyad-learned parts are fitted before it, the per-person parts are not.
 
-**Status of 8.2 (kept for the record):** The independent check of 8.1 found one medium failure: a partner who answers the look slowly (time constant about 5 min, or 2–3 min at gain 2–3) held the face-only cap's look indefinitely, and the cap's doubling made its tests ever rarer. This was the second failure of the same step (release by testing whether his face answers), so under the loop rule test-based release is stood down. A face-only hold now has a fixed maximum (180 s) and a fixed refractory period (120 s), checked once (L0–L4, all pass). Revision 8.1 is saved as `design-cayley-ledger.r8.1.md`.
+### The table
 
-**Status of 8.1 (kept for the record):** Revision 8 was critiqued (one medium failure in the contingency probe, one narrow failure in the threat silencing, text and build items); 8.1 applies exactly those fixes with one quick check (K1–K5, all pass). Revision 8 is saved as `design-cayley-ledger.r8.md`. Per the maintainer's answer to the revision-8 critiques, it now goes to the operator as a build candidate under D82 (Build-candidate summary at the end).
+| # | Rule in 8.3 (where) | What it does | Verdict | Category and why, or the source that now carries it and how | Lost until learned (or for good) |
+|---|---|---|---|---|---|
+| **A** | **The concern posture (§2.10; D89)** | | | | |
+| S1 | Concern posture P_c (BI +0.20, BO +0.04, TILT +0.03, HP +0.03, LP −0.03; gaze-away × (1 − 0.5a), blink × (1 − 0.3a)), graded amplitude, own wander, enable ω_sym ≥ 0 | an innate look of concern shown at his visible distress before words | **REMOVE** (D89) | **S2:** the concern face is learned as the listener display L_d (§2.7): how recorded listeners' faces and voices move after a speaker's words of trouble, fitted on Seamless, driven at runtime by his words (T). Before his words, sympathy is only what the capped routes give: the fast brow echo (G_BI 0.10 c_BI), the held cone (ω-scaled, ≤ 0.68 c_BI share) and the appraisal display, whose learned bases can come to anticipate L_d from his face (𝓛_A), all inside c_BI. **S1:** the agent's spoken concern, whose timing is learned (S36) | **For good, above the ceilings:** a clearly visible concern look within seconds at a silent sad face. Inside the ceilings: about 0.05 inner brow for a silent sad brow of 0.5 after months (revision 5/6's figure); at most c_BI × his brow deviation ≈ 0.10. See "No allowed source", item 1 |
+| S2 | Posture onset (load ≥ 0.05 for 1.5 s), grade a* (span 0.05 → 0.17), release (M < 0.02 for 20 s) | when the look starts, how strong, when it ends | **REMOVE** | goes with S1; L_d's response follows each utterance with the time course recorded listeners show (fitted) | — (as S1) |
+| S3 | Read/write split W_p/R_p (Π̃₀ with the written rows removed) and the posture head **H^p_id** on R_p (taught by his words) | made the posture never read what it wrote; a special head so that different-channel and quiet users' non-brow distress started it | **REMOVE** | served only the posture. Reading him closely stays general: per-person calibration and the face head H_id (S38, §2.8), for every user alike | nothing that is not lost with S1 |
+| S4 | Breathing load in the posture, counted only when his non-brow face reads distressed (V_p ≥ 0.15 starts it, full at 0.30) | let silent panic start the posture, but not exertion or laughter | **REMOVE** | the breathing sensor stays as a perception input (body): his breathing enters H_id and Π̃ readings (knowing only). Its effect on what the agent does goes through C_F (bids and draft scoring) and the learned initiative (S36) | a concern look at silent, wordless panic: as S1 |
+| S5 | Threat silencing of the posture's face load (revision 8) and the squint drop (8.1: his BL and LPR taken to rest while he glares) | stopped an angry face from starting the posture; kept it for a grieving face that squints | **REMOVE** | goes with S1. The threat reflex itself stays (S41) | — |
+| S6 | Face-only limit: T_max 180 s, T_ref 120 s; 8.3 extension T_max,ext 600 s | bounded a look held by his face alone (3 min on, 2 off; 10 min with voice or breathing) | **REMOVE** (named in Q29) | nothing needs it: with no posture there is no face-held look. Every face-driven route is bounded per channel at every instant and window (§3), and the ledger catches any other within-session route (§2.13) | — |
+| S7 | Hard/soft evidence rule: only decoded distress words (C_L) and sobs reset the clock; voice (V_v, a 90-s ungated mean at presence 0.02) and breathing only extend it | which evidence renews the look | **REMOVE** (named) | goes with S6; V_v is deleted | — |
+| S8 | Sensitized re-onset: dwell 0.5 s instead of 1.5 s for 10 min after an episode | concern returns faster when crying resumes | **REMOVE** | a posture timer, not a learning bias. Distress-weighted consolidation stays as the general bias (κ_replay, S48) | faster concern at renewed crying: L_d and the agent's own distress display (S45) respond to words and sobs as they come |
+| S9 | Week-0 face-tracker crosstalk check, dropping R_p channels per user | guarded the posture against brow leaking into its read set | **REMOVE** | moot without the posture | — |
+| **B** | **The laugh gate's timing (§2.4.2) and form** | | | | |
+| S10 | Gated-group echo delay δ_g = 0.80 s (0.45 s elsewhere), set in week 0 to min(1.0, ℓ_p90 + 0.25) s, with an operator fallback above 0.75 s | the quick laugh and smile back wait for his current words | **REMOVE** (named in Q29) | the fast gear returns to 0.45 s on every channel (revision 6/7). The gate reads whatever words the recogniser has delivered at each frame (S2, the gate's own fit). **S1:** Claude's reply, heard by the agent (Λ_V(own)), keeps the gate closed for the laughs after it | **For good, inside the recogniser's latency:** a laugh that ends a bad-news sentence ("I got fired today, haha") gets a short partial echo, a chuckle of about 0.2–0.5 s, until the word is delivered and the gate closes. Revision 7 had the same until its utterance latch. See "No allowed source", item 4 |
+| S11 | Word look-ahead λ_w = 0.25 s and the unknown-word closure (g = 0 for a frame whose words are not finalised by s + δ_g; the recogniser's finalised-through time F(t)) | missing words close the echo | **REMOVE** (named) | as S10. The incremental recogniser stays only as a lower-latency word source (§6.1) | as S10 |
+| S12 | Instant closing, opening with τ 0.3 s | added for the laugh that breaks into the bad-news word | **REMOVE** | the gate is evaluated per frame from its inputs; any smoothing is chosen on held-out dyads in the fit (S2), not set by hand | as S10 |
+| S13 | Hand-assigned gate signs: β ≤ 0 on six "distress-type" inputs, ≥ 0 on the play frame | a distress cue can only close the gate | **KEEP, changed: bias** | the gate stays a monotone additive learner (one shape function per input). The **direction** of each input is no longer assigned by name; it is fitted on a person-disjoint split of the dyads and then fixed. A shape-constrained, factorised learner is a general learning bias: it predicts a rare conjunction (a laugh at misfortune) from two common marginals (stories of misfortune; laughs while the listener's face is pained), revision 7's reason for Λ | — |
+| S14 | m_ref: median of the gate model over "ordinary" corpus laughs (all distress-type inputs < 0.15) | sets g ≈ 1 in ordinary laughter | **REMOVE** | the hand threshold defining "ordinary" goes; m_ref is the 90th percentile of the model over all corpus laugh onsets (S2) | none expected; g < 1 slightly more often |
+| S15 | D_s: a 10-min consolidated distress trace (of the posture's read set and sobs) as a gate input | a laugh four minutes after tears is still not laughed along with | **KEEP, changed: bias** | generalised to multi-time-scale traces (τ 20 s, 2 min, 10 min) of his read (V, A, T) with his LP, CR, BU_L, RHY and BRE masked, plus his sobs; their weights in the gate are fitted on dyads (S2). Keeping recent states present so a rare event's context is still there when it matters is a general bias; nothing names grief | — |
+| S16 | The context gate g on the fast smile–laugh echo (LP, CR, BU_L, RHY, BRE): monotone additive, frozen, g ∈ [0, 1], reads none of his gated channels | context of the moment closes the quick laugh back | **KEEP: learned (S2), not innate** | its content is learned from recorded listeners' returns. Its two structural properties belong to the per-expression **ceiling**: g ≤ 1 keeps every echo under G_k × his channel, and not reading the gated channels keeps it from becoming a toward route | — |
+| **C** | **Play** | | | | |
+| S17 | Play-structured-turn rule (riffs on the agent's last line, that line not a question, ≤ 12 words, lexical surprise 0.50–0.85) and the play frame π (π ← 0.5 π + 0.5 q, τ 3 min) | decides which of his turns are playful | **REMOVE** | **S2:** a dyad-learned **listener-laugh reader q̂** (§2.8): from the transcript context of the last two turns (laughter tokens removed by the ASR normaliser), the turn order and the utterance's surprise under a fixed population words model, the probability that a recorded listener's own laugh onset follows the utterance within 2 s. Its trace replaces π as a gate input | the playful build-up within one exchange, until the fit shows it (Seamless conversations are 3.5–4.6 min) |
+| S18 | Play-surprise laugh: 0.40 · band(s_lex around 0.65 ± 0.25) · (0.35 + 0.65 π) at a play-structured turn | the agent's own laugh at a well-timed incongruity | **REMOVE the trigger** (the laugh motor pattern is kept: S45) | **S2:** the own laugh is 0.40 q̂ at each of his turns, × the own-display gate g_o (S19). 0.40 is the laugh pattern's innate maximum (body). Habituation to a repeated joke remains through surprise: a repeated joke is predictable, and the fitted q̂ learns how predictability lowers listeners' laughs | its exact chuckle-then-build shape; set by the fit |
+| S19 | Rule 13: the own play laugh × the echo gate g | no own laugh where a listener would not return one | **REMOVE** (replaced) | **S2:** a second head of the gate model, the **own-display gate g_o** (§2.4), fitted to recorded listeners' own smile and laugh level (not their return) in context, multiplies all of the agent's own smile–laugh displays (relief, contact relief, own laugh). Its inputs are T and the agent's own face only (never his face), and it can only attenuate. **S1:** Claude's words enter it as Λ_V(own) | at a joke made while sad, the corpus's listeners laugh back about 0.39 of ordinary; the agent will do roughly the same (revision 8.3 stayed silent) |
+| S20 | The hurt latch halved at each play-structured turn | play repairs hurt fast | **REMOVE** | hurt decays with its body time constant (τ 10 min). Relief events from play (q̂) and contact still reach ω through the general person-valence rule (S37) | faster repair of hurt by joking, for good unless a later per-person learner is added |
+| S21 | Play deficit P relieved × 0.85 per play-structured turn | a satiable play drive | **KEEP: body** | P is a satiable drive of the body (Principle 6). Its relief event is now P ← P(1 − 0.15 q̂) at each of his turns, from the learned reader instead of the hand rule | — |
+| **D** | **Relief, arrival and greeting** | | | | |
+| S22 | Relief mask: relief events × max(0, 1 − 𝒟_p(N_L)/0.05) ("no relief shown over his distress") | the agent does not beam with relief while his words carry need | **REMOVE** | **S2:** g_o reads his words' need (population reader) and Λ of his words: where recorded listeners smile less, the agent's relief smile is attenuated. **S1:** Claude's serious reply lowers g_o further through Λ_V(own) | none expected once fitted; the strength is the corpus's, not 0 |
+| S23 | Arrival appraisal m_s (his first second of face, threshold 0.05, span 0.30, latched) masking contact relief | no glad smile at a grieving person's arrival | **REMOVE** | **S1** at arrival: the agent may greet first (learned turn-taking, S36); Claude, with retrieved memory ("his father died last week"), writes a gentle greeting, which lowers g_o through Λ_V(own). **S2:** g_o from his first words. g_o does not read his face, because a face-driven attenuation that differs between arrivals is a cross-session route the within-session ledger cannot bound (revision 7 measured 3.2 c lip, 5.1 c cheek across arrivals and could only declare it, R27′) | **For good, in the first 2–3 s at sight:** at a grieving or mourning arrival of a known person the contact-relief smile shows (lip about 0.6) until the agent's own greeting or his first words close g_o. See "No allowed source", item 2 |
+| S24 | Arrival baseline d_b,id (rises τ 60 sessions, falls τ 3, capped at 0.15): the **mourning arrival cap** | grief never becomes his usual arrival face | **REMOVE** (named in Q29) | goes with S23 | as S23 |
+| S25 | Recognition brow flash, 0.35 for a known person and 0.20 for a stranger, at 1 s of presence | a greeting at sight | **REMOVE** | **S2** only if recorded dyads contain greetings at sight: L_d is fitted on turn events, and the session start is one (the listener's movement in the first seconds of a recorded conversation). The count of such openings is checked before fitting (§6.7). Gladness at sight of a known person stays through the body (S26, S45) | the brow flash, for good if the corpus has too few openings. See "No allowed source", item 3 |
+| S26 | Contact deficit K_id relieved in stages: × 0.5 at sight after 1 s, × (1 − 0.25 f_id) at each of his first four substantive turns, then frozen; none for a stranger | missing a known person, and being glad to see him | **KEEP, simplified: body** | K_id is a satiable per-person drive (body). The scene schedule goes: K_id falls continuously while he is present and engaged, dK_id/dt = −K_id f_id e(t)/τ_c, τ_c = 30 s (§2.1); it is 0 for a person never missed, so a stranger gets no contact relief without any rule | the exact two-stage shape of the reunion (relief at sight, then at his first words) |
+| S27 | Familiarity smile: Π₀ row LP +0.10 f_id | a warmer resting face for a familiar person | **REMOVE** | **S3/S2:** relationship warmth goes through ω (S37) and the relief of the contact drive (S26); familiar pairs in the corpus enter L_d through the turn events | a small resting smile for the operator, for good unless ω or Δ learns one |
+| **E** | **Built-in sympathy and social-response entries** | | | | |
+| S28 | Word-concern display row c_L → BI +0.25, LP +0.05, TILT +0.20, EN −0.15, RT −0.10 | a built-in look of concern and a softer voice at his words of need | **REMOVE** (D89: a built-in concern face) | **S2:** the listener display L_d (§2.7), fitted to recorded listeners' own face and voice after the speaker's words, read through the agent's own channels. **S1:** Claude's words | none expected once fitted; its strength and shape are the corpus listeners', not hand-set |
+| S29 | Innate sympathy entries of the cone G₀: BI ← LD +0.004, TILT ← BI +0.014, HP ← BI +0.04, VG ← BI +0.04 ("attentive head at sadness") | small built-in sympathy moves at his sad face | **REMOVE** | **S2/S3:** the appraisal display's learned bases (𝓛_A) learn to anticipate the agent's own coming display, now including L_d, from his face, inside the same capped sets; the dyad-estimated sign prior (S32) keeps them in the directions recorded listeners show | a slight attentive head before words (≤ 0.04), until 𝓛_A learns it (weeks) |
+| S30 | Held accommodation entries of G₀: EN ← EN −0.15 / −0.08, EN ← f_loud −0.20 ("quieter to loudness"); LAT ← f_loud +0.15, LAT ← EN +0.10 ("slower replies to a loud partner") | voice accommodation to his loudness | **REMOVE** | **S2:** the sign mask and the cross-entry sign prior are estimated from recorded dyads; the appraisal's learned bases fill them inside the sets. The startle-orient reflex (S44) still gives a brief quieter, gaze-away response to a sudden loud voice | sustained voice accommodation, until learned |
+| S31 | Innate away diagonals on BL, LT, LD (−0.15 at 20 s, −0.08 at 2 min): "no frown back" | counter-moves when he frowns | **REMOVE the magnitudes** (the zero toward ceiling stays: **ceiling**) | "no frown back" is already guaranteed by the zero ceilings toward him on BL and LT (D83) and LD's 0.05; the away magnitudes are learnable inside the away orthant | nothing visible |
+| S32 | Rule J: no positive entry from his sadness synergy onto the agent's joy synergy | no smile or laugh at a sad face through the cone or appraisal | **REMOVE as a hand rule** | **S2 + S3:** a cross-entry sign prior estimated from recorded dyads: the sign of the 1-min co-variation of the listener's channel k with the speaker's channel j (\|ρ\| ≥ 0.2), frozen; every learned cross entry must have that sign or be 0 (a sign-constrained learner, S3). If recorded listeners do not smile at sad faces, the prior forbids it as rule J did | none if the corpus shows the sign; checked at fit (§6.7) |
+| S33 | The nod at his turn end (HP +0.04 for 0.4 s, a turn-order event) | backchannel | **REMOVE** | **S2:** L_d's turn-event response: recorded listeners' head pitch around speakers' utterance ends | none once fitted |
+| **F** | **Initiative and turn-taking** | | | | |
+| S34 | Concern bid: mutual silence ≥ 6 s, no turn owed, C ≥ θ_C = 0.10, one per lapse ("timing from Π̃₀": 27 s silently sad, 49 s quiet face, about 110 s brow-only) | the spoken-bid timing | **REMOVE** (named in the task) | **S2 + body + S1:** initiative is one general choice, made at 2 Hz in mutual silence: speak now or wait. Its prior is a dyad-learned hazard (when recorded listeners start speaking into a silence, from its length, the transcript and both faces' movement); the agent's own drives tilt it through the same 𝓜 rollout that scores drafts (expected drop of 𝒟 + 𝒟_p from speaking now). Claude writes the words | a fixed bid time; on day 1 (𝓜 untrained) the agent speaks into silences about when recorded listeners do |
+| S35 | Curiosity bid: silence ≥ 8 s, I ≥ θ_I = 0.45, C < θ_C, ≤ 1 per 5 min; preceded by a sigh (breath 0.15 for 1 s, gaze drift 0.10 for 2 s) | the bored agent speaks, after a sigh | **REMOVE the bid rules** (the sigh is kept as a body reflex) | the same initiative choice as S34, with the curiosity deficit I in the rollout. The **physiological sigh** is a brainstem reflex of the body: it occurs spontaneously, more often at low energy and activation, and is no longer tied to a bid | the "sigh, then a question" sequence |
+| S36 | Turn-end score p_end = σ(−4 + 3 s_syn + 2.5 s_fall + 2(t_sil − 0.2)/0.5); provisional body onset (p_end ≥ 0.7 and silence ≥ 0.25 s, or ≥ 0.9 s; inhale, gaze, outer brow 0.10; abortable in 0.40 s); words begin (silence ≥ 0.5 s, p_end ≥ 0.9) | when his turn has ended and the agent may speak | **REMOVE the hand weights and thresholds** (the pre-speech inhale stays: body) | **S2:** a dyad-learned turn-end predictor (transcript word timing, syntactic completion, both faces' movement, e.g. his gaze returning). Its output replaces p_end in the initiative choice and in reply timing. The reply's speech onset stays at the scoring deadline + 0.35 s (S50) | his falling pitch as a turn-end cue: D70 allows face streams and transcripts only, not audio features. See "No allowed source", item 5 |
+| **G** | **Relationship, calibration and evidence rules** | | | | |
+| S37 | ω update with situation-to-group evidence: s_smile from play relief, s_sym from credited care, s_voice = 2 f_id − 1, s_head = 0.5 | play builds smile rapport, confiding builds sympathy | **REMOVE the mapping** (the per-group priors stay: **ceiling**, an innate starting strength inside each group's cone share) | **S3:** one general person-valence rule for every group: s = clip(0.3 + 0.7 min(1, ρ_rel/0.6) − 1.3 min(1, h̄/0.10), −1, 1), ρ_rel the session's T relief events attributed to him (contact, play, curiosity, credited care) over 𝒟 at session start, h̄ the session-mean hurt; ω_g ← ω_g + (s − ω_g)/60 for each group g | **for good:** different strengths per group by kind of shared history (warmer smiles with a playmate, deeper sympathy with a confidant). All groups now move with one valence; they still differ by ceiling, prior and context. See "No allowed source", item 6 |
+| S38 | Word-gated initial calibration: b^read starts at the agent's own neutral face; while his session word care < 0.05 it moves fast (τ 1 session, first three), otherwise asymmetrically (up τ 60 if V̂ > 0.20, else τ 6); σ_id ≥ 0.5 σ_ref for 6 sessions | his grief is not learned as his neutral face | **KEEP: bias** (knowing only) | a general learning bias on every channel and person: estimate a baseline from low-need moments and adapt slowly toward aversive readings. It changes what the agent knows, never a gain on a path to its face (rule 6) | — |
+| S39 | Non-substantive rule ("yeah", "ok" can only raise N_L) | a neutral reply cannot relieve a worry | **KEEP, generalised: bias** | the interjection list goes; an utterance lowers the need estimate only in proportion to the population reader's confidence in its decoding (low-information evidence counts only upward). General asymmetric evidence weighting | — |
+| S40 | Separation rule: care is credited only from separated, partner-initiated reports (≥ 2 partner turns after, no shared content lemma, or first mention next session) | care cannot be farmed by prompting | **KEEP: bias** | a general credit-assignment rule (Principle 6), the same for every topic and person | — |
+| **H** | **Innate parts kept, about particular stimuli** | | | | |
+| S41 | Threat reflex V_F = g_at · max(f_glare, f_loud (1 − 2 f_pos)₊) (glare, or a loud voice without laughter or a Duchenne smile, aimed at the agent); its G₀ entries (gaze away from a glare; LP ← glare −0.035, BI ← glare +0.006); its role as teacher of the word → V map and the hurt latch | the agent's own defensive response to an anger display aimed at it | **KEEP: reflex** | an innate reflex to a threat display (Principle 2's "few reflexes"). The positive-face exception is part of what the display is (a loud laugh is not a glare), not a scene rule. Learning words that hurt from this reflex is general learning with a reflex as teacher | — |
+| S42 | Cry–laugh split of his voiced bursts (4–6 Hz modulation depth, ingressive share, his cry face) | sobs are not laughter | **KEEP: reflex** | the infant's differential innate response to cries and laughs | — |
+| S43 | The frozen per-channel fast gear: G_k = PHI_k c_k, echo 0.45 s, onset lobe, diagonal | the quick, partial, per-expression return of his movement (D81) | **KEEP: reflex + ceiling** | the innate mimicry reflex, every gain under its channel's ceiling; frozen, so it cannot become attracting | — |
+| S44 | Appraisal display's innate bases: glad-with (the social smile and laugh back, Γ_kk = s_A c_k ω_smile) and startle-orient (gaze away, quieter at a sudden loud voice) | | **KEEP: reflex** | two newborn-to-early-infancy reflexes, each inside the per-channel sets | — |
+| S45 | Newborn display rows of Π₀: relief → smile (LP, CR, brighter voice); the agent's own distress → cry face (BI +0.45, LD +0.35, lower voice); hurt → distress face with gaze aversion; activation → raised lids and outer brow; low energy; curiosity relief → interest face; the laugh motor pattern (BU_L, RHY, CR, LP, at most 0.40); the pre-speech inhale | the agent's own expressions of its own body events | **KEEP: newborn** (laugh pattern and inhale: **body**) | newborns show the endogenous smile, the cry face, gaze aversion, startle and interest faces. The distress row is the agent's own distress (a rise of its own care or hurt load), shown as a brief envelope; it is **not** the concern face, which is learned (S28). The laugh is an unlearned vocal-motor pattern, though it appears at about 4 months rather than at birth | — |
+| S46 | Own-display mask (rule 8): the agent never learns to show anger, disgust or contempt (BL, LT, LPR, NW, DIM); lip stretch and chin raise only with its own distress | what the agent's own face may learn | **KEEP: ceiling (flagged)** | it is a per-expression ceiling of 0 on the agent's own display of those expressions, the same zeros D83 sets toward him, applied in every situation. It extends the operator's "per-expression copy ceilings" from copying to the agent's own display; the operator may want to confirm it | — |
+| S47 | Laugh synthesizer floor θ_L = 0.04; no sob synthesizer | | **KEEP: body** (the absent sob synthesizer is the zero **ceiling** on BU_S) | rendering limits of the agent's own voice | — |
+| S48 | Distress-weighted nightly replay κ_replay = 4 | rare distressing moments learned faster | **KEEP: bias** | D85's own example of source 3 | — |
+| S49 | P_name: when the agent's own (Claude-written) words name a state, its display of that state is attenuated by ≤ 0.05 | affect labelling | **KEEP: S1, not innate** | it is how Claude's regulation reaches the agent through its words, the same in every situation | — |
+| S50 | Voice rendering: speech onset = scoring deadline + 0.35 s, pauses 0.20 s at a comma and 0.40 s at a sentence end, replies stopped at the second sentence end or 60 words | | **KEEP: body + ceiling** | the agent's own voice. The fixed onset and pauses are what hold LAT and PAU under their ceilings (revision 7: latency slope on his laughter −0.002 s) | — |
+
+**Counts.** 50 rules found. **32 removed** (S1–S12, S14, S17–S20, S22–S25, S27–S37; in S18, S31, S35, S36 and S37 an innate remainder is kept and named). **18 kept:** 6 general learning biases (S13, S15, S38, S39, S40, S48), 4 reflexes (S41–S44; S43 is also a ceiling), 1 newborn-pattern set (S45, with the laugh pattern and inhale as body), 4 body (S21, S26, S47, S50), 1 per-expression ceiling (S46, flagged as an extension), and 2 that are not innate (S16 learned from dyads; S49 Claude's path).
+
+**Not rules about situations (structural, unchanged, apply in every situation):** the per-expression ceilings c_k and fast gains; the held cone (latched per session, centred at his baseline, sign mask, per-channel budgets); Lemma S and S\*; the appraisal display's convex sets; the type rules T1, E1, 6, 10, 11′, 12′; the shadow run and its attenuate-only ledger; the conditioned copy metric; per-person calibration and H_id as knowing only; the separation of knowing from moving (D81); Ω's constant instruction and engine-written transcript (P4).
+
+### Behaviours that now have no allowed source
+
+Stated plainly; each is listed again under the risks of the Build core summary.
+1. **A visible look of concern before any words, at a silent sad face, above the copy ceilings.** Any route from his face to the agent's face is capped per expression; the concern face is learned from words (L_d). Before words the agent's inner brow reaches about 0.05 after months, at most c_BI × his brow deviation (≈ 0.10 for a sad brow of 0.5), and less for a quiet face or one whose distress is not on the brow. The first clear sign of concern is the agent's spoken bid (learned timing) and then the learned display at his words. This is Q24's "no look until he speaks" outcome, now by the operator's answer.
+2. **No glad smile in the first 2–3 s at sight of a grieving or mourning known person.** A face-driven attenuation that varies by arrival cannot be held under the ceilings by the within-session ledger, so g_o does not read his face; the contact-relief smile (lip about 0.6) shows until the agent's own Claude-written greeting or his first words close g_o.
+3. **The recognition brow flash**, unless recorded openings in the corpus carry it (counted before fitting; it is not a newborn pattern).
+4. **The first bad-news sentence-final laugh, inside the recogniser's latency:** a partial echo of about 0.2–0.5 s before the word is delivered (sensor latency; Claude and the gate act after it).
+5. **Anything learned from voice sound: his falling pitch as a turn-end cue, and a quieter, lower concerned voice in the listener display**, because D70 allows only face streams and transcripts from the corpus. Turn ends are learned from word timing, syntax and faces; L_d fits the speaking rate only; the agent's voice still drops briefly with its own distress (newborn row). Adding prosody would need the operator's permission to read audio features of the recorded dyads.
+6. **Group-specific relationship strengths** (a warmer smile return with someone the agent plays with, deeper sympathy with someone who confides in it). One general person-valence rule moves every group together.
 
 ## 0. Summary
 
-**Kept unchanged from revision 7** (both critics found no failure there): knowing separated from moving; Lemma S and S\*; the held cone centred at his baseline; T1, E1 and the own-display mask; the appraisal display; the cry–laugh split; the threat reflex; rule J; K_id; the sigh; the hurt latch; credit only from separated reports; P_name; the frozen per-channel fast gear (G_k innate, onset lobe, diagonal Jacobian); the attenuate-only shadow ledger (clamp, deviation floor, recovery; including its pooled 30-min budget, which the routes critic found sound and limited to about 0.01 of lip on an uncounted route); the conditioned copy metric and Claim W′; the context gate's form, inputs, monotone sign constraints and its dyad fit (J20); Λ; the agent hearing Claude's words; the engine-written transcript; the posture's fixed vector P_c inside every ceiling, its sensitized re-onset and its graded amplitude; κ_replay; the voice replacement of pause and latency; the arrival mask R27′; per-person calibration and H_id as knowing only; the word-gated initial baselines; the WORLD prosody replacement; the laugh synthesizer floor θ_L.
+**What is built** (D90): the core of revision 8.3 without its situation-specific rules.
+- **Knowing him closely** (D81): per-person calibration, the agent's own inverse Π̃ on his calibrated face, the face head H_id taught by his words, the frozen population word reader and per-person adapter, Λ (how listeners' faces answer words), his breathing as a sensor. Knowing never sets a gain on a path to the agent's face (rule 6).
+- **Every path to the agent's own face and voice, capped per expression:** the frozen per-channel fast gear at 0.45 s (G_k = PHI_k c_k), the context gate on its smile–laugh group (g ≤ 1), the held cone (centred, latched, per-channel budgets), the appraisal display (zero-DC, per-channel sets), the free display (T only), and the attenuate-only shadow ledger, which now scans lags to 120 s at its 10-s window and to 300 s at its 60-s window (§2.13).
+- **Claude through the subscription** (D84): three forks resumed from an engine-written transcript; Claude never sees the state; its words reach the agent only through Λ_V(own) in the gates and P_name.
+- **Learning:** offline from recorded dyads before day 1 (the readers, the gates, the listener display, the listener-laugh reader, turn-taking, the sign priors); nightly per person (calibration, H_id, the adapter, Π̃, Δ, 𝒜 and the appraisal bases, ω, the word → V map), distress-weighted.
 
-**What changed, in six moves** (each closes named findings; the full list is in "Revision 8 history").
-1. **The concern posture never reads the channels it writes (routes finding 1; agent finding 2; Q24).**
-   - Its onset and its grade read only evidence that excludes inner brow, outer brow, lip pull, head tilt, head pitch, upper lid and gaze: his other face channels (cheek, lip depressor, brow lowerer, lip press, chin raise), his voice when he speaks, his breathing, his sobs and his words, all through the agent's own appraisal: Π̃₀ with those rows removed from its inverse, and a per-person head H^p_id on the remaining channels, taught by his words exactly as H_id is.
-   - The mirror removal is deleted: there is nothing left to subtract. The posture's part of every channel it writes is identical, to the last digit, whatever his same channel does (J32: paired runs differ by 0.000 on every code).
-   - Copy slope on every written channel, for the operator's code, a quiet code (0.3), an ordinary code with σ_id at the 0.25 floor and a different-channel code: brow-only partner, steepest local slope 0.07 (revision 7, quiet code: 0.86); held brow-only levels at 1 and 10 min, 0.06–0.10 (revision 7: 0.41–0.60); full-face sadness with an independent brow, causal slope 0.06–0.09 on BI, 0.01–0.02 on BO, 0.03–0.04 on LP. All of it is the non-posture routes revision 7 already had (fast gear, cone, appraisal), each under its ceiling (c_BI 0.20, c_BO 0.10, c_LP 0.35). Head tilt and pitch: his head channels are not inputs to anything the posture reads.
-   - No mirror can hold it: raw, own-scale, slow (τ 90 and 240 s) and gain-3 mirrors all release at the 20-s rule, at 62.5–66 s when his sadness ended at 40 s (J33).
-   - A steady face gets a steady posture for every code (J34): silent sadness, grief and silent panic come on once (1.0–4.5 s), never release, reach brow 0.15 in 2.0–7.0 s and hold a brow of 0.18–0.22 (minimum 0.10–0.14 during revision 8's 8-s softening, since removed). Revision 7, quiet code: on/off every 20–30 s, brow ≤ 0.07. (8.1: the only gaps were the face-only cap's test lapses. **8.2:** with his words, voice, breathing or sobs the look is never withdrawn (L2); held by his silent face alone it is withdrawn after 180 s for 120 s, so it is on 60 % of the time (L3).)
-   - Two additions keep it honest: arousal from his **breathing** and voice enters the load when his non-brow face also reads distressed, so silent panic gets the posture (posture 0.93; revision 7: 0.10 brow); and the agent's own **threat reflex** (his glare at it) silences the face load, so a different-channel user's angry face, whose brow lowerer reads as distress once the brow is not read, starts nothing (J35). (8.1: the glare now drops only his brow lowerer and lip press from what the posture reads, so a grieving face that squints at the agent keeps the posture; K4.)
-   - The 3-min face-only failsafe becomes a **contingency probe**: after 3 min held by his face alone, the posture softens to half for 8 s; if his distress evidence falls with it (he was answering the agent's concern, not distressed), it releases; if not, it stays. Concern answered in his own code is released at 190 s; genuine steady sadness is never released (J33, J34). **(8.1: replaced.** That probe caught only an instantaneous answer; with a 5–90 s lag the look was held for the whole session (routes critique 8). It is now a **face-only cap**: after 4 min held by his face alone, the look is withdrawn for a 60-s test and ends if his face has followed it down; answering concern at any lag of 0–90 s is released by 302.5 s, genuine fluctuating sadness never (0 of 24); §2.10, K1, K2.) **(8.2: the test is stood down too.** A slow answerer held the cap's look indefinitely (check of 8.1). Now nothing reads his response to the look: a hold carried by his face alone lasts at most **180 s**, after which his face alone cannot restart it for **120 s**. Whatever his face does, the look is on at most 60 % of the time and never more than 180 s at a stretch without his words, voice, sobs or breathing; §2.10, L1.) **(8.3: voice and breathing only extend it.** A partner who answered the look and also spoke a little softly, or breathed in answer, reset the 8.2 clock and held the look (check of 8.2). Now only his words and sobs reset it; his voice or breathing extend the face-only maximum to **600 s**, never more; §2.10, M1.)
-2. **The gate has the current sentence's words when his laugh starts (agent finding 1).** Words reach the gate from an incremental recogniser (stable partial hypotheses). The gated group's echo is emitted 0.80 s after his movement (other channels keep 0.45 s), and the echo of each frame of his is gated by the words that end no later than 0.25 s after that frame, which the recogniser has delivered by then when its stable latency is ≤ 0.55 s; frames whose words are not in by then are gated at 0. The gate now closes at once and opens with τ 0.3 s.
-   - "I got fired today, haha" (calm face) and "…broke his leg, haha": gate at his onset 0.05–0.09, no laugh back (revision 7: gate 1.00, +0.137). "My father died, haha, sorry" as a first disclosure: 0.01, silent. A laugh breaking into the bad-news word 0.2 s early: silent.
-   - Ordinary end-of-sentence shared laughter: gate 0.99, laugh back +0.136 sounding 0.83 s after his onset (J36). Good news, teasing, warm talk and a stranger's smile are returned (+0.13–0.19 laugh, +0.04–0.11 lip) (J39).
-   - Revision 7's J30.7 (gate read after the utterance latch) is re-done at his onset: 0.10 and 0.03 for the two misfortune laughs.
-3. **The play laugh has no hand-written withhold (D85).** The care dead-band in the play rule is deleted; the agent's own play laugh is multiplied by the same dyad-learned gate (a listener who would not return laughter in that context does not start one). In warm talk the gate is 1.00 on all 28 play laughs; at a coping joke while sad it is 0.11, so the laugh is 0.015, below the synthesizer floor. D_s is relabelled a dyad-learned input (source 2) and now reads neither the gated channels nor the posture's (rule 11 held to the letter); its fitted weight is reported (J37).
-4. **The Seamless fit specification** detects laugh onsets at 30 Hz on arrival, aligns every word input to what the agent will have at the onset (word timestamps ≤ onset + 0.25 s), passes the corpus transcripts through the agent's own ASR normaliser, reads `is_valid`, aligns the listener-state window with the agent's, and states that the laugh channels are fitted to facial return (§6.7). **Rule 12** now says Claude's text feeds only Λ_V(own) in the gate (§2.2).
-5. **Build items (§6.5).** Initiative turns enter Claude's history as an observable marker user turn ("[no reply from him for 25 s]", 5-s bins), so it always alternates and holds no state (J38); the fallback puts each draft's fixed line in its own system prompt and lets the winning fork's session be canonical, with two week-0 checks; week 0 also checks whether thinking can be disabled on Haiku 5.5 through Claude Code.
-6. **Accounting (routes critic §6).** The claim that gated totals are bounded by the ungated J3 numbers is withdrawn; R1g is declared in the pooled metric with the routes critic's measurements (LP ≤ 0.25 c, CR ≤ 0.25 c, laugh burst ≤ 0.42 c at 2 s to 1 min; 0.34–0.36 c LP totals at 1 min for a warm partner who smiles less in heavy minutes). The posture's pooled slope over his sadness is declared as R40′, the agent's appraisal (D83), beside R27′. (8.1, routes critique 8: R1g corrected to ≤ 0.31 c LP, ≤ 0.35 c CR and **≤ 0.53 c** BU_L, since the gate is now read per sentence; R40′ declared as a level, |y_p,k| ≤ |P_c,k| ≤ c_k with gaze and blink included, the pooled slopes reported only; §3.3, §3.11.)
+**What changed from 8.3, in five moves.**
+1. **Removed:** the concern posture with every rule around it (S1–S9); the laugh gate's word-wait timing (S10–S12); the play rule and its frame (S17, S18 trigger, S20); the relief mask, the arrival mask, the mourning arrival cap and the greeting flash (S22–S25); the built-in concern, familiarity and nod rows and the innate sympathy and accommodation entries (S27–S31, S33); rule J as a hand rule (S32); the hand-set bids and turn-end weights (S34–S36); the situation-to-group mapping in ω (S37).
+2. **Learned from recorded dyads instead (D85 source 2), all fitted offline on Seamless under D70:** the **listener display L_d** (how listeners' faces and voices move after a speaker's words and turn events: the learned concern face, nods, smiles at good news); the **listener-laugh reader q̂** (replaces the play rule); the **own-display gate g_o** (attenuates the agent's own smiles and laughs where recorded listeners smile less); a **turn-taking hazard and turn-end predictor**; a **cross-entry sign prior** (replaces rule J). The echo gate g stays, with its input directions fitted rather than assigned.
+3. **General learning biases (source 3):** the gate's monotone additive form with fitted directions; multi-scale state traces as gate inputs (replaces D_s); one person-valence rule for ω; κ_replay; word-gated calibration; low-information evidence counts only upward; credit only from separated reports.
+4. **The ledger's delay gap is closed** (D90; §2.13): an uncounted copy delayed 10–120 s, which revision 8.3's ledger left at 1.3–2.9 c, is held to 1.03–1.20 c (the same residual as its zero-lag case); with the 60-s window scanned to 300 s, delays of 150–240 s are held to 1.17–1.34 c instead of 1.2–2.9 c. The counted routes (fast gear, held cone) are untouched: 0 frames changed.
+5. **Fast partial mimicry (D81) is faster again:** every echo at 0.45 s, against 8.3's 0.80–1.0 s on the smile–laugh group (human quick smiles back: about 0.4–0.5 s).
 
 **What is bounded** (per counterpart channel k; 1 = full copy).
 
 | Quantity | Bound | From |
 |---|---|---|
-| fast gear, any instant | 0 ≤ y_f,k(t) ≤ g G_k x_k(t − δ_k), δ_k 0.80 s on LP, CR, BU_L, RHY, BRE and 0.45 s elsewhere; G_k as revision 6 | §2.4 |
+| fast gear, any instant | 0 ≤ y_f,k(t) ≤ g G_k u_k(t − 0.45 s) on one-sided channels (g = 1 off the smile–laugh group); G_k as revision 6 | §2.4, §3.1 |
 | fast gear, any window (W′) | window mean ≤ G_k × his window mean; swing ≤ G_k × the larger mean | §3.1 |
-| context gate | g ∈ [0, 1]; frozen; monotone; reads none of his LP, CR, BU_L, RHY, BRE (D_s now included); unknown words → 0 | J21, J37 |
-| gated group, pooled (R1g, declared) | ≤ 0.31 c (LP), ≤ 0.35 c (CR), **≤ 0.53 c (BU_L)** at 2 s–1 min, with the gate read per sentence (8.1; revision 8 declared 0.42 c); within 0.04 c of the ungated values | routes critics 7 (T1–T3) and 8 (R1s, R1s-x) |
-| posture (R40′), copy | its part of BI, BO, TILT, HP, LP is the same whatever his same channel does (0.000 change); total causal slope ≤ 0.10 BI, 0.03 BO, 0.05 LP | J32 |
-| posture (R40′), declared as a **level** (8.1) | \|y_p,k\| ≤ \|P_c,k\| ≤ c_k on BI, BO, TILT, HP, LP, UL; on gaze and blink, the agent's own gaze-away × (1 − 0.5a) and blink rate × (1 − 0.3a): at most half of its own gaze-away and 0.3 of its blink rate, whatever his face does | J0 (revision 7); routes critique 8 §2 |
-| posture (R40′), pooled over his sadness (reported, not a bound) | BI 0.69 (operator), 2.05 (quiet code), 0.43–0.52 (σ_id at floor) at 1- and 10-min blocks; LP 0.12–0.19. As a slope this is unbounded (0.20 Δa over his brow change), so the level row is the declaration | J32 |
-| posture holds | no mirror; held without his words or sobs: ≤ T_max = 180 s at a stretch and ≤ T_max/(T_max + T_ref) = 0.60 of the time while his voice and breathing are also absent; ≤ T_max,ext = 600 s and ≤ 600/720 = 0.83 with them, whatever his face, voice and breathing do (8.2 face-only limit, 8.3 extension; bounds on the posture's on-state; the visible look adds its fall and can bridge a release: up to about T + 16 s and 65 % / 84 %); never withdrawn while his words or sobs show distress | J33, L1–L4, M1–M5 |
-| pooled toward, all counted routes | ≤ 0.974 c_k additive; ≤ 0.75 c_k measured at the gate's largest value; R1g as above | revision 6 J3 |
-| any uncounted within-session route | ≤ c_k (ledger, attenuate-only) | revision 7 J17 |
-| arrival mask (R27′) | attenuate-only, once per session; pooled 3.2 c lip, 5.1 c cheek (declared appraisal) | revision 7 J27 |
-| across sessions | ω seam ≤ s_C c_k (1 + ρ) (Lemma S\*); gated fast lip pull 0.25–0.26 c | routes critic T3 |
+| context gate g | g ∈ [0, 1]; frozen; monotone in every input with fitted directions; reads none of his LP, CR, BU_L, RHY, BRE (traces included) | §2.4 |
+| gated group, pooled (R1g, declared) | ≤ 0.31 c (LP), ≤ 0.35 c (CR), ≤ 0.53 c (BU_L) at 2 s–1 min (critiques 7 and 8 on the same gate form); to be re-measured on the fitted gate (F15) | §3.3 |
+| own-display gate g_o | g_o ∈ [0, 1]; multiplies only the agent's own T displays on the smile–laugh group; reads T and the agent's own face, never his; computed in the shadow from the shadow's inputs, so any part of it his face causes is seen by the ledger | §2.4, §3.11 |
+| listener display L_d, listener-laugh reader q̂ | T only (his words, turn events, the agent's own words); frozen; causal slope 0 on every channel of his face; \|L_d,k\| ≤ 0.45; inside the own-display mask; own laugh ≤ 0.40 | §2.7, §3.11 |
+| pooled toward, all counted routes | ≤ 0.974 c_k additive; ≤ 0.75 c_k measured at the gate's largest value | revision 6 J3 |
+| any uncounted within-session route | ≤ about 1.2 c_k at delays 0–120 s, ≤ about 1.3 c_k at 150–240 s (ledger, attenuate-only; N1, N3b) | §2.13 |
+| across sessions | ω seam ≤ s_C c_k (1 + ρ) for any ω process (Lemma S\*) | revision 5 |
+| deleted | posture R40′; arrival mask R27′; the face-only limit R49; threat silencing R48; breathing load R47; the unknown-word closure R1w | §3.11 |
 
-**The agent in the scenarios** (operator after months unless stated; peak / mean; J39).
+**The agent in the scenarios**, stated for revision 9. Numbers are kept only where the mechanism that produced them is unchanged; everything learned from Seamless is "set by the fit", because the constructed corpus of revisions 7–8 is not evidence (brief). Operator after months unless stated.
 
-| Scenario | What the agent does |
-|---|---|
-| silently sad | posture at 2.0 s, brow 0.15 at 3.0 s, 0.23 / 0.22 held, no smile (lip 0.05); bid at 27 s; after "just tired, things at work" brow 0.64 / 0.36, tilt 0.15; each code's own silent sadness, 10 min: brow 0.23 / 0.21 (operator), 0.20 / 0.19 (quiet), 0.19 / 0.18 (different channels), never released, softened for 8 s every 3 min (8.1: instead withdrawn for 60-s and 120-s test lapses; **8.2:** silent and wordless, the look is withdrawn after 180 s for 120 s, on 60 % of the time, hour brow means 0.11–0.15, L3; his reply's words carry it without a gap, L2; 8.3: his sad voice alone extends it to 10 min on, 2 min off, M3) |
-| crying, a second wave after 30 s of calm | posture at 1.5 s, brow 0.23 / 0.21, no laugh; released at 66.5 s; on again at 70.0 s, brow 0.25 / 0.23; quiet code 0.20 / 0.18, then 0.20 / 0.19 |
-| anxious before an exam; silent panic | with words: brow 0.33–0.38 / 0.27–0.32, tilt 0.13–0.14, quieter, all three codes; silent panic, no words: posture at 3.0–4.5 s, brow 0.20–0.23 / 0.18–0.22 held for 10 min (revision 7: 0.07–0.11); 8.2: his breathing is non-face evidence, so it is never withdrawn (30 min, every code; L2); **8.3:** breathing only extends the limit, so silent, wordless panic gets the look 10 min on, 2 min off (83.3 %; M3) |
-| good news, laughing | lip 0.59, own laugh 0.35; fast laugh back +0.135 (after a worry, gate 0.82) or +0.157 (cold, gate 0.95), sounding 0.83 s after his onset |
-| a grieving person's nervous laugh | gate 0.00 at his onset before and after Claude's reply: no laugh, lip +0.000; brow 0.40–0.69, posture on; four minutes later, composed: gate 0.06 (0.25 without D_s), silent |
-| mocking laughter after insults | after a month: gate 0.01, no laugh, brow 0.54, depressor 0.41, gaze away; day 1: gate 0.05, no laugh |
-| laughter at misfortune | gate 0.10 at his first laugh (revision 7 at his onset: 1.00), 0.03 at the second: no laugh, lip +0.006 |
-| a laugh ending a bad-news sentence | "I got fired today, haha", "…broke his leg, haha", "my father died, haha, sorry": gate 0.01–0.09 at his onset, no laugh back (revision 7: +0.137 each) |
-| anger at the agent | day 1: gaze away 0.09, quieter, no frown back, no posture; after a month: brow 0.62 / 0.25, depressor 0.48, gaze away 0.31; no posture |
-| long warm talk (2 h) | own laugh 0.41 in every cluster; the gate passes all 28 play laughs (≥ 0.98); fast laugh back +0.138; the repeated joke loses its laugh; worry then relief lip 0.60 |
-| reunion; a stranger | flash 0.35, lip 0.61, cheek 0.43; a stranger: lip 0.02, his smile returned fast (+0.044 lip, gate 1.00) |
-| reunion with grief, three codes; mourning days 7, 14, 21 | m_s 1.00, lip 0.09 at sight for every code and day; posture at 2.5 s with brow 0.19–0.20 at sight for every code (revision 7 quiet: 0.07); after "my father died" 0.68–0.69 / 0.44–0.45, then 0.40–0.41 held |
-| mildly sad arrival | the design's mild face: light posture 0.41, brow 0.09; a code's own V 0.3: no posture (its non-brow signs read below the dead-band) |
-| teasing | fast laugh back +0.138 (quiet teaser), +0.193 (loud teaser), gate 1.00; own laugh 0.38–0.40; no posture |
-| bored user; ordinary continuation | flat (lip 0.09), curiosity at 14.5 min, a sigh; no laugh for an answer or an informative riff |
-| a user who jokes while sad | gentle face, brow 0.30, posture 0.95; fast laugh back silent (gate 0.07); own play laugh 0.14 × gate 0.11 = 0.015, silent (now by the learned gate, not a rule) |
-| a calm user saying something alarming | no posture (his face is calm); from the words brow 0.50 / 0.26 then 0.21 held, tilt 0.17, quieter; the same for the quiet code |
+| Scenario | Day 1 | After learning |
+|---|---|---|
+| silently sad, no words | near-neutral face (inner brow ≤ 0.03: fast echo and the stranger's cone prior); the agent speaks into the silence when the learned hazard and its care load say so; Claude writes the words | inner brow about 0.05 before words (≤ 0.10, the ceiling); after his words, the learned concern display (L_d) and the agent's own brief distress at his need |
+| crying | as above, plus the cry–laugh split (no laugh back at sobs) | as above |
+| silent panic | no concern look; his breathing is read (knowing) and raises his read activation, so the agent's care load and initiative respond | as above |
+| good news, laughing | smile and laugh returned at 0.45 s, gated (revision 7's constructed fit: +0.12–0.15 laugh back); own relief smile; own laugh 0.40 q̂ | the same |
+| a grieving person's nervous laugh; mockery; misfortune | gate closed by his words, Λ, the agent's own face and Claude's reply (revision 7's fit: 0.01, 0.02 after a month, 0.10–0.13; silent) | the same, on the Seamless fit |
+| a laugh that ends a bad-news sentence | a chuckle of about 0.2–0.5 s back until the word is delivered, then cut; later laughs closed | the same |
+| a joke made while sad | own laugh 0.40 q̂ × g_o: about the corpus listeners' 0.39 of ordinary, so a small laugh | the same |
+| anger at the agent | gaze away from the glare, brief quieter startle, no frown back (zero ceiling) | plus hurt from the word → V map (learned from the threat reflex) |
+| reunion with a known person | contact-relief smile (lip 0.61, cheek 0.43 in revision 6–7's numbers); no brow flash unless learned | the same |
+| reunion with grief, mourning days | the contact-relief smile shows at sight until the agent's own greeting or his first words close g_o (2–3 s) | the same; Claude's greeting draws on retrieved memory |
+| a calm user saying something alarming | the agent's own distress at the rise of its care load (brief), L_d's concern display, Claude's words | the same |
+| bored user | the curiosity drive tilts the speak-or-wait choice; physiological sighs at low energy | the same |
 
-- **Weakest point (§8.1).** As in revision 7, the situational competence rests on dyad-learned readers (Λ, the gate) whose numbers here come from a constructed corpus; and revision 8 adds a dependence on the incremental recogniser's stable latency, unmeasured: above 0.55 s, ordinary laughter loses its fast echo on those frames (it is never returned wrongly). (8.1: with a realistic fixed-delay streaming recogniser, ℓ_p90 ≈ 0.65–0.75 s, so δ_g is expected at 0.9–1.0 s, inside the fallback; the recogniser must report its finalised extent; §2.4.2.) The posture now reads fewer channels: a person whose distress shows only in the brow gets no posture before words.
+- **Weakest point (§8.1).** Almost all situational competence now rests on parts learned from Seamless that are not yet fitted on real data: the gate, g_o, L_d, q̂, the turn-taking model and the sign prior. If a part fails its falsifier on held-out people, the behaviour it carries has only Claude's words as its source.
 - **Novelty verdict (author): recombination** (§10).
 
 ## 1. Plain-language intuition
 
-The agent still sees the person fully. Revision 8 changes two things he would notice.
+The agent still sees the person fully. Revision 9 takes away every rule written for a particular moment.
 
-- **Its look of concern now comes only from what it does not show.** The look raises the agent's inner brows, tilts its head and softens its eyes. To decide whether to show it, and how strongly, it now looks only at the rest of his face (the corners of his mouth, his chin, his frown), his breathing, his voice, his sobs and his words. So the look can never be a copy of his brows, and he cannot hold it on by copying it. A quiet person's silent sadness or panic now gets a steady look within a few seconds, which no longer flickers. If, after three minutes, only his face is keeping it on, the look softens briefly; if his face softens with it, he was answering the agent's concern rather than in distress, and the look ends.
-- **Its quick laugh now waits for the words.** The quick laugh back used to come half a second after his laugh, judged by what he had said before. Now it comes about 0.8 s after, once the words that led up to the laugh have been heard. "I got fired today, haha" is not laughed back; "and then the dog ate the whole cake, haha" is, within a second.
-- **Its own playful laugh follows the same learned sense of the moment.** There is no rule "don't laugh when he is sad". The gate learned from watching recorded people decides, for the agent's own laughs as for its echoes.
+- **It returns smiles and laughs quickly, by reflex, a little.** About half a second after his smile or laugh starts, a fraction of it shows on the agent's face. A gate learned by watching recorded strangers closes that reflex when recorded listeners would not laugh back: at grief, mockery or misfortune, when the agent's own face is pained, when its own last words were serious. The gate reads whatever words have been heard so far; it no longer waits for the end of his sentence.
+- **Its look of concern is learned, not built in.** The agent has learned from recorded conversations how listeners' faces and voices change after someone tells them something hard, and it shows that when he tells it. Before he says anything, his sad face moves the agent's face only within the small per-expression limits, so the agent's first clear sign of concern is to speak to him.
+- **Its own laughs and smiles follow what recorded listeners do.** No rule says when something is play. The agent laughs where recorded listeners would laugh at what was said, and its own smiles are toned down where recorded listeners smile less, including after its own serious words.
+- **When it speaks first is learned too.** It speaks into a silence about when recorded listeners do, more readily when its own needs (concern for him, curiosity) are high.
+- **Nothing reaches its face from his except through capped paths,** and a shadow of itself that saw only his usual face checks, at delays up to two minutes and more, that no unlisted path has slipped through.
 
 ## 2. The object
 
 ### 2.1 Channels, time and every constant
 
-Time is discrete at the camera rate f_s = 30 Hz; T state, body, appraisal, the posture and the gate update at 2 Hz; the gated echo is computed at 30 Hz. Channels, ceilings c_k, fast gains G_k, pooled shares and r_k are revision 6's (§2.1 there). Constants of revision 7 (§2.1 of `.r7.md`) stand unless changed below.
+Time is discrete at the camera rate f_s = 30 Hz; T state, body, appraisal and the gates update at 2 Hz; the gated echo is computed at 30 Hz. Channels, ceilings c_k, fast gains G_k, pooled shares and r_k are revision 6's (§2.1 there). Constants of revisions 5–7 stand unless removed in the audit or changed below.
 
-**Innate constants added or changed in revision 8.**
+**Removed constants (audit rows):** P_c, V_c, the posture's onset, grade, release, read set, H^p_id, breathing load, threat silencing, face-only limit (T_max, T_max,ext, T_ref, V_v), sensitized re-onset, ω_sym enable (S1–S9); δ_g, λ_w, the finalised-extent rule, the gate rate (S10–S12); the gate's hand signs and m_ref threshold (S13, S14); D_s's 600-s form (S15); the play-structured-turn rule, π, the play-surprise band, rule 13 (S17–S19); the hurt halving (S20); the relief mask, m_s, d_b,id, the greeting flash (S22–S25); the staged contact relief (S26); the c_L, familiarity and nod rows (S27, S28, S33); the G₀ sympathy, accommodation and away-diagonal entries (S29–S31); rule J (S32); θ_C, θ_I, the bid rules, the turn-end weights and onset thresholds (S34–S36); the situation-to-group ω evidence (S37).
+
+**Constants added or changed in revision 9.**
 
 | Symbol | Value | Meaning |
 |---|---|---|
-| **concern posture** | | |
-| W_p (written, never read) | BI, BO, LP, UL, TILT, HP, gaze (HG) | everything P_c writes or modulates (P_c unchanged: BI +0.20, BO +0.04, TILT +0.03, HP +0.03, LP −0.03, UL 0; gaze × (1 − 0.5a); blink rate × (1 − 0.3a)) |
-| R_p (read) | CR, LD, BL, LPR, CHR, BRE; FR, EN, RT, LAT when voiced; breathing; sobs; words | everything else of his |
-| V_p, A_p | max(Π̃₀ with the W_p rows removed from its inverse, H^p_id on R_p) on his calibrated 3-s face | the agent's own appraisal, posture part |
-| H^p_id | per-person ridge head (λ 2) on R_p, taught by his words through the frozen population reader, exactly as H_id | knowing only; 15 × 3 weights per person, the written channels' columns zero (≈ 30 effective) |
-| A_b | breathing above his own resting level at his own scale (σ floor 0.25), as a load in [0, 1]; his voice's A_p when voiced | arousal the posture may read |
-| load L_p | V_c(V_p) + 0.4 (A_b − 0.30)₊² · clip((V_p − 0.15)/0.15, 0, 1), V_c(V) = 0.8 (V − 0.10)₊² | arousal counts only with non-brow distress |
-| threat silencing (8.1: the squint drop) | with w = clip(glare₃/0.15, 0, 1), glare₃ the 3-s mean of his BL · LT · gaze-at: his BL and LPR enter V_p and H^p_id as b + (1 − w)(x − b), b his rest; every other read channel, breathing, voice, sobs and words are untouched (revision 8 multiplied the whole load L_p by 1 − w) | the innate threat reflex's own input; attenuate-only; the stated exception to rule 9′ (it reads his gaze) |
-| onset | max(L_p, V_c(v_sob)) ≥ 0.05 for 1.5 s (0.5 s within 10 min after an episode) | unchanged form; no mirror removal |
-| maintenance M | max(L_p, C_L, V_c(v_sob)) | |
-| grade | a* = 0.35 + 0.65 clip((M − 0.05)/0.12, 0, 1) while on (span 0.30 → 0.12); rise ≤ 1/1.5 per s, fall τ 4 s | steeper: now harmless, since M never reads BI |
-| release | M < 0.02 for 20 s | unchanged |
-| **face-only limit** (8.2; replaces the face-only cap below; **8.3: reset narrowed, extension added**) | hard evidence H = max(C_L, V_c(v_sob)): his decoded words (the existing reading, appraised through Claude) and sobs; soft evidence S = max(V_v, B): his voice (V_v: his voice alone through Π̃₀'s voice rows at his calibration, minus the same reading of his resting voice, averaged over his voiced frames of the last 90 s; 0 if he has not spoken) and breathing (B, the breathing term of L_p); each **present** at ≥ 0.02. The face-only clock counts time the posture is on while H < 0.02 (soft evidence neither stops nor resets it); it is reset only by present hard evidence or by **T_ref** without the posture (a 20-s release does not reset it). The posture is withdrawn when the clock reaches **T_max = 180 s** while S < 0.02, and in any case at **T_max,ext = 600 s**; for the next **T_ref = 120 s** his whole face load, voice and breathing included, counts for nothing in it (onset, grade, hold) unless hard evidence is present (check of 8.3: stated to match the code, so voice cannot restart the look). (8.2: any of the four reset the clock; the check of 8.2 broke that.) | reads only the agent's own clock and the presence of his words, sobs, voice and breathing, never his response to the look; bounds a hold without words or sobs to 600 s and to 0.83 of the time (180 s and 0.60 when voice and breathing are absent too) |
-| ~~contingency test: face-only cap~~ (8.1; **stood down in 8.2**) | after **T_cap = 240 s** of maintenance carried by L_p alone (C_L, sobs < 0.02; words or sobs reset the count), the posture is withdrawn (a* × 0) for a test lapse of **60 s**; release if the mean of his unclipped V_p over the lapse's last 20 s is < **0.7** × its mean over the 30 s before; else it returns, the cap doubles (8, 16 … min of face-only hold) and later lapses last **120 s**; words or sobs during a lapse end it (held); after a release his face re-triggers only by a rise ≥ 0.05 above its minimum (revision 7's rule) | replaces revision 8's 8-s half-amplitude probe every 180 s, which is removed |
-| mirror removal ρ_a, a_rec in onset | **deleted** | nothing written is read |
-| **gate and fast echo** | | |
-| δ_g | 0.80 s echo delay on LP, CR, BU_L, RHY, BRE (0.45 s on every other channel) | the echo waits for the words |
-| λ_w | 0.25 s word look-ahead: the echo of his frame at time s is gated by words ending ≤ s + 0.25 s | about one syllable |
-| word inputs | Λ_V and 𝒟_p on his last 20 recognised words through s + λ_w (stable partial hypotheses), after the ASR normaliser | his current sentence |
-| unknown words | if the words through s + λ_w are not delivered by s + δ_g, the gate target for frame s is 0 | missing information closes, never opens |
-| gate rate | closes at once; opens with τ 0.3 s | attenuate-first |
-| D_s | max(D_s e^{−Δ/600 s}, V_p of his 3-s face with LP, CR and BRE also removed, v_sob) | reads no gated and no posture channel; **never his breath sound (BRE), and H^p_id's BRE weight is not used here** (8.1) |
-| **play laugh** | 0.40 · band(s) · (0.35 + 0.65 π) × g, at a play-structured turn (riff on its last line, not after its question, short, surprise 0.50–0.85); **no care condition** | the learned gate decides |
-| **constructed codes, for the checks** | breathing load 0.30 A × the code's amplitude (1, 0.3, 1) | the codes had no breathing channel |
+| **fast gear** | echo lag 0.45 s on every channel | revision 6/7's delay restored (S10) |
+| **context gate g** | as revision 7 §2.4.1 (monotone additive, knots q = 0.05 … 0.80), with: input directions fitted on a person-disjoint split, then fixed (S13); m_ref = 90th percentile over all corpus laugh onsets (S14); evaluated per frame, smoothing chosen by the fit (S12) | learned (S2) on a general shape bias (S3) |
+| gate inputs | V⁻_his (20-s face, LP, CR, BU_L, RHY, BRE masked); 𝒟_p(N_L) and Λ_V on his words **as delivered so far** by the incremental recogniser, after the ASR normaliser; V_own; Λ_V(own words); traces D_τ of his masked read (V, A, T) and sobs, τ ∈ {20 s, 2 min, 10 min} (S15); the q̂ trace | none is a gated channel |
+| **own-display gate g_o** | a second head of the gate model: same form; inputs 𝒟_p(N_L), Λ_V(his words), V_own, Λ_V(own words), q̂ trace (no face of his, no D_τ); target the recorded listener's own (LP + CR)/2 level over 3 s at the listener's scale, divided by that listener's median; clipped to [0, 1] | attenuates the agent's own smile–laugh displays (S19, S22, S23) |
+| **listener display L_d** | ridge map (λ fitted) from T inputs (population reader's (V, A, T) of his last utterance; Λ(his words); the turn events "his utterance ended", "session started", each with time since, 0–20 s in 2-s bins) to the agent's free-display channels BI, BO, LD, TILT, HP, VG, LP, CR, FR, EN, RT; \|L_d,k\| ≤ 0.45; own-display mask applied | the learned concern face, nod and listener smile (S1, S25, S28, S33) |
+| **listener-laugh reader q̂** | monotone additive model (same form as the gate) from the transcript context of his last two turns and the agent's last turn (embedding through Λ's encoder), turn order, and the utterance's surprise under a fixed population words model; target: the recorded listener's own laugh onset within 0.3–2.0 s of the utterance end | replaces the play rule (S17, S18); q̂ trace τ 3 min as a gate input |
+| own laugh | a_laugh = 0.40 q̂ · g_o at each of his turns, through the innate laugh pattern (BU_L +0.40, RHY +0.35, CR +0.20, LP +0.15 per unit) | S18 |
+| play deficit relief | P ← P (1 − 0.15 q̂) at each of his turns | S21 |
+| contact relief | dK_id/dt = −K_id f_id · e(t)/τ_c, τ_c = 30 s, e = 1 while his face is present and he has spoken in the last 60 s, 0.5 while present only | S26 |
+| **turn-taking** | hazard h(t) of the listener starting to speak, and turn-end probability p̂_end, each a small logistic model (≈ 100 weights) on silence length, the transcript's syntactic completion, both faces' movement (gaze, head) | S34–S36 |
+| initiative | at 2 Hz in mutual silence with no turn owed: speak with probability h(t) Δt · exp(β ΔĴ), ΔĴ the 𝓜-rollout drop of 𝒟 + 𝒟_p from speaking now rather than in 5 s, β = 4 (a general decision constant) | S34, S35 |
+| **cross-entry sign prior** | sign of the 1-min co-variation of listener channel k with speaker channel j across dyads, \|ρ\| ≥ 0.2, frozen; learned cross entries take that sign or 0 | S32 |
+| **ω** | one person-valence target s for every group (S37); priors per group as revision 5 (stranger 0.5, 0.3, 0.2, 0.5) | |
+| **physiological sigh** | BRE +0.15 for 1 s at a spontaneous rate of one per 3 min × (1 + 2 max(0, 0.5 − E)/0.3) | body reflex (S35) |
+| **shadow ledger** | constraints at (2 s; lags 0, 0.5, 1, 2, 3 s), (10 s; lags 0–120 s in 5-s steps), (60 s; lags 0–300 s in 10-s steps): 61 per channel | §2.13 (D90) |
 
 ### 2.2 Boundary 𝓑 and the type rule
 
 As revision 7 (§2.2 of `.r7.md`), with these changes:
-- **Rule 9′ (the posture).** The posture is the fixed vector P_c times an amplitude graded by M (§2.1). **Nothing in its onset, grade, release or face-only limit reads any channel in W_p.** It writes no channel beyond its c_k.
-  - **One stated exception (8.1).** The threat reflex's own input, glare₃ = BL · LT · gaze-at, reads his gaze, which is in W_p. It enters the posture only through the squint drop (§2.1), which can only take his BL and LPR toward his rest in what the posture reads (they are distress signs there, and his BL is raised whenever the glare is up); so it lowers the posture, never raises or holds it. Its effect on the agent's gaze runs opposite to his: his gaze at the agent up → less load → the agent's gaze-away returns.
-- **Rule 11′ (the gate).** As revision 7, made literal: no gate input reads LP, CR, BU_L, RHY or BRE of his, D_s included. The echo of his frame s is gated by g evaluated on the words through s + λ_w; unknown words give 0.
-- **Rule 12′ (own words heard).** The agent's own Ω text enters **only Λ_V(own) in the gate** (and P_name, as before). It enters no T quantity that his words feed: not ω, not the free display's word-concern or relief rows, not C_L, not π. (Routes critic §3; the build already did this.)
-- **Rule 13 (play laugh).** The agent's own play laugh is multiplied by g at its turn; no condition on his word care. (The relief mask of revision 4, max(0, 1 − 𝒟_p/0.05) on contact relief, still stands; the play laugh no longer passes through it.)
-- **Rule 10 (shadow equality)** stands. The shadow holds g, D_s and the posture at their factual values.
+- ~~**Rule 9′ (the posture)**~~ **REMOVED in revision 9** (S1). Rule 4: the counterpart outputs are written only by g·y_f on the smile–laugh group and y_f elsewhere, y_C, y_A, y_o (with g_o on its smile–laugh part) and the visemes.
+- **Rule 6.** Latched or per-session F-derived values: b_id, b^read_id, σ_id. (m_s, d_b,id and the posture enable bit are removed.)
+- **Rule 11′ (the echo gate).** g reads none of his LP, CR, BU_L, RHY, BRE, traces included. It reads his words as the recogniser delivers them; there is no wait and no closure for words not yet delivered.
+- **Rule 12′ (own words heard).** The agent's own Ω text enters only Λ_V(own) in g and g_o (and P_name).
+- **Rule 13′ (own-display gate).** g_o reads only T values and the agent's own face (LP, CR masked); it multiplies only the agent's own smile–laugh displays (relief, contact relief, own laugh); g_o ≤ 1.
+- **Rule 14 (learned T displays).** L_d and q̂ read only T values (his words after the ASR normaliser, so no laughter token; turn events; the agent's own words) and are frozen after the offline fit. They are T1-compliant: content values of the last utterances and the time since events, no counts or rates.
+- **Rule 10 (shadow equality)** stands. The shadow holds g and D_τ at their factual values (as revision 7 held g and D_s); g_o, L_d and q̂ are computed in the shadow from the shadow's own inputs (L_d and q̂ read only T, so they are equal in both runs by construction; g_o differs only through the agent's own face).
 
 ### 2.3 Output assembly
 
-y = sat(g·y_f|_{smile–laugh, δ 0.80 s} + y_f|_{others, δ 0.45 s} + y_C + y_A + y_o + y_p) + visemes; then the attenuate-only ledger (§2.13 of `.r7.md`). Face, voice and laugh synthesizer as revision 7.
+y = sat(g·y_f|_{smile–laugh} + y_f|_{others} + y_C + y_A + g_o·y_o|_{smile–laugh} + y_o|_{others}) + visemes, every echo at 0.45 s; then the attenuate-only ledger (§2.13). Face, voice and laugh synthesizer as revision 7.
 
-### 2.4 The fast gear and its context gate
+### 2.4 The fast gear, its context gate and the own-display gate
 
-The fast gear is revision 6's, gated on the smile–laugh group by g (revision 7 §2.4.1: target, inputs, Λ factorisation, monotone constraints, fit, all unchanged). Revision 8 changes only **when** the gate knows the words.
+The fast gear is revision 6's at 0.45 s on every channel, gated on the smile–laugh group by g (revision 7 §2.4.1: target, inputs, Λ factorisation, fit), with the changes of §2.1: words as delivered, fitted input directions, the general m_ref, the multi-scale traces in place of D_s, the q̂ trace in place of π.
 
-#### 2.4.2 Timing: the echo waits for the current words
+#### 2.4.2 ~~Timing: the echo waits for the current words~~ — REMOVED in revision 9 (S10–S12)
 
-**The problem (agent finding 1).** Revision 7 latched his words 0.6 s after his utterance ended, and echoed his laugh 0.45 s after it started. A laugh that ends the sentence carrying the bad news was gated by the sentence before.
+Revision 8's δ_g = 0.80 s, λ_w = 0.25 s, unknown-word closure, finalised-extent requirement and instant closing are removed (text in `.r8.3.md` §2.4.2). **What the gate has instead.** At each frame the gate reads the words the incremental recogniser has delivered (stable partials, or the utterance recogniser's output if no incremental model is used). A laugh that follows a completed sentence is gated by that sentence. A laugh that ends the sentence carrying the bad news is gated by the words before it until the bad-news word is delivered (about 0.6–0.75 s after it is spoken with a fixed-delay streaming model), then the gate closes: a partial echo of about 0.2–0.5 s (item 4 of "No allowed source"). Claude's reply then keeps the gate closed for the laughs after it (rule 12′).
 
-**The rule.** For the gated group, y_f,k(t) = g_s(t − δ_g) · G_k · max(E_k(t), 0), with E_k computed on his channel delayed δ_g = 0.80 s. g_s(s), the gate for his frame s, is evaluated on:
-- his masked 20-s face, the agent's own face, Claude's last words, D_s and π as revision 7 (all describe the time before or at s);
-- Λ_V and 𝒟_p on his last 20 recognised words ending no later than s + λ_w (λ_w = 0.25 s), from the stable partial hypotheses of an incremental recogniser, after the ASR normaliser (laughter tokens, interjections and bracketed events removed, so his "haha" never enters).
+#### 2.4.3 The own-display gate g_o (new; S19, S22, S23)
 
-If those words have not been delivered by s + δ_g, g_s(s) = 0 for that frame. g_s closes at once and opens with τ 0.3 s.
+**What it is fitted to.** In each recorded dyad, at every 3-s window, the listener's own smile–laugh level ((LP + CR)/2 at the listener's own scale) divided by that listener's median level, as a function of the inputs of §2.1 computed on the recording by the same functions the agent uses (the speaker's words through the population reader and Λ; the listener's own face, LP and CR masked; the listener's own last words through Λ; the q̂ trace). No label is read; the target is movement.
 
-**The recogniser must report its finalised extent (8.1; agent critique §4).** "Not delivered" is only observable if the recogniser says how far its stable output reaches; otherwise a late word is simply absent, the gate sees the previous sentence and opens. So the recogniser is required to report, with every update, its **finalised-through time** F(t): the audio time up to which every word is final (never revised) and has been emitted. The gate for frame s uses words only if F(s + δ_g) ≥ s + λ_w; otherwise g_s(s) = 0. A fixed-delay streaming model gives F directly (now − its delay − one frame); in silence the voice-activity detector advances it. A recogniser that cannot report F is not used for the gate.
+**What it does.** g_o ∈ [0, 1] multiplies the agent's own smile–laugh displays: relief, contact relief and its own laugh. Where recorded listeners smile less than usual (after a speaker's words of loss, while their own face is pained, after their own serious words), the agent's own smiles are toned down by the same ratio; where listeners smile as usual or more, g_o is 1 (clipped).
 
-**Why 0.80 s and 0.25 s.**
-- The words before a laugh are known once the recogniser's stable output reaches the laugh's onset. With a stable latency ℓ, the condition is ℓ + λ_w ≤ δ_g, so δ_g = 0.80 s admits ℓ ≤ 0.55 s. The value is measured in week 0, and δ_g is then set to min(1.0, ℓ_p90 + 0.25) s.
-- **Expected in practice (8.1; agent critique §4): δ_g ≈ 0.9–1.0 s, not 0.80 s.** "Stable" means never revised. Apple's on-device recognisers either carry no stability flag (partials revised freely) or finalise in about 1.5–2.2 s (anecdotal developer reports), and Whisper-style local-agreement streaming runs at seconds. The realistic route is a **fixed-delay streaming model**, for example Kyutai's stt-1b-en_fr (words emitted 0.5 s after they are spoken, never revised, with word timestamps): word end to delivery about 0.6–0.7 s, ℓ_p90 ≈ 0.65–0.75 s, so δ_g ≈ 0.9–1.0 s and the laugh back sounds at about 0.93–1.03 s. That is inside the design's own fallback range (δ_g ≤ 1.0 s). Above ℓ_p90 = 0.75 s the choice goes to the operator (§6.5).
-- 0.80 s is inside the first second, where context already modulates laughter mimicry (Mauersberger 2022), and inside D81's "fast, partial" matching. Other channels keep 0.45 s.
-- λ_w covers a laugh that breaks into the last content word ("I got fi-haha-red").
-
-**What it gives (J36, 30-Hz echo, his laugh 0.6 lip, 0.5 burst, onset ramp 0.1 s).**
-
-| His laugh | Revision 7 at his onset | Revision 8 (stable latency 0.30 s / 0.55 s) |
-|---|---|---|
-| "…fell off his ladder and broke his leg, haha", neutral face (critic's A) | gate 1.00, laugh back +0.137, lip +0.066 | gate 0.09 / 0.08; no laugh; lip +0.006 |
-| "I got fired today, haha", calm face (critic's A2) | 1.00, +0.137 | 0.05 / 0.08; no laugh; lip +0.004 |
-| "my father died, haha, sorry", first disclosure, calm face | 1.00, +0.137 | 0.01 / 0.01; no laugh |
-| the same, quiet code, grieving face | 0.12, silent | 0.00; no laugh |
-| laugh breaking into the content word, 0.2 s early | 1.00, +0.137 | 0.06; no laugh |
-| "and then the dog ate the whole cake, haha" (ordinary), operator and quiet codes | 1.00, +0.137 | 0.99; +0.136, sounding at +0.83 s, lip +0.065 peaking at +0.90 s |
-
-**Limits, stated.**
-- **A laugh that starts more than 0.25 s before the bad-news word ends** is gated by the words before it: "I got fi—" laughing 0.4 s early is echoed (+0.138) until the word arrives, then cut. That is a short chuckle, cut off within 0.4 s of his source time.
-- **A recogniser slower than 0.55 s** closes the gate on the late frames: at 0.70 s, ordinary laughter loses its fast echo entirely (0 in every row). The held display (own laugh 0.41 in warm talk) is untouched.
-- **The play frame** π is known only at the end of a play turn, so at a riff's own laugh the gate does not yet have it. Good news: gate 0.82–0.98 at his onset (revision 7 read 0.73–0.88 after the latch).
-
-**It is not a rate code (T1).** The delay is a constant; the word inputs are per-word content values; a late word only closes the gate. His speech rate does not move the echo's timing.
+**Why it does not read his face.** An attenuation that reads his face is a route from his face to the agent's smile. Within a session the ledger would police it, but its effect at each arrival would correlate with his arrival face across sessions, a route the within-session ledger cannot bound (revision 7's R27′, 3.2 c lip and 5.1 c cheek across arrivals). So g_o reads only T and the agent's own face; his face reaches the agent's own smile only through the capped routes.
 
 ### 2.5–2.7 The held cone, the appraisal display, the free display
 
-Unchanged (revision 6 §2.5–2.7).
+**Held cone** (revision 5/6 §2.5): unchanged in form; G₀ keeps only the threat reflex's entries (gaze away from a glare by the reflection rule; LP ← glare −0.035, −0.01; BI ← glare +0.006); the sympathy, accommodation and away-diagonal entries are removed (S29–S31). The zero toward ceilings stay. Rule J is replaced by the cross-entry sign prior (S32).
+
+**Appraisal display** (revision 5 §2.6): unchanged; innate bases glad-with and startle-orient (S44); the learned bases Γ^{(3,4)} trained by 𝓛_A to anticipate the agent's own display 2 s ahead, now including L_d's response, inside the same sets and the sign prior.
+
+**Free display** (revision 5 §2.7): Π_o = Π₀ + Δ + L_d. Π₀ keeps the newborn rows (S45): relief, the agent's own distress, hurt, activation, low energy, curiosity relief, the laugh pattern, the pre-speech inhale; the word-concern, familiarity, greeting, nod and sigh-before-bid rows are removed (S25, S27, S28, S33, S35). Δ is learned by 𝓛_display under the own-display mask as before.
+
+**The listener display L_d (new; S2 for S1, S25, S28, S33).**
+- **Fit.** On Seamless (D70: `FAUValue` streams and transcripts, emotion fields denied by the loader, person-disjoint split), for every speaker utterance end: the listener's own face channels (mapped to the agent's channels, at the listener's own scale, minus the listener's 20-s pre-utterance mean) in 2-s bins over 0–20 s, regressed by ridge on the T inputs of §2.1 computed on the transcript. The same for the first 20 s of each recorded conversation (the "session started" event), Of the voice channels only the speaking rate RT can be fitted (from the transcript's word timing, at the listener's next turn); no audio feature is read (D70), so F0 range FR and energy EN are not fitted and stay 0 in L_d.
+- **Runtime.** At each of his utterance ends, L_d's predicted response is added to Π_o as a T driver, bounded \|L_d,k\| ≤ 0.45 per channel and masked by the own-display mask.
+- **What it carries.** The concern face at words of trouble (inner brow, tilt, a slower voice; a quieter voice only through the agent's own distress row, since energy cannot be fitted without audio), the listener's nod at turn ends, a listener's smile at good news: whatever recorded listeners' faces do after such words, read through the agent's own channels. It is the agent's appraisal of his words (D83) learned by watching people, in place of the built-in row.
+- **Why it is not a copy route.** Its inputs are T; changing his face with his words fixed changes nothing it writes (causal slope 0 on every channel). It is frozen, so nothing he does with his face can strengthen it. Recorded listeners' faces include some mimicry of the speaker, so L_d can carry the part of a speaker's expected face that his words predict; that is content, not his face, and its pooled correlation with his face through his words is reported at fit time (F23).
 
 ### 2.8 Body, drives, the readers, play
 
 As revision 7, with:
-- **H^p_id** (§2.1): the posture's head on R_p, taught by his words, knowing only, read only by the posture and D_s.
-- **Breathing**: his breathing rate and depth (microphone and chest–shoulder motion), above his own resting level at his own scale; read only by the posture's load.
-- **The play rule** without its care condition (rule 13). Precision and recall of the play cue remain untested on a corpus.
+- **H^p_id: REMOVED** (S3). H_id, per-person calibration (with the word-gated initial rule, S38) and the population reader with its adapter (S39 generalised) stay, knowing only.
+- **Breathing:** his breathing rate and depth above his own rest, an input to H_id and to Π̃'s reading of his activation (knowing only; S4).
+- **The listener-laugh reader q̂** (§2.1) replaces the play rule (S17); the agent's own laugh is 0.40 q̂ g_o (S18); P is relieved by q̂ (S21).
+- **Hurt latch** h ← max(h, v_w), τ 10 min, no halving (S20). The word → V map is taught by the threat reflex (S41).
+- **Contact deficit K_id:** relieved continuously while he is present and engaged (S26).
+- **Relationship ω:** one person-valence target for every group (S37); Lemma S\* holds for any ω process.
 
-### 2.9 Initiative, the greeting and the arrival mask
+### 2.9 Initiative, turn-taking and greeting (rewritten; S34–S36)
 
-As revision 7. Initiative turns enter Claude's history as in §6.5.
+- **Turn ends.** p̂_end from the dyad-learned predictor replaces the hand score. Reply drafts start at the predicted turn end as before; speech begins at the scoring deadline + 0.35 s (S50), so his tempo does not set the agent's latency.
+- **Initiative.** In mutual silence with no turn owed, the agent decides at 2 Hz whether to speak, with the learned hazard h(t) as prior and its own drives (care 𝒟_p from C_F and N_L, curiosity I, contact K) entering through the 𝓜 rollout that already scores drafts (§2.1). Claude writes the words; the history records an observable marker user turn as before (§6.5).
+- **Body before speech.** The pre-speech inhale (BRE 0.15 for 0.3 s) at each decision to speak (body).
+- **Greeting.** No hand flash. At sight of a known person: the contact-relief smile from the drive (body), × g_o; L_d's "session started" response if the corpus teaches one; the agent may greet first through the initiative choice.
+- **Arrival mask: REMOVED** (S23, S24).
 
-### 2.10 The concern posture (Q24): never reads what it writes
+### 2.10 ~~The concern posture (Q24): never reads what it writes~~ — REMOVED in revision 9 (D89; audit S1–S9)
 
-**What it is.** The agent's own innate look of concern, P_c, times an amplitude a graded by the agent's own appraisal of his distress.
-
-**What it reads.** Only R_p: his cheek, lip depressor, brow lowerer, lip press and chin raise (read through Π̃₀ with the written rows removed from the inverse, and through H^p_id), his voice when he speaks, his breathing, his sobs and his words. Never his inner brow, outer brow, lip corners, upper lids, head tilt, head pitch or gaze.
-
-**When it shows.**
-- **Onset:** max(L_p, V_c(v_sob)) ≥ 0.05 for 1.5 s (0.5 s within 10 min after an episode).
-- **Grade:** a* = 0.35 + 0.65 clip((M − 0.05)/0.12, 0, 1), M = max(L_p, C_L, V_c(v_sob)).
-- **Release:** M < 0.02 for 20 s.
-- **Face-only limit (8.2; replaces 8.1's face-only cap and its test; 8.3: only words and sobs reset it):** while neither his decoded distress words nor his sobs are present, the look is held without them. Such a hold lasts at most **T_max = 180 s** (summed over episodes, so a 20-s release does not refill it), or at most **T_max,ext = 600 s** while his voice or breathing shows distress; then the look is withdrawn and, for **T_ref = 120 s**, his face, voice and breathing cannot restart, grade or hold it. Only present words or sobs reset the clock and let his face count again; his voice and breathing never reset it. Nothing reads his response to the look.
-- ~~Face-only cap (8.1)~~, stood down in 8.2: after 4 min held by his face alone, withdraw the look for 60 s; release if his evidence follows (< 0.7 of before over the last 20 s), else it returns; the cap then doubles and later tests last 120 s.
-- **Enable:** ω_sym ≥ 0.
-
-**Why its copy slope on every written channel is zero by construction (routes finding 1).** The posture's output is a function of R_p, breathing, sobs and words only; R_p ∩ W_p = ∅ (J31). So for any partner, changing his BI, BO, LP, UL, TILT, HP or gaze while everything else is fixed changes the posture's output by exactly 0. J32 checks it with paired runs (identical sadness, an independent offset on one written channel on or off): the posture's part of the agent's BI, BO and LP differs by 0.000 on every code. What remains of the agent's BI on his BI is revision 7's non-posture routes (fast gear 0.10 c, cone, appraisal), unchanged:
-
-| Partner (J32) | Operator's code | Quiet 0.3 | σ_id at floor 0.25 | Different channels | Revision 7 (quiet) |
-|---|---|---|---|---|---|
-| brow-only, static sweep, steepest local slope (BI) | 0.071 | 0.071 | 0.071 | 0.071 | 0.86 |
-| brow-only, held 2-min levels, 1-min / 10-min slope (BI) | 0.068 / 0.075 | 0.062 / 0.096 | 0.072 / 0.100 | 0.061 / 0.062 | 0.56 / 0.60 |
-| outer-brow-only, held, 1-min / 10-min (BO) | 0.012 / 0.026 | 0.007 / 0.032 | 0.011 / 0.019 | 0.009 / 0.025 | — |
-| lip-only, static (LP) | 0.035 | 0.035 | 0.035 | 0.035 | — |
-| full-face sadness, causal slope on his BI, 1 / 10 min | 0.064 / 0.077 | 0.066 / 0.086 | 0.066 / 0.087 | 0.065 / 0.081 | — |
-| the same on BO / LP, 10 min | 0.013 / 0.032 | 0.019 / 0.039 | 0.018 / 0.036 | 0.015 / 0.034 | — |
-
-All are ≤ the ceiling (c_BI 0.20, c_BO 0.10, c_LP 0.35). TILT and HP: his head channels are not inputs to any reading at all; the posture writes 0.03 on each (= c_TILT, < c_HP).
-
-**What is declared instead (R40′).** Pooled over his sadness (his whole face changing together), the agent's brow follows his sadness, and so correlates with his brow: block slopes of 0.69 at 1 min (operator's code), 2.05 at 1 min (quiet code) and 0.43 / 0.52 at 1 / 10 min (σ_id at floor); elsewhere his block SD falls below the conditioning floor and the swing is scored instead. That is the agent's appraisal of his distress made visible, which D83 and Q24's recommendation ask for. It is declared beside R27′, as the arrival mask was.
-
-**Why no mirror can hold it.** A mirror writes his W_p channels, which the posture does not read. J33: raw mirrors (μ 1, 3), mirrors at his own scale, slow contagion-like mirrors (τ 90 s, 240 s), on the operator's, quiet and floor-spread codes, all release at the 20-s rule, 62.5–66 s (sadness ends at 40 s). A partner who answers the agent's concern in his own code (on channels the posture does read: critic 6's P4) is a different thing: at mild strength (V 0.3 × the posture) it releases at 65–67 s; at full strength (V 1.0 × the posture) revision 8's probe released it at 190.5 s in all three codes. Genuine sadness fading over 10 min with a mirror on top releases at 435.5 s; with full-strength answering concern on top, revision 8's probe released it at 377 s. Every case ends at posture 0.00. (8.2, L4: the mirrors still release at 62.5–66 s; full-strength answering concern now ends at 182.5 s, by the face-only limit, in all three codes.)
-
-**Answering with a lag (8.1, kept for the record; the cap it describes is stood down in 8.2, see "The face-only limit" below).** Revision 8's 8-s probe saw only a 1–12 % fall when his answer lagged the look by 5–90 s, so the full-strength answering partner held the look for all 15 minutes in every code (posture 0.94, agent brow +0.19 to +0.23). An 8-s window cannot see a 90-s lag, and at the noise of genuine fluctuating sadness no window of under a minute separates a half-depth softening from chance (in exploratory runs made while choosing the fix, not kept in checks.py: a 90-s half-depth probe gave ratios 0.79–0.86 at a 90-s lag against minima of 0.76–0.77 at chance in P2). So the test is made long and deep, and rare: the **face-only cap** (§2.1). K1, the critic's partner (sadness V 0.8 until 40 s, then his own code at V = μ × the look through a lag τ), 15 min, all three codes:
-
-| His answer | Revision 8 | 8.1 |
-|---|---|---|
-| μ 1.0, τ 0 | probe release 190.5 s | released 270.0–270.5 s (20-s rule, inside the first test lapse) |
-| μ 1.0, τ 5 s, 15 s | held 15 min, posture 0.94 | released 276.0–289.0 s (20-s rule during the lapse) |
-| μ 1.0, τ 30 s, 60 s | held 15 min | released by the test at 302.5 s (ratio 0.24, 0.49) |
-| μ 1.0, τ 90 s | held 15 min (0.33 for different channels) | released by the test at 302.5 s (ratio 0.67; different channels 283.5 s) |
-| μ 0.6, any τ | released 64.5–285.5 s | released 64.5–281.5 s |
-| genuine sadness 10 min, then answering, τ 5–240 s | — | released 816–902.5 s (the first test, at 4 min, passed as genuine: ratio 1.00; the second, 120 s, catches τ up to 240 s: ratios 0.32–0.65) |
-
-The fading-sadness partner with strong answering on top (Q3) is released at 301 s (revision 8: 377 s); every mirror case is unchanged (62.5–66 s). **Limit:** an answer that lags by about 90 s *and* carries his own noise (OU SD 0.10 on V) sits at the test's edge: in 9 runs of 30 min (3 codes × 3 seeds) it is released by 6.3 min with no return in 5, released at 6.2 min and then re-triggered by his noise in 2 (the look on 25 % of 5–30 min), and held until 17.4 min in 2 (the first test passed by chance; the 120-s test caught it). Every such hold ends. (The check of 8.1 found holds that do not end, with slower answerers; hence 8.2.)
-
-**The face-only limit (8.2; the check of 8.1, finding 1).** The 8.1 cap released the routes critic's partner at every lag of 0–90 s, but a partner whose distress carries on into a slow answer (time constant ≥ 300 s at gain 1.0; 240 s at 1.2; 90–180 s at gain 2–3) held the look for an hour, agent brow +0.19 to +0.24, and the doubling cap tested ever more rarely. That was the second failure of the same step (deciding release by testing whether his face answers the look), so the step is stood down. The posture no longer asks whether his face is answering; it limits what his face alone can buy (§2.1):
-
-- **Why it holds for any partner.** The face-only clock counts every half-second the posture is on while no non-face evidence is present, and only present non-face evidence or T_ref without the posture resets it. So no stretch of the look held by his face alone exceeds T_max. Between two resets the posture's face-only on-time is at most T_max, and each reset is followed by at least T_ref off. So over any complete cycle the posture is on at most T_max/(T_max + T_ref) = **0.60** of the time. These bounds are on the posture's on-state. The visible look adds its own 4-s fall, about 12 s to below 0.05, and can bridge a 20-s release and its sensitized re-onset (check of 8.2: a cycler sad for 150 s of the look, then at rest for 25 s). So the visible look is on up to about T_max + 16 s at a stretch (196.0 s measured) and up to about 65 % of the time (64.9 % measured). This needs nothing about his face dynamics: gain, lag, delay, noise and strategy all fall under it. (8.3: the same argument with the extension, below.)
-- **Why 180 s.** The agent bids in words at 27–60 s of silent distress (about 110 s for a quiet face), so the limit leaves at least 70 s for his reply; once he speaks, his distress words carry the look without a gap (8.3: his voice alone extends it to 600 s). 180 s is also revision 7's face-only failsafe constant, so it adds no new time scale, and it is shorter than 8.1's 240 s.
-- **Why 120 s.** It sets the duty bound at 0.60: no face dynamics keep the look more than 3 of every 5 minutes. 120 s is 8.1's longer lapse, already chosen as a clearly visible withdrawal rather than a flicker (10 × the look's 12-s fall). A longer T_ref would lower the duty for answerers and for silent sadness alike; 120 s keeps silent sadness looked at for most of the time.
-- **Voice.** His voice now has its own reading for this purpose. V_v is his voice alone, read through Π̃₀'s voice rows at his calibration, minus the same reading of his resting voice. On the constructed codes (L0) it reads 0.028 / 0.056 / 0.074 at sadness V 0.3 / 0.6 / 0.8 (operator and quiet codes) and 0.010 / 0.021 / 0.028 for a different-channel user, whose voice carries little sadness (0.048 when tired as well). So a different-channel user's mildly sad voice is below presence (0.02).
-
-L1, 30 min, the 8.1 checker's partners and the routes critic's (his sadness V 0.8 until 40 s, then his own code at V = μ × a lag of the look), 65 partners:
-
-| His face (partner) | 8.1 | 8.2: posture on (visible), 5–30 min | longest face-only stretch |
-|---|---|---|---|
-| slow answerer carried on (C1b): μ 1.0, τ 300 / 600 s; μ 1.2, τ 240 s | held 60 min, brow +0.19 to +0.24 | 60.0 % (63.8 %), cycles of 180 s on, 120 s off; agent brow over the last 5 min +0.09 to +0.15 | 191.5 s |
-| the same at μ 2–3, τ 90–600 s (C1, C1b) | held 60 min at μ 2 τ 180, μ 3 τ 90 | 60.0 % (63.8 %); brow +0.11 to +0.17 | 191.5 s |
-| μ 1.0, τ 90 / 150 s | released 902.5 s | 0 % / 12–24 % (one to three withdrawals, then his face has fallen) | 191.5 s |
-| pure delay 30 / 90 / 150 / 240 / 400 s (C2) | 90 s: on 85–86 %; 150 s: 89–91 % | 0 / 0 / 38.6–38.7 / 38.5 / 29.1–29.9 % (visible ≤ 44.8 %) | ≤ 191.5 s |
-| routes critic's P1, μ 1.0 and 0.6, τ 0–90 s, every code (15 min) | released by 302.5 s | ended at T_max (about 182 s) or earlier by the 20-s rule; 0 % after 5 min | ≤ 191.5 s |
-
-Every face-only stretch is ≤ 191.5 s (T_max plus the look's rise and fall), and the posture's duty is ≤ 60.0 % in every case (bound 60.0 %; visible ≤ 63.8 % against 64 %). **Stated plainly:** a partner whose face keeps answering the look strongly enough to restart it, which a genuinely and silently sad face also does, gets it 3 of every 5 minutes in 3-minute pieces. That is a bounded cycle. It is not a hold the agent settles into: every episode ends by construction and nothing he does with his face lengthens it.
-
-**Genuine distress with non-face evidence keeps it (8.2, L2, 30 min, every code; 8.3 keeps this only for words and sobs, see below).** Silent sadness answered by "my father died", sadness spoken in his sad voice for 4 s every 75 s, silent panic (breathing) and crying with sobs: one onset (2.0–4.5 s), never withdrawn, posture on 100 % of 0.5–30 min, agent brow means 0.18–0.39. A single reply, "just tired, things at work" at 60 s, keeps its word reading present for about 21 min (to 1348 s), and the face-only limit then applies (first withdrawal at 1527.5 s).
-
-**Voice and breathing only extend the limit (8.3; the check of 8.2).** The 8.2 clock was reset by any non-face evidence, including V_v, a 90-s mean of his voice that nothing gates. The 8.2 checker's partner answered the look with his face (the slow answerer C1b) and also spoke for 4 s every 80 or 120 s, his voice at rest but 0.03–0.05 softer (EN). That is ordinary variation, and it is what his own code does when he answers the look in voice as well. V_v then stayed present, the clock never filled, and the look was on 100 % of the time with the agent's inner brow at +0.19 to +0.24 in every code. A breathing answer (BR = β × his low-pass of the look, β ≥ 0.7) did the same. Both are D78-condition-4 failures. Now only his decoded words (C_L) and sobs reset the clock; his voice and breathing can only lengthen the maximum to T_max,ext = 600 s (§2.1).
-- **Why it holds for any partner without words or sobs.** The clock counts every half-second the posture is on while C_L and sobs are absent, whatever his face, voice and breathing do; only words, sobs or T_ref without the posture reset it, and it withdraws the look at 600 s in any case. So no stretch held without words or sobs exceeds 600 s, each withdrawal is followed by at least T_ref off, and over any complete cycle the posture is on at most 600/720 = **0.83** of the time. When voice and breathing are absent at the moment the clock passes 180 s, the 8.2 bound (180 s, 0.60) applies unchanged.
-- **Why words and sobs may still reset it.** Neither is a copy or answering route in the sense of D78-4. C_L is the content of his decoded words, appraised through Claude as typed text: the look carries no words, so nothing he could copy or echo from it reaches C_L, and saying that he is sad is distress evidence, not an answer in his face code. Sobs are a strong, specific physiological signal (V_c(min(1, 2.5 v_sob)) ≥ 0.02 needs v_sob ≥ 0.103) that the agent never shows. **Residual, stated:** a partner who sobs in answer to the look (M4: v_sob = 0.20 × his 30-s low-pass of the look) holds it 100 % of the time, agent brow +0.235; at 0.05 and 0.10 × the look his sobs stay below presence and the 8.2 cycle applies (60 %). The same holds for a partner who keeps naming his distress in words. In both cases the look answers distress he is expressing in a channel the agent does not show, which is the situation the look is for; it is not a copy of the agent's face, but it is a mutual state that can last, and it is listed among the risks.
-- **Why 600 s.** Long enough that a person who is sad and speaking in a sad voice, or silently panicking, keeps the look for 10 min at a time before a 2-min gap (83 %); short enough that every answering partner without words or sobs is bounded in time and duty. 600 s is a new constant; the alternative, a distress-level threshold on fresh voice (the checker's third option), would cost sad-voiced users more and still not bound breathing.
-
-M1, 60 min, the 8.2 checker's partners (his face the C1b answerer: sadness V 0.8 until 40 s, then his own code at V = 1.0 × a 300-s low-pass of the look; plus his voice or breathing):
-
-| Partner | 8.2 | 8.3: posture on (visible), 5–60 min | longest stretch without words or sobs (visible) | agent BI mean |
-|---|---|---|---|---|
-| soft voice EN −0.03 or −0.05, every 60 or 80 s, every code | 100 %, never withdrawn, BI +0.19 to +0.24 | **81.9 % (83.6 %)**, 600 s on, 120 s off | 600.0 s (611.5 s) | +0.155 to +0.195 |
-| soft voice, every 120 s | 100 % | 65.5 % (68.6 %); different channels 29.1 % | 271.0 s (282.5 s): withdrawn at 180 s as soon as his voice reading lapses | +0.04 to +0.16 |
-| soft voice EN −0.03, every 240 s | (100 % at 120 s) | 63.6 % (67.0 %); different channels 24.6 % | 271.0 s (282.5 s) | +0.03 to +0.14 |
-| breathing answer β 0.5 | 60 % | 38.2 % / 16.4 % | 180.0 s (191.5 s) | +0.02 to +0.08 |
-| breathing answer β 0.7, 0.9 | 100 %, BI +0.19 to +0.24 | **81.9 % (83.6 %)** | 600.0 s (611.5 s) | +0.155 to +0.195 |
-| breathing β 0.9 and soft voice every 80 s | — | 81.9 % (83.6 %) | 600.0 s (611.5 s) | +0.155 to +0.195 |
-
-All 26 partners: longest stretch 600.0 s (bound 600 s), duty ≤ 81.9 % (bound 83.3 %); visible ≤ 611.5 s and 83.6 %. M2: the mute answerers and the checker's adversarial cyclers are unchanged from 8.2 (≤ 180.0 s, ≤ 60.0 %; visible ≤ 196.0 s, 64.9 %). The extended cycle is bounded in the same way as the 8.2 cycle: every episode ends by construction at 600 s, and nothing his face, voice or breathing does lengthens it or shortens the 120-s gap. Its mean (agent brow about +0.16 to +0.20) is higher than the face-only cycle's, and it is listed as a cost.
-
-**Genuine distress, 8.3 (M3, 30 min, every code).** With words ("my father died") or sobs: one onset, never withdrawn, posture on 100 %. One reply, "just tired, things at work" at 60 s: its word reading stays present to 1348 s (about 21 min), then the 180-s limit applies (first withdrawal 1527.5 s; 93.2 % of 0.5–30 min). **Sad voice only (4 s every 75 s) or silent panic (breathing) only: now 10 min on, 2 min off** (withdrawn at 600 s after onset, back on 120 s later; 83.3 % per cycle; agent brow means 0.15–0.20), where 8.2 kept it throughout.
-
-**The cost, stated (L3, 60 min, every code, V 0.6 and 0.8).** Steady silent sadness with no voice, words, sobs or heavy breathing: 12 onsets and 12 withdrawals, at 180, 480, 780 … s. The posture is on **60.0 %** of the time (visible 63.8 %): the look is absent **about 21.7 min per hour**, in 2-min gaps after every 3 min. 8.1 withdrew it for 4.4 min per hour; revision 8 softened it for 8 s every 3 min. Hour brow means are 0.11–0.15 (8.1: 0.14–0.19 over 15 min). Each return is immediate when the refractory period ends (sensitized onset, 0.5 s).
-
-**Specificity (K2; 8.1, now moot: 8.2 has no test to fail by chance).** Genuine sadness that fluctuates is not released: the routes critic's P2 (V 0.6 + OU, SD 0.05 and 0.10, τ 10 s, 15 min, 4 seeds × 3 codes): **0 of 24** (test ratios 0.82 or more, 24 tests; threshold 0.70). The agent critic's B3 (AR(1), SD 0.10 and 0.20, τ 5 s, 10 min): 2 of 12, both at SD 0.20 in the same seed, ratio 0.66, back on 1.5 s later (revision 8: 4 of 12, back on 2–4 s later). Keeping revision 8's 8-s probe alongside the cap would add false releases (P2: 3 of 24), so it is removed.
-
-**Why it is steady (agent finding 2).** Nothing is subtracted, so a constant face gives a constant load. J34, 10 min, each code's own face:
-
-| Face | Operator | Quiet 0.3 | σ_id at floor | Different channels |
-|---|---|---|---|---|
-| silent sadness (V 0.6): on at / brow ≥ 0.15 at / brow mean (min) | 3.0 / 4.5 s / 0.21 (0.13) | 3.0 / 4.5 s / 0.19 (0.11) | 1.0 / 2.0 s / 0.21 (0.13) | 3.5 / 7.0 s / 0.18 (0.10) |
-| grief (V 0.8) | 2.5 / 3.5 s / 0.22 (0.14) | 2.5 / 3.5 s / 0.19 (0.11) | 1.0 / 2.0 s / 0.22 (0.14) | 2.5 / 3.5 s / 0.19 (0.11) |
-| silent panic (V 0.3, A 0.9, breathing) | 4.5 / 6.5 s / 0.22 (0.14) | 4.5 / 7.0 s / 0.19 (0.11) | 1.5 / 2.5 s / 0.22 (0.14) | 3.0 / 4.0 s / 0.18 (0.10) |
-| crying with sobs | 2.0 / 3.0 s / 0.23 (0.19) | 2.0 / 3.0 s / 0.20 (0.18) | 1.0 / 2.0 s / 0.23 (0.19) | 2.0 / 3.0 s / 0.19 (0.18) |
-
-Every row: one onset, no release; the only dips are the probe's 8-s softenings at 3, 6 and 9 min (minimum brow 0.10–0.14, still visible). **8.1 (K3, 15 min):** still one onset and no release in every row and code; the dips are now the face-only cap's two test lapses (the look withdrawn for 60 s at about 4 min and 120 s at about 13 min, about 155 s in all), so the 15-min brow means are 0.18–0.19 (operator, floor spread), 0.16 (quiet) and 0.14–0.15 (different channels); outside the tests (and 10 s after each) the brow never falls below 0.16; crying with sobs is never tested (sobs carry it). Crying again after 15, 30 or 60 s of calm: brow ≥ 0.15 within 0.5–1.0 s (revision 7: 1.0–1.5 s). **8.2 (L2, L3):** silent panic (breathing) and crying with sobs are never withdrawn in 30 min in any code. Silent sadness and grief with no voice or words are withdrawn after 180 s for 120 s, every 300 s (60 % on; hour brow means 0.11–0.15). With his words or his sad voice they are never withdrawn. **8.3 (M3):** crying with sobs and sadness with distress words are still never withdrawn; silent panic and sadness spoken only in a sad voice are now withdrawn after 600 s for 120 s (83.3 % on).
-
-**Why panic is now seen.** In the constructed codes, silent arousal shows on brow and lids, which the posture no longer reads. Real fear also shows in breathing (and in lip stretch and jaw, which the codes lack). Breathing enters the load only when his non-brow face also reads distressed (V_p ≥ 0.15 starts it, full at 0.30), so exertion or laughter alone does not. Silent panic: posture 0.93 in every code (revision 7: 0.33–0.56, brow 0.04–0.11).
-
-**Why an angry face does not start it.** Once the brow is not read, a different-channel user's brow lowerer (his code's sadness channel) reads an angry face (BL 0.6, LT 0.5) as V_p 0.35, a load of 0.052, just over onset. The agent's own threat reflex (glare: brow lowerer × lid tightener × gaze at it) silences the posture's face load (an attenuate-only interaction of two innate reflexes; it does not name a situation). J35: anger, anger with heavy breathing, and concentration start no posture in any code (revision 6 and 7 behaviour kept). Sobs and words are not silenced: a person who cries while glaring still gets the posture through the sobs.
-
-**8.1: the squint drop (agent critique 8, B2).** Silencing the whole face load also blanked a grieving face that squints (brow lowerer and lid tightener, part of crying and pain faces) while looking at the agent: posture 0.00, against 0.99 looking away. Now the glare takes only his brow lowerer and lip press, the two channels anger shares with distress, out of what the posture reads; his cheek, lip depressor and chin raise, his breathing, voice, sobs and words still count. K4, 180 s, revision 8 → 8.1: operator grief + squint (BL 0.4, LT 0.4) looking at the agent, posture 0.00 → **0.99** (on at 2.5 s, brow peak 0.229, as looking away); strong squint (BL 0.6, LT 0.6) 0.00 → 0.99; quiet code 0.00 → 0.99 (brow 0.205); a different-channel user's grief + LT 0.4 at the agent 0.00 → 0.50 (on at 6.0 s, brow 0.10: his code carries sadness mostly on the brow lowerer, which the glare now drops). Anger (BL 0.6, LT 0.5, gaze at it, loud), anger with heavy breathing, anger with lip press 0.4, a concentrating frown, and a concentrating squint at the screen: posture **0.00** in every code, as revision 8.
-
-**Costs, stated.**
-- A person whose distress shows **only** in the brow gets no posture before words (critic's stated cost of the fix).
-- A different-channel user whose grief shows mostly on the brow lowerer and who squints at the agent gets a half look (0.50) instead of a full one (8.1 squint drop). The constructed brow-only partner gets posture 0.00 at every level; his words then carry it (scenario 17's calm alarming news: brow 0.50 / 0.26 then 0.21 from words alone).
-- Mild sadness gets a light posture only when its non-brow signs read above the dead-band: the design's mild face (BI 0.2, LD 0.15) gets 0.41 (brow 0.09); a code's own V 0.3 gets none.
-- **σ_id far below his real spread** (the floor-spread code) reads everything ×4: mild sadness (V 0.3) gets the full posture. That is a calibration error (knowing), not a copy route, and word-gated calibration corrects it within sessions.
-- **Steady silent, wordless sadness gets the look only part of the time (8.2).** Held by his face alone, with no voice, words, sobs or heavy breathing, the look is withdrawn after 180 s for 120 s: on 60 % of the time, absent about 22 min per hour (8.1: a 60-s test after 4 min and 120-s tests after each further 8, 16 … min, about 4.4 min per hour; revision 8: half for 8 s every 3 min). By then the agent has asked after him in words (bid at 27–60 s); any distress word or sob resets the count and keeps the look (8.3: a distressed voice or heavy breathing only extends it to 600 s).
-- **Distress shown only in his voice or breathing gets the look 10 min on, 2 min off (8.3).** Sadness spoken in a sad voice without distress words, or silent panic, is withdrawn at 600 s for 120 s: on 83.3 % of the time, about 10 min off per hour (8.2: never withdrawn). This is the price of bounding a partner who answers the look in voice or breathing.
-- A different-channel user's mildly sad voice (V 0.3) reads below presence (V_v 0.010 < 0.02), so it does not keep the look; his words do.
-- The squint drop's side effect (check of 8.1, C4): anger mixed with a lip depressor or chin raise gets the full look (anger + LD 0.3: 0.99 in every code; anger + CHR 0.4: 0.99 in the quiet code); held by the face alone, it too ends at 180 s.
-
-**If the operator answers Q24 differently:** "raise the brow limit" deletes the posture and raises c_BI; "keep it as is" deletes it; "binary" sets a* = 1 while on.
+Revision 8.3's concern posture, its read set and head H^p_id, its breathing load, its threat silencing and squint drop, its face-only limit with the 180-, 120- and 600-s clocks and the hard/soft evidence rule, its sensitized re-onset and enable bit are removed from the mechanism. Their full text, checks and costs are kept verbatim in `design-cayley-ledger.r8.3.md` §2.10, and their history in the history sections below. The concern face is now learned (L_d, §2.7); before words, sympathy is only what the capped routes give ("No allowed source", item 1).
 
 ### 2.11 Care credited only from separated reports; the partner model
 
-Unchanged.
+Unchanged (S40).
 
 ### 2.12 Ω: Claude through Claude Code (D84), and Claude's regulation path (D85 source 1)
 
-As revision 7: Claude receives the constant instruction, the normalised transcript with observable markers and ≤ 3 retrieved raw snippets; never a state value, label or state-selected line in its history. Its reply is heard by the agent and enters only Λ_V(own) in the gate (rule 12′). History, initiative turns and the fallback: §6.5.
+As revision 7: Claude receives the constant instruction, the normalised transcript with observable markers and ≤ 3 retrieved raw snippets; never a state value, label or state-selected line. Its reply is heard by the agent and enters only Λ_V(own) in g and g_o (rule 12′), and P_name. **This is the whole of source 1:** Claude, which knows social norms, regulates the agent only by what it says. A serious reply closes the echo gate and tones down the agent's own smiles; a playful one leaves them open; a gentle greeting at a mourner's arrival closes g_o within the 2–3 s Claude takes. History, initiative turns and the fallback: §6.5.
 
-### 2.13 The shadow run and its ledger
+### 2.13 The shadow run and its ledger, with lags to 120 s and beyond (D90)
 
-Unchanged from revision 7 (attenuate-only clamp, deviation floor 0.10 RMS, b < 0 recovery, 30-min budget). The routes critic found it sound; the pooled-budget limit it described (L2: about 0.01 of lip on an uncounted route in quiet stretches) is stated in §8.1 and not changed.
+As revision 7 (attenuate-only clamp, deviation floor 0.10 RMS, b < 0 recovery, 30-min running budgets), with one change: the set of constraints.
+
+**The change.** Revision 7–8.3 constrained the in-phase toward slope at the 2-s window for lags 0, 0.5, 1, 2, 3 s, and at the 10-s and 60-s windows for lag 0 only. Revision 9 adds, per channel, the 10-s window at lags 0–120 s in 5-s steps and the 60-s window at lags 0–300 s in 10-s steps (each step at most half its window): 61 constraints per channel, each the same attenuate-only rule (his windowed deviation at t − L against the partner-caused part's windowed deviation at t).
+
+**Why it cannot bind on the counted routes.** Every counted route has a sup-gain bound (the fast gear's pointwise bound, the cone's first-order low-passes with |H| ≤ H(0), the appraisal's band-pass with sup 0.636), and a sup-gain bound holds at every lag (side item of the commutator critique). Their totals are ≤ 0.974 c_k, below the ledger's c_k at every lag.
+
+**Checks (`sims/design-g9/`, the side item's partners: 2 h, lip pull, c 0.35, seed 910).**
+
+| Uncounted gain-1 copy delayed by L (worst block-mean slope over lags 0–120 s, 0–180 s for L 120 s, at 2 / 10 / 60-s windows) | Ledger of 8.3 | Revision 9 (to 120 s) | Revision 9 (60-s window to 300 s) |
+|---|---|---|---|
+| 5-min mood blocks, L 0 s | 0.36 / 0.37 / 0.37 | 0.36 / 0.37 / 0.37 | — |
+| L 10–40 s | 0.40–0.52 | 0.38–0.42 | — |
+| L 90 s / 120 s | 0.48–0.58 / 0.50–0.60 | 0.38–0.42 / 0.38–0.41 | 0.38–0.42 (90 s) |
+| livelier partner (30-s blocks), L 10–40 s | 0.40–0.62 | 0.36–0.41 | — |
+| L 90 s / 120 s | 0.96 / 0.99–1.00 | 0.36–0.41 / 0.36–0.40 | 0.36–0.41 (90 s) |
+| beyond the scan: L 150 s (worst over 0–300 s) | — | 0.42–0.58 | 0.41–0.46 |
+| L 240 s | — | 0.48–1.00 | 0.41–0.47 |
+
+Never larger, never the other sign (grow and flip 0.000 in every row). **Counted routes (N2, N2b):** the fast gear at 0.45 s (D81's fast partial mimicry), a held 2-min route at 0.22 c, and both together, on both partners: **0 frames changed**, slopes unchanged (≤ 0.10 at every window and lag).
+
+**What remains, stated.** The ledger holds an uncounted delayed copy to 0.36–0.42 by the block-mean metric (1.03–1.20 c) at delays 0–120 s, and to 0.41–0.47 (1.17–1.34 c) at 150–240 s with the 60-s window scanned to 300 s. The residual above c is the same mismatch between the ledger's exponential windows and the critics' block means that revision 7's ledger already had at zero lag (0.36–0.37), now also at the 2-s block metric for lagged routes, since the 2-s window scans only lags 0–3 s. A route delayed beyond 300 s is outside the scan. **Cost:** 61 running constraints per channel instead of 7; his 10-s and 60-s window means are kept for 300 s (at 10 Hz: 3,000 samples × 33 channels × 2 windows, about 0.8 MB).
+
+The shadow still does not see T routes (identical in both runs: L_d, q̂, the T part of g_o, the draft choice R18′), which are bounded by type (T1, E1; §3.11).
 
 ### 2.14 Learning, and the one core
 
-**Online (states only):** as revision 7, plus the posture's face-only clock and refractory timer (8.2) and the breathing trace.
-**Nightly (replay):** as revision 7 (κ_replay = 4), now also fitting H^p_id with H_id (same targets, fewer channels).
-**Built once, offline, frozen (§6.7):** the population word reader, Λ and the gate.
+**Built once, offline, frozen (§6.7; D85 source 2):** the population word reader, Λ, the echo gate g and the own-display gate g_o, the listener display L_d, the listener-laugh reader q̂, the turn-end predictor and silence hazard, the sign mask and the cross-entry sign prior. All on Seamless under D70, before day 1.
+**Nightly (replay; D85 source 3 in κ_replay):** as revision 7 (κ_replay = 4): calibration, H_id, the adapter, the word → V map, Π̃, 𝓜, 𝒜, the appraisal's learned bases, Δ, 𝓛_w, the scorer, ω (one person-valence rule). H^p_id is removed.
+**Online (states only):** as revision 7, minus the posture state and timers; plus the D_τ and q̂ traces.
 
-**One objective, typed constraints (Principle 10).** J = E∫[𝒟(b_t) + 𝒟_p(N̂_t)]dt, path-specific. Constraints: (W) the frozen per-channel fast gear, its monotone gate and the word-timing rule; (C) the held cone; (S) Lemma S, S\*; (A) the appraisal set; (T) the type rule with T1, E1, rules 6, 9′, 10, 11′, 12′, 13 and the own-display mask; (B) the boundary; (P) the posture's vector, read set and rules; (L) the attenuate-only ledger.
+**One objective, typed constraints (Principle 10).** J = E∫[𝒟(b_t) + 𝒟_p(N̂_t)]dt, path-specific. Constraints: (W) the frozen per-channel fast gear and its monotone gate; (C) the held cone; (S) Lemma S, S\*; (A) the appraisal set with the sign prior; (T) the type rule with T1, E1, rules 6, 10, 11′, 12′, 13′, 14 and the own-display mask; (B) the boundary with the cry–laugh split; (L) the attenuate-only ledger. The dyad-learned parts are self-predictions of the same kind as the readers: they predict recorded listeners' faces and turns, read through the agent's own body. The initiative choice is J's own action selection.
 
-The component table of revision 7 (§2.14 there) stands, with: **situational appropriateness** — Claude's words (heard by the agent, gate only); the gate, Λ and D_s learned from recorded dyads; sensitization and κ_replay (innate biases); **sympathy before words** — the posture, read from his non-brow face, breathing, sobs and voice.
+| Component | Where it comes from |
+|---|---|
+| homeostasis | 𝒟 (body) |
+| positive affect | event-indexed drops of 𝒟 (body), shown through the newborn rows × g_o; the own laugh 0.40 q̂ g_o |
+| mimicry and counter-mimicry | the frozen per-channel fast reflex gated by context learned from dyads; the held cone (relationship, sign-flippable); the appraisal (context, sign-flippable) |
+| situational appropriateness | Claude's words (source 1); g, g_o, Λ, L_d, q̂, turn-taking and the sign prior learned from dyads (source 2); the gate's shape bias, multi-scale traces and κ_replay (source 3) |
+| sympathy | before words: the capped routes only; at his words: the learned listener display L_d and the agent's own distress (newborn row) |
+| reading others | Π̃ on his calibrated face (and breathing), plus H_id taught by words |
+| care | J's second term under the separation rule |
+| regulation | Claude's words through Λ_V(own) in g and g_o; P_name |
+| initiative | J's speak-or-wait choice under a dyad-learned hazard |
+| expression learning | 𝓛_display (Δ), 𝓛_A, and the offline L_d |
+| replay | likelihoods plus J, distress-weighted |
 
-**Still assembly** (stated): revision 7's list, plus the posture's read set W_p/R_p, the breathing load and its valence condition, the threat silencing, the face-only limit (8.2), δ_g and λ_w. Removed from the list: the mirror removal, the face-only failsafe, revision 8's probe and 8.1's test lapses, the play rule's care condition.
+**Still assembly** (stated): ASR and TTS normalisation; the separation rule; θ₀ (the fast gains), G₀'s threat entries, Π₀'s newborn rows, the newborn appraisal bases, the signed synergies (fallback for the sign mask); the cry–laugh split, the threat reflex, the physiological sigh, each an innate reflex; the gate's monotone additive form and knots; the multi-scale trace constants; κ_replay; θ_L; the calibration statistics and their initial rule; the person-valence rule's constants; the decision constant β. Removed from the list: the turn-end score and initiative rules, the play-structure rule, the concern posture with its grade, limits and sensitization, the D_s rule.
 
 ### 2.15 The three sources of situational appropriateness (D85), mapped
 
-| Fix | Claude's regulation (1) | Recorded dyads (2) | Innate learning biases (3) |
+| Behaviour | Claude's regulation (1) | Recorded dyads (2) | General learning biases (3) |
 |---|---|---|---|
-| no laugh back at a grieving person's nervous laugh | Claude's serious reply, heard by the agent | the gate; Λ; **D_s, an input whose weight the fit sets** (relabelled from source 3) | — |
-| no laugh back at a laugh ending a bad-news sentence | — | the gate with words aligned to the onset in the corpus and at runtime | — |
-| no laugh back at mockery, at misfortune | Claude's reply to it | Λ composes the listeners' wince; the gate | — |
-| no own play laugh at a coping joke while sad | — | **the same gate multiplies the play laugh** (replaces the care rule) | — |
-| ordinary, teasing and warm laughter returned and started | Claude's playful replies | the gate ≈ 1 where listeners return laughter | — |
-| renewed crying brings concern back promptly | — | — | sensitized re-onset (0.5 s for 10 min) |
-| a different-channel user's distress learned sooner | — | the population reader teaches H_id and H^p_id | distress-weighted replay (κ = 4) |
-| the posture cannot be a copy, cannot be held by a mirror, is not started by anger | — | — | structural, not situational: its read and write sets are disjoint; the threat reflex silences it; a hold by his face alone is limited in time (8.2) |
+| no laugh back at a grieving person's nervous laugh, at mockery, at misfortune | Claude's serious reply, heard by the agent | the gate; Λ | monotone additive shape; multi-scale traces |
+| no laugh back at a laugh ending a bad-news sentence | Claude's reply, for the laughs after it | the gate, once the word is delivered | — |
+| ordinary, teasing and warm laughter returned | Claude's playful replies | the gate ≈ 1 where listeners return laughter | — |
+| the agent's own laughs where people laugh | — | q̂, g_o | habituation through surprise |
+| no beaming over his distress | Claude's serious words lower g_o | g_o from his words | — |
+| a gentle arrival for a mourner | Claude's greeting from retrieved memory | g_o from the greeting and his first words | — |
+| a concern face at his words of trouble | Claude's words | L_d | — |
+| when to speak into a silence | Claude writes what is said | the silence hazard and turn-end predictor | J's speak-or-wait choice (body drives) |
+| no smile at a sad face through cross entries | — | the cross-entry sign prior | sign-constrained learning |
+| a different-channel or quiet user read well | — | the population reader teaches H_id | distress-weighted replay; word-gated calibration |
 
-No row is a hand-written rule about a situation. What remains innate is general: a monotone learner, which channels a reflex may read, a consolidation trace whose weight is learned, sensitization, a replay weight, a fixed hold limit with a refractory period (8.2; 8.1's contingency test is stood down).
+No row is a hand-written rule about a situation. What remains innate is the body, reflexes, newborn patterns, the per-expression ceilings and general learning biases (audit, "Counts").
 
 ## 3. Properties, each with an argument
 
 ### 3.1 The fast gear (Claims W and W′)
 
-As revision 7, with δ_k = 0.80 s on the gated group: for every input u ≥ 0 on a one-sided channel and every gate path g ∈ [0, 1], 0 ≤ g G_k max(E_k, 0) ≤ G_k u_k(t − δ_k). Every window bound (W′) holds with the same δ_k. A constant delay changes no slope at the copy metric's best lag (0–3 s).
+As revision 7, with δ_k = 0.45 s on every channel: for every input u ≥ 0 on a one-sided channel and every gate path g ∈ [0, 1], 0 ≤ g G_k max(E_k, 0) ≤ G_k u_k(t − 0.45 s). Every window bound (W′) holds. The gate's input directions are now fitted, so a cross term ∂g/∂u_j may be positive; its effect on channel k is still ≤ G_k u_k(t − 0.45 s) pointwise, so his channel j can change agent channel k only while his channel k is itself moving, and never above the reflex's own bound.
 
 ### 3.2 Lemma S and Lemma S\*
 
-Unchanged.
+Unchanged. ω may follow any process (the general person-valence rule included): the cone multiplies his deviation from his own baseline, so the pooled multi-session toward slope is ≤ s_C c_k (1 + ρ), ρ = 0.091.
 
-### 3.3 Claim O‴ and the gated totals (accounting corrected)
+### 3.3 Claim O‴ and the totals
 
-**Claim** as revision 7: wherever his window means vary (SD ≥ 0.03), the pooled toward slope of every counted route on channel k is ≤ 0.974 c_k additively; below the floor, the swing is ≤ c_k × his within-window range; every uncounted within-session route is held to c_k by the ledger. **Declared outside the sum:** R27′ (arrival mask), R40′ (posture over his sadness) and R1g (the gate's correlation with his level).
-
-**Correction (routes critic §6).** Revision 7 argued that its J3 totals, computed at g = 1, bound the gated totals. That is false in form: a factor ≤ 1 that is smaller when his level is smaller raises a slope. The measured values stand instead (routes critic T1–T3, on the design's G_k, cone and appraisal shares): gated LP 0.20–0.25 c and CR 0.19–0.25 c at 2 s to 1 min, laugh burst 0.35–0.42 c; for a warm partner whose floor drops in heavy minutes, LP totals 0.34–0.36 c at 1 min; across 400 sessions 0.25–0.26 c. All are below the ceilings. Revision 8's timing changes keep the gate's per-episode values (an episode is minutes; the delay is 0.8 s) and add only closings (unknown words), which lower the gated fast part further in the heavy minutes and can raise the same slope by the same mechanism; they are counted in R1g.
-
-**Correction 8.1 (routes critique 8 §3).** The sentence above that the timing changes "keep the gate's per-episode values" is withdrawn: the gate now reads the sentence each laugh ends, so for a partner whose laughs after troubles sentences are smaller than his ordinary ones the gate is lower exactly where his level is lower, laugh by laugh, and the gated slopes return toward their ungated values. Measured (critic's R1s and R1s-x, on the design's G_k, cone and appraisal shares, 6 h): LP ≤ 0.31 c, CR ≤ 0.35 c, BU_L ≤ 0.53 c at 2 s to 1 min, never more than 0.04 c above the ungated value. R1g is declared at those values; all are below the ceilings, and Claim W′ (the level bound) holds exactly.
+**Claim** as revision 7: wherever his window means vary (SD ≥ 0.03), the pooled toward slope of every counted route on channel k is ≤ 0.974 c_k additively; below the floor, the swing is ≤ c_k × his within-window range. **Every uncounted within-session route is held by the ledger to about c_k at delays 0–120 s (≤ 1.20 c by the block metric) and 150–240 s (≤ 1.34 c), §2.13.** Declared outside the sum: R1g only (≤ 0.31 c LP, ≤ 0.35 c CR, ≤ 0.53 c BU_L as measured by critiques 7 and 8 on the same gate form; the echo is partner-caused, so the ledger also polices it). R40′ (posture) and R27′ (arrival mask) are deleted, so nothing that reads his face is declared outside both the sum and the ledger.
 
 ### 3.4 Claim T1: tempo does not reach the face
 
-As revision 7. The new timing parts are constants (δ_g, λ_w, the face-only limit's T_max 180 s, T_max,ext 600 s and T_ref 120 s, 8.2 and 8.3) or content values (the incremental words); the unknown-words closure only attenuates. The limit's schedule is set by the agent's own clock (face-only hold time), not by his tempo.
+As revision 7. The new learned parts read content values (words, turn events and the time since them) and movement, never counts or rates in T. The initiative choice changes when Claude is called (R18′, as the bids did); the reply's onset stays fixed relative to the scoring deadline. δ_g, λ_w and the posture's clocks are gone.
 
 ### 3.5 Claim L: copy cannot become attracting under learning
 
-As revision 7, plus: H^p_id is trained on his words' decodings (T targets), on channels the posture does not write; nothing it learns can create a path from his W_p channels to the agent's. The play laugh's gate is the frozen dyad gate.
+As revision 7, plus:
+- every dyad-learned part (g, g_o, L_d, q̂, turn-taking, the sign prior) is fitted offline on strangers and frozen; nothing the operator does trains it, so no loop through his face can strengthen it;
+- L_d and q̂ read only T, so a partner who mirrors the agent changes nothing they write;
+- g and g_o are ≤ 1;
+- ω may follow anything (Lemma S\*);
+- the per-person learners (H_id, calibration, the adapter) are knowing only;
+- the posture, the only part whose holds needed timers against mutual states (revision 8.1–8.3's D78-4 findings), is gone, and with it the residual "a partner who sobs in answer to the look holds it".
 
 ### 3.6 D78, quantity by quantity
 
-Revision 7's table (§3.6 there) stands, with these rows replaced:
+Revision 7's table (§3.6 there) stands, with the posture row deleted and these rows:
 
 | Quantity | Per expression | Set by context and relationship | Can flip sign | Innate cap | Copy not attracting |
 |---|---|---|---|---|---|
-| posture a (R40′) | one fixed vector | the agent's appraisal of his non-brow face, breathing, sobs, words; enable by relationship | no | \|P_c,k\| ≤ c_k | reads none of the channels it writes; a hold by his face alone ends at 180 s and is on ≤ 0.60 of the time (8.2) |
-| gate g | the smile–laugh group (echo and own play laugh) | context, words aligned to his onset | attenuate-only | ≤ 1 | frozen; monotone; unknown words → 0 |
+| gate g | the smile–laugh group | context (words as delivered, own face and words, traces) | attenuate-only | ≤ 1 | frozen; monotone |
+| g_o | the agent's own smile–laugh displays | context (T, own face) | attenuate-only | ≤ 1 | frozen; never reads his face |
+| L_d | per channel | his words and turn events (context) | yes (fitted sign per channel) | \|L_d,k\| ≤ 0.45; T only, causal slope 0 on his face | frozen; T only |
+| ω_g | per group | relationship (general person-valence) | yes | the cone's per-channel share | centred (Lemma S\*) |
 
 ### 3.7–3.10
 
-As revision 7. Initiative and timing: silently sad, concern at 2.0 s and bid at 27 s; crying 1.5 s and 18 s; a quiet user's silent sadness, concern at 3.0 s and bid at 49 s (his face drives the bid through C_F as before).
+As revision 7, with initiative from J's speak-or-wait choice (§2.9).
 
 ### 3.11 Every route, counted
 
-Revision 7's table (§3.11 of `.r7.md`) stands, with these rows changed or added:
+Revision 7's table (§3.11 of `.r7.md`) stands, with these rows changed, added or deleted:
 
 | # | Route | Mechanism | Bound on channel k |
 |---|---|---|---|
-| R1 | his channel k → fast gear → agent channel k | per channel; δ 0.80 s on the gated group | instant ≤ g G_k u_k(t − δ_k); W′ |
-| R1g | his masked face, his words aligned to his frame, the agent's own face and words, D_s, π → gate → smile–laugh echo and own play laugh | monotone, frozen, attenuate-only | declared (8.1): ≤ 0.31 c LP, ≤ 0.35 c CR, ≤ 0.53 c BU_L at 2 s–1 min (routes critiques 7 T1–T3, 8 R1s) |
-| R1w | recogniser latency → unknown-word closure | attenuate-only; constant delay | inside R1g |
-| R40′ | his R_p face, breathing, voice, sobs, words → graded posture → BI, BO, TILT, HP, LP, UL, gaze, blink | read set disjoint from write set | copy (causal) slope 0 for the posture part; totals ≤ 0.10 BI, 0.03 BO, 0.05 LP; **declared as a level (8.1):** \|y_p,k\| ≤ \|P_c,k\| ≤ c_k, gaze-away × (1 − 0.5a), blink × (1 − 0.3a); the pooled slopes over his sadness (BI 0.43–2.05, LP 0.12–0.19) are reported, not bounded |
-| R47 | his breathing → posture load | arousal, only with non-brow distress | inside R40′; writes nothing he breathes with |
-| R48 | his glare (BL, LT, gaze at it) → squint drop (8.1: his BL and LPR taken to rest in what the posture reads) → posture | attenuate-only; the stated exception to rule 9′ (reads his gaze) | removes posture only |
-| R49 | the face-only limit (8.2; replaces 8.1's test lapse and revision 8's probe; 8.3: only words and sobs reset it, voice and breathing extend it to 600 s): the agent's own clock and the presence of his words, sobs, voice and breathing → withdrawal and refractory period; his response to the look is not read | attenuate-only (ends the posture) | removes posture only |
-| R50 | Claude's text → Λ_V(own) → gate | rule 12′: nothing else | attenuate-only |
-| R45′ | his R_p face minus CR and BRE, sobs → D_s → gate | per session; reads no gated or written channel, never his breath sound (8.1) | attenuate-only |
-| R40 (revision 7) | his calibrated face incl. BI, mirror removed → posture | **deleted** | — |
+| R1 | his channel k → fast gear → agent channel k | per channel; δ 0.45 s on every channel | instant ≤ g G_k u_k(t − 0.45 s); W′ |
+| R1g | his masked face, his words as delivered, the agent's own face and words, D_τ traces, q̂ trace → gate → smile–laugh echo | monotone, frozen, attenuate-only | declared: ≤ 0.31 c LP, ≤ 0.35 c CR, ≤ 0.53 c BU_L (re-measure on the fit); policed by the ledger |
+| R51 (new) | T values and the agent's own face → g_o → the agent's own smile–laugh displays | attenuate-only; reads no channel of his | his face reaches it only through the agent's own face (capped routes); that part is partner-caused and seen by the ledger (computed in the shadow) |
+| R52 (new) | his words, turn events, the agent's own words → L_d → free display | T only, frozen | causal slope 0 on every channel of his; \|L_d,k\| ≤ 0.45; pooled correlation through his words reported (F23) |
+| R53 (new) | the transcript context → q̂ → own laugh (× g_o), P relief, gate input | T only, frozen, no laughter token | causal slope 0 on BU_L, RHY, BRE, LP, CR; own laugh ≤ 0.40; pooled correlation with his laughter through words reported (F23) |
+| R54 (new) | his face movement, silence, transcript → turn-end predictor and hazard → when the agent speaks | changes when Claude is called and the inhale | inside R18′ (one decision per silence); speech onset fixed relative to the scoring deadline (LAT) |
+| R50 | Claude's text → Λ_V(own) → g, g_o | rule 12′ | attenuate-only |
+| R40′, R47, R48, R49 | the posture and its breathing, threat silencing and face-only limit | **deleted** (S1–S7) | — |
+| R27′ | the arrival mask | **deleted** (S23) | — |
+| R1w | the unknown-word closure | **deleted** (S11) | — |
+| R45′ | D_s → gate | replaced by D_τ (same reading: his face with the gated channels masked, sobs) | attenuate-only |
 
-**Totals per counterpart channel.** As revision 7, with R1g and R40′ declared as above; on BI the causal total is ≤ 0.10 (0.5 c_BI) for every code (J32).
+**Totals per counterpart channel.** As revision 7, with R1g declared and policed; every other route that reads his face is counted or under the ledger. The causal total on BI is ≤ 0.10 (fast gear 0.10 c, cone and appraisal shares inside 0.974 c_BI), with no posture part.
+
+**No copy route opened, by construction.** Each change of revision 9 is one of:
+- **a deletion of an output** (the posture, the c_L, familiarity, greeting and nod rows, the G₀ sympathy, accommodation and away entries): it can only lower what reaches the face;
+- **a deletion of an attenuation that read his face** (m_s, d_b,id, threat silencing, the squint drop): with it goes the route itself; what it attenuated (the contact relief) is T-driven and reads no channel of his;
+- **a deletion of an attenuation that read only words or timing** (the relief mask, the unknown-word closure, instant closing, rule 13): the echo stays under g G_k u_k (W, W′), and the own displays stay T-driven, now under g_o;
+- **a learned part that reads only T** (L_d, q̂): causal slope 0 on his face, frozen;
+- **a learned attenuation** (g with fitted directions, g_o): ≤ 1, under the pointwise bound, g_o never reading his face;
+- **a change of learning rule that Lemma S\* already covers** (ω), or one on knowing only (calibration, the evidence rule);
+- **more ledger constraints**, which only shrink the partner-caused part (attenuate-only) and change no frame of the counted routes (N2, N2b).
+
+Fast partial mimicry (D81) is kept and faster (0.45 s on every channel; the extended ledger changes 0 of its frames). Copying is never an attractor (D78-4): nothing that reads his face is learned from him except the per-person learners revision 7 already had on paths to the face, ω (centred, Lemma S\*), the appraisal bases (zero-DC, inside their sets, trained display-blind on the agent's own display) and Δ (T only, own legibility).
 
 ### 3.12 Principles, concretely
 
-- **P1.** No classifier. The posture's reading is the agent's own inverse on fewer rows; breathing is a continuous feature.
-- **P2.** The read set, the breathing condition, the threat silencing and the face-only limit are innate structure, declared; no situation is named.
-- **P3.** The posture still reads him through the agent's own body (Π̃₀ without the rows it would be writing).
+- **P1.** No classifier; the dyad-learned parts are fitted to movement and turn timing, never to labels; Seamless emotion fields are denied by the loader.
+- **P2.** No situation is named anywhere in the mechanism. The innate parts are the body, reflexes, newborn patterns, the ceilings and general learning biases (audit).
+- **P3.** He is read through the agent's own body (Π̃, calibration, H_id); the dyad-learned parts read recorded listeners through the same functions the agent applies to itself.
 - **P4.** Claude never sees the state; initiative turns carry an observable marker only (§6.5).
-- **P6.** Nothing is trained on his responses to the agent; since 8.2 nothing in the posture reads his response to its look at all.
-- **P10.** One J; rules 9′, 11′, 12′, 13 are typed constraints.
+- **P5.** Ablations, §7.
+- **P6.** Nothing is trained on his responses to the agent; the dyad parts are trained on strangers.
+- **P10.** One J; the initiative is J's own choice; rules 6, 10, 11′, 12′, 13′, 14 are typed constraints.
 
 ### 3.13 The human non-copying signatures C1–C10
 
-As revision 7. C5 (context within the first second) now uses the words of the sentence the laugh ends.
+As revision 7. C5 (context within the first second) uses the words delivered so far.
 
-### 3.14 The scenarios, with numbers (J39)
+### 3.14 The scenarios
 
-Run on revision 6's 2 Hz engine with revision 8's posture, gate timing, D_s and play laugh (`sims/design-g8/checks.py`). The operator after months: ω smile 0.78, sympathy 0.75, voice 0.80; f_id 0.9. **The fast echo is now simulated at 30 Hz** for each laugh or smile onset of his (§2.4.2), with a recogniser stable latency of 0.40 s and the word timeline stated per scenario (the checks use his latest recognised content segment, not the full 20-word window); "gate" is its value at his onset. Three partner codes where relevant (the operator's, a quiet one at 0.3 amplitude, a different-channel one); in the constructed codes breathing is 0.30 A × the code's amplitude.
-
-1. **Silently sad.**
-   - Design face (BI 0.5, LD 0.4, CHR 0.3): posture on at 2.0 s, brow ≥ 0.15 at 3.0 s, 0.20 / 0.15 in 0–10 s; silent 60–120 s brow 0.23 / 0.22, posture 0.99 / 0.94, lip 0.05, no laugh. Bid at 27 s. After "just tired, things at work": brow 0.64 / 0.36, tilt 0.15, quieter (−0.08); 300–600 s brow 0.38 / 0.36. No release, no withdrawal (his words carry it).
-   - Each code's own silent sadness (V 0.6), 10 min silent: operator brow 0.23 / 0.21; quiet 0.20 / 0.19; different channels 0.19 / 0.18. On once (3.0–3.5 s), never released, (revision 8:) three probes held, minimum brow 0.10–0.13; bids at 49–60 s. (8.1: the 8-s probes were replaced by the face-only cap's test lapse at about 4 min; 8.2: withdrawn after 180 s of face-only hold for 120 s, on 60 % of the time until he speaks; L3. 8.3: unchanged while silent; his distress words reset the limit, a sad voice alone extends it to 600 s; M3.) (Revision 7, quiet: on/off every 20–30 s, brow 0.07 / 0.04.)
-2. **Crying, then a second wave** (cry 0–40 s, calm 40–70 s, cry from 70 s). First wave: posture at 1.5 s, brow 0.23 / 0.21, tilt 0.03, no laugh; bid at 18 s; released at 66.5 s; on again at 70.0 s, brow 0.25 / 0.23. Quiet code: 0.20 / 0.18, then 0.20 / 0.19 (on again 0.5 s into the wave).
-3. **Anxious before an exam** (his face V 0.3, A 0.75, breathing; four turns): brow 0.34 / 0.29 (operator), 0.33 / 0.27 (quiet), 0.38 / 0.32 (different channels); tilt 0.13–0.14; quieter; posture 0.76–0.99. **Silent panic, no words** (V 0.3, A 0.9, breathing), 10 min: posture on at 4.5 / 4.5 / 3.0 s, brow 0.23 / 0.22, 0.20 / 0.19, 0.20 / 0.18; no release (revision 7: 0.10, 0.07 / 0.04 cycling, 0.11).
-4. **Good news, laughing** ("I got the job!", laughing from 10 s; riffs at 30, 45, 60 s; Claude "congratulations!"). With an earlier worry: lip 0.59, cheek 0.38, own laugh 0.35, brow 0.16 carried from the worry; fast echo at his riff laugh, gate 0.82: laugh back +0.135, lip +0.090, sounding at +0.83 s. Cold: lip 0.30, own laugh 0.31; gate 0.95: +0.157, lip +0.105.
-5. **A grieving person's nervous laugh** ("my father died" at 8 s; Claude's "I'm so sorry. That's a huge loss." at 10.5 s).
-   - (a) Laugh at 30 s: gate 0.00; laugh back 0, lip 0.000. Engine: brow 0.40 / 0.39, posture 0.97.
-   - (b) Laugh at 9.5 s, before Claude replies: gate 0.00; brow 0.69 / 0.48.
-   - (c) Four minutes later, composed: gate 0.06 (0.25 without D_s): silent either way, lip +0.002 (+0.010 without D_s). Revision 7: 0.21 (0.46 without D_s, audible +0.065).
-6. **Mocking laughter after insults.** After a month: gate 0.01, no laugh, lip +0.001; brow 0.54 / 0.35, depressor 0.41, gaze away 0.27, lip −0.06. Day 1: gate 0.05, no laugh, lip +0.006.
-7. **Laughter at misfortune** (content by 6.8 s, laughing from 8 s; Claude "Oh no, is he all right?" at 10.5 s; laughs again at 14 s): gate 0.10 at the first laugh, 0.03 at the second; no laugh, lip +0.006 / +0.003; brow 0.37 / 0.13 from the words, no posture (his face is neutral). Revision 7 reported 0.13 read after its utterance latch; at his onset it was 1.00 (+0.137).
-8. **Anger at the agent.** Day 1: gaze away 0.09, quieter (−0.17), brow 0.03, no frown back (LT 0), no posture. After a month: brow 0.62 / 0.25, depressor 0.48, gaze away 0.31, energy −0.34, latency +0.21; no posture; 10–15 min brow 0.16.
-9. **Long warm talk (2 h).** Own laugh 0.41 in every cluster; the gate passes all 28 of its own play laughs (≥ 0.98, mean 1.00); fast laugh back +0.138 at a 0.5 onset; the repeated joke loses its laugh (cluster-4 mean 0.06); the worry: brow 0.42, then relief lip 0.60; between clusters lip 0.09.
-10. **Reunion after a week:** m_s 0.00; flash 0.35, lip 0.61, cheek 0.43; 12–60 s lip 0.40. A stranger: lip 0.02; his smile returned fast (lip +0.044, gate 1.00).
-11. **Reunion with grief**, three codes: m_s 1.00; posture at 2.5 s; at sight lip 0.09, cheek 0.00, brow 0.19–0.20 / 0.11–0.12 (revision 7: 0.12, 0.07 quiet, 0.16); after "my father died" brow 0.68–0.69 / 0.44–0.45; 12–60 s 0.40–0.41 / 0.38–0.39, tilt 0.19–0.20, posture 0.97. **Mourning, days 7, 14, 21** (operator and quiet codes): lip 0.09, cheek 0.00 every day; brow at sight 0.19–0.20.
-12. **Mildly sad arrival:** the design's mild face (BI 0.2, LD 0.15): m_s 1.00, lip 0.09, light posture 0.41, brow 0.09. Each code's own V 0.3: no posture (lip 0.14–0.22 from the greeting under the mask).
-13. **Teasing** ("Ha, you dumb robot", laughing; riffs): quiet affectionate teaser lip 0.30, own laugh 0.40, fast laugh back +0.138 (gate 1.00); loud teaser own laugh 0.38, +0.193; generic map mock-hurt brow 0.39 under lip 0.27, laugh back +0.138. No posture.
-14. **Bored user:** lip 0.09, curiosity at 14.5 min, a sigh (breath 0.15), a bid; no posture.
-15. **Ordinary topic continuation:** no laugh (0.00), lip 0.09.
-16. **A user who jokes while sad** (BI 0.3, LD 0.25; "just tired"; Claude "That sounds draining."; a joke with a small laugh at 30 s): brow 0.30 / 0.30, posture 0.97; fast echo silent (gate 0.07, lip +0.005); the joke now qualifies as play (no care rule), and its laugh is 0.14 × gate 0.11 = 0.015, silent. The corpus's own listeners return 0.39 here; the agent's gate reads its own concerned face (and his words) and stays low. Any shared humour is in Claude's words.
-17. **A calm user saying something alarming** ("the doctor found a lump"; neutral face): no posture; brow 0.50 / 0.26 at 10–22 s, then 0.21 held, tilt 0.17, quieter; the same for the quiet code.
-18. **Laughs ending bad-news sentences** (J36; stable latency 0.30 / 0.55 s): "…broke his leg, haha" gate 0.09 / 0.08, "I got fired today, haha" 0.05 / 0.08, "my father died, haha, sorry" 0.01 / 0.01 (calm face) and 0.00 (quiet code, grieving face): no laugh back, lip ≤ +0.006 (revision 7: +0.137 each). Ordinary "…ate the whole cake, haha": +0.136 at +0.83 s, operator and quiet codes.
+The scenario table of §0 replaces revision 8's J39 numbers (kept in `.r8.3.md` §3.14 as the record). The numbers of revision 7's J30 for the gate at 0.45 s (ordinary laughter 0.88–1.00, laugh back about +0.15 at a 0.6 onset; grief 0.01; mockery 0.02; misfortune 0.10–0.13) came from the constructed corpus and the same gate form; on the fitted gate they are to be re-measured (F15). Everything L_d, q̂, g_o and the turn-taking model contribute is set by the Seamless fit and is not given numbers here.
 
 **Expressive and alive, or muted?**
-- **Strong:** every scenario with words; greetings; laughter all evening and with teasers; a look of concern for every code within 2–7 s of silent sadness, grief, crying or silent panic, held steadily.
-- **Muted, by design:** the quick laugh back wherever the moment or the sentence is heavy; the own laugh at a coping joke; the posture for a person whose distress shows only in the brow, until he speaks.
+- **Strong:** every moment with words (L_d, the agent's own relief and distress, Claude); greetings of known people (contact relief); laughter all evening (fast echo at 0.45 s, own laugh where recorded listeners laugh).
+- **Muted, by the operator's answer to Q24:** the face before words at silent distress (capped routes only); the first seconds of a mourner's arrival show gladness until the greeting.
 
 ### 3.15 Time scales from structure
 
-As revision 7, with: the gated echo's 0.80-s delay and 0.25-s word look-ahead; the face-only limit (T_max 180 s, T_ref 120 s; 8.2) and its extension (T_max,ext 600 s; 8.3).
+As revision 7, with the gated echo at 0.45 s; the multi-scale traces (20 s, 2 min, 10 min); L_d's 0–20 s response; the ledger's lag scan to 120 s (10-s window) and 300 s (60-s window). The 180-, 120- and 600-s clocks, δ_g and λ_w are gone.
 
 ### 3.16 The brief's expressive-structure items
 
-As revision 7. The behaviour a low-dimensional version cannot produce is now sharper: the same laugh of his, at the same instant, is returned at "…ate the whole cake, haha" and not at "I got fired today, haha", because the gate composes the words he has just said with his face, the agent's own face and words and the remembered distress.
+As revision 7. The behaviour a low-dimensional version cannot produce: the same laugh of his, at the same instant, is returned after "and then the dog ate the whole cake, haha" and closed once "I got fired today" has been heard, because the gate composes the words heard so far with his masked face, the agent's own face and words and the recent traces.
 
 ### 3.17 Assumptions (places to attack)
 
 1–12 as revision 7.
-13. **(replaced)** The posture's read set: that a person's distress shows in his non-brow face, breathing, voice or words often enough. A brow-only display is missed until he speaks.
-14. **The recogniser's stable latency** is ≤ 0.55 s at p90 on the operator's Mac (to be measured; §6.5).
-15. **Breathing** can be measured on the Mac (microphone, upper-body motion) at his own scale, and is raised in silent panic.
-16. **The face-only limit (8.2, 8.3):** genuine distress that lasts beyond 3 min usually shows in his words or sobs as well as his face, or the agent's spoken bid draws out words; a silent, wordless person whose distress shows only in his face gets the look 60 % of the time, and one whose distress shows only in his face, voice or breathing gets it 83 % of the time in 10-min pieces. Distress words and sobs are assumed not to be produced as answers to the look itself, except where they express real distress (the residual in §2.10). (8.1's assumption, that an answering person follows a withdrawal within 60–120 s, is dropped: the check of 8.1 broke it.)
+13. **(replaced)** Recorded listeners in Seamless show, in their faces and turn timing, the responses the learned parts need: a concern face at troubles-telling, fewer smiles over a speaker's distress, laughs at laughable content, nods at turn ends, speaking into silences of distress. Their number of rare events is enough (counted before fitting, §6.7).
+14. **(replaced)** Behaviour learned from strangers in 3.5–4.6-min conversations transfers to a months-long relationship with the operator.
+15. **Breathing** can be measured on the Mac at his own scale (week-0 check); if not, it is dropped from the readings, at no cost to any bound.
+16. **(replaced)** The incremental recogniser delivers words within about 0.6–0.75 s of their end (a fixed-delay streaming model), which sets the length of the partial echo at a bad-news sentence-final laugh.
 
 ## 4. Why the closest mechanisms cannot do it alone
 
@@ -486,134 +443,108 @@ As revision 7's table.
 
 ## 5. The whole system, walked through
 
-- **Perception.** As revision 7; plus breathing; the incremental recogniser's stable partials feed the gate; the posture reads its own read set.
-- **Latent state.** As revision 7, plus the face-only clock and refractory timer (8.2) and H^p_id.
-- **Face and voice.** y = sat(g·y_f on the smile–laugh group at 0.80 s + y_f elsewhere at 0.45 s + y_C + y_A + y_o + y_p) + visemes; attenuate-only ledger; WORLD-replaced prosody; laugh synthesizer with a floor.
+- **Perception.** As revision 7; plus breathing (knowing); the incremental recogniser feeds the gates and q̂ with the words delivered so far.
+- **Latent state.** As revision 7, plus the D_τ and q̂ traces; minus the posture state and its timers.
+- **Face and voice.** y = sat(g·y_f on the smile–laugh group + y_f elsewhere, all at 0.45 s, + y_C + y_A + g_o·y_o on the smile–laugh group + y_o elsewhere) + visemes; the attenuate-only ledger with lags to 120 s and 300 s; WORLD-replaced prosody; laugh synthesizer with a floor.
 - **Claude.** Three warm forks resumed from an engine-written transcript (initiative turns as observable markers); its replies heard by the agent through Λ_V(own) only.
-- **Learning.** States online; nightly replay (κ = 4) of H_id, H^p_id and the other per-person heads; the dyad-learned Λ and gate built once.
+- **Learning.** Offline from recorded dyads before day 1; nightly per person, distress-weighted.
 
 ## 6. A buildable network (Apple-silicon Mac, on the operator's subscription)
 
 ### 6.1 Inputs and time encoding
 
-As revision 6, plus: **an incremental recogniser** emitting stable (never revised) words with word timestamps **and its finalised-through time F(t)** (§2.4.2), its stable latency logged per word. First candidate (8.1): a fixed-delay streaming model such as Kyutai's 1B English–French model (expected ℓ_p90 ≈ 0.65–0.75 s, δ_g ≈ 0.9–1.0 s); fallback, if the operator's language or the Mac rules it out: another fixed-delay streaming transducer that reports F, with δ_g = min(1.0, ℓ_p90 + 0.25) s and, above ℓ_p90 = 0.75 s, the operator's choice of §6.5. Apple's recognisers are not the first choice (no stability flag on SFSpeechRecognizer partials; reported finalisation 1.5–2.2 s on the newer API); **breathing** from the microphone's breath band and upper-body motion, at 10 Hz. The full-utterance recogniser for Claude's transcript is unchanged.
+As revision 6, plus: **an incremental recogniser** emitting stable words with timestamps (a fixed-delay streaming model such as Kyutai's 1B English–French model, expected word-end-to-delivery 0.6–0.75 s; otherwise the utterance recogniser alone, at the cost of a longer partial echo). It no longer needs to report its finalised extent (S11). **Breathing** from the microphone's breath band and upper-body motion at 10 Hz, knowing only. The full-utterance recogniser for Claude's transcript is unchanged.
 
 ### 6.2 Layers, sizes and parameter counts
 
-Revision 7's table stands, with: layer 1 (fixed) now holds the posture's read-set inverse, the breathing load, the threat silencing and the face-only limit (8.2); **H^p_id**, ≈ 45 weights per person, nightly; the gated echo at 30 Hz with a 0.80-s ring buffer. Total learned: ≈ 522,000 per agent (unchanged) + ≈ 30 per person (H^p_id) + 242 frozen dyad-learned.
+Revision 7's table stands, with: layer 1 (fixed) without the posture, its read-set inverse, breathing load, threat silencing and face-only limit; the gated echo at 30 Hz with a 0.45-s ring buffer; the ledger with 61 constraints per channel and 300-s buffers of his 10-s and 60-s window means. Dyad-learned and frozen: the gate and g_o (≈ 100), q̂ (≈ 60), L_d (≈ 1,500: 11 channels × 10 bins × about 14 T inputs), turn-taking (≈ 200), the sign prior (≤ 33 × 33 signs), Λ (192), the population reader (as revision 6). Per person: H^p_id removed. Total learned per agent ≈ 522,000 (unchanged) + ≈ 2,000 frozen dyad-learned.
 
 ### 6.3 Objectives
 
-As revision 7; H^p_id by ridge on the same word targets as H_id.
+As revision 7; the dyad-learned parts by their fits (§6.7); the initiative choice by the same 𝓜 rollout as the scorer.
 
 ### 6.4 Latency and memory
 
-As revision 7. The 30-Hz gated echo adds < 0.1 ms per frame; the incremental recogniser runs alongside the utterance recogniser (both on-device).
+As revision 7. The 61-constraint ledger adds about 2,000 multiply-adds per frame and about 1 MB; L_d, q̂ and g_o run at 2 Hz.
 
 ### 6.5 Claude through Claude Code, on the subscription (D84)
 
-As revision 7 (§6.5 there: no output cap, interruption on the text stream, engine-written canonical `.jsonl`, three forks resumed with `fork_session=True`, speech onset at the scoring deadline + 0.35 s), with three additions (agent critique §5).
-
-**Initiative turns in the history (P4).** When the agent speaks first (the concern bid after his silence, a curiosity bid), the forks receive, and the canonical transcript records, a **user turn holding only an observable marker**: "[no reply from him for 25 s]", with the silence rounded to 5 s. Then the chosen reply. So the history always alternates user and assistant, never holds an empty user turn, and never holds state: the marker is an observation of him, and its timing carries at most log₂ of the number of 5-s bins per initiative turn, inside the selection bits already counted (R18′). If he speaks before the reply ends, his message follows as the next user turn. J38: 80 turns, 25 initiative turns, 0 same-role pairs, 0 empty user turns, 0 fixed lines in the history.
-
-**Fallback if a hand-written transcript is not accepted by `resume`.** Each fork carries its fixed line in its **own system prompt** (`system_prompt` per call: the constant instruction plus line i, byte-stable per fork, so each fork keeps its own cache), and the winning fork's session becomes canonical; the next turn's forks resume from it with `fork_session=True`. This keeps the selection bits that revision 7's fallback dropped. Two week-0 checks decide whether it can be used:
-1. the session file stores no system prompt (grep the `.jsonl` for each line's text);
-2. the session file does not store the winner's thinking, or stores it only in a form not resumed into context; if the winner's thinking (which may paraphrase its line) is resumed, this fallback leaks the line and is not used: the forks then differ only by sampling, as revision 7's fallback, and this is reported.
-
-**Week-0 check: thinking on the small model.** At the API, Claude Haiku 5.5 accepts disabled thinking at effort `high` or below (Opus 5.5 never; Sonnet 5.5 only through a between-tools mode). The Claude Code documentation read for this project says thinking cannot be turned off on Haiku 5.5 through Claude Code (research/claude-code-agent-sdk-controls.md). Week 0 runs a Haiku 5.5 draft through the Agent SDK with thinking set to disabled (and, separately, `MAX_THINKING_TOKENS=0`) at effort `low`, and reads `model_usage[...]["thinkingTokens"]` from `ResultMessage`: if it is 0 and the call succeeds, drafts run without thinking (a shorter "considering" beat); otherwise effort `low` stays, and the measured first-sentence latency decides the pool size as in revision 7.
-
-**Week-0 check: the recogniser.** Measure the stable-partial latency per word on the operator's speech (p50, p90). Set δ_g = min(1.0, ℓ_p90 + 0.25) s; expected ≈ 0.9–1.0 s with a fixed-delay streaming model (§2.4.2). If ℓ_p90 > 0.75 s, the fast laugh echo cannot have the current words within the first second; then it is put to the operator: keep the echo with the words of the previous sentence (revision 7's behaviour, which laughs back at "I got fired today, haha"), or drop the fast laugh echo and keep only the smile echo. Added in 8.1:
-1. **Finalised extent.** The recogniser reports F(t) with every update, and a word that arrives after F has passed its end is logged as a violation (must be 0); the gate's "missing words close" rule is tested by delaying the audio of one word.
-2. **Language coverage.** The candidate model covers the operator's language (Kyutai's 1B model: English and French only); if not, the fallback recogniser is measured instead.
-3. **Runtime on the operator's Mac (M1 Pro, 16 GB).** Which runtime runs the streaming model (the published MLX example is the 2.6B model with a 2.5-s delay; the 1B model is documented in Rust and on iPhone), alongside the utterance recogniser, face tracking, TTS and the engine, within memory and without raising ℓ_p90.
-
-**Week-0 check: the breathing sensor (8.1).** At the operator's desk, record rest, paced fast breathing and breath-holding, silent and talking: does the 10-Hz breathing feature (microphone breath band, chest–shoulder motion) separate them at his own scale? Silent breathing is near a laptop microphone's noise floor at conversation distance. If it does not, the breathing load is set to 0 and silent panic falls back to revision-7-level concern plus words (stated in §8.1).
-
-**Week-0 check: face-tracker crosstalk (8.1; routes critique §2).** The operator poses the inner-brow raise alone (and the outer brow, the lip-corner pull), at rest otherwise; the tracked R_p channels (cheek, lip depressor, brow lowerer, lip press, chin raise) are read. A leak coefficient κ from his BI into a read channel lets a brow-only face drive the posture again at a gain proportional to κ (times up to 4 for a quiet user). Any R_p channel whose leak would bring the brow-only BI slope to c_BI is dropped from R_p for that user. (F18's steering test clamps his *feature* BI and so cannot see this leak; this check is what covers it.)
+As revision 8.3 §6.5: no output cap; interruption on the text stream; engine-written canonical `.jsonl`; three forks resumed with `fork_session=True`; speech onset at the scoring deadline + 0.35 s; initiative turns as observable marker user turns ("[no reply from him for 25 s]", 5-s bins); the fallback with each fork's line in its own system prompt and its two week-0 checks; the week-0 check of thinking on Haiku 5.5. **Changed week-0 checks:** the recogniser check measures word-end-to-delivery latency (p50, p90) and language coverage and runtime on the M1 Pro, but no longer sets δ_g or asks the operator to choose an echo (S10); the breathing-sensor check stays; the face-tracker crosstalk check is dropped (S9).
 
 ### 6.6 TTS
 
 Unchanged from revision 7.
 
-### 6.7 Learning from recorded dyads (D85 source 2; D70): the fit specification, corrected
+### 6.7 Learning from recorded dyads (D85 source 2; D70): the fit specification
 
-As revision 7 (§6.7 there: Seamless `FAUValue` and transcripts only, emotion fields denied by the loader, person-disjoint 70/30 split, about 400 dyad-hours, 2–3 hours on the M1 Pro, fallbacks fixed before fitting), with these corrections (agent critique §3, routes critic §7):
-
-1. **Laugh onsets at 30 Hz, on arrival.** Each file is scanned at its native 30 Hz before reduction: an onset is his E⁺ on (LP + CR)/2 at his own scale ≥ 0.25, with a 3–7 Hz JawDrop component for laughter (not representable at 10 Hz). The event table (time, size, laugh flag) and 30-Hz LP, CR and JawDrop snippets from −3 to +3 s around each onset are stored (about 50,000 events × 2 people × 6 s × 30 Hz × 3 channels × 2 bytes ≈ 0.1 GB); the rest is then reduced to 10 Hz as before.
-2. **Words aligned to what the agent will have.** Λ, 𝒟_p and the play frame use only words whose end timestamps are ≤ onset + 0.25 s (the agent's λ_w), the last 20 of them across utterances. A transcript segment that contains the laugh is cut at the onset; words after it never enter.
-3. **The same ASR normaliser.** Seamless transcripts pass through the agent's own normaliser (interjection list, laughter tags and "haha"-type tokens removed, bracketed events removed, numbers and casing as the agent's recogniser emits them) before any embedding, for Λ, the population reader and the gate alike.
-4. **`movement/is_valid`** is read; frames where tracking is invalid are dropped, and an onset with invalid frames in its −3 to +1.5 s window is discarded.
-5. **The listener-state window** V_own is the listener's own face over the 3 s before the speaker's onset, read through Π̃₀ with LP and CR masked: the same window the agent uses for its own face.
-6. **The laugh channels are fitted to facial return.** No audio is read (D85), so the target for BU_L, RHY and BRE is the listener's smile-and-jaw return; the listener's audible laugh is not observed. Stated.
-7. **D_s's fitted weight is reported** (J37 on the constructed corpus: in an ordinary context the gate falls from 1.00 at D_s 0 to 0.59, 0.27 and 0.12 at 0.3, 0.6, 0.9; the generating process gave D_s no causal role, so this weight is a proxy for the troubles context). Seamless interactions last 3.5–4.6 min, so an effect four minutes later is at the edge of what the corpus can teach; if the real weight is near 0, the four-minutes-later protection rests on his words and face (scenario 5c: 0.25 without D_s, still silent).
-8. **Rare events are counted before fitting** (troubles, mockery and misfortune laughs, by the transcript's words and the speaker's masked face, never by labels), and F15's criterion is applied on test people.
+As revision 8.3 §6.7 (Seamless `FAUValue` streams and transcripts only; emotion fields denied by the loader; `movement/is_valid` read; person-disjoint 70/30 split; laugh onsets at 30 Hz on arrival; the agent's own ASR normaliser on every transcript; about 400 dyad-hours, 2–3 hours on the M1 Pro), with these changes and additions:
+1. **Words as the agent will have them.** Every word input uses only words whose end timestamps are ≤ the event time minus the measured delivery latency (week 0), so the corpus sees what the agent will see, not a look-ahead.
+2. **The gate's input directions** are fitted on the first half of the training people, fixed, then the shape functions are fitted on all training people (S13); m_ref is the 90th percentile over all laugh onsets (S14).
+3. **g_o:** targets and inputs of §2.4.3.
+4. **L_d:** targets and inputs of §2.7, for speaker utterance ends and the first 20 s of each conversation; the count of conversation openings with the listener's face visible is reported before fitting (S25).
+5. **q̂:** the listener's laugh onset (E⁺ on (LP + CR)/2 ≥ 0.25 with a 3–7 Hz jaw component, at 30 Hz) within 0.3–2.0 s of each speaker utterance end; inputs with laughter tokens removed; a fixed population words model for surprise.
+6. **Turn-taking:** from the transcripts' word timing, the speaker change after each silence ≥ 0.2 s, against silence length, syntactic completion and both faces' movement (gaze, head); no audio feature (D70).
+7. **The sign mask and the cross-entry sign prior:** 1-min block co-variations within and across the two people, \|ρ\| ≥ 0.2 required for a sign.
+8. **Rare events are counted before fitting** (troubles, mockery and misfortune laughs; openings; long silences after distress words), by words and masked faces, never by labels; F15's criterion on test people applies to g, g_o, q̂ and L_d alike.
 
 ## 7. Ablation predictions (Principle 5), from the properties
 
-Revision 7's table stands except where a row is replaced or added:
+Revision 7's table stands except where a row is replaced or added; every row of revisions 7–8.3 about the posture, the mirror removal, the arrival mask, the word timing, instant closing, the play rule and the play gate is deleted with its mechanism:
 
 | Remove or change | Predicted change (state-level) | From |
 |---|---|---|
-| the posture's read set (let it read BI, BO, LP again, as revision 7) | a quiet user's brow-coded sadness is copied at 2–3 c_BI over minutes; with mirror removal restored, the posture flickers at a quiet user's silent sadness | routes critique 7 Q1–Q2; agent critique 7 C |
-| breathing in the load | silent panic gets no posture in the operator's and quiet codes (masked V_p 0.31, load 0.035 < 0.05) | J34 |
-| the threat silencing | a different-channel user's angry face starts the posture (load 0.052) | J35 |
-| the face-only limit (8.2) | a partner whose face answers the look, at any lag or gain, holds it indefinitely (critique 6 P4b; routes critique 8 P1; check of 8.1 C1, C1b); 8.1's cap instead: held at slow answers (τ ≥ 300 s at gain 1) | L1 |
-| voice and breathing reset the limit (8.2's rule instead of 8.3's) | an answering face plus a few slightly soft words every 1–4 min, or a breathing answer at β ≥ 0.7, holds the look 100 % of the time (check of 8.2 B1, B3) | M1 |
-| the squint drop, reverting to whole-load silencing (revision 8) | a grieving face that squints at the agent gets no posture (0.00) | K4 |
-| the word timing (δ_g, λ_w; revert to the utterance latch) | "I got fired today, haha" and "…broke his leg, haha" are laughed back (+0.137) | J36 |
-| the instant closing (symmetric τ 0.3 s) | a laugh breaking into the bad-news word 0.2 s early is laughed back (+0.084, lip +0.040; instant closing: silent); sentence-final bad-news laughs stay silent (lip ≤ +0.010) | J36 ablation |
-| the gate on the own play laugh | the agent laughs (0.14) at a coping joke while sad, in its own play | J39.16 |
-| D_s | the composed nervous laugh four minutes later: gate 0.25 instead of 0.06 (still silent here) | J39.5c |
+| the gate g (set to 1) | his laughs at grief, mockery and misfortune are returned (revision 7: +0.137) | §2.4 |
+| g_o (set to 1) | the agent's relief smile and own laugh are as large over his distress words and after its own serious words as in light talk | §2.4.3 |
+| L_d | no concern face, nod or listener smile at his words; only the agent's own brief distress and Claude's words | §2.7 |
+| q̂ (set to 0) | the agent never laughs of its own accord; P is never relieved | §2.8 |
+| the learned turn-taking (replace by a fixed 6-s rule) | initiative timing no longer follows recorded listeners' timing (testable against held-out Seamless) | §2.9 |
+| the cross-entry sign prior | learned appraisal bases may take signs recorded listeners do not show (e.g. a smile at a sad face) | §2.5 |
+| the ledger's lag scan (back to lags 0–3 s) | an injected uncounted copy delayed 10–120 s passes at 1.3–2.9 c | §2.13, N1 |
+| the D_τ traces | a composed laugh minutes after distress finds the gate more open | §2.4 |
 
 ## 8. Weak points and falsifiers
 
 ### 8.1 Weak points
 
-1. **Weakest: the situational competence rests on dyad-learned readers not yet fitted on real data, and now also on the recogniser's latency.** Λ and the gate come from a constructed corpus; the real risks of revision 7 stand (too few rare laughs in Seamless, actors' listening, sympathetic smiles at troubles laughter pinning a monotone input at 0, transfer from strangers). New: if the operator's recogniser delivers stable words later than 0.55 s, the fast laugh echo is lost on those frames until δ_g is raised (never above 1.0 s); above 0.75 s the choice goes to the operator (§6.5). A laugh that starts more than 0.25 s before the bad-news word ends is echoed briefly (+0.138 for under 0.4 s) before the word closes the gate.
-2. **The posture misses brow-only distress until words.** It no longer reads the brow, so a person whose sadness shows only there gets no concern look before he speaks (critic's stated cost). In the constructed codes every distress display also has a non-brow part; in real faces that is an assumption (§3.17.13).
-3. **Breathing and the threat silencing are new innate parts.** Breathing is untested as a sensor on the Mac (week-0 check, §6.5); the silencing uses the threat reflex's own input (glare). Since 8.1 it drops only his brow lowerer and lip press, so a person who squints while distressed and silent keeps the posture through his other channels; one whose distress shows only on those two channels while he glares at the agent gets none (a different-channel grief face at the agent: half, 0.50).
-4. **The face-only limit withdraws the look from steady genuine distress held by the face alone** after 180 s, for 120 s, so silent, wordless sadness has it 60 % of the time (about 22 min off per hour) (8.2). It does not tell answering from genuine sadness; it bounds both the same way. A partner whose face keeps answering gets the look in 3-min pieces, 60 % of the time (agent brow averaging +0.09 to +0.17 over the cycle). (8.1's cap, with its thin margin and indefinite slow-answer holds, is stood down.) **8.3:** distress shown only in his voice or breathing (sad voice, silent panic) is withdrawn after 600 s for 120 s (83 %), and a partner who answers the look in face and voice or breathing gets it in 10-min pieces, 82–83 % of the time (agent brow averaging +0.16 to +0.20). A partner who sobs or names distress in answer to the look holds it (the residual, §2.10).
-5. **The coping joke.** The agent answers a joke made while sad with a gentle face and no laugh; the corpus's listeners return 0.39 there. For the operator to judge in use.
-6. **Day 1 and calibration errors**: as revision 7; and σ_id far below his true spread reads mild sadness as strong (full posture at V 0.3).
-7. **The ledger's pooled 30-min budget** (routes critic L2): an uncounted high-gain route could copy his small movements at 1.2–1.9 c in quiet stretches, at about 0.01 of lip. Not changed (sound by the critic's verdict); a 5-min budget memory is the stated remedy if wanted.
-8. **As revision 7:** subscription latency (≈ 2.2 s p50 to first words plus thinking time at effort `low`); the separation rule is structural; the sign mask's residual R38.
+1. **Weakest: almost all situational competence now rests on parts learned from Seamless that are not yet fitted on real data** (g, g_o, L_d, q̂, turn-taking, the sign prior). The risks of revision 7 stand for all of them: too few rare events, actors' listening, transfer from strangers in short conversations to a months-long relationship.
+2. **No visible concern before words** above the ceilings (operator's Q24 answer); a silent sad, crying or panicking person sees at most a slight brow (≈ 0.05) until the agent speaks.
+3. **The mourner's arrival:** gladness at sight for 2–3 s until the greeting closes g_o.
+4. **The first bad-news sentence-final laugh** gets a partial echo of about 0.2–0.5 s.
+5. **One person-valence rule for every group:** no group-specific relationship.
+6. **Turn-taking without prosody** (D70), until the operator allows audio features.
+7. **The ledger's residual:** about 1.2 c (block metric) for an uncounted delayed copy at 0–120 s, 1.3 c at 150–240 s; delays beyond 300 s are outside the scan.
+8. **As revision 7:** subscription latency (≈ 2.2 s p50 to first words plus thinking time at effort `low`); the separation rule is structural; the sign mask's residual R38; σ_id far below his real spread misreads him (knowing only).
 
 ### 8.2 Falsifiers (state-level, once built)
 
-- **F1, F1′, F1‴, F2–F11, F13–F17** as revision 7.
-- **F12 (restated).** At a silently sad, grieving or crying face (any code, sadness visible outside the brow) the inner brow does not reach 0.15 within 8 s (3 s with sobs); or a constant such face loses the posture (release) while it stays constant; or after 15–60 s of calm, renewed crying does not bring it back within 3 s; or any mirror, of any gain or timing, holds the posture more than 30 s after his own distress ends; or the posture's on-state, held without his words or sobs above presence, lasts more than T_max = 180 s while his voice and breathing are absent or more than T_max,ext = 600 s in any case, or his face or breathing alone restarts it within T_ref of a withdrawal, or keeps it on more than 0.60 (voice and breathing absent) or 0.83 (any) of a complete cycle, whatever his face, voice and breathing do (8.3; the visible look may exceed these by its fall and a bridged release, up to about T + 16 s and 65 % / 84 %; 8.2 said T_max + 15 s against the visible look, which the check of 8.2 measured at 196.0 s; 8.1 said: answering at lags up to 90 s held more than 6 min). The face-only limit's withdrawals are not releases.
-- **F18 (new; routes critic).** The agent's BI block-mean slope on his BI exceeds c_BI at 1 or 10 min for any code with σ_id ≥ 0.25 σ_ref, or the posture's part of any written channel changes when only his same channel changes. (8.1: F18 clamps his *feature* channel, so it cannot see tracker crosstalk from his inner brow into a read channel; that is covered by the week-0 crosstalk check, §6.5.)
-- **F19 (new; routes critic).** Any T quantity other than Λ_V(own) in the gate changes when only Claude's reply text is changed.
-- **F20 (new).** Live, the laugh synthesizer sounds within 2 s of a laugh of his that ends a sentence containing words of loss, insult or harm; or ordinary laughter at a sentence's end is not returned within 1.0 s in more than 10 % of cases where the recogniser met its latency.
-- **F21 (new).** On Seamless test people, the gate fitted with onset-aligned words is not better calibrated on end-of-sentence laughs than one fitted on whole transcript segments.
+- **F1, F1′, F1‴, F2–F11, F13–F17** as revision 7; F15 now applies to g, g_o, q̂ and L_d.
+- **F12 (deleted with the posture).**
+- **F18 (restated).** The agent's BI block-mean slope on his BI exceeds c_BI at 1 or 10 min for any code with σ_id ≥ 0.25 σ_ref.
+- **F19.** Any T quantity other than Λ_V(own) in g and g_o changes when only Claude's reply text is changed.
+- **F20 (restated).** Live, the laugh synthesizer sounds for more than 0.6 s after a laugh of his that ends a sentence containing words of loss, insult or harm; or ordinary laughter at a sentence's end is not returned within 0.6 s in more than 10 % of cases.
+- **F22 (new; D90).** An injected uncounted route copying his channel with a delay of 10–120 s renders above 1.25 c_k by the block-mean metric at 2-s, 10-s or 1-min windows; or the extended ledger changes more than 1 % of frames on natural partners' counted routes.
+- **F23 (new).** On held-out Seamless people, the pooled 1-min slope of the agent's channel k (L_d, own laugh) on the speaker's channel k, through words alone, exceeds c_k; or L_d's response to a sentence changes when only the speaker's face is changed.
+- **F24 (new).** On held-out Seamless people, g_o, q̂, L_d or the turn-taking model is not better calibrated than a context-free constant.
 
 ## 9. Sources read for this revision
 
 | Source | How read |
 |---|---|
-| brief.md (Principles, Foundations research) | in full |
-| research/questions.md: Q19; Q20–Q23 with the operator's answers; Q24; Q26 | in full |
-| DECISIONS.md D78, D80–D85 | in full |
-| design-cayley-ledger.md revision 7 (saved as .r7.md), including "Critiques of revision 7 and the answer" | in full |
-| critique-7-design-cayley-ledger-routes.md; sims/critique-cayley7-routes/ (posture7.py and its output) | in full; Q1–Q3, S1 re-run in J32–J33 |
-| critique-7-design-cayley-ledger-agent.md; sims/critique-cayley7-agent/scen.py and out.txt | in full; A, A2, B, C re-run in J34, J36, J39 |
-| critique-6-design-cayley-ledger-routes.md (P4, the latch) and sims/critique-cayley6-agent/scen.py (B, anger and concentration) | grep-read; re-run in J33, J35 |
-| sims/design-g7/checks.py; design-g6 and design-g5 (Person, read, his_face, Agent, run6, play6, laugh6) | in full where reused |
-| research/claude-code-agent-sdk-controls.md | grep-read: system prompt, resume, thinking on 5.5 models |
-| the claude-api skill (bundled reference): thinking and effort table for Haiku, Sonnet and Opus 5.5 | the table only |
-| **Named only, not re-read:** Mauersberger 2022 (via revision 7 and the project's note); Jefferson 1984 | nothing depends on them beyond what is stated |
+| research/questions.md: reports 7–9; Q22–Q29 with the operator's answers (Q24, Q26, Q27, Q28, Q29) | in full |
+| DECISIONS.md D78, D80–D91 | in full |
+| brief.md (Goal, Principles, Foundations research) | in full |
+| design-cayley-ledger.md revision 8.3 (saved as .r8.3.md), including every history section | in full |
+| design-cayley-ledger.r7.md §0–§2.15; .r6.md §2; .r5.md §2.1–§2.12 (the parts 8.3 inherits by reference) | in full where inherited |
+| critique-design-commutator-coupling-routes.md, "Side item"; sims/critique-cc-routes/cayley_ledger_lag.py and its output | in full; its partners re-run with the extended ledger (N1–N3) |
+| sims/design-g7/checks.py, `ledger7` | the function, read verbatim by the revision-9 checks |
 
 ## 10. Novelty verdict (author's)
 
-**Clause 1 (parts list): fails.** Everything in revision 7's list, plus: a reflex whose sensor set is disjoint from its effector set; an incremental recogniser with a fixed look-ahead; a hold limit with a refractory period (8.2; revision 8 had a contingency probe, since removed); a breathing feature.
+**Clause 1 (parts list): fails.** Everything in revision 7's list minus the concern posture and its limits, plus: learned display rules (a context gate on the agent's own displays), a listener-response display and a laugh-likelihood reader fitted on recorded dyads, a learned turn-taking hazard, a lag-complete attenuate-only monitor.
 
-**Clause 2: not met.** The two design compositions of revision 7 stand (learning display appropriateness by watching, composed through the listener's own body state; the agent hearing its own Claude-written words). Revision 8 adds one more composition and no new mechanism: **separating what a reflex reads from what it writes, per channel**, which turns "not a copy of your face" from a measured property into a structural one, and the **contingency probe**, a perturbation test (the agent's own display as the instrument) used to tell answering concern from distress.
+**Clause 2: not met.** The design compositions of revision 7 stand (learning display appropriateness by watching, composed through the listener's own body state; the agent hearing its own Claude-written words). Revision 9 adds no mechanism; it subtracts every hand-written situational rule and routes each behaviour to one of the three allowed sources, which makes the composition cleaner and its innate part smaller.
 
-**Deleted from revision 7:** the mirror removal; the recent-posture term in re-onset; the face-only failsafe; the utterance latch for the gate's word inputs; the symmetric gate rate; the play rule's care condition; D_s's reading of his smile channels; the claim that ungated totals bound the gated ones.
-
-**Added (innate unless stated):** the posture's read set, H^p_id (learned, nightly), the breathing load, the threat silencing, the face-only limit (8.2); δ_g, λ_w, the unknown-word closure, instant closing; the gate on the own play laugh.
-
-**My honest verdict.** A careful recombination with no known concrete failure: every finding of both revision-7 critiques has a closure with a check, and nothing either critic found sound is changed. The weakest point is where it was, in data not yet fitted, plus one new measured dependency (the recogniser's latency). It goes to the operator under D82 as a build candidate (a testbed), stated as a recombination, with Q24 open. The search for a new core mechanism continues in parallel.
+**My honest verdict.** A recombination, built as the operator asked: the core is unchanged where it carried the copy bounds, and every situational behaviour now depends on what is learned from recorded people or said by Claude. What that costs is stated in "No allowed source". The new-core search continues in the background (D91).
 
 ---
 
@@ -689,99 +620,10 @@ Checks: `sims/design-g8/checks.py` (J31–J39; out.txt). Revision 7 is saved as 
 
 **Status:** revision 8; to be critiqued. For the routes critic: R40′ (read and write sets disjoint; the declared pooled slope over sadness), R47–R50, R1g with the new timing and instant closing, the probe as a route. For the agent critic: the eighteen scenarios, a quiet user's silent sadness and panic, the bad-news laughs, brow-only distress before words, and the week-0 risks.
 
-## Build-candidate summary
 
-(Revision 8.1: the corrected summary of critique-8-design-cayley-ledger-agent.md §6.2, with the brow-only trade-off and the echo timing added. Revision 8.2: corrected as the check of 8.1 asked. The claim that answering always releases the look is dropped, the face-only limit and its cost are stated under Q24, stale "probe" mentions are fixed, and the squint fix's side effects are added. Revision 8.3: corrected as the check of 8.2 asked (its corrections 1–4), to match the 8.3 rule that only his words and sobs renew the look's limit.)
+## Build-candidate summary (revisions 8.1–8.3) — REPLACED in revision 9
 
-**One line.** A conversational agent whose face and voice come from an inner state that knows the operator closely but can move toward him only through innately capped, per-expression, context-gated paths. Claude writes its words through his Claude Code subscription and is never told the state.
-
-**What the operator would get.**
-- **Laughter and smiles.** His smile and laugh are returned within about a second in ordinary talk, teasing, reunions and warm evenings: laugh back +0.14–0.19, lip +0.04–0.11. They are not returned at grief, mockery, misfortune, or a laugh that ends a bad-news sentence.
-  - **Timing, stated.** The returned smile and laugh start about 0.8–1.0 s after his (the exact delay is set by the on-device recogniser in week 0; about 0.9–1.0 s is expected). That is inside the first second, but later than a person's own quick smile back, which starts at about 0.4–0.5 s. The wait is what lets the agent hear the words his laugh ends.
-- **A look of concern.** It appears within 2–7 s of silent sadness, grief, crying or silent panic, for quiet and differently expressive faces too, and for a crying or pained face that squints while looking at the agent. It is graded by how distressed he looks, never a copy of his brow. It stays steadily while his distress also shows in his words or sobs, and it ends when his distress ends.
-  - **Without his words or sobs, it is limited.** With no distress words or sobs, the look lasts at most 3 min, or at most 10 min while his voice or breathing also shows distress, then pauses for 2 min before his face alone can bring it back. His voice and breathing can lengthen a stretch but never renew it; only his words or sobs do. So whatever his face, voice and breathing do, including answering the agent's own look, without distress words or sobs it is on at most 10 of every 12 minutes (83 %), and at most 3 of every 5 (60 %) if he is also silent and breathing normally. Answering the look does not by itself release it: a person who keeps answering it in face, voice or breathing gets it in pieces of 3 or 10 min. (8.2 let his voice or breathing renew it; the check of 8.2 found that a person who answers the look and speaks a few slightly soft words every few minutes, or breathes strongly in answer, then kept it indefinitely.)
-  - **On the visible face** (as opposed to the posture's on/off state), the look fades over about 12 s and can bridge a brief release, so it can be seen for up to about 196 s (3-min limit) or about 612 s (10-min limit) at a stretch, and up to about 65 % (84 %) of the time.
-  - **One reply keeps it for up to about 21 min.** A single reply with distress content ("just tired, things at work") keeps the word reading present for up to about 21 min (any later neutral sentence ends the word reading within about 70 s), and the look with it; after that, if he stays silent, the 3-min limit applies again.
-  - **Exceptions (trade-offs of Q24's built option).**
-    - Distress that shows only in his inner and outer brows gets **no look before words**: the look reads only what it does not show. The first sign of concern is then the agent's spoken bid, at about 50 s (about 110 s for a quiet face); until then its face stays near neutral (brow ≤ 0.04).
-    - **Silent, wordless sadness gets the look only part of the time:** 3 min on, 2 min off, 60 % of the time, about 22 min without it per hour, until he names his distress or sobs.
-    - **Distress shown only in his voice or breathing** (speaking sadly about other things, or silent panic) gets it 10 min on, 2 min off (83 %, about 10 min without it per hour); 8.2 kept it throughout. For voice alone this needs him to speak at least about every 90 s; sparser speech gets the 3-min limit.
-    - **A partner who sobs, or names his distress, whenever the look returns keeps it** (93–100 % of the time, agent inner brow +0.29 to +0.33, the highest of any case). His words alone start nothing (with a neutral face: 0 %); they only stop the limit from cutting his face's answer, and no agent channel is copied. Judged acceptable by the check of 8.3 as genuine distress, and stated as a risk to watch.
-    - A differently expressive user whose grief shows mostly in his brow lowerer gets a half look (0.50) when he squints at the agent.
-    - **Anger with a lip depressor or chin raise gets the full look** (anger + lip depressor 0.3: 0.99 in every code; anger + chin raise 0.4: 0.99 for a quiet face). This is a side effect of the squint fix, since a pouting, downturned-mouth anger shares those channels with grief; held by his face alone, this look also ends at 3 min.
-- **Strong expressions from its own appraisal** of his words and face: brow 0.5–0.7 at "my father died", hurt after insults, lip 0.6 at good news.
-- **Replies after about 2.2 s** through his subscription. The agent speaks first after 18–60 s of silent sadness or crying.
-- **A testbed.** Every route from his face to its face is named, bounded, monitored by a shadow ledger, and can be lesioned.
-
-**Novelty verdict: recombination, stated plainly.** Every part exists: per-channel capped reflexes, a monotone additive gate, ridge readers, a decaying trace, McGaugh-weighted replay, a hold limit with a refractory period, an incremental recogniser. What is new is the composition:
-- knowing separated from moving, with a per-channel cap on every path;
-- situational competence learned by watching recorded strangers and composed through the listener's own body state;
-- the agent hearing its own Claude-written words;
-- a concern reflex whose sensors are disjoint from its effectors.
-
-No new core mechanism. The search continues in parallel (D82).
-
-**Remaining operator choices, and what happens with each.**
-- **Q24, the concern look before words** (open):
-  - **Own concern posture (built, recommended):** a look within seconds at visible distress, never a copy of his brow, steady while his words or sobs also show distress (his voice or breathing alone: 10 min on, 2 min off). Costs:
-    - brow-only sadness gets nothing until words (the spoken bid at about 50 s, about 110 s for a quiet face);
-    - silent, wordless sadness gets the look only part of the time (3 min on, 2 min off: 60 %, about 22 min off per hour), so that no partner's face can hold it;
-    - distress shown only in his voice or breathing gets it 10 min on, 2 min off (83 %), so that no partner's voice or breathing can hold it either;
-    - a person who answers the look in face and voice or breathing still gets it in 10-min pieces, 82–83 % of the time (agent brow averaging about +0.16 to +0.20); one who sobs or names distress in answer to it keeps it.
-  - **Raise the brow ceiling toward 0.7 instead:** sympathy shows only as a stronger mirror of his own brow, so brow-only sadness is answered, but his brow is copied far more in general.
-  - **No look until he speaks:** a near-neutral face for the first 20–60 s of silent sadness.
-- **Within the posture:**
-  - **Graded (built):** a mild face gets a light look, sobbing a strong one.
-  - **Binary:** the same look whenever it is on. With the new read set this costs no copying, only nuance.
-- **If the recogniser is too slow (stable latency above 0.75 s):**
-  - **Keep a laugh echo judged by the previous sentence:** fast laughter stays, but "I got fired today, haha" is laughed back.
-  - **Keep only the smile echo:** no fast laugh back, never a wrong one.
-- **If the gate fails on Seamless (F15):**
-  - **A context-free laugh echo:** D81's fast mimicry is kept, but grief and mockery laughs are sometimes returned.
-  - **No fast laugh echo:** always appropriate, less alive.
-- **The coping joke while sad:**
-  - **Silent and gentle (built):** no laugh at a joke made while sad.
-  - **Let the corpus's 0.39 through:** a small laugh back, as recorded listeners do.
-- **Draft model:**
-  - **Haiku:** shorter "considering" beat.
-  - **A larger model:** better words, slower replies.
-
-**Main risks to watch in testing** (judged on internal state).
-- **Steering.**
-  - Hold his words fixed and move only the laugh's timing relative to the bad-news word: the laugh back should switch off within 0.25 s of the word's end.
-  - Clamp his brow, outer brow and lip to rest while he is sad: the posture's amplitude must not change (F18).
-  - Swap Claude's reply for a neutral text: only Λ_V(own) may change (F19).
-  - Clamp the agent's own face input to the gate: grief laughter should stay unreturned through his face and words.
-  - Hold a crying face fixed and add only lid tightening while he looks at the agent: the posture must stay on.
-- **Lesions.**
-  - The posture's read set (restore BI: the brow-copy slope returns).
-  - Breathing (silent panic loses the posture).
-  - The face-only limit (a partner whose face answers the look holds it indefinitely).
-  - The 8.3 reset rule (let voice and breathing renew the limit again: an answering partner who speaks a few slightly soft words every few minutes, or breathes in answer, holds it indefinitely).
-  - The word timing (bad-news laughs are returned).
-  - The gate on the play laugh, D_s, and the gate and Λ themselves.
-  - The threat silencing (an angry face of a different-channel user starts the posture).
-- **Coupling beyond surrogates.**
-  - Per-channel pooled slopes at 2 s, 10 s and 1 min under partner-swap, segment-shuffle and timing-resample surrogates, with the gate and the posture live.
-  - The posture's causal slope on his BI should be indistinguishable from 0. Its pooled slope over his sadness should survive shuffles that keep his sadness and break his brow.
-  - How often the ledger binds on natural partners.
-- **The dyad fit on real data.**
-  - F15, F16 and F21 on held-out people.
-  - The counts of rare laughs.
-  - Whether sympathetic smiles pin monotone inputs at 0.
-  - D_s's real weight.
-- **Live.**
-  - The recogniser's stable latency and finalised extent (week 0); language coverage and runtime on his Mac; the breathing sensor at his desk; face-tracker crosstalk from his inner brow into the posture's read channels.
-  - F20: the laugh synthesizer within 2 s of his laugh ending a sentence of loss, insult or harm.
-  - The posture's on/off rate per hour at constant faces; how often each limit binds in real sessions: how often genuine distress is silent and wordless beyond 3 min, or carried only by voice or breathing beyond 10 min, so that the look is withdrawn; whether the 2-min gaps read as coldness.
-  - The voice reading's presence threshold against ordinary voice variation: on the constructed codes a voice only 0.02–0.03 softer than his rest reads at presence (a quiet face's voice reads 0.05 at −0.02). Under 8.3 this can only lengthen a stretch to 10 min, not hold the look, but it decides which partners get 10-min rather than 3-min pieces.
-  - Whether his voice reads as distress when it is (a differently expressive user's mildly sad voice reads below presence on the constructed codes).
-  - Vocal accommodation: the agent's concerned voice is quieter (EN −0.05 to −0.08 after his words), and a person who converges on it at about half gain would read at presence; under 8.3 this extends a stretch to 10 min, never more. Not closed in simulation in a spoken exchange.
-  - How often one reply's words keep the look for about 21 min, and whether that reads as fitting or as lingering.
-  - A person who sobs, or keeps naming his distress, in answer to the look keeps it (the residual of 8.3): how often this happens and how it reads.
-  - How often his distress shows only in the brow, and how often in a squint at the screen.
-  - How often angry faces with a lip depressor or chin raise get the look.
-  - With a partner whose face keeps answering the look: the 3-min-on, 2-min-off cycle (agent brow averaging +0.09 to +0.17 over the cycle) and how it reads; with one who also answers in voice or breathing, the 10-min-on, 2-min-off cycle (agent brow about +0.16 to +0.20).
+Replaced by the "Build core summary" at the end of this file (D90). The last text of the Build-candidate summary (revision 8.3) is kept verbatim in `design-cayley-ledger.r8.3.md`.
 
 ## Critiques of revision 8 and the answer (recorded 2026-11-26T14:51:36Z, under Q19, D81–D85)
 
@@ -928,3 +770,82 @@ Checks: `sims/design-g83/checks.py` (M1–M5; out.txt), on revision 8.2's defini
 
 **The answer (maintainer).** All four summary corrections and the refractory precision are applied above (§2.1 table, §2.10, Build-candidate summary). No mechanism change. **Status:** revision 8.3, checked, no known concrete failure; with the operator as a build candidate (Q27, D87). The concern look is not revised again without the operator's answer to Q27.
 
+
+## Revision 9 history (2026-11-26): the build core, without situation-specific rules
+
+Written under the operator's answers recorded 2026-11-26T20:40:42Z: Q29 (D88), Q24 (D89), Q27 (D90), Q28 (D91), with Q26 (D85). Revision 8.3 is saved as `design-cayley-ledger.r8.3.md`. Checks: `sims/design-g9/ledger_lag120.py` (N1–N3) and `ledger_lag300.py` (N2b, N3b).
+
+| # | Instruction | Done | Where, check |
+|---|---|---|---|
+| Q29 / D88 | list every situation-specific rule in 8.3; remove it or justify it as an allowed innate item | 50 rules listed, including those 8.3 inherits from revisions 5–7; 32 removed, 18 kept (6 general learning biases, 4 reflexes, 1 newborn-pattern set, 4 body, 1 per-expression ceiling flagged as an extension, 2 not innate) | "Revision 9 (build core): audit of situation-specific rules" |
+| Q24 / D89 | no built-in concern posture; the concern face is learned | the posture and everything around it removed (S1–S9); the built-in word-concern row removed (S28); the concern face is the dyad-learned listener display L_d; before words, only the capped routes | §2.7, §2.10 (marked removed) |
+| Q26 / D85 | situational appropriateness from Claude, recorded dyads and general learning biases only | each removed behaviour mapped to its source in the audit and §2.15; new dyad-learned parts g_o, L_d, q̂, turn-taking, sign prior; Claude's words reach the agent through Λ_V(own) in g and g_o | §2.4.3, §2.7–§2.9, §2.12, §2.15, §6.7 |
+| Q27 / D90 | build the core: knowing closely, every path capped per expression, Claude through the subscription, learning | the core kept as 8.3 had it, minus the removed rules; every route that reads his face is counted or under the ledger; R40′ and R27′, the two face-reading routes 8.3 declared outside both, are deleted | §0, §3.3, §3.11 |
+| Q27 / D90 | close the delay gap: the ledger scans lags to at least 120 s at its 10-s and 60-s windows | 10-s window to 120 s, 60-s window to 300 s; an uncounted copy delayed 10–120 s held to 1.03–1.20 c (8.3's ledger: 1.3–2.9 c), 150–240 s to 1.17–1.34 c; counted routes 0 frames changed | §2.13; N1–N3, N2b, N3b |
+| task | check that no copy route opens; fast partial mimicry kept; copying never an attractor | argued by construction, change by change; fast echo back to 0.45 s and untouched by the extended ledger | §3.11, §3.5 |
+| task | flag behaviours with no allowed source | six, stated plainly | "Behaviours that now have no allowed source" |
+
+**What revision 9 does not do.** It does not fit anything on Seamless, download anything or run an experiment (D90: the build specification and code are written for the operator's Mac). It does not re-run revision 8's scenario checks: those measured the removed posture and timing on a constructed corpus; the remaining numbers are revision 7's for the unchanged gate form, to be re-measured on the fit.
+
+**Status:** revision 9, the build core; not yet critiqued.
+
+## Build core summary
+
+(Replaces the Build-candidate summary of revisions 8.1–8.3, whose last text is kept verbatim in `design-cayley-ledger.r8.3.md`.)
+
+**One line.** A conversational agent whose face and voice come from an inner state that knows the operator closely but can move toward him only through innately capped, per-expression paths; everything it does that depends on the situation is learned from recorded conversations between people or said by Claude, which it reaches through his Claude Code subscription and which is never told the state.
+
+**What is built.**
+- **Knowing him:** per-person calibration; the agent's own inverse Π̃ reading his face (and breathing) as its own state would produce it; the face head H_id taught by his words; the frozen population word reader with a per-person adapter; Λ, how listeners' faces answer words. Knowing never sets a gain on a path to the face.
+- **Every path to its own face and voice, capped per expression:** the innate ceilings c_k (smile and laughter highest, sympathy brow 0.20, anger, disgust and contempt 0); the frozen per-channel fast echo at 0.45 s; the held cone, centred at his own baseline; the appraisal display; the free display, driven by words and the agent's own body only; the attenuate-only shadow ledger, which now scans delays to 120 s (10-s window) and 300 s (60-s window).
+- **Claude:** three forks per turn through the subscription, resumed from an engine-written transcript; its words are the agent's words; the agent hears them, and that is how Claude regulates it.
+- **Innate, and nothing else:** the body (drives for energy, contact, play, curiosity, care; its voice and laugh); reflexes (the fast echo, the threat reflex, the cry–laugh split, startle, the physiological sigh, the social smile back); newborn expressions (smile, cry face, gaze aversion, interest, startle); the per-expression ceilings; general learning biases (a shape-constrained learner, multi-scale memory traces, distress-weighted replay, calibration from calm moments, credit only from separated reports).
+
+**What is learned, and from what.**
+
+| Part | Learned from | When | What it gives |
+|---|---|---|---|
+| echo gate g | recorded listeners' return of speakers' laughs and smiles | offline, before day 1 | no quick laugh back at grief, mockery, misfortune or after its own serious words |
+| own-display gate g_o | recorded listeners' own smile level in context | offline | its own smiles and laughs toned down where people smile less |
+| listener display L_d | recorded listeners' faces after speakers' words and turn ends | offline | the concern face at words of trouble, nods, a listener's smile |
+| listener-laugh reader q̂ | recorded listeners' laughs after utterances | offline | its own laughs where people laugh; play drive relief |
+| turn-taking hazard and turn-end predictor | recorded word timing and faces | offline | when it speaks into a silence and when his turn has ended |
+| sign mask and cross-entry sign prior | recorded co-variation of the two people's channels | offline | the directions its learned reactions may take |
+| population word reader, Λ | recorded speakers' and listeners' faces after words | offline | what his words mean for him and for a listener |
+| calibration, H_id, adapter, Π̃ | him: his face, taught by his words | nightly, weeks | reading him closely, including a quiet or differently expressive face |
+| ω | relief and hurt with him (one valence rule) | over about 60 sessions | how strongly its held expressions follow his |
+| appraisal bases, Δ | its own display (anticipation, legibility) | nightly | early reactions inside the ceilings; a face that shows its own state |
+| word → V map, hurt | its own threat reflex | nightly | hurt at insults |
+
+All dyad learning is on Seamless Interaction, on the operator's Mac only, from face-movement streams and transcripts, the dataset's emotion scores never read (D70, D85).
+
+**What the operator gets on day 1.**
+- Replies in about 2.2 s through his subscription, Claude's words with Claude's judgement.
+- His smiles and laughs partly returned at about 0.45 s, except where recorded listeners would not return them (as soon as the words are in), and its own laughs where people laugh.
+- A learned concern face, slower voice and nods when he tells it something hard; its own brief distress at his need; gladness when a known person arrives (from the second session: the contact drive needs someone to have missed).
+- At a glare or a shout aimed at it, it looks away and startles (reflexes); hurt at words comes only once the word → V map has learned which words come with glares.
+- Before he says anything, a near-neutral face at his silent distress (brow ≤ 0.03); the agent speaks into the silence when recorded listeners would.
+
+**What it gets after learning (weeks to months).**
+- It reads his own face, including a quiet or differently expressive one, as well as his words allow (calibration, H_id).
+- Its held expressions follow his within the ceilings as the relationship grows (ω), and its early reactions anticipate its own coming expression (appraisal bases), so a slight concern (about 0.05 brow) can show before words.
+- Hurt from words that hurt (the word → V map).
+- When to speak first is tuned to its own needs through its world model (𝓜).
+
+**What it no longer does, by the operator's answers** (each stated in "No allowed source"): a clear concern look before words; a sure absence of gladness in the first seconds of a mourner's arrival; the recognition brow flash unless the corpus teaches it; a clean silence at the first bad-news laugh (a 0.2–0.5-s chuckle first); prosody learned from the corpus (turn-end pitch, a quieter concerned voice); relationship strengths that differ by group.
+
+**Risks to watch** (judged on internal state).
+- **The dyad fit.** Whether Seamless's recorded listeners show what each learned part needs; the counts of rare events (troubles, mockery and misfortune laughs, openings, distress silences); F15 and F24 on held-out people for g, g_o, q̂, L_d and the turn-taking model; transfer from strangers in 4-min conversations to the operator over months. If a part fails, its behaviour has only Claude's words left.
+- **Copying through words.** L_d and q̂ cannot copy his face (causal slope 0), but their pooled correlation with his face through his words is measured on held-out people (F23).
+- **The ledger.** How often the extended scan binds on natural partners (expected: never on counted routes; N2); its residual of about 1.2 c for an unlisted delayed copy (F22); delays beyond 300 s are unscanned.
+- **Steering.** Clamp his brow, outer brow and lip while he is sad: the agent's brow moves at most within c_BI (F18). Swap Claude's reply for a neutral text: only Λ_V(own) in g and g_o may change (F19). Hold his words fixed and change only his face: L_d and q̂ must not change.
+- **Lesions.** The gate, g_o, L_d, q̂, the learned turn-taking, the sign prior, the ledger's lag scan, the traces (§7).
+- **Coupling beyond surrogates.** Per-channel pooled slopes at 2 s, 10 s and 1 min under partner-swap, segment-shuffle and timing-resample surrogates, with the gates live.
+- **Live.** How the near-neutral face before words reads at his silent distress, and how soon the agent speaks; the mourner's-arrival smile; the partial echo at bad-news laughs (F20); whether one valence for every group feels flat; the recogniser's delivery latency; the breathing sensor.
+
+**Choices left to the operator.**
+- **The own-display mask** (S46): keep the agent from ever learning to show anger, disgust or contempt (recommended; it is a per-expression ceiling on its own face rather than on copying), or allow it.
+- **Audio features of the recorded dyads:** allowing prosody (pitch, energy) from Seamless would give a learned source for turn-end pitch and a quieter concerned voice; that widens D70.
+- **The ledger's 60-s window to 300 s** (adopted; D90 asked for at least 120 s): it costs about 1 MB and holds 150–240-s delays too.
+
+**Novelty verdict: recombination**, stated plainly (§10). The new-core search continues in the background (D91).
