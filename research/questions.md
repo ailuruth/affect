@@ -2,6 +2,24 @@
 
 Decisions that are yours (visual identity, data leaving this Mac, new paid services, changes to existing Ailurini behavior). Work that these block is not built; work they do not block continues.
 
+## Report 7: the main design goes to you as a build candidate, with one known failure (Q27 below; 2026-11-26T17:24:15Z)
+
+**What happened since report 6.** The main design went through revisions 7, 8, 8.1 and 8.2. Each round of critics found only narrow problems, and the core limit (the agent may know your face fully, but every path to its own face is capped per expression) has held since revision 6. Revision 8 added:
+- a laugh gate that waits for your words, so "I got fired, haha" is not laughed back;
+- a graded look of concern from the agent's own judgement, which never reads the brow it moves;
+- a whole-system check that runs the agent a second time with your face set to neutral.
+
+**The one part that kept failing.** The concern look must not become a loop in which you answer the agent's concerned face and it answers yours. Three ways of ending such a loop failed in turn:
+- a short test of whether your face follows the look;
+- a test that grew rarer over time;
+- a fixed 3-minute limit that is reset by your voice or breathing.
+
+The third fails because speaking a few slightly soft words every few minutes keeps resetting it.
+
+**Now.** A narrow revision 8.3 is being written: only your distress words or sobs can keep the look going; voice and breathing can stretch the limit to 10 minutes but never past it. It will get one quick check. Meanwhile the design is put to you in Q27, with the failure stated plainly, because the core has no other known failure and the remaining question is how the concern look should behave, which is your call.
+
+**The second design** (running the agent again with your face set to neutral) stays held: its check now lives inside the main design.
+
 ## Report 6: one design refined six times, a second design, and what is left (no answer needed, 2026-11-26T10:19:53Z)
 
 **Where things stand.** Two designs are alive.
@@ -514,3 +532,23 @@ Learning only from the operator would be too slow for rare situations. Situation
 Fixes for situational failures are designed through these three sources.
 
 **Effect on Q25:** source 2 answers it. Recorded dyads such as Seamless may be used for learning, not only for testing, from movement features only. D70's restrictions still apply: the operator's Mac only, face streams and transcripts only, the dataset's emotion scores never read.
+
+## Q27. Build the main design? (asked 2026-11-26T17:24:15Z; work continues meanwhile)
+
+**What it is.** A conversational agent whose face and voice come from an inner state that knows you closely but can move toward you only through built-in, per-expression, capped paths. Claude writes its words through your subscription and is never told the state. Full summary: the Build-candidate summary at the end of research/foundations/design-cayley-ledger.md.
+
+**What you would get.** Your smiles and laughs returned within about a second (not at grief or a bad-news laugh), a look of concern within seconds of distress, strong expressions from its own reading of your words and face, replies in about 2 s, and every path from your face to its face named, bounded and switchable off for testing.
+
+**Novelty, plainly:** a recombination. Every part exists already; what is new is how they are composed. No new core mechanism has been found; that search continues alongside (D82).
+
+**Known failure, plainly (revision 8.2's check).** If you answer the agent's concerned look with your own face and also speak a few slightly soft words every few minutes, or your breathing rises strongly in answer, the look can stay on indefinitely, with the agent's brow held up throughout. This is the mutual stuck state you ruled out. A silent partner cannot do this: the look is then on at most 3 of every 5 minutes. Revision 8.3, now being written, closes it: only distress words or sobs keep the look going; voice and breathing stretch the limit to at most 10 minutes. Its cost: sadness that shows only in your face and voice, without words, gets the look at most 10 minutes at a time, then a 2-minute pause.
+
+**Options:**
+- **Build it once 8.3 passes one quick check** (my recommendation): building starts on the version without known failures; if the check fails, I come back here before building.
+- **Build it now as 8.2:** building starts at once, and the voice-and-breathing loop is watched for in live tests and fixed there.
+- **Hold for more revisions:** no building yet; the critics keep working on the concern look and anything else they find.
+- **Don't build this one; keep searching for a genuinely new mechanism:** the research cycle continues and only a new core comes back to you.
+
+Q24 (the concern look before words) is still open and can be answered alongside; the build follows its recommendation unless you choose otherwise.
+
+**What it blocks:** the start of building. Research continues either way.

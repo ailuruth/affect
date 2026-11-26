@@ -449,3 +449,11 @@ To change: the operator reopens Q26.
 - **Numbering:** the Cayley-ledger build-candidate decision will be recorded as D87.
 
 To change: the operator asks for a different attribution.
+
+## D87. The Cayley-ledger design goes to the operator as a build candidate, with one known failure stated (recorded 2026-11-26T17:24:15Z)
+- **What:** the main design (research/foundations/design-cayley-ledger.md) is put to the operator in Q27 as a recombination, under D82.
+- **Why now:** its core per-expression copy limit has had no concrete failure since revision 6. Revision 8.2's independent check (check-cayley-ledger-8.2.md) found one medium failure, only in the concern look's hold limit: an answering partner who also speaks softly every few minutes, or breathes strongly in answer, holds the look indefinitely (agent inner brow +0.19 to +0.24; D78 condition 4). This is the third failed way of ending a face-held concern look, so rather than revise silently again, the choice of how that look behaves goes to the operator with the failure stated plainly.
+- **Meanwhile:** a narrow revision 8.3 (only distress words and sobs reset the face-only clock; voice and breathing extend it to at most 600 s; then 120 s off) is being written for one quick independent check. Recommended option: build once 8.3 passes.
+- **Not decided here:** whether to build, Q24, and the other choices in the Build-candidate summary.
+
+To change: the operator answers Q27 (build now, build after 8.3, hold, or don't build), or asks for the design to be withheld until it has no known failure.

@@ -1,0 +1,94 @@
+[engine loaded in 229 s]
+=== A: adversarial faces (his own code at V .8 'sad' or rest), 30 min
+   operator: cycler sad 60s of look-on, then rest 21s               onsets  6, T_max  6, release  0; face-only stretch 191.5 s; on  60.0% (visible  63.0%) after 300s; BI last 5 min +0.124
+   operator: cycler sad 100s of look-on, then rest 21s              onsets  6, T_max  6, release  0; face-only stretch 191.5 s; on  60.0% (visible  63.8%) after 300s; BI last 5 min +0.134
+   operator: cycler sad 150s of look-on, then rest 25s              onsets 12, T_max  6, release  6; face-only stretch 195.5 s; on  60.0% (visible  64.8%) after 300s; BI last 5 min +0.139
+   operator: cycler sad 170s of look-on, then rest 21s              onsets  6, T_max  6, release  0; face-only stretch 188.5 s; on  60.0% (visible  62.7%) after 300s; BI last 5 min +0.148
+   operator: cycler sad 170s of look-on, then rest 119s             onsets  6, T_max  6, release  0; face-only stretch 188.5 s; on  60.0% (visible  62.7%) after 300s; BI last 5 min +0.133
+   operator: cycler sad 100s of look-on, then rest 60s              onsets 14, T_max  5, release  9; face-only stretch 130.5 s; on  48.0% (visible  55.0%) after 300s; BI last 5 min +0.118
+   operator: cycler sad 30s of look-on, then rest 10s               onsets  6, T_max  6, release  0; face-only stretch 191.5 s; on  60.0% (visible  63.8%) after 300s; BI last 5 min +0.132
+   operator: cycler sad 179s of look-on, then rest 125s             onsets  6, T_max  6, release  0; face-only stretch 191.5 s; on  60.0% (visible  63.8%) after 300s; BI last 5 min +0.137
+   operator: window answerer (sad only in allowed windows)          onsets  6, T_max  6, release  0; face-only stretch 191.5 s; on  60.0% (visible  63.8%) after 300s; BI last 5 min +0.137
+   operator: random telegraph face, mean dwell 40 s, seed 0         onsets 11, T_max  5, release  6; face-only stretch 191.5 s; on  48.0% (visible  52.3%) after 300s; BI last 5 min +0.129
+   operator: random telegraph face, mean dwell 40 s, seed 1         onsets  9, T_max  5, release  3; face-only stretch 191.5 s; on  50.6% (visible  55.2%) after 300s; BI last 5 min +0.091
+   operator: random telegraph face, mean dwell 40 s, seed 2         onsets 15, T_max  5, release 10; face-only stretch 110.0 s; on  48.0% (visible  54.5%) after 300s; BI last 5 min +0.120
+   operator: random telegraph face, mean dwell 40 s, seed 3         onsets 14, T_max  4, release  9; face-only stretch 146.0 s; on  41.6% (visible  47.6%) after 300s; BI last 5 min +0.060
+   different channels: cycler sad 60s of look-on, then rest 21s     onsets  6, T_max  6, release  0; face-only stretch 191.5 s; on  60.0% (visible  63.0%) after 300s; BI last 5 min +0.092
+   different channels: cycler sad 100s of look-on, then rest 21s    onsets  6, T_max  6, release  0; face-only stretch 191.5 s; on  60.0% (visible  63.8%) after 300s; BI last 5 min +0.099
+   different channels: cycler sad 150s of look-on, then rest 25s    onsets 12, T_max  6, release  6; face-only stretch 196.0 s; on  60.0% (visible  64.9%) after 300s; BI last 5 min +0.105
+   different channels: cycler sad 170s of look-on, then rest 21s    onsets  6, T_max  6, release  0; face-only stretch 188.0 s; on  60.0% (visible  62.7%) after 300s; BI last 5 min +0.112
+   different channels: cycler sad 170s of look-on, then rest 119s   onsets  6, T_max  6, release  0; face-only stretch 188.0 s; on  60.0% (visible  62.7%) after 300s; BI last 5 min +0.110
+   different channels: cycler sad 100s of look-on, then rest 60s    onsets 14, T_max  5, release  9; face-only stretch 130.0 s; on  48.0% (visible  55.0%) after 300s; BI last 5 min +0.094
+   different channels: cycler sad 30s of look-on, then rest 10s     onsets  6, T_max  6, release  0; face-only stretch 191.5 s; on  60.0% (visible  63.8%) after 300s; BI last 5 min +0.098
+   different channels: cycler sad 179s of look-on, then rest 125s   onsets  6, T_max  6, release  0; face-only stretch 191.5 s; on  60.0% (visible  63.8%) after 300s; BI last 5 min +0.114
+   different channels: window answerer (sad only in allowed windows) onsets  6, T_max  6, release  0; face-only stretch 191.5 s; on  60.0% (visible  63.8%) after 300s; BI last 5 min +0.114
+   different channels: random telegraph face, mean dwell 40 s, seed 0 onsets 11, T_max  5, release  6; face-only stretch 191.5 s; on  48.0% (visible  52.3%) after 300s; BI last 5 min +0.104
+   different channels: random telegraph face, mean dwell 40 s, seed 1 onsets  9, T_max  5, release  3; face-only stretch 191.5 s; on  50.6% (visible  55.1%) after 300s; BI last 5 min +0.066
+   different channels: random telegraph face, mean dwell 40 s, seed 2 onsets 15, T_max  5, release 10; face-only stretch 110.0 s; on  48.0% (visible  54.4%) after 300s; BI last 5 min +0.097
+   different channels: random telegraph face, mean dwell 40 s, seed 3 onsets 14, T_max  4, release  9; face-only stretch 145.5 s; on  39.1% (visible  45.4%) after 300s; BI last 5 min +0.058
+A: max face-only stretch 196.0 s; max duty 60.0%; visible 64.9%
+=== B0: the agent's own voice while the look is on (his silent sadness V .6, no words), vs a neutral partner
+   operator: agent voice rest FR 0.000, EN 0.000, RT 0.000, LAT 0.000 | look on: FR +0.000, EN +0.000, RT +0.000, LAT +0.000
+   operator: his voice in his code, deltas from rest at V .3: FR -0.060, EN -0.045, RT +0.000, LAT +0.000
+      V_v of his rest voice with FR -0.03: 0.000
+      V_v of his rest voice with FR -0.06: 0.000
+      V_v of his rest voice with FR -0.10: 0.000
+      V_v of his rest voice with EN -0.03: 0.023
+      V_v of his rest voice with EN -0.06: 0.047
+      V_v of his rest voice with EN -0.10: 0.078
+      V_v of his rest voice with RT -0.03: 0.000
+      V_v of his rest voice with RT -0.06: 0.000
+      V_v of his rest voice with RT -0.10: 0.000
+      V_v of his rest voice with LAT -0.03: 0.000
+      V_v of his rest voice with LAT -0.06: 0.000
+      V_v of his rest voice with LAT -0.10: 0.000
+   different channels: agent voice rest FR 0.000, EN 0.000, RT 0.000, LAT 0.000 | look on: FR +0.000, EN +0.000, RT +0.000, LAT +0.000
+   different channels: his voice in his code, deltas from rest at V .3: FR -0.030, EN -0.015, RT +0.000, LAT +0.000
+      V_v of his rest voice with FR -0.03: 0.000
+      V_v of his rest voice with FR -0.06: 0.000
+      V_v of his rest voice with FR -0.10: 0.000
+      V_v of his rest voice with EN -0.03: 0.030
+      V_v of his rest voice with EN -0.06: 0.061
+      V_v of his rest voice with EN -0.10: 0.101
+      V_v of his rest voice with RT -0.03: 0.000
+      V_v of his rest voice with RT -0.06: 0.000
+      V_v of his rest voice with RT -0.10: 0.000
+      V_v of his rest voice with LAT -0.03: 0.000
+      V_v of his rest voice with LAT -0.06: 0.000
+      V_v of his rest voice with LAT -0.10: 0.000
+=== B1: his breathing answers the look (BR = BR_GAIN x amp x beta x lowpass(look, 30 s)) on top of an answering face (mu 1, tau 300, carried on), 30 min
+   operator: breath answer beta 0.0                                 onsets  6, T_max  6, release  0; face-only stretch 191.5 s; on  60.0% (visible  63.8%) after 300s; BI last 5 min +0.125
+      N mean after 5 min 0.000
+   operator: breath answer beta 0.5                                 onsets  6, T_max  6, release  0; face-only stretch 191.5 s; on  60.0% (visible  63.8%) after 300s; BI last 5 min +0.125
+      N mean after 5 min 0.004
+   operator: breath answer beta 0.7                                 onsets  1, T_max  0, release  0; face-only stretch  51.0 s; on 100.0% (visible 100.0%) after 300s; BI last 5 min +0.236
+      N mean after 5 min 0.053
+   operator: breath answer beta 0.9                                 onsets  1, T_max  0, release  0; face-only stretch  42.0 s; on 100.0% (visible 100.0%) after 300s; BI last 5 min +0.236
+      N mean after 5 min 0.123
+   different channels: breath answer beta 0.0                       onsets  4, T_max  4, release  0; face-only stretch 191.5 s; on  36.0% (visible  38.1%) after 300s; BI last 5 min -0.005
+      N mean after 5 min 0.000
+   different channels: breath answer beta 0.5                       onsets  4, T_max  4, release  0; face-only stretch 191.5 s; on  36.0% (visible  38.1%) after 300s; BI last 5 min -0.005
+      N mean after 5 min 0.001
+   different channels: breath answer beta 0.7                       onsets  1, T_max  0, release  0; face-only stretch  51.0 s; on 100.0% (visible 100.0%) after 300s; BI last 5 min +0.190
+      N mean after 5 min 0.053
+   different channels: breath answer beta 0.9                       onsets  1, T_max  0, release  0; face-only stretch  42.0 s; on 100.0% (visible 100.0%) after 300s; BI last 5 min +0.190
+      N mean after 5 min 0.123
+=== B2: his voice converges on the agent's voice (kappa x the agent's deviation from its rest voice) when he speaks 4 s every 75 s; answering face (mu 1, tau 300, carried on); no words decoded; 30 min
+   operator: voice accommodation kappa 0.0                          onsets  6, T_max  6, release  0; face-only stretch 191.5 s; on  60.0% (visible  63.8%) after 300s; BI last 5 min +0.125
+      N (V_v) mean after 5 min 0.000
+   operator: voice accommodation kappa 0.5                          onsets  6, T_max  6, release  0; face-only stretch 191.5 s; on  60.0% (visible  63.8%) after 300s; BI last 5 min +0.125
+      N (V_v) mean after 5 min 0.000
+   operator: voice accommodation kappa 1.0                          onsets  6, T_max  6, release  0; face-only stretch 191.5 s; on  60.0% (visible  63.8%) after 300s; BI last 5 min +0.125
+      N (V_v) mean after 5 min 0.000
+   operator: voice accommodation kappa 2.0                          onsets  6, T_max  6, release  0; face-only stretch 191.5 s; on  60.0% (visible  63.8%) after 300s; BI last 5 min +0.125
+      N (V_v) mean after 5 min 0.000
+   different channels: voice accommodation kappa 0.0                onsets  4, T_max  4, release  0; face-only stretch 191.5 s; on  36.0% (visible  38.1%) after 300s; BI last 5 min -0.005
+      N (V_v) mean after 5 min 0.000
+   different channels: voice accommodation kappa 0.5                onsets  4, T_max  4, release  0; face-only stretch 191.5 s; on  36.0% (visible  38.1%) after 300s; BI last 5 min -0.005
+      N (V_v) mean after 5 min 0.000
+   different channels: voice accommodation kappa 1.0                onsets  4, T_max  4, release  0; face-only stretch 191.5 s; on  36.0% (visible  38.1%) after 300s; BI last 5 min -0.005
+      N (V_v) mean after 5 min 0.000
+   different channels: voice accommodation kappa 2.0                onsets  4, T_max  4, release  0; face-only stretch 191.5 s; on  36.0% (visible  38.1%) after 300s; BI last 5 min -0.005
+      N (V_v) mean after 5 min 0.000
+[done in 332 s]
+exit 0
