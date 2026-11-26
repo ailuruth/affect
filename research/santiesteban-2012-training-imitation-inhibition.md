@@ -3,7 +3,9 @@
 Idalmis Santiesteban, Sarah White, Jennifer Cook, Sam J. Gilbert, Cecilia Heyes & Geoffrey Bird, *Cognition* 122(2):228–235, 2012, doi:10.1016/j.cognition.2011.11.004.
 
 ## What was read
-**Not the paper.** The author-hosted PDFs (users.ox.ac.uk, samgilbert.net) were blocked by this session's network policy. What I had: the abstract, quoted in search excerpts, and descriptions of the design in later papers (one, Oliveros, Santiesteban & Ulloa 2024/2025, says it follows this design). **No means, test statistics or effect sizes were seen.** Do not cite beyond the abstract-level claims below.
+**Still not the paper** (second attempt, after the network was widened). ScienceDirect returns 403, and the author-hosted PDFs (users.ox.ac.uk, samgilbert.net, ora.ox.ac.uk) are still unreachable. What I had: the abstract (search excerpts) and how two papers read in full describe it. Wang & Hamilton 2012: "participants with inhibition training showed improved performance on a visual perspective-taking task, which suggests that enhanced inhibition of mimicry leads to enhanced self-other distinction". Hogeveen et al. 2015 (their 2012b): "training participants to control imitation improves their ability to take another's visual perspective". **No means, test statistics or effect sizes were seen.** Do not cite beyond the abstract-level claims below.
+
+**Do not confuse with Santiesteban, Banissy, Catmur & Bird 2012 (*Current Biology*)**, the tDCS study ("2012a" in Hogeveen; "Santiesteban et al. 2012" in Sowden & Catmur). There, anodal tDCS over rTPJ improved both imitation control and perspective-taking. That is a second, independent line of evidence for one shared self–other variable. It was not read either.
 
 ## The computation, precisely
 - **Design (abstract-level):** three training groups. (1) **Imitation-inhibition**: do the opposite finger movement to the one seen. (2) **Imitation**: do the same. (3) **General (non-imitative) inhibition** control. Training on day 1. Twenty-four hours later, tests of the automatic-imitation task, visual perspective-taking (the Director task) and Theory of Mind (Strange Stories).
@@ -17,4 +19,4 @@ Idalmis Santiesteban, Sarah White, Jennifer Cook, Sam J. Gilbert, Cecilia Heyes 
 - **Not a whole-system guard**: the transfer is to perspective-taking, not to emotional contagion. Nothing here says affect routes are controlled.
 
 ## Verdict
-**watch (abstract-level; contested replication).** It is the only causal evidence I found that imitation control and other-modelling share a variable, and it has failed to replicate on self-report measures.
+**watch (abstract-level; contested replication).** With the tDCS study (Current Biology 2012), it is one of two causal lines that imitation control and other-modelling share a variable. The training effect has failed to replicate on self-report measures, and neither paper was read in full.

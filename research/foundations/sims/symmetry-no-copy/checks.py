@@ -77,3 +77,13 @@ print(" min over 2000 random maps of [e(u)+e(Mu)]/(2c|u|) (theorem: >=1):",round
 # linear: distance from Hom_G to cI
 T=rng.standard_normal((6,6));R=0.5*(T- M@T@M)  # Reynolds onto {T M = -M T}
 print(" Reynolds check T M + M T = 0:",np.allclose(R@M,-M@R)," trace of any twisted intertwiner:",round(np.trace(R),12))
+print("C7 AntisymmetricRNN form h'=tanh(Om h + V u - g h): input inside tanh; V=-Om makes h=u an equilibrium")
+Om=np.array([[0,-2.,0,0],[2,0,0,0],[0,0,0,-1.],[0,0,1,0]]);V=-Om
+u=np.array([0.3,-0.2,0.5,0.1])
+for g in [0.0,0.05]:
+    h=np.zeros(4);dt=1e-3;T=200;hs=[]
+    for k in range(int(T/dt)):
+        h=h+dt*np.tanh(Om@h+V@u-g*h)
+        if k*dt>T/2:hs.append(h.copy())
+    hs=np.array(hs)
+    print(" gamma",g," final |h-u|",round(np.linalg.norm(h-u),3)," time-mean |<h>-u|",round(np.linalg.norm(hs.mean(0)-u),3))
