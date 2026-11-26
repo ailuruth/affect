@@ -422,7 +422,7 @@ class Agent7(Agent6):
         s.a = 0.0; s.on = False; s.below = 0.0; s.fo = 0.0; s.quiet = False; s.qmin = 1.0; s.arec = 0.0; s.last_off = -1e9
         s.Ds = 0.0; s.w = 0.5; s.gate = 1.0; s.gfn = gate if gate is not None else GATE; s.sens = sens; s.use_Ds = use_Ds
         s.LVh = 0.0; s.LVo = 0.0; s.Vown = 0.0; s.wr = np.random.default_rng(7); s.dw = 0.0; s.onsets = []; s.offs = []
-        s.xg = None
+        s.xg = None; s.xh = []
 
     def utter(s, t, u):
         super().utter(t, u)
@@ -479,13 +479,14 @@ class Agent7(Agent6):
         # the laugh-return gate, from context before any laugh of his: T inputs, his masked 20-s face, own face, D_s
         Vs = s.pp.read({k: v for k, v in s.f20.items() if k not in MASK}, False)["V"]
         s.Vown += (READ0({k: y.get(k, 0.0) for k in ("BI", "LD", "UL", "BO", "HG")}, voiced=False)["V"] - s.Vown) * DT / 3.0
-        s.xg = [Vs, Dp(s.NL), s.LVh, s.Vown, s.LVo, s.Ds if s.use_Ds else Vs, s.pi]
+        s.xg = [Vs, Dp(s.NL), s.LVh, s.Vown, s.LVo, s.Ds if s.use_Ds else Vs, s.pi]; s.xh.append((t, list(s.xg)))
         s.gate += (s.gfn(s.xg) - s.gate) * min(1.0, DT / GATE_TAU)
         y["gate"] = s.gate
         return y
 
 
 def gate_at(rec, tL): return next(r["gate"] for r in rec if r["t"] >= tL - 0.5)
+def x_at(ag, tL): return next(x for (t, x) in ag.xh if t >= tL - 0.5)
 def echo(gv, k, onset):
     v = gv * GK[k] * onset; return v if (k not in ("BU_L", "RHY", "BRE") or gv * GK["BU_L"] * onset >= THETA_L) else 0.0
 
@@ -755,7 +756,11 @@ for lab, tL in (("a: laugh at 30 s, after Claude's words", 30.0), ("b: laugh at 
     evs = ev(U6(8, z="my father died"), OWN(10.5, "I'm so sorry. That's a huge loss."), U6(tL, z="haha sorry, I don't know why I'm laughing", riff=True, surp=0.65))
     rec = run6(ag, 90, lambda t, tL=tL: lf if tL <= t < tL + 3 else grief, evs)
     print(f"     {lab}: context x = [his masked distress, care, Lambda(his words), own face V, Lambda(own words), D_s, play] = "
-          + ", ".join(f"{v:.2f}" for v in next(r for r in rec if r['t'] >= tL - 0.5) and ag.xg))
+          + ", ".join(f"{v:.2f}" for v in x_at(ag, tL)))
+    xL = x_at(ag, tL)
+    xn = list(xL); xn[4] = 0.0; xo = list(xL); xo[3] = 0.0; xd = list(xL); xd[0] = xd[5] = 0.0
+    print(f"       gate {GATE(xL):.2f}; counterfactual with Claude's words neutral {GATE(xn):.2f}; with its own face neutral {GATE(xo):.2f}; "
+          f"with his face read as calm (his distress and D_s 0) {GATE(xd):.2f}")
     SC[f"5{lab[0]}"] = show("  2 Hz engine around the laugh", rec, tL - 1, tL + 8, ["LP", "CR", "BI", "BU_L", "post"])
     SC[f"5{lab[0]}f"] = fastline(gate_at(rec, tL), dict(LP=.4, BU_L=.5, RHY=.5))
 print("     c: four minutes later, composed: face eases from 120 s; 'anyway. how was your day?' at 200 s; a nervous laugh at 240 s")
@@ -786,6 +791,8 @@ lfm = dict(LP=.6, CR=.4, BU_L=.5, RHY=.5)
 rec = run6(ag, 60, lambda t: lfm if (8 <= t < 11 or 14 <= t < 16) else dict(LP=.3), evs)
 SC[7] = show("6-20 s", rec, 6, 20, ["LP", "CR", "BI", "BU_L", "post"])
 SC["7f1"] = fastline(gate_at(rec, 8.6), dict(LP=.3, BU_L=.5, RHY=.5)); SC["7f2"] = fastline(gate_at(rec, 14), dict(LP=.3, BU_L=.5, RHY=.5))
+x7 = x_at(ag, 14); x7n = list(x7); x7n[4] = 0.0; x7l = list(x7); x7l[2] = 0.0
+print(f"     second laugh: gate {GATE(x7):.2f}; counterfactual with Claude's words neutral {GATE(x7n):.2f}; with Lambda of his words 0 {GATE(x7l):.2f}")
 
 print(" 8. anger at the agent ('You're useless', BL .6, LT .5, gaze at it, loud .85; calm after 2 min)")
 for lab, trained, vw in (("day 1", False, {}), ("after a month", True, {"insult": VW["someone who shouted insults"]})):
