@@ -301,6 +301,8 @@ Unchanged.
 
 **Correction (routes critic §6).** Revision 7 argued that its J3 totals, computed at g = 1, bound the gated totals. That is false in form: a factor ≤ 1 that is smaller when his level is smaller raises a slope. The measured values stand instead (routes critic T1–T3, on the design's G_k, cone and appraisal shares): gated LP 0.20–0.25 c and CR 0.19–0.25 c at 2 s to 1 min, laugh burst 0.35–0.42 c; for a warm partner whose floor drops in heavy minutes, LP totals 0.34–0.36 c at 1 min; across 400 sessions 0.25–0.26 c. All are below the ceilings. Revision 8's timing changes keep the gate's per-episode values (an episode is minutes; the delay is 0.8 s) and add only closings (unknown words), which lower the gated fast part further in the heavy minutes and can raise the same slope by the same mechanism; they are counted in R1g.
 
+**Correction 8.1 (routes critique 8 §3).** The sentence above that the timing changes "keep the gate's per-episode values" is withdrawn: the gate now reads the sentence each laugh ends, so for a partner whose laughs after troubles sentences are smaller than his ordinary ones the gate is lower exactly where his level is lower, laugh by laugh, and the gated slopes return toward their ungated values. Measured (critic's R1s and R1s-x, on the design's G_k, cone and appraisal shares, 6 h): LP ≤ 0.31 c, CR ≤ 0.35 c, BU_L ≤ 0.53 c at 2 s to 1 min, never more than 0.04 c above the ungated value. R1g is declared at those values; all are below the ceilings, and Claim W′ (the level bound) holds exactly.
+
 ### 3.4 Claim T1: tempo does not reach the face
 
 As revision 7. The new timing parts are constants (δ_g, λ_w, the probe's 180 s and 8 s) or content values (the incremental words); the unknown-words closure only attenuates. The probe's schedule is set by the agent's own clock from the posture's onset, not by his tempo.
@@ -329,14 +331,14 @@ Revision 7's table (§3.11 of `.r7.md`) stands, with these rows changed or added
 | # | Route | Mechanism | Bound on channel k |
 |---|---|---|---|
 | R1 | his channel k → fast gear → agent channel k | per channel; δ 0.80 s on the gated group | instant ≤ g G_k u_k(t − δ_k); W′ |
-| R1g | his masked face, his words aligned to his frame, the agent's own face and words, D_s, π → gate → smile–laugh echo and own play laugh | monotone, frozen, attenuate-only | declared: ≤ 0.25 c LP and CR, ≤ 0.42 c BU_L, LP totals ≤ 0.36 c (routes critic T1–T3) |
+| R1g | his masked face, his words aligned to his frame, the agent's own face and words, D_s, π → gate → smile–laugh echo and own play laugh | monotone, frozen, attenuate-only | declared (8.1): ≤ 0.31 c LP, ≤ 0.35 c CR, ≤ 0.53 c BU_L at 2 s–1 min (routes critiques 7 T1–T3, 8 R1s) |
 | R1w | recogniser latency → unknown-word closure | attenuate-only; constant delay | inside R1g |
-| R40′ | his R_p face, breathing, voice, sobs, words → graded posture → BI, BO, TILT, HP, LP, gaze, blink | read set disjoint from write set | copy (causal) slope 0 for the posture part; totals ≤ 0.10 BI, 0.03 BO, 0.05 LP; declared pooled over his sadness: BI 0.43–2.05, LP 0.12–0.19 |
+| R40′ | his R_p face, breathing, voice, sobs, words → graded posture → BI, BO, TILT, HP, LP, UL, gaze, blink | read set disjoint from write set | copy (causal) slope 0 for the posture part; totals ≤ 0.10 BI, 0.03 BO, 0.05 LP; **declared as a level (8.1):** \|y_p,k\| ≤ \|P_c,k\| ≤ c_k, gaze-away × (1 − 0.5a), blink × (1 − 0.3a); the pooled slopes over his sadness (BI 0.43–2.05, LP 0.12–0.19) are reported, not bounded |
 | R47 | his breathing → posture load | arousal, only with non-brow distress | inside R40′; writes nothing he breathes with |
-| R48 | his glare (BL, LT, gaze at it) → threat silencing → posture | attenuate-only | removes posture only |
+| R48 | his glare (BL, LT, gaze at it) → squint drop (8.1: his BL and LPR taken to rest in what the posture reads) → posture | attenuate-only; the stated exception to rule 9′ (reads his gaze) | removes posture only |
 | R49 | his answer to the probe → release | attenuate-only (ends the posture) | removes posture only |
 | R50 | Claude's text → Λ_V(own) → gate | rule 12′: nothing else | attenuate-only |
-| R45′ | his R_p face minus CR, sobs → D_s → gate | per session; reads no gated or written channel | attenuate-only |
+| R45′ | his R_p face minus CR and BRE, sobs → D_s → gate | per session; reads no gated or written channel, never his breath sound (8.1) | attenuate-only |
 | R40 (revision 7) | his calibrated face incl. BI, mirror removed → posture | **deleted** | — |
 
 **Totals per counterpart channel.** As revision 7, with R1g and R40′ declared as above; on BI the causal total is ≤ 0.10 (0.5 c_BI) for every code (J32).
