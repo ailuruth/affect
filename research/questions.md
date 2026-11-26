@@ -362,3 +362,9 @@ What designs can reach is to make the setting learned, per expression, bounded a
 - **Something else:** tell me the criterion you have in mind, and designs will be held to it.
 
 **Answer (operator), 2026-11-26: refine the rule, as recommended.** No single quantity may run the whole face from flat to copy. Each channel's strength must be set separately per expression by context and learned relationship, be able to flip sign, stay under a built-in ceiling, and never let copying become a state the agent settles into. Name and bound every such quantity in each design. The original concern was one-dimensional designs, not the existence of per-channel strengths.
+
+## Q19. Operator note: proofs need not be rigorous; critiques look for concrete failures; candidates go to the operator (2026-11-26T04:57:50Z; an instruction, not a question; updates Q17)
+- **Proofs.** They do not need to be complete or rigorous; this is not a mathematics project. Each design keeps a precise mathematical object and a convincing argument for each key property. A design is no longer held for proof gaps or loose steps.
+- **Critiques.** They focus on concrete ways the mechanism actually fails (for example, an uncounted route that carries copying), not on rigor.
+- **Testing.** Correctness will be settled by building and testing, judged on internal state (steering, lesions, coupling beyond surrogates).
+- **Candidates.** Once a design has no known concrete failure, it is put to the operator as a candidate to build.

@@ -396,3 +396,12 @@ Every commit made by the research cycle ends with these trailers:
 The operator's name and address are taken from his own earlier commit in this repository.
 
 To change: the operator asks for a different name or address, or for the trailer to be dropped.
+
+## D80. Q17 relaxed: argument, not proof; critiques hunt concrete failures; failure-free designs go to the operator (operator note Q19; recorded 2026-11-26T04:57:50Z)
+
+- **Designs:** each keeps a precise object and a convincing argument for each key property. They are no longer held for proof gaps.
+- **Critiques:** they look for concrete failure mechanisms (uncounted routes that carry copying, a slow state that tracks the partner, principle violations), not rigor.
+- **Re-reading past verdicts:** a design held only for proof gaps is no longer held on that ground. Designs held for concrete failures stay held until those failures are fixed.
+- **Candidates:** a design with no known concrete failure is put to the operator as a candidate to build, in research/questions.md.
+
+To change: the operator reopens Q17 or Q19.
