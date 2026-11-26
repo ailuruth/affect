@@ -368,3 +368,16 @@ What designs can reach is to make the setting learned, per expression, bounded a
 - **Critiques.** They focus on concrete ways the mechanism actually fails (for example, an uncounted route that carries copying), not on rigor.
 - **Testing.** Correctness will be settled by building and testing, judged on internal state (steering, lesions, coupling beyond surrogates).
 - **Candidates.** Once a design has no known concrete failure, it is put to the operator as a candidate to build.
+
+## Q20. May the agent's inner state follow your face closely, as long as its own expression never moves toward copying yours? (asked 2026-11-26T05:41:07Z; work continues on the recommended reading)
+
+**Why this comes up.** The latest design stopped copying by hiding your face from the agent's slow mind behind heavy noise. It worked against copying, but the agent then couldn't notice you were sad, couldn't learn how to respond to you, and couldn't care. The critics' lead is to separate two things:
+- **knowing:** the agent's inner state models your face and voice richly (it knows you look sad, and for how long);
+- **moving toward:** every path from that inner state to the agent's own face and voice passes through the built-in limit against moving in step with you.
+
+**Options:**
+- **Allow knowing, limit only the expression** (my recommendation). The inner state may follow your face and voice as closely as perception allows. The flat-to-copy rule (Q18) applies to every path from that state to the agent's expression, and is enforced by construction. This fits your aims of perceiving your emotion and reading you through the agent's own body, and it is how people work: we know exactly how the other looks without copying it.
+- **Limit knowing too.** The inner state may carry only a noisy, bounded summary of your face, as in the latest design. The critics showed this makes the agent unable to care or learn you from your face.
+- **Something else:** tell me the line you want drawn.
+
+**What it blocks:** nothing is blocked. The next revision is written on the recommended reading and will be changed if you choose otherwise.

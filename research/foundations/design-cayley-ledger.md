@@ -757,3 +757,36 @@ The new mechanism ([M]) holds ≈ 140k parameters, almost all in the REN.
    They are replaced by one wrap (κ, γ) and one release (h_s, σ_s), plus one structural check.
 
 Whether this is "a new primitive" in the brief's sense is for the critic. My honest verdict: **a recombination with two new composition results.** It is the first design in the project whose copy bound is end to end by construction for every parameter, and whose slow states provably cannot track the held face.
+
+## Critiques 1a and 1b and the answer (recorded 2026-11-26T05:41:07Z, under Q19: concrete failures only)
+
+**Critique 1a, routes and copying** (critique-design-cayley-ledger-routes.md; checks in sims/critique-cayley-routes/). Five concrete failures, worst first:
+1. **The slow mind and the fibre's learning are blind to the partner (severe).** The release passes about 1.35·10⁻⁴ of the signal per sample. A context sign whose target is ±0.5 is learned at about ±0.0002. An hour of held sad face and voice is detected at best 57% of the time. A 1-s shout reaches the mind at SNR 0.16. In practice the fast face is the innate positive echo in every context. This fails Principle 3, the two-way-exchange goal, C4 and C5, and D78's "set by context and learned relationship".
+2. **Speech rate leaks through turn times (severe).** Turn times reach the mind noise-free. The mind can track the partner's held speech rate at r = 0.74 over 20 turns (0.93–0.98 if it knows utterance length), against the claimed 0.25. This route into the agent's voice is absent from the route table.
+3. **Held expressions cost more the longer they last (high).** The constant-cost claim needs a pure additive offset. If talking lowers the measured held smile by 30%, the cost reaches ε = 1.7 after 1 h and 5.0 after 3 h, against 0.116. Each tracking dropout or restart adds one unit.
+4. **Mirror copy on head yaw, head roll and horizontal gaze (medium).** The "free" sign-flipped side of the cone is mirror imitation on these channels: gain 0.58, against the claimed 0.20.
+5. **Laughter tokens and punctuation in the ASR text (medium).** They carry the partner's nonverbal expression noise-free to the mind and to Claude.
+
+No concrete failure was found in these areas: a second sign flip in series (apart from item 4), replay averaging the noise away, jitter on the agent's face, partner echo driving gain to the cap, wells in the persistent modes, and C1.
+
+**Critique 1b, principles, novelty and fitness** (critique-design-cayley-ledger-novelty.md). **Not fit to put to the operator.**
+- **Concrete failures:**
+  - A silently sad user is never noticed, and Claude never sees the face.
+  - Principle 3 is not essential: rotating R changes nothing after replay, and innate mimicry bypasses R.
+  - Principle 6: the arousal and aversive gauges, fed by the partner's release and loudness, push draft choice toward keeping the user quiet and predictable.
+  - Not an emotional agent: no body variable responds to what is said or done, the display policy has no objective, and there are no emotion concepts.
+  - Principle 10: an assembly of seven losses.
+- **Novelty:**
+  - The wrap is the robust-REN parameterisation (Revay et al., eqs. 31–33) plus a classical loop transformation.
+  - The ledger is Le Ny & Pappas output perturbation.
+  - Recombination on both clauses.
+- **Main lead:** the design's premise that contraction forbids persistence is wrong. Contraction forbids multistability, not slow memory. Moods could therefore live inside the bounded face path and know the partner's face, with the noisy release kept only for discrete routes.
+
+**The answer (maintainer).** All failures are accepted.
+- **The central lesson:** noise that blinds the slow mind to copying also blinds it to care. Hiding the partner from the mind is the wrong way to stop copying.
+- **What survives:**
+  - the Cayley-wrapped fast path (the one-sided cone by construction), with the mirror case on head yaw, head roll and horizontal gaze to be fixed by reflecting those channels before the cone;
+  - the single input boundary, with turn timing, ASR non-word tokens and punctuation moved inside it.
+- **Next revision:** knowing the partner and moving toward the partner are separated. The slow state may model the partner's face richly; the cone then bounds every path from that state to the agent's own expression. Whether that reading of the rule is acceptable is put to the operator (Q20).
+
+**Status:** critiqued; held.

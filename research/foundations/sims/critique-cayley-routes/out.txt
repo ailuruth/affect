@@ -1,0 +1,41 @@
+=== speech_rate_leak.py
+1 turn                 duration only    corr(held rate, estimate) = 0.27   (ledger bound rho_L = 0.25)
+1 turn                 duration+length  corr(held rate, estimate) = 0.76   (ledger bound rho_L = 0.25)
+5 turns (~2 min)       duration only    corr(held rate, estimate) = 0.46   (ledger bound rho_L = 0.25)
+5 turns (~2 min)       duration+length  corr(held rate, estimate) = 0.93   (ledger bound rho_L = 0.25)
+20 turns (~10 min)     duration only    corr(held rate, estimate) = 0.74   (ledger bound rho_L = 0.25)
+20 turns (~10 min)     duration+length  corr(held rate, estimate) = 0.98   (ledger bound rho_L = 0.25)
+held full-range rate offset, 5 turns, duration only: balanced accuracy 0.834  (ledger promise: <= Phi(mu/2) = 0.567)
+held full-range rate offset, 20 turns, duration only: balanced accuracy 0.970  (ledger promise: <= Phi(mu/2) = 0.567)
+=== held_level_modulation.py
+(a) known multiplicative modulation by partner speech (template from Q's turn times)
+  beta 0.1, hold   10 min: eps(2) =  0.127 (design 0.116), GDP mu = 0.36, best balanced acc = 0.571 (design <= 0.567), matched-filter corr(l) = 0.10 (design <= 0.25)
+  beta 0.1, hold   60 min: eps(2) =  0.282 (design 0.116), GDP mu = 0.53, best balanced acc = 0.605 (design <= 0.567), matched-filter corr(l) = 0.15 (design <= 0.25)
+  beta 0.1, hold  180 min: eps(2) =  0.632 (design 0.116), GDP mu = 0.80, best balanced acc = 0.655 (design <= 0.567), matched-filter corr(l) = 0.22 (design <= 0.25)
+  beta 0.3, hold   10 min: eps(2) =  0.356 (design 0.116), GDP mu = 0.60, best balanced acc = 0.617 (design <= 0.567), matched-filter corr(l) = 0.17 (design <= 0.25)
+  beta 0.3, hold   60 min: eps(2) =  1.715 (design 0.116), GDP mu = 1.31, best balanced acc = 0.744 (design <= 0.567), matched-filter corr(l) = 0.35 (design <= 0.25)
+  beta 0.3, hold  180 min: eps(2) =  5.010 (design 0.116), GDP mu = 2.24, best balanced acc = 0.868 (design <= 0.567), matched-filter corr(l) = 0.54 (design <= 0.25)
+  Monte Carlo (beta 0.3, 60 min, 60 partners, l ~ U[0,1]): corr(l, estimate) = 0.25
+(b) dropouts or session starts reset to rest: each one adds a pair of edges
+  one session, no dropout               : eps(2) =    0.12, GDP mu =  0.34, best balanced acc 0.568
+  1 h with a dropout every 3 min        : eps(2) =    2.32, GDP mu =  1.52, best balanced acc 0.777
+  30 sessions over a month, no dropouts : eps(2) =    3.48, GDP mu =  1.87, best balanced acc 0.825
+  30 sessions x 20 dropouts             : eps(2) =   69.60, GDP mu =  8.34, best balanced acc 1.000
+=== fibre_learnability.py
+context friendly target gain +0.50: learned from X^s -> run-time gain +0.0002; learned from clean u (forbidden by the design) -> +0.500
+context opposed  target gain -0.50: learned from X^s -> run-time gain -0.0002; learned from clean u (forbidden by the design) -> -0.501
+per-sample reliability var(signal)/(var+sigma^2) = 1.35e-04; attenuation does not shrink with more data
+phi equilibrium shift under pull 0.5: |dphi| ~ 1.4e-04 (ball radius 2): phi stays at phi0, gamma_k ~ 0.37
+=== mirror_lateral.py
+anatomical copy (+u)  : best regression gain over lags 0-1 s = +0.300
+mirror copy (-u)      : best regression gain over lags 0-1 s = +0.584
+design's claimed copy cap in every direction (zero lag, in phase) = 0.20; mirror copy here ~0.6
+=== loud_event_snr.py
+shout of full-range energy for 0.5 s: matched-filter SNR 0.10; detection at 5% false alarms: 0.06
+shout of full-range energy for 1.0 s: matched-filter SNR 0.16; detection at 5% false alarms: 0.07
+shout of full-range energy for 3.0 s: matched-filter SNR 0.26; detection at 5% false alarms: 0.08
+held face+voice offset of norm 1, any duration: GDP mu 0.34; best balanced accuracy 0.568; power at 5% false alarms 0.096
+E||prediction error on X^s||^2 from noise alone = 857 per release; a full-range edge adds at most 0.73 on one coordinate (0.09%)
+=== g9_seeds.py
+gate 4.0: fast-band coherence real 0.0027 vs surrogate 0.0075; real < surrogate in 100% of seeds; mean diff -0.0049 +- 0.0003
+gate 0.0: fast-band coherence real 0.0076 vs surrogate 0.0075; real < surrogate in 45% of seeds; mean diff +0.0001 +- 0.0004
