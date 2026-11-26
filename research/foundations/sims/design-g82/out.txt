@@ -1,1 +1,12 @@
 checks_g6:26: RuntimeWarning: invalid value encountered in scalar divide
+[engine loaded in 245 s]
+=== 8.2 constants: T_MAX 180 s, T_REF 120 s, non-face threshold 0.02, voice hold tau 40 s; duty bound T_MAX/(T_MAX+T_REF) = 0.600
+=== L0: N_v = V_c(voice-only reading) of each code's own voice (FR, EN, RT), by his sadness V
+   operator           V 0.0: read 0.00 -> N_v 0.000, V 0.3: read 0.04 -> N_v 0.000, V 0.6: read 0.09 -> N_v 0.000, V 0.8: read 0.12 -> N_v 0.000
+   quiet 0.3          V 0.0: read 0.00 -> N_v 0.000, V 0.3: read 0.02 -> N_v 0.000, V 0.6: read 0.04 -> N_v 0.000, V 0.8: read 0.05 -> N_v 0.000
+   different channels V 0.0: read 0.00 -> N_v 0.000, V 0.3: read 0.03 -> N_v 0.000, V 0.6: read 0.05 -> N_v 0.000, V 0.8: read 0.07 -> N_v 0.000
+   words 'just tired, things at work': D_p 0.152 (C_L tends to this with tau 40 s; NL decays with tau 30 min)
+   words 'my father died': D_p 0.562 (C_L tends to this with tau 40 s; NL decays with tau 30 min)
+   words 'yeah / ok': D_p 0.000 (C_L tends to this with tau 40 s; NL decays with tau 30 min)
+=== L1: answering partners (his sadness V .8 until 40 s, then his code at V = mu x lag(look)); 40 min. Pass: face-only stretch <= T_MAX + 15 s, duty over 10-40 min <= 0.60 + 0.02
+   operator           lp    tau  90 s mu 1.0 start 0.80: onsets 1, ends ['Tmax'], longest face-only stretch 192 s, look on 0% of 10-40 min, BI last 10 min -0.005
