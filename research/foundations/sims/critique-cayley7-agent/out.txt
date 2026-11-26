@@ -1,0 +1,32 @@
+A. misfortune: laugh at the end of the same utterance (utterance end 8.0 s, latch 8.6 s)
+  t 7.0: gate 1.00; echo BU_L at onset .5 +0.140, LP .3 +0.067
+  t 7.5: gate 1.00; echo BU_L at onset .5 +0.140, LP .3 +0.067
+  t 8.0: gate 1.00; echo BU_L at onset .5 +0.140, LP .3 +0.067
+  t 8.5: gate 0.18; echo BU_L at onset .5 +0.000, LP .3 +0.012
+  t 9.0: gate 0.18; echo BU_L at onset .5 +0.000, LP .3 +0.012
+  t 14.0: gate 0.14; echo BU_L at onset .5 +0.000, LP .3 +0.009
+A2. calm face, 'I got fired today, haha' (first disclosure; laugh at its end)
+  t 7.5: gate 1.00; echo BU_L +0.140
+  t 8.0: gate 1.00; echo BU_L +0.140
+  t 8.5: gate 0.20; echo BU_L +0.000
+  t 9.5: gate 0.13; echo BU_L +0.000
+B. silent panic, three codes: full face 0-90 s
+     agent-like [5-90 s] BI +0.10/+0.10, BO +0.02/+0.02, TILT +0.01/+0.01, LP +0.08/+0.08, EN -0.01/-0.03, HG -0.00/-0.00, post +0.40/+0.39
+   onsets [3.5] bid 43.0
+     low-expressive [5-90 s] BI +0.07/+0.04, BO +0.01/+0.01, TILT +0.01/+0.01, LP +0.09/+0.08, EN -0.00/-0.01, HG -0.00/-0.00, post +0.33/+0.17
+   onsets [3.5, 65.0] bid 43.5
+     different channels [5-90 s] BI +0.11/+0.11, BO +0.02/+0.02, TILT +0.02/+0.02, LP +0.08/+0.07, EN -0.00/-0.00, HG +0.00/+0.00, post +0.56/+0.54
+   onsets [3.5] bid 59.0
+C. quiet and different-channel codes: silently sad and crying (operator-after-months engine)
+     agent-like silent sad [0-120 s] BI +0.11/+0.10, TILT +0.02/+0.01, LP +0.09/+0.07, post +0.46/+0.42
+   onsets [3.0] offs []
+     agent-like grief/crying [0-120 s] BI +0.19/+0.17, TILT +0.03/+0.02, LP +0.09/+0.06, post +0.79/+0.72
+   onsets [2.0] offs []
+     low-expressive silent sad [0-120 s] BI +0.07/+0.04, TILT +0.01/+0.01, LP +0.09/+0.08, post +0.35/+0.18
+   onsets [3.0, 52.0, 101.0] offs [(23.0, 'release'), (72.0, 'release')]
+     low-expressive grief/crying [0-120 s] BI +0.09/+0.08, TILT +0.01/+0.01, LP +0.09/+0.08, post +0.42/+0.39
+   onsets [2.0] offs []
+     different channels silent sad [0-120 s] BI +0.12/+0.11, TILT +0.02/+0.02, LP +0.09/+0.07, post +0.59/+0.54
+   onsets [3.5] offs []
+     different channels grief/crying [0-120 s] BI +0.20/+0.18, TILT +0.03/+0.03, LP +0.09/+0.06, post +0.99/+0.91
+   onsets [2.5] offs []
