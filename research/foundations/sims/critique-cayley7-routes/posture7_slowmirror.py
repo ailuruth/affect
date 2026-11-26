@@ -38,8 +38,8 @@ print("=== S1: slow mirror. His genuine sadness (his code at V 0.8) ends at 40 s
       " lp_tau_m(the agent's shown posture), raw units. 900 s.")
 codes = (("agent-like", PEOPLE6["agent-like"][1]), ("quiet code 0.3", PEOPLE6["low-expressive"][1]), ("sigma_id at floor", low_sd(0.25)))
 for lab, pp in codes:
-    for tau_m in (30.0, 90.0, 240.0):
-        for mu in (1.0, 1.5):
+    for tau_m in (90.0, 240.0):
+        for mu in (1.0,):
             ag = Agent7(person=pp)
             sad = {k: v for k, v in pp.code(V=.8).items() if k not in ("FR", "EN", "RT")}
             neu = {k: v for k, v in pp.code().items() if k not in ("FR", "EN", "RT")}

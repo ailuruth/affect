@@ -34,7 +34,7 @@ def brow_partner(pp, delta):
 print("=== Q1: R40 on a brow-only sad partner, three readings of the same raw brow: agent-like code, quiet code (0.3), "
       "ordinary code with sigma_id at the 0.25 floor")
 codes = (("agent-like", PEOPLE6["agent-like"][1]), ("quiet code 0.3", PEOPLE6["low-expressive"][1]), ("sigma_id at floor", low_sd(0.25)))
-deltas = (0.02, 0.05, 0.08, 0.12, 0.16, 0.20, 0.30, 0.45, 0.70)
+deltas = (0.02, 0.06, 0.10, 0.15, 0.20, 0.30, 0.50)
 Q1 = {}
 for lab, pp in codes:
     rows = []
@@ -52,12 +52,12 @@ for lab, pp in codes:
           f"({sl / .20:.1f} c_BI); agent brow above his own raw rise at: "
           + (", ".join(f"+{d:.2f}" for d, a, p in rows if a - base0 > d) or "none"))
 
-print("=== Q2: held distress that changes slowly (his brow-only level re-drawn every 2 min, 40 min): block slopes of the agent's BI")
+print("=== Q2: held distress that changes slowly (his brow-only level re-drawn every 2 min, 20 min): block slopes of the agent's BI")
 rng = np.random.default_rng(7)
 for lab, pp in codes:
-    lv = rng.uniform(0.0, 0.30, 20)
-    face = lambda t, pp=pp, lv=lv: brow_partner(pp, lv[min(int(t // 120), 19)])
-    ag = Agent7(person=pp); rec = run6(ag, 2400, face, {})
+    lv = rng.uniform(0.0, 0.30, 10)
+    face = lambda t, pp=pp, lv=lv: brow_partner(pp, lv[min(int(t // 120), 9)])
+    ag = Agent7(person=pp); rec = run6(ag, 1200, face, {})
     his = np.array([face(r["t"])["BI"] for r in rec]); agb = np.array([r["BI"] for r in rec])
     out = []
     for W in (60, 600):
