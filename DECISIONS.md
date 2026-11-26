@@ -430,3 +430,12 @@ To change: the operator reopens Q22.
 - No paid API key, no temperature parameter, and no API-only features.
 
 To change: the operator reopens Q23.
+
+## D85. Situational appropriateness from Claude regulation, observed human dyads, and innate learning biases (operator note Q26; recorded 2026-11-26T10:12:04Z)
+- Rare situations are not handled by hand-written rules, and not only by learning from the operator.
+- **Three sources:**
+  1. Claude's regulation path (reappraisal and holding back the emotional route; Principle 4);
+  2. learning from recorded human dyads such as Seamless Interaction, from movement features only, with no emotion labels. This extends D70 from testing to learning, under the same restrictions (Mac only, face streams and transcripts, emotion scores never read). This answers Q25;
+  3. general innate learning biases, such as stronger consolidation of moments when the partner seems distressed.
+
+To change: the operator reopens Q26.

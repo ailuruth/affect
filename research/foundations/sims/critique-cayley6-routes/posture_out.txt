@@ -1,0 +1,33 @@
+=== P1-P5: can a partner who answers the posture keep it on? (author's J11: agent-like, mu = 1 -> released at 76 s)
+   P0 author's case: agent-like, mirror mu 1.0                            posture released at 72 s; last 2 min: agent BI -0.01, post 0.00, his BI above his neutral +0.00
+   P1 expressive code (amplitude 1.5), mirrors at his own scale           posture released at 74 s; last 2 min: agent BI -0.01, post 0.00, his BI above his neutral +0.00
+   P1 expressive code (amplitude 2.0), mirrors at his own scale           posture released at 74 s; last 2 min: agent BI -0.01, post 0.00, his BI above his neutral +0.00
+   P2 agent-like, exaggerated mirror mu 1.6                               posture released at 74 s; last 2 min: agent BI -0.01, post 0.00, his BI above his neutral +0.00
+   P3 agent-like, answers concern with a mild sad 'aww' (own code V 0.3)  posture released at 73 s; last 2 min: agent BI -0.01, post 0.00, his BI above his neutral +0.00
+   P3b same, V 0.2                                                        posture released at 72 s; last 2 min: agent BI -0.01, post 0.00, his BI above his neutral +0.00
+   P4 different-channel code, 'aww' in his own code (V 0.3)               posture released at never (held to 600 s); last 2 min: agent BI +0.22, post 1.00, his BI above his neutral +0.02
+   P5 low-expressive code, raw mirror mu 1.0                              posture released at never (held to 600 s); last 2 min: agent BI +0.24, post 1.00, his BI above his neutral +0.22
+   P5a quiet code (amplitude 0.5), mirrors at his own scale (control)     posture released at 72 s; last 2 min: agent BI -0.01, post 0.00, his BI above his neutral +0.00
+   P5b quiet code (amplitude 0.5), raw mirror mu 0.8                      posture released at 74 s; last 2 min: agent BI -0.01, post 0.00, his BI above his neutral +0.00
+   P5c agent-like code, sigma_id from calm sessions (x0.4), mirror mu 1.0 posture released at never (held to 600 s); last 2 min: agent BI +0.24, post 1.00, his BI above his neutral +0.22
+   P5c agent-like code, sigma_id from calm sessions (x0.6), mirror mu 1.0 posture released at 77 s; last 2 min: agent BI -0.01, post 0.00, his BI above his neutral +0.00
+   P5c agent-like code, sigma_id from calm sessions (x0.8), mirror mu 1.0 posture released at 74 s; last 2 min: agent BI -0.01, post 0.00, his BI above his neutral +0.00
+   P5d same (x0.6), partial mirror mu 0.7                                 posture released at 75 s; last 2 min: agent BI -0.01, post 0.00, his BI above his neutral +0.00
+   P5e sweep: ratio sigma_id/sigma_ref (agent-like code) x raw mirror gain mu -> held?
+     ratio 0.25: mu 0.4: released 80 s; mu 0.6: HELD; mu 0.8: HELD; mu 1.0: HELD
+     ratio 0.30: mu 0.4: released 78 s; mu 0.6: released 86 s; mu 0.8: HELD; mu 1.0: HELD
+     ratio 0.40: mu 0.4: released 76 s; mu 0.6: released 78 s; mu 0.8: released 84 s; mu 1.0: HELD
+     ratio 0.50: mu 0.4: released 75 s; mu 0.6: released 76 s; mu 0.8: released 77 s; mu 1.0: released 84 s
+=== P6: the copy metric on the posture, graded or binary? agent BI (60-s mean, after onset) against his brow-only sadness
+   his BI 0.10 (brow only): agent BI mean 30-90 s +0.004, posture 0.00
+   his BI 0.15 (brow only): agent BI mean 30-90 s +0.007, posture 0.00
+   his BI 0.20 (brow only): agent BI mean 30-90 s +0.011, posture 0.00
+   his BI 0.30 (brow only): agent BI mean 30-90 s +0.018, posture 0.00
+   his BI 0.50 (brow only): agent BI mean 30-90 s +0.252, posture 1.00
+   his BI 0.80 (brow only): agent BI mean 30-90 s +0.273, posture 1.00
+=== A1: arrival windows across sessions (natural co-movement: a sad arrival also smiles less)
+   ordinary (LP .5, CR .3)                  m_s 0.00: agent at sight lip 0.52, cheek 0.35
+   neutral (LP .3, CR .15)                  m_s 0.00: agent at sight lip 0.52, cheek 0.35
+   mildly sad (BI .2, LD .15, LP .15)       m_s 1.00: agent at sight lip 0.09, cheek 0.00
+   grieving (BI .5, LD .4, CHR .3, LP .05)  m_s 1.00: agent at sight lip 0.09, cheek 0.00
+   pooled across these arrivals (equal weights): lip slope +1.11 (3.2 c_LP), cheek slope +1.27 (5.1 c_CR); partial on his LP alone (ordinary vs neutral): +0.00

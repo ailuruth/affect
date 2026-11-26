@@ -469,3 +469,13 @@ The latest design passes the strongest checks so far. Its critics raised two thi
 - **Test only.** The starting model is then built by hand or from the agent's own body model alone, and reads you less well at first.
 
 **What it blocks:** nothing until building starts.
+
+## Q26. Operator note: where situational appropriateness comes from (2026-11-26T10:12:04Z; an instruction, not a question)
+Learning only from the operator would be too slow for rare situations. Situational appropriateness comes from three sources, none of them hand-written rules:
+1. **Claude's regulation path.** Claude already knows social norms. It can reappraise and hold back the emotional route (brief Principle 4; the learned display rules in the face-pathway reading).
+2. **Watching recorded people.** The agent learns how people respond to each other by observing recorded human dyads such as Seamless Interaction, from movement features only and without emotion labels, as an infant learns by watching.
+3. **Innate learning biases.** General built-in biases make rare events learnable fast, for example stronger consolidation of moments when the partner seems distressed.
+
+Fixes for situational failures are designed through these three sources.
+
+**Effect on Q25:** source 2 answers it. Recorded dyads such as Seamless may be used for learning, not only for testing, from movement features only. D70's restrictions still apply: the operator's Mac only, face streams and transcripts only, the dataset's emotion scores never read.
