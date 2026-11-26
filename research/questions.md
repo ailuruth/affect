@@ -658,3 +658,14 @@ Stop fixing critique findings with rules for particular situations, for example 
 
 **What it blocks:** nothing now.
 
+## Q34. Decisions the build needs before it runs on your Mac (asked 2026-11-26T21:47:29Z; coding proceeds meanwhile, nothing below is used until you answer)
+
+The build specification (research/build/spec.md, §6) lists what needs you. Q30–Q33 above, and the earlier Q1 (voice engine) and Q2 (the face stays a neutral placeholder), still apply; speech stays off until Q1 is answered. In addition:
+
+1. **Conversation text to Anthropic through your login.** The agent sends your transcribed words, and up to 3 short snippets of past conversations as memory, to Claude through your Claude Code subscription. **Recommended: allow**; without it the agent has no Claude. Option: allow without past snippets (it forgets earlier conversations in what it says).
+2. **About 450 Claude calls a day** on your subscription in regular use. **Recommended: accept**, with a daily cap you can set. Option: a lower cap (slower replies when it is reached).
+3. **Turn off non-essential Claude Code traffic** (telemetry and similar) for the engine's Claude sessions. **Recommended: turn it off.** Option: leave the defaults.
+4. **Downloads to your Mac:** speech and face-tracking models (about 2–4 GB) and the Seamless recordings (about 16.6 GB passes through, about 1.5 GB of face streams and transcripts is kept, under D70). **Recommended: allow.** Option: models only (nothing is learned from recorded conversations until allowed).
+5. **Your conversation language.** The streaming speech recogniser covers English and French only. **Tell me the language**; for any other, a slower recogniser is used and the quick laugh back waits longer.
+6. **How long live features are kept on your Mac** (face streams and transcripts of your conversations, used for replay at night). **Recommended: 30 days**, then only what replay consolidated. Options: 7 days, or until you delete them.
+
