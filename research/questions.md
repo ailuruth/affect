@@ -429,3 +429,14 @@ The latest design passes the strongest checks so far. Its critics raised two thi
 - **Words only.** Simpler and safest, but the agent reacts to what is said more than to you.
 
 **What it blocks:** nothing. Revision 4 is written on the recommendations and will change if you choose otherwise.
+
+## Q23. How the agent reaches Claude: your subscription or a paid API key? (asked 2026-11-26T08:24:59Z; work continues on the recommendation)
+
+**Why this comes up.** The current design has the agent's state choose among several of Claude's drafts per turn. As written, it asks for six drafts in parallel with a set randomness, and that assumes features of Anthropic's paid programming access (an API key) that your subscription does not offer. A paid API key would be a new paid service, so the choice is yours.
+
+**Options:**
+- **Stay on your subscription** (my recommendation for now). The next revision drops the randomness setting and asks for fewer, differently phrased drafts within what the subscription allows. The state's influence on Claude is narrower, but nothing new is paid for.
+- **Use a paid API key.** This gives full control over the number of drafts and their randomness, and lower latency, but it is a new paid service, and conversation text would go through it.
+- **Something else:** tell me.
+
+**What it blocks:** nothing now. It only matters at build time.

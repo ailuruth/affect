@@ -1134,3 +1134,38 @@ Checks: `sims/design-g4/checks.py` (H0–H11; out.txt, 11/11 pass).
 | choice B | strong expression follows words, not the face | his face and voice now feed the agent's own appraisal, which selects its reaction within the ceilings (Q22); the strongest displays still come from words and its own body | §2.6, §8.1.5 |
 
 **Status:** revision 4; to be critiqued (routes and copying, especially Lemma S's assumptions, the sign mask's residual and the appraisal display; principles, emotional fitness, the co-training loop and novelty).
+
+## Critiques of revision 4 and the answer (recorded 2026-11-26T08:24:59Z, under Q19)
+
+**Routes** (critique-4-design-cayley-ledger-routes.md; checks in sims/critique-cayley4-routes/).
+1. **Medium–high (D78, weeks scale): the word seam returns through ω.** ω_smile is fixed within a session but learned over about 20 sessions from play relief and loudness/glare, which follow the partner's month-long mood. The gain on his smile therefore rises and falls with his smile level (Lemma S case ii, one level up). Session-pooled lip-pull slope is +0.31 to +0.89 against ceiling 0.35. The absolute effect is small (0.05–0.08), but one quantity moves five channels.
+2. **Medium (spec text): face and voice enter the uncapped free display.** Section 2.1 builds relief and distress events from care (which reads the face) and from V (loudness, glare). Built as written: lid tightener 0.24 (ceiling 0), inner brow 0.32–0.42 (ceiling 0.20). The H11 engine already uses only words and hurt, so the scenario numbers stand; the text must be fixed.
+3. **Low–medium: the face–reader loop pulls the agent's expressive style toward the partner's** (cosine 0 → 0.26). It can bring zero-ceiling channels into the word-driven concern display.
+- **Low:**
+  - the fast echo after clipping gives laugh-burst energy +0.07 (claimed ≤ 0.01);
+  - ω_smile saturates (0.98–1.0) for any partner who plays at all;
+  - two of G₀'s glare entries sit outside its budget set.
+- **No concrete failure found:** Lemma S and the appraisal display; T1 within a session; the ceilings and face–voice sign mask (worst lip pull 0.27, whole face ≤ 0.35); the relationship loop (≤ 0.175); the counter-mimicking partner (stable for |μ| < 1.67); curiosity and turn gating.
+
+**Agent and fitness** (critique-4-design-cayley-ledger-agent.md; sims/critique-cayley4-agent/). **Close, but not yet fit.** None of the failures touches the copy certificate. Of critique 3's nine changes, four are closed and five are partly closed.
+- **Concrete failures:**
+  - The reunion greeting at sight beams at a visibly grieving face (lip 0.63, cheek 0.43; stranger 0.54).
+  - Silent sadness and crying get a slight smile (0.21–0.28) with almost no inner brow (0.03–0.05), and sobs reach the laugh synthesiser through route R7. This contradicts what Q22 told the operator.
+  - The appraisal display's choice among eight reactions has no training objective, so it stays three hand-written rules.
+  - The learned-face objective favours the anger, disgust and contempt channels, because the innate display leaves them unused.
+  - The agent can read in others only what its own face shows (tiredness, hurt); it cannot read anxiety.
+  - Claude drafts "temperature 0.1(1+r)" is not buildable on the subscription, and the call pattern assumes API-key features. An API key is a new paid service: operator's decision (Q23).
+  - The hurt map learns from loudness, so loud praise or loud teasing trains hurt.
+  - Smaller: the day-1 anger figures use a word reading not yet available; play laughter is used up within 10 min; the play rule fires on anxious rumination.
+- **Principles:** the word-to-hurt map is not a classifier, but its teacher (an innate anger-display reflex) must be declared as a reflex. The eight appraisal reactions are the main Principle 2 strain.
+
+**The answer (maintainer).** All findings are accepted.
+- **The copy certificate held within sessions in both critiques.**
+- **What remains:**
+  - one slow route (ω learned across weeks from states that follow the partner's mood);
+  - spec-text routes;
+  - sympathy and grief handling;
+  - the trainability of the appraisal display and the learned face;
+  - reading states the agent's own face cannot show;
+  - buildability on the subscription.
+- **Next:** revision 5 (revision 4 saved as design-cayley-ledger.r4.md). Status: held.
