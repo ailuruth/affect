@@ -439,3 +439,9 @@ To change: the operator reopens Q23.
   3. general innate learning biases, such as stronger consolidation of moments when the partner seems distressed.
 
 To change: the operator reopens Q26.
+
+## D86. No attribution trailers in commits or PRs (operator instruction; recorded 2026-11-26T16:12:39Z; replaces D79)
+- Commit messages and PR descriptions carry no Co-Authored-By lines (neither Claude's nor the operator's), no Claude-Session line, and no "Generated with Claude Code" line.
+- This replaces D79.
+
+To change: the operator asks for trailers again.
