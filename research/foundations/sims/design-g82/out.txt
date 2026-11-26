@@ -10,3 +10,5 @@ checks_g6:26: RuntimeWarning: invalid value encountered in scalar divide
    words 'yeah / ok': D_p 0.000 (C_L tends to this with tau 40 s; NL decays with tau 30 min)
 === L1: answering partners (his sadness V .8 until 40 s, then his code at V = mu x lag(look)); 40 min. Pass: face-only stretch <= T_MAX + 15 s, duty over 10-40 min <= 0.60 + 0.02
    operator           lp    tau  90 s mu 1.0 start 0.80: onsets 1, ends ['Tmax'], longest face-only stretch 192 s, look on 0% of 10-40 min, BI last 10 min -0.005
+   operator           lp    tau 150 s mu 1.0 start 0.80: onsets 3, ends ['Tmax', 'Tmax', 'Tmax'], longest face-only stretch 192 s, look on 10% of 10-40 min, BI last 10 min -0.005
+   operator           lp    tau 300 s mu 1.0 start 0.80: onsets 8, ends ['Tmax', 'Tmax', 'Tmax', 'Tmax']..., longest face-only stretch 192 s, look on 64% of 10-40 min, BI last 10 min +0.099
