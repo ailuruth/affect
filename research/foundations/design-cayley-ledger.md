@@ -845,3 +845,37 @@ Revision 1's critiques are recorded in full in `design-cayley-ledger.r1.md` (sec
 | 1b lead | contraction forbids multistability, not slow memory, so moods can sit inside the bounded path | adopted. Moods, slots and body are slow contracting positive filters inside S_s. Two things were added that the lead did not foresee and the checks show are necessary: the no-demodulation rule (H5) and the ℓ∞ slow block (H7) | §3.2–3.4 |
 
 **Status:** revision 2; to be critiqued (routes and copying; principles, emotional fitness and novelty).
+
+## Critiques of revision 2 and the answer (recorded 2026-11-26T06:31:35Z, under Q19)
+
+**Routes** (critique-2-design-cayley-ledger-routes.md; checks in sims/critique-cayley2-routes/). All five of revision 1's failures are closed, except that one reading of the lexical latch reopens speech rate (K4).
+- **K1, severe (rules it out under D78).** The fast block's context input carries the slow block's states, which know the partner's held level (r 0.994). That input is unbounded, and the bias-free rule holds only without context.
+  - Multiplied by the role switch, a context-only term passes the 4-s high-pass as a burst at each turn exchange, and the synthesiser samples and holds it.
+  - Result: the agent's first-phrase pitch target follows the partner's held pitch at slope +0.92 (r 0.91) all evening; the face jumps toward the partner's held expression the same way.
+  - The design's own metrics average this out, so falsifier F1 would pass. One learned weight runs all 32 channels from flat to copy with no innate ceiling.
+  - K1b: role alone on jaw-open gives slope 0.83, against a cap of 0.365.
+- **K3, high (Principle 6).** Only the partner part of the world model is blind to the agent's acts; the agent's own-body part is not. The agent therefore learns that acts which make the partner look better lower its own concern. At equal comfort value it picks the flattering draft with P 0.72–1.00, and on a 10-min horizon trades up to 0.12 of comfort value for it.
+- **K4, medium, conditional.** If lexical surprise enters arousal once per utterance, speech rate becomes a dial (own-rate slopes 0.07–0.28, against a cap of 0.10).
+- **Low.**
+  - K2: sampling the bounded fast path at phrase onset reaches 0.41, against 0.339.
+  - K5: the blind band is at 1–3 min, not 4 s–1 min; at 30 s the bound is 0.415, not 0.08.
+- **No concrete failure found** in: the other output routes, the two structural rules, Claude, retrieval and replay, and C1–C10 once K1 is fixed.
+
+**Agent, principles and novelty** (critique-2-design-cayley-ledger-agent.md). **Not fit to build.**
+- **Muted by construction.** The pointwise (ℓ∞) bound is sign-blind, so held responses sit in a ±0.15 ball in every direction. That contradicts the one-sided limit described to the operator in Report 4 and Q20.
+- **No positive affect.** The drive is ≥ 0 with a dead-band, so good news, a warm talk or a reunion leave the objective at 0.
+- **It never speaks first,** and concern builds in about 10 min, not the claimed 1–2.
+- **Claude cannot regulate the state;** its words reach only the face.
+- **Care rewards matching.** The agent reads the partner minus its own display, so showing their distress lowers its own concern, and learning drifts to the copy edge. Comforting acts also read as sender distress.
+- **Novelty:** all three claimed combinations are known (Yoshida & Man 2025 plus path-specific objectives; a frequency-split REN with positive-system ℓ∞ bounds; an elementary discrete port). Even with every fix, the result would be a sound recombination.
+
+**The answer (maintainer).** All findings are accepted. **Status: held.**
+- **What revision 2 established and carries forward:**
+  - separating knowing from moving works: a slow state that knows the held level at r 0.994 drove held copying of only 0.092 when every path was wrapped;
+  - fast context-sign learning from clean signals works;
+  - Principle 3 has a signed lesion.
+- **What the failures show:**
+  - (a) every input to the wrapped blocks, including context and role, must be inside the bound;
+  - (b) a two-sided pointwise bound mutes the agent, so the slow-path bound must be one-sided like the fast one;
+  - (c) the agent needs satiable positive (approach) drives, initiative, and a route by which Claude's reappraisal changes the state;
+  - (d) care must learn to help without any path through which looking better is rewarded. This is the hardest open problem, and Yoshida & Man suggest care blind to its effect will not learn to help.

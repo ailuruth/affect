@@ -45,3 +45,16 @@ display gain g=0.2 of own-rate range per unit relative A: own-rate slope on part
 display gain g=0.5 of own-rate range per unit relative A: own-rate slope on partner rate = +0.177 (claim: held voice-channel concordance <= 0.100)
 display gain g=0.8 of own-rate range per unit relative A: own-rate slope on partner rate = +0.284 (claim: held voice-channel concordance <= 0.100)
 === sampled_fast_lp.py
+sample window 2-2 s after the partner's last phrase step: worst sampled y / step = +0.414   (check: max |S| / allowed = 1.000; max Re y-gain +0.180)
+sample window 1-3 s after the partner's last phrase step: worst sampled y / step = +0.148   (check: max |S| / allowed = 1.000; max Re y-gain +0.180)
+sample window 2-5 s after the partner's last phrase step: worst sampled y / step = +0.134   (check: max |S| / allowed = 1.000; max Re y-gain +0.180)
+design claims on this channel: zero-lag in-phase <= 0.198, fast lag broadband <= 0.339
+=== band_gap.py
+period   10 s: |H_i|^2 = 0.856  |L|^2 = 0.001  sum = 0.857  fast-path ceiling gf|H_i||H_o| = 0.385
+period   20 s: |H_i|^2 = 0.607  |L|^2 = 0.003  sum = 0.610  fast-path ceiling gf|H_i||H_o| = 0.273
+period   30 s: |H_i|^2 = 0.409  |L|^2 = 0.006  sum = 0.415  fast-path ceiling gf|H_i||H_o| = 0.184
+period   60 s: |H_i|^2 = 0.148  |L|^2 = 0.025  sum = 0.173  fast-path ceiling gf|H_i||H_o| = 0.067
+period   90 s: |H_i|^2 = 0.072  |L|^2 = 0.054  sum = 0.126  fast-path ceiling gf|H_i||H_o| = 0.032
+period  120 s: |H_i|^2 = 0.042  |L|^2 = 0.092  sum = 0.134  fast-path ceiling gf|H_i||H_o| = 0.019
+period  300 s: |H_i|^2 = 0.007  |L|^2 = 0.388  sum = 0.395  fast-path ceiling gf|H_i||H_o| = 0.003
+minimum of the sum: 0.124 at period 97.1 s
