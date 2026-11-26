@@ -1,0 +1,126 @@
+[loaded the revision-8 engine in 223 s]
+=== K1: concern answered in his own code with a lag tau (his genuine sadness V .8 ends at 40 s; then his face = his code at V = mu x lp_tau(posture)); 15 min
+   operator           mu 1.0 tau  0 s | rev 8: offs [(190.5, 'probe')], last 2 min posture 0.00, BI -0.005 | 8.1: offs [(270.5, 'release')], tests [], last 2 min posture 0.00, BI -0.005
+   operator           mu 1.0 tau  5 s | rev 8: offs [], last 2 min posture 0.94, BI +0.234 | 8.1: offs [(276.5, 'release')], tests [], last 2 min posture 0.00, BI -0.005
+   operator           mu 1.0 tau 15 s | rev 8: offs [], last 2 min posture 0.94, BI +0.234 | 8.1: offs [(289.0, 'release')], tests [], last 2 min posture 0.00, BI -0.005
+   operator           mu 1.0 tau 30 s | rev 8: offs [], last 2 min posture 0.94, BI +0.234 | 8.1: offs [(302.5, 'cap')], tests [(242.5, 'cap', 'foll', 0.24)], last 2 min posture 0.00, BI -0.005
+   operator           mu 1.0 tau 60 s | rev 8: offs [], last 2 min posture 0.94, BI +0.234 | 8.1: offs [(302.5, 'cap')], tests [(242.5, 'cap', 'foll', 0.49)], last 2 min posture 0.00, BI -0.005
+   operator           mu 1.0 tau 90 s | rev 8: offs [], last 2 min posture 0.94, BI +0.234 | 8.1: offs [(302.5, 'cap')], tests [(242.5, 'cap', 'foll', 0.67)], last 2 min posture 0.00, BI -0.005
+   operator           mu 0.6 tau  0 s | rev 8: offs [(190.5, 'probe')], last 2 min posture 0.00, BI -0.005 | 8.1: offs [(268.0, 'release')], tests [], last 2 min posture 0.00, BI -0.005
+   operator           mu 0.6 tau  5 s | rev 8: offs [(231.0, 'release')], last 2 min posture 0.00, BI -0.005 | 8.1: offs [(273.0, 'release')], tests [], last 2 min posture 0.00, BI -0.005
+   operator           mu 0.6 tau 15 s | rev 8: offs [(285.5, 'release')], last 2 min posture 0.00, BI -0.005 | 8.1: offs [(281.5, 'release')], tests [], last 2 min posture 0.00, BI -0.005
+   operator           mu 0.6 tau 30 s | rev 8: offs [(135.5, 'release')], last 2 min posture 0.00, BI -0.005 | 8.1: offs [(135.5, 'release')], tests [], last 2 min posture 0.00, BI -0.005
+   operator           mu 0.6 tau 60 s | rev 8: offs [(105.0, 'release')], last 2 min posture 0.00, BI -0.005 | 8.1: offs [(105.0, 'release')], tests [], last 2 min posture 0.00, BI -0.005
+   operator           mu 0.6 tau 90 s | rev 8: offs [(66.5, 'release')], last 2 min posture 0.00, BI -0.005 | 8.1: offs [(66.5, 'release')], tests [], last 2 min posture 0.00, BI -0.005
+   quiet 0.3          mu 1.0 tau  0 s | rev 8: offs [(190.5, 'probe')], last 2 min posture 0.00, BI -0.005 | 8.1: offs [(270.5, 'release')], tests [], last 2 min posture 0.00, BI -0.005
+   quiet 0.3          mu 1.0 tau  5 s | rev 8: offs [], last 2 min posture 0.94, BI +0.198 | 8.1: offs [(276.5, 'release')], tests [], last 2 min posture 0.00, BI -0.005
+   quiet 0.3          mu 1.0 tau 15 s | rev 8: offs [], last 2 min posture 0.94, BI +0.198 | 8.1: offs [(289.0, 'release')], tests [], last 2 min posture 0.00, BI -0.005
+   quiet 0.3          mu 1.0 tau 30 s | rev 8: offs [], last 2 min posture 0.94, BI +0.198 | 8.1: offs [(302.5, 'cap')], tests [(242.5, 'cap', 'foll', 0.24)], last 2 min posture 0.00, BI -0.005
+   quiet 0.3          mu 1.0 tau 60 s | rev 8: offs [], last 2 min posture 0.94, BI +0.198 | 8.1: offs [(302.5, 'cap')], tests [(242.5, 'cap', 'foll', 0.49)], last 2 min posture 0.00, BI -0.005
+   quiet 0.3          mu 1.0 tau 90 s | rev 8: offs [], last 2 min posture 0.94, BI +0.198 | 8.1: offs [(302.5, 'cap')], tests [(242.5, 'cap', 'foll', 0.67)], last 2 min posture 0.00, BI -0.005
+   quiet 0.3          mu 0.6 tau  0 s | rev 8: offs [(190.5, 'probe')], last 2 min posture 0.00, BI -0.005 | 8.1: offs [(268.0, 'release')], tests [], last 2 min posture 0.00, BI -0.005
+   quiet 0.3          mu 0.6 tau  5 s | rev 8: offs [(231.0, 'release')], last 2 min posture 0.00, BI -0.005 | 8.1: offs [(273.0, 'release')], tests [], last 2 min posture 0.00, BI -0.005
+   quiet 0.3          mu 0.6 tau 15 s | rev 8: offs [(285.5, 'release')], last 2 min posture 0.00, BI -0.005 | 8.1: offs [(281.5, 'release')], tests [], last 2 min posture 0.00, BI -0.005
+   quiet 0.3          mu 0.6 tau 30 s | rev 8: offs [(135.5, 'release')], last 2 min posture 0.00, BI -0.005 | 8.1: offs [(135.5, 'release')], tests [], last 2 min posture 0.00, BI -0.005
+   quiet 0.3          mu 0.6 tau 60 s | rev 8: offs [(105.0, 'release')], last 2 min posture 0.00, BI -0.005 | 8.1: offs [(105.0, 'release')], tests [], last 2 min posture 0.00, BI -0.005
+   quiet 0.3          mu 0.6 tau 90 s | rev 8: offs [(66.5, 'release')], last 2 min posture 0.00, BI -0.005 | 8.1: offs [(66.5, 'release')], tests [], last 2 min posture 0.00, BI -0.005
+   different channels mu 1.0 tau  0 s | rev 8: offs [(190.5, 'probe')], last 2 min posture 0.00, BI -0.005 | 8.1: offs [(270.0, 'release')], tests [], last 2 min posture 0.00, BI -0.005
+   different channels mu 1.0 tau  5 s | rev 8: offs [], last 2 min posture 0.94, BI +0.188 | 8.1: offs [(276.0, 'release')], tests [], last 2 min posture 0.00, BI -0.005
+   different channels mu 1.0 tau 15 s | rev 8: offs [], last 2 min posture 0.94, BI +0.188 | 8.1: offs [(287.0, 'release')], tests [], last 2 min posture 0.00, BI -0.005
+   different channels mu 1.0 tau 30 s | rev 8: offs [], last 2 min posture 0.94, BI +0.188 | 8.1: offs [(302.5, 'cap')], tests [(242.5, 'cap', 'foll', 0.24)], last 2 min posture 0.00, BI -0.005
+   different channels mu 1.0 tau 60 s | rev 8: offs [], last 2 min posture 0.94, BI +0.188 | 8.1: offs [(302.5, 'cap')], tests [(242.5, 'cap', 'foll', 0.49)], last 2 min posture 0.00, BI -0.005
+   different channels mu 1.0 tau 90 s | rev 8: offs [], last 2 min posture 0.33, BI +0.062 | 8.1: offs [(283.5, 'release')], tests [], last 2 min posture 0.00, BI -0.005
+   different channels mu 0.6 tau  0 s | rev 8: offs [(82.0, 'release')], last 2 min posture 0.00, BI -0.005 | 8.1: offs [(82.0, 'release')], tests [], last 2 min posture 0.00, BI -0.005
+   different channels mu 0.6 tau  5 s | rev 8: offs [(93.5, 'release')], last 2 min posture 0.00, BI -0.005 | 8.1: offs [(93.5, 'release')], tests [], last 2 min posture 0.00, BI -0.005
+   different channels mu 0.6 tau 15 s | rev 8: offs [(106.5, 'release')], last 2 min posture 0.00, BI -0.005 | 8.1: offs [(106.5, 'release')], tests [], last 2 min posture 0.00, BI -0.005
+   different channels mu 0.6 tau 30 s | rev 8: offs [(104.0, 'release')], last 2 min posture 0.00, BI -0.005 | 8.1: offs [(104.0, 'release')], tests [], last 2 min posture 0.00, BI -0.005
+   different channels mu 0.6 tau 60 s | rev 8: offs [(72.5, 'release')], last 2 min posture 0.00, BI -0.005 | 8.1: offs [(72.5, 'release')], tests [], last 2 min posture 0.00, BI -0.005
+   different channels mu 0.6 tau 90 s | rev 8: offs [(64.5, 'release')], last 2 min posture 0.00, BI -0.005 | 8.1: offs [(64.5, 'release')], tests [], last 2 min posture 0.00, BI -0.005
+   operator           mu 1.0 tau  5 s + his own OU noise (SD .10, 10 s): 8.1 offs [(277.0, 'release')], last 2 min posture 0.00
+   operator           mu 1.0 tau 30 s + his own OU noise (SD .10, 10 s): 8.1 offs [(302.0, 'release')], last 2 min posture 0.00
+   operator           mu 1.0 tau 90 s + his own OU noise (SD .10, 10 s): 8.1 offs [(369.5, 'cap'), (690.0, 'cap')], last 2 min posture 0.27
+   quiet 0.3          mu 1.0 tau  5 s + his own OU noise (SD .10, 10 s): 8.1 offs [(277.0, 'release')], last 2 min posture 0.00
+   quiet 0.3          mu 1.0 tau 30 s + his own OU noise (SD .10, 10 s): 8.1 offs [(302.0, 'release')], last 2 min posture 0.00
+   quiet 0.3          mu 1.0 tau 90 s + his own OU noise (SD .10, 10 s): 8.1 offs [(369.5, 'cap'), (690.0, 'cap')], last 2 min posture 0.27
+   different channels mu 1.0 tau  5 s + his own OU noise (SD .10, 10 s): 8.1 offs [(276.0, 'release')], last 2 min posture 0.00
+   different channels mu 1.0 tau 30 s + his own OU noise (SD .10, 10 s): 8.1 offs [(300.5, 'release')], last 2 min posture 0.00
+   different channels mu 1.0 tau 90 s + his own OU noise (SD .10, 10 s): 8.1 offs [(378.5, 'cap')], last 2 min posture 0.00
+   genuine sadness for 10 min, THEN answering with a lag (30 min run; the cap has already passed one test):
+   operator           tau   5 s: 8.1 offs [(817.0, 'release')], tests [(242.5, 'cap', 'held', 1.0)], last 2 min posture 0.00
+   operator           tau  30 s: 8.1 offs [(849.5, 'release')], tests [(242.5, 'cap', 'held', 1.0)], last 2 min posture 0.00
+   operator           tau  90 s: 8.1 offs [(902.5, 'cap')], tests [(242.5, 'cap', 'held', 1.0), (782.5, 'cap', 'foll', 0.32)], last 2 min posture 0.00
+   operator           tau 180 s: 8.1 offs [(902.5, 'cap')], tests [(242.5, 'cap', 'held', 1.0), (782.5, 'cap', 'foll', 0.57)], last 2 min posture 0.00
+   operator           tau 240 s: 8.1 offs [(902.5, 'cap')], tests [(242.5, 'cap', 'held', 1.0), (782.5, 'cap', 'foll', 0.65)], last 2 min posture 0.00
+   different channels tau   5 s: 8.1 offs [(816.0, 'release')], tests [(242.5, 'cap', 'held', 1.0)], last 2 min posture 0.00
+   different channels tau  30 s: 8.1 offs [(845.5, 'release')], tests [(242.5, 'cap', 'held', 1.0)], last 2 min posture 0.00
+   different channels tau  90 s: 8.1 offs [(902.5, 'cap')], tests [(242.5, 'cap', 'held', 1.0), (782.5, 'cap', 'foll', 0.32)], last 2 min posture 0.00
+   different channels tau 180 s: 8.1 offs [(902.5, 'cap')], tests [(242.5, 'cap', 'held', 1.0), (782.5, 'cap', 'foll', 0.56)], last 2 min posture 0.00
+   different channels tau 240 s: 8.1 offs [(902.5, 'cap')], tests [(242.5, 'cap', 'held', 1.0), (782.5, 'cap', 'foll', 0.65)], last 2 min posture 0.00
+   (the noisy rows are a robustness probe beyond the critic's partner and are not in the PASS criterion; see the text, section 2.10)
+K1 PASS: every lagged answer (tau 0-90 s; 0-240 s after a genuine phase) ends the posture; latest end 302.5 s for sadness ending at 40 s (rev 8: held 15 min at tau >= 5 s, mu 1.0)
+=== K2: genuine steady sadness with natural fluctuation: routes critique 8 P2 (V .6 + OU, SD .05/.10, tau 10 s, 15 min, 4 seeds x 3 codes) and agent critique 8 B3 (AR(1), SD .10/.20, tau 5 s, 10 min)
+   rev 8                                      P2: released by a test in 0 of 24 (cap-test ratios min nan, n 0); posture < 0.05 for 0.0% of the time (max 0.0%) | B3: released in 4 of 12 (ratios min nan), back on after [4.0, 2.0, 4.0, 2.0] s; posture < 0.05 for max 0.0%
+   8.1                                        P2: released by a test in 0 of 24 (cap-test ratios min 0.82, n 24); posture < 0.05 for 17.3% of the time (max 17.5%) | B3: released in 2 of 12 (ratios min 0.66), back on after [1.5, 1.5] s; posture < 0.05 for max 8.5%
+   8.1 + rev 8's 8-s probe kept (ablation)    P2: released by a test in 3 of 24 (cap-test ratios min 0.86, n 27); posture < 0.05 for 14.2% of the time (max 14.7%) | B3: released in 6 of 12 (ratios min 0.51), back on after [4.0, 3.0, 2.0, 4.0, 3.0, 2.0] s; posture < 0.05 for max 8.7%
+K2 PASS: no genuine fluctuating sadness of P2 is released (8.1: 0 of 24)
+=== K3: J33 (mirrors, answering concern at tau 0, fading sadness) and J34 (steady faces, every code), 8.1
+   P0 agent-like, raw mirror mu 1.0                                           offs [(62.5, 'release')]; last 2 min posture 0.00
+   P1 agent-like, mirror at his own scale                                     offs [(62.5, 'release')]; last 2 min posture 0.00
+   P2b agent-like, mirror mu 3.0                                              offs [(62.5, 'release')]; last 2 min posture 0.00
+   P5 quiet, raw mirror mu 1.0                                                offs [(62.5, 'release')]; last 2 min posture 0.00
+   P5 quiet, raw mirror mu 3.0                                                offs [(62.5, 'release')]; last 2 min posture 0.00
+   P5c sigma_id at floor 0.25, mu 2.0                                         offs [(66.0, 'release')]; last 2 min posture 0.00
+   S1 slow mirror tau 90 s, quiet                                             offs [(62.5, 'release')]; last 2 min posture 0.00
+   S1 slow mirror tau 240 s, floor spread                                     offs [(66.0, 'release')]; last 2 min posture 0.00
+   P3 agent-like, mild 'aww' in his own code (V 0.3 x posture)                offs [(67.0, 'release')]; last 2 min posture 0.00
+   P4 different channels, mild 'aww' (V 0.3 x posture)                        offs [(65.5, 'release')]; last 2 min posture 0.00
+   P4b different channels, strong concern in his own code (V 1.0 x posture)   offs [(270.0, 'release')]; last 2 min posture 0.00
+   P4c agent-like, strong concern in his own code (V 1.0 x posture)           offs [(270.5, 'release')]; last 2 min posture 0.00
+   P4d quiet, strong concern in his own code (V 1.0 x posture)                offs [(270.5, 'release')]; last 2 min posture 0.00
+   Q3 quiet, genuine sadness fading over 10 min + raw mirror mu 1.0           offs [(435.5, 'release')]; last 2 min posture 0.00
+   Q3 floor spread, genuine sadness fading + strong 'aww' on top              offs [(301.0, 'cap')]; last 2 min posture 0.00
+   agent-like             silent sadness (V .6)                 : on at 3.0 s, releases 0, brow >= 0.15 at 4.5 s; 15-min brow mean 0.178, min outside the tests (+10 s) 0.187; withdrawn 154 s in all; tests [(243.0, 'cap', 'held', 1.0)]
+   agent-like             grief (V .8)                          : on at 2.5 s, releases 0, brow >= 0.15 at 3.5 s; 15-min brow mean 0.188, min outside the tests (+10 s) 0.190; withdrawn 154 s in all; tests [(242.5, 'cap', 'held', 1.0)]
+   agent-like             silent panic (V .3, A .9, breathing)  : on at 4.5 s, releases 0, brow >= 0.15 at 6.5 s; 15-min brow mean 0.185, min outside the tests (+10 s) 0.188; withdrawn 152 s in all; tests [(244.5, 'cap', 'held', 1.0)]
+   agent-like             crying with sobs (V .9)               : on at 2.0 s, releases 0, brow >= 0.15 at 3.0 s; 15-min brow mean 0.229, min outside the tests (+10 s) 0.191; withdrawn 0 s in all; tests []
+   quiet code 0.3         silent sadness (V .6)                 : on at 3.0 s, releases 0, brow >= 0.15 at 4.5 s; 15-min brow mean 0.157, min outside the tests (+10 s) 0.182; withdrawn 154 s in all; tests [(243.0, 'cap', 'held', 1.0)]
+   quiet code 0.3         grief (V .8)                          : on at 2.5 s, releases 0, brow >= 0.15 at 3.5 s; 15-min brow mean 0.160, min outside the tests (+10 s) 0.182; withdrawn 154 s in all; tests [(242.5, 'cap', 'held', 1.0)]
+   quiet code 0.3         silent panic (V .3, A .9, breathing)  : on at 4.5 s, releases 0, brow >= 0.15 at 7.0 s; 15-min brow mean 0.159, min outside the tests (+10 s) 0.181; withdrawn 152 s in all; tests [(244.5, 'cap', 'held', 1.0)]
+   quiet code 0.3         crying with sobs (V .9)               : on at 2.0 s, releases 0, brow >= 0.15 at 3.0 s; 15-min brow mean 0.198, min outside the tests (+10 s) 0.183; withdrawn 0 s in all; tests []
+   sigma_id at floor 0.25 silent sadness (V .6)                 : on at 1.0 s, releases 0, brow >= 0.15 at 2.0 s; 15-min brow mean 0.178, min outside the tests (+10 s) 0.187; withdrawn 156 s in all; tests [(241.0, 'cap', 'held', 1.0)]
+   sigma_id at floor 0.25 grief (V .8)                          : on at 1.0 s, releases 0, brow >= 0.15 at 2.0 s; 15-min brow mean 0.188, min outside the tests (+10 s) 0.189; withdrawn 156 s in all; tests [(241.0, 'cap', 'held', 1.0)]
+   sigma_id at floor 0.25 silent panic (V .3, A .9, breathing)  : on at 1.5 s, releases 0, brow >= 0.15 at 2.5 s; 15-min brow mean 0.184, min outside the tests (+10 s) 0.190; withdrawn 156 s in all; tests [(241.5, 'cap', 'held', 1.0)]
+   sigma_id at floor 0.25 crying with sobs (V .9)               : on at 1.0 s, releases 0, brow >= 0.15 at 2.0 s; 15-min brow mean 0.229, min outside the tests (+10 s) 0.190; withdrawn 0 s in all; tests []
+   different channels     silent sadness (V .6)                 : on at 3.5 s, releases 0, brow >= 0.15 at 7.0 s; 15-min brow mean 0.144, min outside the tests (+10 s) 0.164; withdrawn 154 s in all; tests [(243.5, 'cap', 'held', 1.0)]
+   different channels     grief (V .8)                          : on at 2.5 s, releases 0, brow >= 0.15 at 3.5 s; 15-min brow mean 0.152, min outside the tests (+10 s) 0.179; withdrawn 154 s in all; tests [(242.5, 'cap', 'held', 1.0)]
+   different channels     silent panic (V .3, A .9, breathing)  : on at 3.0 s, releases 0, brow >= 0.15 at 4.0 s; 15-min brow mean 0.150, min outside the tests (+10 s) 0.176; withdrawn 154 s in all; tests [(243.0, 'cap', 'held', 1.0)]
+   different channels     crying with sobs (V .9)               : on at 2.0 s, releases 0, brow >= 0.15 at 3.0 s; 15-min brow mean 0.189, min outside the tests (+10 s) 0.179; withdrawn 0 s in all; tests []
+K3 PASS: every J33 case ends; steady genuine faces keep one onset and no release (the only gaps are the cap's test lapses)
+=== K4: a silent tearful or pained face that squints while looking at the agent (B2), and anger / concentration (J35), rev 8 vs 8.1
+   operator grief (reference)                                         rev 8: posture max 0.99, brow peak +0.227 | 8.1: posture max 0.99 mean 0.94, brow peak +0.227, on at [2.5]
+   operator grief + squint BL .4 LT .4, looking at it                 rev 8: posture max 0.00, brow peak +0.035 | 8.1: posture max 0.99 mean 0.94, brow peak +0.229, on at [2.5]
+   operator grief + strong squint BL .6 LT .6, looking at it          rev 8: posture max 0.00, brow peak +0.037 | 8.1: posture max 0.99 mean 0.94, brow peak +0.232, on at [2.5]
+   operator grief + squint, looking away                              rev 8: posture max 0.99, brow peak +0.227 | 8.1: posture max 0.99 mean 0.94, brow peak +0.227, on at [2.5]
+   quiet grief + squint BL .4 LT .4, looking at it                    rev 8: posture max 0.00, brow peak +0.008 | 8.1: posture max 0.99 mean 0.94, brow peak +0.205, on at [2.5]
+   diff-channel grief (reference)                                     rev 8: posture max 0.99, brow peak +0.198 | 8.1: posture max 0.99 mean 0.94, brow peak +0.198, on at [2.5]
+   diff-channel grief + LT .4, looking at it                          rev 8: posture max 0.00, brow peak +0.001 | 8.1: posture max 0.50 mean 0.48, brow peak +0.101, on at [6.0]
+   operator grief + squint + sobs, looking at it                      rev 8: posture max 0.99, brow peak +0.229 | 8.1: posture max 0.99 mean 0.94, brow peak +0.229, on at [2.0]
+   operator anger: BL .6, LT .5, gaze at it, loud                     rev 8: posture max 0.00, brow peak +0.028 | 8.1: posture max 0.00 mean 0.00, brow peak +0.028, on at []
+   operator anger with heavy breathing (A .8)                         rev 8: posture max 0.00, brow peak +0.028 | 8.1: posture max 0.00 mean 0.00, brow peak +0.028, on at []
+   operator anger + lip press .4                                      rev 8: posture max 0.00, brow peak +0.028 | 8.1: posture max 0.00 mean 0.00, brow peak +0.028, on at []
+   operator concentrating, silent: BL .35, LPR .15                    rev 8: posture max 0.00, brow peak -0.000 | 8.1: posture max 0.00 mean 0.00, brow peak -0.000, on at []
+   operator concentrating, squinting at the screen: BL .35, LT .4, LPR .15 rev 8: posture max 0.00, brow peak +0.001 | 8.1: posture max 0.00 mean 0.00, brow peak +0.001, on at []
+   quiet anger: BL .6, LT .5, gaze at it, loud                        rev 8: posture max 0.00, brow peak +0.028 | 8.1: posture max 0.00 mean 0.00, brow peak +0.028, on at []
+   quiet anger with heavy breathing (A .8)                            rev 8: posture max 0.00, brow peak +0.028 | 8.1: posture max 0.00 mean 0.00, brow peak +0.028, on at []
+   quiet anger + lip press .4                                         rev 8: posture max 0.00, brow peak +0.028 | 8.1: posture max 0.00 mean 0.00, brow peak +0.028, on at []
+   quiet concentrating, silent: BL .35, LPR .15                       rev 8: posture max 0.00, brow peak -0.000 | 8.1: posture max 0.00 mean 0.00, brow peak -0.000, on at []
+   quiet concentrating, squinting at the screen: BL .35, LT .4, LPR .15 rev 8: posture max 0.00, brow peak +0.001 | 8.1: posture max 0.00 mean 0.00, brow peak +0.001, on at []
+   diff-channel anger: BL .6, LT .5, gaze at it, loud                 rev 8: posture max 0.00, brow peak +0.029 | 8.1: posture max 0.00 mean 0.00, brow peak +0.029, on at []
+   diff-channel anger with heavy breathing (A .8)                     rev 8: posture max 0.00, brow peak +0.029 | 8.1: posture max 0.00 mean 0.00, brow peak +0.029, on at []
+   diff-channel anger + lip press .4                                  rev 8: posture max 0.00, brow peak +0.030 | 8.1: posture max 0.00 mean 0.00, brow peak +0.030, on at []
+   diff-channel concentrating, silent: BL .35, LPR .15                rev 8: posture max 0.00, brow peak -0.000 | 8.1: posture max 0.00 mean 0.00, brow peak -0.000, on at []
+   diff-channel concentrating, squinting at the screen: BL .35, LT .4, LPR .15 rev 8: posture max 0.00, brow peak +0.001 | 8.1: posture max 0.00 mean 0.00, brow peak +0.001, on at []
+K4 PASS: grief + squint at the agent gets the posture (on within 4 s); no anger or concentration case starts it
+K5 PASS: D_s with and without his breath sound (BRE .3): 0.8282 / 0.8282
+SUMMARY K1 PASS, K2 PASS, K3 PASS, K4 PASS, K5 PASS
+[checks ran in 285 s]
