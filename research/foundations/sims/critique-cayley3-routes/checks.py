@@ -90,15 +90,26 @@ while tt < T48 / fs:
     tt += 3.0 + 0.35 + lat + dur
     if tt < T48 / fs:
         ev[int(tt * fs)] += 1; plat.append((tt, lat))
-# a T-typed leaky mode: input = partner turn-end events (T), decay = wall clock (T by Check T)
-mT = lfilter([1.0], [1, -np.exp(-1 / (120.0 * fs))], ev)
+# T-typed state that carries tempo, using the design's own equations:
+#  K, contact deficit: rise (1 - K)/tau_K (wall clock, tau_K = 36 h), K <- K(1 - 0.25 f_id) per completed exchange
+#  (an agent turn then a partner turn, and the reverse: two per cycle); f_id = 0.9.  G4d: K* ~ 1/rate.
+Kt = np.zeros(T48); Kv = 0.0; dt = 1 / fs; rk = 1 - np.exp(-dt / (36 * 3600))
+for i in range(T48):
+    Kv += (1 - Kv) * rk
+    if ev[i]:
+        Kv *= (1 - 0.25 * 0.9) ** 2
+    Kt[i] = Kv
+mT = np.log(Kt + 1e-9)        # the T context encoder (learned MLP) may read any monotone function of its T loads
+print(f"   K over the evening: 1-min means range {means(Kt, MIN).min():.5f}-{means(Kt, MIN).max():.5f} (dead-band 0.10;"
+      " invisible as a drive, exact as a tempo code)")
+mT = -mT
 LAT = np.zeros(T48); last = 0
 for (tt, lat) in plat:
     LAT[last:int(tt * fs)] = lat; last = int(tt * fs)
 LAT[last:] = lat
 r_mx = np.corrcoef(means(mT, MIN), means(x, MIN))[0, 1]
 r_ml = np.corrcoef(means(mT, MIN), means(LAT, MIN))[0, 1]
-print(f"   T-typed turn mode (tau 2 min) vs partner's held state x: r = {r_mx:+.3f}; vs his response latency: r = {r_ml:+.3f}")
+print(f"   T-typed -log K (contact deficit) vs partner's held state x: r = {r_mx:+.3f}; vs his response latency: r = {r_ml:+.3f}")
 # (a) the cone: alpha(z) mixes two valid diagonal bases by one weight k on that mode.  Basis A: b_m on channels
 #     that rise with the partner's tempo (LP, EN, FR), -N_m on the one that falls (BI); basis B: the reverse.
 rise = np.array([chan[k][1] > 0 for k in chan])
@@ -108,9 +119,9 @@ assert all(in_cone(GA[m], m) and in_cone(GB[m], m) for m in range(4))
 z = (mT - mT.mean()) / mT.std()
 names = list(chan)
 Xi = {k: [lp(U[k], tau, fs) for tau in TAU_M] for k in names}
-print("   one weight k of alpha(z) on the turn mode; pooled 1-min slope of the agent's channel on the partner's same"
+print("   one weight k of alpha(z) on -log K; pooled 1-min slope of the agent's channel on the partner's same"
       " channel (y_F alone | rendered sat(y_o + y_F))")
-for kk in (0.0, 1.0, 3.0, 10.0):
+for kk in (0.0, 1.0, 3.0, 10.0, 30.0):
     al = 1 / (1 + np.exp(-kk * z))                                # k = 0: fixed 50/50 mixture
     row = []
     for i, k in enumerate(names):
@@ -127,7 +138,7 @@ print("   within tempo quartiles (k = 10), LP slope: " + ", ".join(f"{w:+.2f}" f
       + " (mixed: the per-stratum bound holds only where alpha is constant)")
 # (b) the free display: own latency and rate from the same mode, one output weight of Pi_o, no cap
 own_lat = -0.8 * z
-print(f"   free display, own LAT = w * turn mode (one weight w, uncapped): r(own LAT, partner LAT) on 1-min means "
+print(f"   free display, own LAT = w * (-log K) (one weight w, uncapped): r(own LAT, partner LAT) on 1-min means "
       f"{np.corrcoef(means(own_lat, MIN), means(LAT, MIN))[0, 1]:+.3f}; slope in s/s = "
       f"{slope(means(LAT, MIN), means(0.25 * own_lat + 0.3, MIN)):+.3f} at w = 0.8 (y_LAT -> 0.25 s per unit); any w is allowed")
 
