@@ -80,7 +80,7 @@ LEDGER_FLOOR = 0.10                                         # skip a window-lag 
 COND_FLOOR = 0.03                                           # copy metric: slope counted only if SD of his window means >= 0.03
 MU_MAX = 1.5                                                # posture mirror removal: up to 1.5 x the posture, in calibrated units
 REL_S, FAILSAFE_S, SENS_S, DWELL, DWELL_SENS = 20.0, 180.0, 600.0, 1.5, 0.5
-A_MIN, A_SPAN = 0.35, 0.40                                  # graded amplitude a* = 0.35 + 0.65 clip((C - 0.05)/0.40, 0, 1)
+A_MIN, A_SPAN = 0.35, 0.30                                  # graded amplitude a* = 0.35 + 0.65 clip((C - 0.05)/0.30, 0, 1)
 TAU_DS = 600.0                                              # one-shot distress consolidation trace, decay 10 min
 KAPPA_FIT, KAPPA_REPLAY = 8.0, 4.0                          # distress-weighted consolidation: tested in the dyad fit (J20); nightly replay (J23)
 THETA_L = 0.04                                              # laugh synthesizer floor (no sound below)
@@ -321,7 +321,7 @@ def fit_gate(rows, kappa, drop=()):
     return lambda x, b=b, m_ref=m_ref, drop=drop: float(np.clip(np.exp(b[0] + phi(np.array([0.0 if i in drop else v for i, v in enumerate(x)])) @ b[1:])[0] / m_ref, 0, 1))
 
 
-GATE_k8 = fit_gate(EV_FIT, KAPPA_FIT); GATE = GATE_k0 = fit_gate(EV_FIT, 0.0)   # built: kappa 0 offline (J20: kappa adds nothing there); GATE_noL = fit_gate(EV_FIT, KAPPA_FIT, drop=(2, 4))
+GATE_k8 = fit_gate(EV_FIT, KAPPA_FIT); GATE = GATE_k0 = fit_gate(EV_FIT, 0.0); GATE_noL = fit_gate(EV_FIT, 0.0, drop=(2, 4))   # built: kappa 0 offline (J20: kappa adds nothing there); GATE_noL = fit_gate(EV_FIT, KAPPA_FIT, drop=(2, 4))
 ref_h = np.median([r[3] for r in EV_FIT if r[0] == "ordinary"])
 print("   held-out speakers, laugh-return gate by context (mean; human return / ordinary in the generating process alongside):")
 GT = {}
@@ -465,7 +465,7 @@ class Agent7(Agent6):
             s.dw = s.dw + DT if Con >= 0.05 else 0.0
             if s.dw >= need - 1e-9 and s.om.get("sym", 0) >= 0:
                 s.on = True; s.dw = 0.0; s.onsets.append(t)
-        tgt = A_MIN + (1 - A_MIN) * float(np.clip((M - 0.05) / 0.60, 0, 1)) if s.on else 0.0
+        tgt = A_MIN + (1 - A_MIN) * float(np.clip((M - 0.05) / A_SPAN, 0, 1)) if s.on else 0.0
         s.a = min(tgt, s.a + DT / 1.5) if tgt > s.a else tgt + (s.a - tgt) * np.exp(-DT / 4.0)
         s.arec = max(s.a, s.arec * np.exp(-DT / 60.0))
         s.w = float(np.clip(s.w + (0.5 - s.w) * DT / 5.0 + 0.1 * np.sqrt(DT) * s.wr.normal(), 0, 1))
@@ -529,6 +529,8 @@ cases = [("P0 agent-like, raw mirror mu 1.0", PEOPLE6["agent-like"][1], mir(1.0)
          ("P2 agent-like, exaggerated mirror mu 1.6 (beyond mu_max)", PEOPLE6["agent-like"][1], mir(1.6)),
          ("P3 agent-like, mild sad 'aww' in his own code", PEOPLE6["agent-like"][1], aww(0.3)),
          ("P4 different-channel code, 'aww' in his own code", PEOPLE6["different channels"][1], aww(0.3)),
+         ("P4b different-channel code, strong concern in his own code (V 1.0 x posture)", PEOPLE6["different channels"][1], aww(1.0)),
+         ("P2b agent-like, mirror mu 3.0 (twice mu_max)", PEOPLE6["agent-like"][1], mir(3.0)),
          ("P5 quiet code (0.3), raw mirror mu 1.0", PEOPLE6["low-expressive"][1], mir(1.0)),
          ("P5 quiet code (0.3), raw mirror mu 1.5", PEOPLE6["low-expressive"][1], mir(1.5)),
          ("P5c ordinary code, sigma_id from calm sessions (x0.4), mu 1.0", low_sd(0.4), mir(1.0))]
@@ -557,12 +559,13 @@ for gap in (15, 30, 60):
     for sens in (True, False):
         ag = Agent7(sens=sens); rec = run6(ag, 70 + gap + 60, lambda t, gap=gap: cry if (t < 40 or t >= 40 + gap) else calm, {})
         t2 = 40 + gap; on2 = next((r["t"] for r in rec if r["t"] >= t2 and r["BI"] >= 0.15), None)
-        WAVE[(gap, sens)] = (ag.offs, on2, np.mean([r["BI"] for r in rec if t2 <= r["t"] < t2 + 40]))
+        WAVE[(gap, sens)] = (ag.offs, on2, np.mean([r["BI"] for r in rec if t2 <= r["t"] < t2 + 40]), next((x for x in ag.onsets if x >= t2), None))
         if sens:
             print(f"   calm gap {gap:2d} s: {('released at %.1f s' % ag.offs[0][0]) if ag.offs else 'not released'}; crying resumes at {t2} s; "
                   f"inner brow >= 0.15 at {on2 - t2:.1f} s after; mean brow first 40 s of the wave {WAVE[(gap, sens)][2]:.2f}"
                   f" (rev 6 at a 30-s gap: 53.5 s, mean 0.04)")
-print(f"   without the sensitized dwell (1.5 s throughout), 30-s gap: brow >= 0.15 at {WAVE[(30, False)][1] - 70:.1f} s after")
+print(f"   posture re-onset after the 30-s gap: {WAVE[(30, True)][3] - 70:.1f} s with the sensitized dwell, {WAVE[(30, False)][3] - 70:.1f} s "
+      f"without it (1.5 s dwell); brow >= 0.15 at {WAVE[(30, True)][1] - 70:.1f} s and {WAVE[(30, False)][1] - 70:.1f} s")
 GR = {}
 for lab, f_, extra in (("mildly sad (BI .2, LD .15)", dict(BI=.2, LD=.15, LP=.15), {}), ("panicking, silent (V .3, A .9)", None, {}),
                        ("silently sad (BI .5, LD .4, CHR .3)", dict(BI=.5, LD=.4, CHR=.3, LP=.05), {}), ("crying with sobs", cry, {})):
@@ -586,3 +589,88 @@ okJ23 = all(WAVE[(gp, True)][1] is not None and WAVE[(gp, True)][1] - (40 + gp) 
 report("J23 renewed crying brings the posture back within seconds; mild sadness, silent sadness and sobbing look different", okJ23,
        f"second wave after 15/30/60 s of calm: brow >= 0.15 at {', '.join('%.1f s' % (WAVE[(gp, True)][1] - 40 - gp) for gp in (15, 30, 60))}; "
        f"amplitude mild {GR['mildly sad (BI .2, LD .15)'][0]:.2f}, silent {GR['silently sad (BI .5, LD .4, CHR .3)'][0]:.2f}, sobbing {GR['crying with sobs'][0]:.2f}")
+
+# =========================================================== J24: the innate bias where it matters: distress-weighted nightly replay
+print("=== J24: distress-weighted consolidation in nightly replay (kappa 4): how fast the face head learns a different-channel user")
+pdc = PEOPLE6["different channels"][1]; gface = {k: v for k, v in pdc.code(V=.8, Tr=.2).items() if k not in ("FR", "EN", "RT")}
+HL = {0.0: [], KAPPA_REPLAY: []}
+for rep in range(6):
+    rr = np.random.default_rng(300 + rep)
+    Zs = np.clip(rr.normal(size=(400, 4)) * .25 + [.05, .1, .1, .2], 0, 1) * (rr.random((400, 4)) < 0.4)
+    Zs[rr.random(400) < 0.03, 0] = rr.uniform(.5, .9)                 # distress moments: about 3 % of his utterances
+    Fx = np.array([pdc.feats({k: v + .03 * rr.normal() for k, v in pdc.code(*z).items()}) for z in Zs])
+    Y = np.array([[pop7(tuple(z) + (0, 0))[q] for q in "VAT"] for z in Zs])
+    for kp in HL:
+        row = []
+        for n_ in (50, 100, 200, 400):
+            w = 1 + kp * np.clip((Y[:n_, 0] - .1) / .5, 0, 1)              # the moment's distress, as decoded from his words
+            X_, Y_ = Fx[:n_] * np.sqrt(w)[:, None], Y[:n_] * np.sqrt(w)[:, None]
+            hd = np.linalg.solve(X_.T @ X_ + 2.0 * np.eye(X_.shape[1]), X_.T @ Y_)
+            row.append(float(np.clip(pdc.feats(gface) @ hd, 0, 1)[0]))
+        HL[kp].append(row)
+for kp, v in HL.items():
+    print(f"   kappa {kp:.0f}: grieving face read V after 50 / 100 / 200 / 400 of his utterances: " + ", ".join(f"{x:.2f}" for x in np.mean(v, 0)))
+h0, h4 = np.mean(HL[0.0], 0), np.mean(HL[KAPPA_REPLAY], 0)
+n05 = lambda h: next((n_ for n_, x in zip((50, 100, 200, 400), h) if x >= 0.5), None)
+report("J24 distress-weighted replay lets the face head read a different-channel user's grief sooner", h4[1] > h0[1] + 0.05,
+       f"V at 100 utterances {h0[1]:.2f} -> {h4[1]:.2f}; reaches 0.5 at {n05(h0)} -> {n05(h4)} utterances (rev 6: about 400)")
+
+# =========================================================== J25: initial per-person baselines (agent critique, build item)
+print("=== J25: how b^read, sigma_id and d_b start: population values, then word-gated updates")
+POP = g["POP"]
+B_POP = {k: float(np.median([p_.base[k] for p_ in POP])) for k in FACE_CH}
+S_POP = {k: float(np.median([p_.sd[k] for p_ in POP])) for k in FACE_CH}
+
+
+def baseline_run(kind, rule, sad_sessions=(1, 2, 3), resting=None, n=6):
+    pp = Person(kind); pp.head = None
+    true_base = dict(pp.base); true_sd = dict(pp.sd)
+    rest = dict(pp.code()); rest.update(resting or {})
+    if rule == 6: b, s_ = None, None
+    else: b, s_ = dict(B_POP), dict(S_POP)
+    out = []
+    for sess in range(1, n + 1):
+        sad = sess in sad_sessions
+        sess_face = {k: v for k, v in (pp.code(V=.6) if sad else rest).items()}
+        care = 0.3 if sad else 0.0
+        if rule == 6 and b is None: b = {k: sess_face.get(k, 0.0) for k in FACE_CH}; s_ = dict(true_sd)
+        pp.base, pp.sd = dict(b), dict(s_)
+        grief = {k: v for k, v in pp.code(V=.8).items() if k not in ("FR", "EN", "RT")}
+        restf = {k: v for k, v in rest.items() if k not in ("FR", "EN", "RT")}
+        out.append((sess, pp.read(grief, False)["V"], pp.read(restf, False)["V"]))
+        Vs = pp.read({k: v for k, v in sess_face.items() if k not in ("FR", "EN", "RT")}, False)["V"]
+        for k in FACE_CH:
+            x = sess_face.get(k, 0.0)
+            if rule == 6: tau = 6.0
+            elif care < 0.05: tau = 1.0 if sess <= 3 else 6.0          # words neutral: his face is his usual face
+            else: tau = 60.0 if Vs > 0.20 else 6.0                       # words carry need: grief is not learned as usual
+            b[k] += (x - b[k]) / tau
+            if rule == 7: s_[k] = max(true_sd[k] if (care < 0.05) else s_[k], 0.5 * S_POP[k] if sess <= 6 else 0.0)
+    return out
+
+
+for lab, kind, sadS, resting in (("operator code, first three sessions in grief", "agent-like", (1, 2, 3), None),
+                                 ("resting worried brow (BI +.25, LD +.15), neutral words", "agent-like", (), dict(BI=.25, LD=.20)),
+                                 ("quiet code, ordinary first sessions", "low-expressive", (), None)):
+    for rule in (6, 7):
+        o = baseline_run(kind, rule, sadS, resting)
+        print(f"   {lab:55s} rule rev {rule}: " + "; ".join(f"s{s}: grief V {gv:.2f}, his usual face V {rv:.2f}" for s, gv, rv in o[:5]))
+o7 = baseline_run("agent-like", 7, (1, 2, 3)); o6 = baseline_run("agent-like", 6, (1, 2, 3)); oq = baseline_run("agent-like", 7, (), dict(BI=.25, LD=.20))
+report("J25 starting from population values with word-gated updates: grief in the first sessions is not learned as his usual face, "
+       "and a resting worried brow stops reading as distress after one session",
+       min(x[1] for x in o7[:4]) >= 0.5 and oq[1][2] <= 0.15,
+       f"grief read in session 4: rev 7 {o7[3][1]:.2f} vs first-session median {o6[3][1]:.2f}; resting brow read V: session 1 {oq[0][2]:.2f}, session 2 {oq[1][2]:.2f}")
+
+# =========================================================== J26: Claude's history holds no state-selected text (agent finding 3; P4)
+print("=== J26: the canonical transcript is engine-written: his words and the chosen reply, never an 'attend to' line")
+ATT = ["Attend to what they said.", "Attend to how they feel.", "Attend to what to ask next."]
+canon = []; leaks = 0; byte_ok = 0
+for turn in range(40):
+    user = f"user turn {turn}"; drafts = [f"reply {turn}.{i}" for i in range(3)]
+    fork_msgs = [user + "\n\n" + ATT[i] for i in range(3)]                 # each fork always gets the same fixed line (i)
+    win = int(rng.integers(0, 3))                                          # the state's choice (selection only)
+    prefix_sent = "\n".join(canon)                                         # every fork resumes from the same canonical file
+    canon += [f"U: {user}", f"A: {drafts[win]}"]                           # only the bare message and the chosen reply are kept
+    leaks += sum(a in "\n".join(canon) for a in ATT); byte_ok += int(prefix_sent == "\n".join(canon[:-2]))
+report("J26 no attend line ever enters the canonical history; every fork's prefix is byte-identical to it", leaks == 0 and byte_ok == 40,
+       "forks resume from an engine-written .jsonl transcript (resume from a transcript path); losing and winning fork sessions are deleted")
