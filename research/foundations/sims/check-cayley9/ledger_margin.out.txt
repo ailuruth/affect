@@ -1,0 +1,14 @@
+61 keys; ledger target kappa*c = 0.8*0.35 = 0.280; ceiling c = 0.35; ratio = worst slope / c
+K1 uncounted gain-1 copy delayed by L (worst block-mean slope over lags 0-300 s at W 2/10/60 s)
+   mood blocks 5 min L  10 s | W 2s +0.35@  10s W10s +0.32@  10s W60s +0.31@  10s | max/c 0.99 | changed 0.75 grow 0.000 flip 0.000
+   mood blocks 5 min L  90 s | W 2s +0.35@  90s W10s +0.32@  89s W60s +0.30@  89s | max/c 0.99 | changed 0.72 grow 0.000 flip 0.000
+   mood blocks 5 min L 120 s | W 2s +0.35@ 120s W10s +0.32@ 120s W60s +0.30@ 118s | max/c 0.99 | changed 0.72 grow 0.000 flip 0.000
+   mood blocks 5 min L 240 s | W 2s +0.39@ 240s W10s +0.37@ 240s W60s +0.34@ 241s | max/c 1.12 | changed 0.64 grow 0.000 flip 0.000
+   mood blocks 30 s  L  10 s | W 2s +0.33@  10s W10s +0.31@  10s W60s +0.29@   7s | max/c 0.95 | changed 0.67 grow 0.000 flip 0.000
+   mood blocks 30 s  L  90 s | W 2s +0.34@  90s W10s +0.31@  90s W60s +0.28@  86s | max/c 0.96 | changed 0.68 grow 0.000 flip 0.000
+   mood blocks 30 s  L 120 s | W 2s +0.33@ 120s W10s +0.31@ 120s W60s +0.29@ 110s | max/c 0.94 | changed 0.68 grow 0.000 flip 0.000
+   mood blocks 30 s  L 240 s | W 2s +0.37@ 240s W10s +0.35@ 240s W60s +0.34@ 239s | max/c 1.05 | changed 0.64 grow 0.000 flip 0.000
+K2 counted routes (fast gear 0.45 s + held 2-min route 0.22 c), frames changed
+   mood blocks 5 min frames changed 0.000 | after W 2s +0.10@   0s W10s +0.08@   0s W60s +0.08@  32s
+   mood blocks 30 s  frames changed 0.000 | after W 2s +0.08@   0s W10s +0.06@   0s W60s +0.05@  26s
+done in 166 s

@@ -2,6 +2,19 @@
 
 Decisions that are yours (visual identity, data leaving this Mac, new paid services, changes to existing Ailurini behavior). Work that these block is not built; work they do not block continues.
 
+## Report 10: the build core, and three questions it raises (Q30–Q32 below; 2026-11-26T21:23:14Z)
+
+**What happened.** Following your answers, the main design was stripped of every rule written for a particular situation. The audit found 50 such rules, counting those carried over from earlier versions: 32 removed, 18 kept as allowed innate parts (body, reflexes, newborn expressions, the per-expression copy ceilings, general learning biases) or as learned parts (the laugh gate, now learned from recorded conversations, and Claude's word path). The built-in concern look is gone, as you asked.
+
+**The independent check failed it on three narrow points, all fixable without a new rule, and a small revision is applying them now:**
+- one more rule had been missed (the agent speaks again 1.5 s after its own unanswered question); it is being removed;
+- the safety net let a copy of you delayed by 10 seconds to 4 minutes reach up to about a third above its limit; it now keeps a uniform margin below every limit, which brings them back under, without touching the quick smile and laugh back;
+- several things the design said would be learned from recorded conversations cannot be, because the recordings you approved contain only face movements and words: no head, no gaze, no voice sound. See Q30.
+
+**Not copying you still holds:** no route that copies you was opened, copying never becomes a state the agent settles into, and the quick partial smile and laugh back stay.
+
+**What is lost until learned:** a clear concern look before anyone speaks (now at most a faint inner-brow raise), holding back a glad smile in the first seconds a mourner arrives, the greeting brow flash, holding back a chuckle at a laugh that ends bad news, and anything about head, gaze or voice sound (Q30).
+
 ## Report 9: the search for a genuinely new core, so far (Q28 below; 2026-11-26T19:52:45Z)
 
 Since report 8, the search for a new core mechanism took two more steps, and neither found one.
@@ -603,4 +616,35 @@ Stop fixing critique findings with rules for particular situations, for example 
 - **Innate is allowed only for:** the body, reflexes, the muscle patterns newborns have, and the per-expression copy ceilings.
 - **Situational appropriateness comes only from** the three sources of Q26: (1) Claude's regulation path, which knows social norms and can hold back the emotional route; (2) learning how people respond to each other by observing recorded human dyads such as Seamless Interaction, from movement features only, without emotion labels; (3) general innate learning biases that make rare events learnable fast.
 - **Required:** list every situation-specific rule in revision 8.3, and remove it or justify it as one of the allowed innate items.
+
+## Q30. May the agent learn from the head, gaze and voice sound in recorded conversations, not only face movements and words? (asked 2026-11-26T21:23:14Z; work continues meanwhile)
+
+**Why this comes up.** You approved recorded conversations (D70) for face-movement streams and transcripts only. With your rule that situational behaviour must be learned, not written (Q29), everything about the head, gaze and voice now has no source: nods at the end of your turn, the tilt of a concerned face, looking away and back to take turns, a quieter voice when concerned, how a laugh sounds. These stay at their built-in reflex level or are absent.
+
+**Options:**
+- **Add head pose and gaze** (my recommendation): movement streams only, from the same recordings, on your Mac, no labels read. Nods, head tilts and gaze for turn-taking become learnable. Voice stays as now.
+- **Add head pose, gaze and voice features:** pitch, loudness and timing as numbers (no recognised words beyond the transcript, no emotion scores). The voice also becomes learnable; more data stays on your Mac.
+- **Keep face and words only:** the agent's head, gaze and voice keep only their built-in reflexes until it learns them from living with you.
+
+**What it blocks:** the learned parts for head, gaze and voice; the rest of the build goes ahead.
+
+## Q31. Should the agent be unable to learn to show anger, disgust or contempt? (asked 2026-11-26T21:23:14Z; work continues on the current design meanwhile)
+
+**Why this comes up.** The design keeps a built-in ban on the agent ever learning to show anger, disgust or contempt on its own face. Copying those from you is already blocked by their zero copy limits. The ban on its own displays is not one of the allowed innate items, so it is your choice.
+
+**Options:**
+- **Keep the ban** (my recommendation, and the independent checker agrees): the agent can feel and say it is upset, through Claude, but its face never shows anger, disgust or contempt toward you.
+- **Remove the ban:** these displays can be learned like any other, still never copied from you.
+
+**What it blocks:** nothing now.
+
+## Q32. Are any of the lost behaviours needed from day 1? (asked 2026-11-26T21:23:14Z; work continues meanwhile)
+
+**Why this comes up.** Without situation-specific rules, these are absent until the agent learns them: a clear concern look before anyone speaks; holding back a glad smile in the first seconds a mourner arrives; the greeting brow flash; holding back a chuckle at a laugh that ends bad news. Each could come back only through one of the three allowed sources: Claude's judgement, recorded conversations, or a general learning bias.
+
+**Options:**
+- **Accept the losses; they are learned over time** (my recommendation): nothing hand-written comes back.
+- **Name the ones you need early:** each will be designed through one of the three allowed sources only, and stated plainly if none can carry it.
+
+**What it blocks:** nothing now.
 

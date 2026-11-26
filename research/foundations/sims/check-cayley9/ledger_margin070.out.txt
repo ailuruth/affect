@@ -1,0 +1,8 @@
+61 keys; ledger target kappa*c = 0.7*0.35 = 0.245; ceiling c = 0.35; ratio = worst slope / c
+K1 uncounted gain-1 copy delayed by L (worst block-mean slope over lags 0-300 s at W 2/10/60 s)
+   mood blocks 5 min L 240 s | W 2s +0.36@ 240s W10s +0.33@ 240s W60s +0.30@ 241s | max/c 1.02 | changed 0.68 grow 0.000 flip 0.000
+   mood blocks 30 s  L 240 s | W 2s +0.33@ 240s W10s +0.30@ 240s W60s +0.31@ 237s | max/c 0.94 | changed 0.64 grow 0.000 flip 0.000
+K2 counted routes (fast gear 0.45 s + held 2-min route 0.22 c), frames changed
+   mood blocks 5 min frames changed 0.000 | after W 2s +0.10@   0s W10s +0.08@   0s W60s +0.08@  32s
+   mood blocks 30 s  frames changed 0.000 | after W 2s +0.08@   0s W10s +0.06@   0s W60s +0.05@  26s
+done in 66 s
