@@ -203,17 +203,20 @@ def conc(th):
 
 
 # theta_0 ~ G_0 (small in-phase on trace 1, slight away elsewhere, no cross)
-th0 = np.concatenate([[3.0, 3.0, 0.0, 0.0], [-2.0, 3.0, 0.0, 0.0], [0.0, 3.0, 0.0, 0.0], [1.5, 3.0, 0.0, 0.0]])
-print(f"   start (G_0-like): concordance {conc(th0):+.3f}")
-for eps in (0.3, 1.0, 3.0):
-    th = th0.copy()
-    for night in range(150):
+th0 = np.concatenate([[-8, -8, 0.0, 0.0], [-8, -8, 0.0, 0.0], [-1.15, -1.15, 0.0, 0.0], [-2.3, -2.3, 0.0, 0.0]])
+print(f"   start (theta_0 = G_0's same-channel diagonal on LP: 0, +0.05, -0.05, 0; no cross): concordance {conc(th0):+.3f}")
+LAM = 0.1
+for eps in (0.03, 0.1, 0.3, 1.0, 3.0):
+    th = th0.copy(); traj = []
+    for night in range(200):
         g = np.zeros_like(th); f0 = conc(th)
         for i in range(len(th)):
             d = np.zeros_like(th); d[i] = 1e-3; g[i] = (conc(th + d) - f0) / 1e-3
-        th += 0.5 * (eps * g - 0.1 * 2 * (th - th0) * 0.01)
-    print(f"   eps/lambda = {eps / 0.1:5.0f}: concordance after 150 nights {conc(th):+.3f} "
-          f"(cap with this partner {B + sum(min(A_M[m], R_M[m]) for m in range(4)) * 0.8:.2f})")
+        th += 1.0 * (eps * g - LAM * (th - th0))
+        if night in (9, 49, 199): traj.append(conc(th))
+    print(f"   eps/lambda = {eps / LAM:4.1f}: concordance after 10 / 50 / 200 nights "
+          + " / ".join(f"{c:+.3f}" for c in traj))
+print(f"   cap with this partner (b + 0.8 x sum a_m): {B + 0.8 * A_M.sum():.2f}; the anchor is the only brake")
 
 # =====================================================================================================
 print("=== C4: the prompted-reply guard is lexical; 'I'm fine' elicited without the word 'you' is credited")

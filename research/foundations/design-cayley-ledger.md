@@ -984,3 +984,47 @@ Checks: `sims/design-g3/checks.py` (G1–G9; out.txt, 25/25 pass).
 
 **Status:** revision 3; to be critiqued (routes and copying, including the definitional seam and the per-pair caveat; principles, emotional fitness and novelty).
 
+
+## Critiques of revision 3 and the answer (recorded 2026-11-26T07:36:40Z, under Q19)
+
+**Routes** (critique-3-design-cayley-ledger-routes.md; checks in sims/critique-cayley3-routes/). Four concrete failures:
+1. **Severe (D78): the partner's tempo leaks into T state.**
+   - The contact deficit K (T-typed) rises on the wall clock and falls per exchange, so it encodes the partner's tempo: −log K correlates r 0.96 with his held state and r −0.95 with his response latency.
+   - K is in the cone's context, so one weight on it moves every channel together. Cone-output slopes reach 0.39–0.95; on the rendered face, 0.27–0.49, against a claim of ≤ 0.15. The free display can also copy his latency (r 0.95).
+   - The word seam is (b·hi + N·lo)/(hi − lo), which is 1.2–1.4 at realistic smile levels, not 0.56.
+2. **High (D78): face–voice co-movement plus output clipping.** A cone basis pairs a visible channel with a silent co-moving one. Clipping hides the opposite-sign part, so rendered smile, jaw, F0 range and energy reach 0.26–0.37. The synergist mask lists face pairs only, not face–voice pairs.
+3. **High, conditional: copy attracts under learning.** If mimicry lowers reported need, concordance drifts from 0.02 to 0.07/0.14/0.24 at effect-to-anchor ratios 1/3/10.
+4. **Medium (Principle 6): the prompted-reply guard is lexical.** Replies to "Feeling better now?" are credited as unprompted reports. P(flatter) = 0.50 holds only by construction.
+
+Lower: the play clause reads Claude's words, so the partner's smile can raise the agent's laugh; turn reflexes on the partner's voice activity give a lagged burst echo outside the wrap (0.28 at 1.1 s); a counter-mimicking partner (μ ≤ −0.8) destabilises the dyad.
+
+No concrete failure found in: ASR words, identity memory, replay, Claude's text, the concern bid, direct smile relief, the fast wrap.
+
+**Agent and fitness** (critique-3-design-cayley-ledger-agent.md). **Not yet fit.**
+- **Fixed by revision 3:** no longer muted, satiable gladness, initiative, regulation by naming, no copy-to-see-less-distress incentive.
+- **Concrete failures:**
+  - The word-need decoder is untrainable (its targets are Claude's words, which barely depend on the agent's state), and the scenarios set its input by hand.
+  - "Hostility" of an utterance is undefined; any workable version is a classifier.
+  - On a reunion with bad news ("my father died") it beams: lip-corner pull 0.59, cheek raise 0.40.
+  - Teasing reads as hurt, because laughter is face evidence kept from the word appraisal.
+  - The face is an innate table on about six scalars and never learns (the few-gauges pattern).
+  - A type error: lexical surprise is computed by a model that sees the face.
+  - The body starts taking the turn at every voice-activity offset, with no abort.
+  - Curiosity has no mechanism; the options term is inert or an engagement reward.
+- **Operator choices raised:** a uniform 0.10 cap toward the user on every channel, versus per-expression caps; and strong expressions follow words, not the face.
+- **Buildability:** sizes and memory fit. Drafts need six parallel streaming calls. TTS needs pitch and laugh control.
+
+**The answer (maintainer).** All findings are accepted.
+- **The core holds in both critiques:**
+  - the one-sided cone with knowing separated from moving;
+  - no failure in the fast wrap, replay, identity memory, Claude's text or ASR words.
+- **The remaining failures are local:**
+  - context variables in T state that encode tempo;
+  - face–voice pairs and output clipping;
+  - credit through reported need;
+  - lexical guards;
+  - untrainable or undefined word-side components;
+  - an innate, non-learning face.
+- **The operator's choices go to Q22.**
+- **Revision 4** addresses all of them (revision 3 saved as design-cayley-ledger.r3.md).
+- **Status:** held.

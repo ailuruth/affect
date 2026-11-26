@@ -415,3 +415,17 @@ What designs can reach is to make the setting learned, per expression, bounded a
 - **Something else:** tell me the line you want drawn.
 
 **What it blocks:** nothing is blocked. The next revision is written on the recommended reading and will be changed if you choose otherwise.
+
+## Q22. Two choices about how the agent's face responds to yours (asked 2026-11-26T07:36:40Z; work continues on the recommendations)
+
+The latest design passes the strongest checks so far. Its critics raised two things that are your call rather than defects:
+
+**1. One limit for every expression, or a limit set per expression?** Right now the agent's face may move toward yours by at most 0.10 of a full copy on every channel alike. Human data: smiles are returned almost always, sadness is mirrored for people on one's side, disgust is never mirrored. Your rule (Q18) asks for strengths set per expression.
+- **Per-expression built-in ceilings** (my recommendation). For example, smile and laughter up to about 0.3–0.4 toward yours; sympathetic brow-raise at a sad face up to about 0.2; disgust, contempt and anger toward yours 0. Each ceiling is innate, and the actual strength within it is still learned per relationship and context and can flip sign. The agent would smile back at your laugh and show sympathy at a sad face. Copying the whole face remains impossible.
+- **Keep one uniform 0.10 cap.** Safest against copying, but it never laughs because you laugh, and it shows no sympathy at a silently sad face.
+
+**2. Should strong expressions follow your words or your face?** At present the agent's strong, lasting expressions follow what you say and its own body; your face moves it only within the cap.
+- **Both, through the agent's own appraisal** (my recommendation). Your face and voice feed the agent's own judgement of the situation: you look shaken, so something happened to you. That judgement drives its own expression, which is not a copy of yours, within the per-expression ceilings above.
+- **Words only.** Simpler and safest, but the agent reacts to what is said more than to you.
+
+**What it blocks:** nothing. Revision 4 is written on the recommendations and will change if you choose otherwise.
