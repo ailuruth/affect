@@ -1,0 +1,40 @@
+K1: E[c_j] from data vs from the quadrature spectrum alone
+  j= 2 (  0.13 s node): data E[c]=-0.00007  quad-only prediction=-0.00005  (co-spectrum alone would give +0.00004; n=524287)
+  j= 4 (  0.53 s node): data E[c]=-0.00451  quad-only prediction=-0.00440  (co-spectrum alone would give +0.00457; n=131071)
+  j= 6 (  2.13 s node): data E[c]=+0.00818  quad-only prediction=+0.00836  (co-spectrum alone would give -0.01573; n=32767)
+  j= 8 (  8.53 s node): data E[c]=-0.00007  quad-only prediction=+0.00020  (co-spectrum alone would give -0.00326; n=8191)
+  j=10 ( 34.13 s node): data E[c]=-0.00064  quad-only prediction=+0.00009  (co-spectrum alone would give -0.00115; n=2047)
+
+K2: sign confound, same channel, 0.6 s lag, mean rho at j=5 (1.07 s node)
+  partner follows agent, +gain                  mean rho = +0.221
+  agent follows partner, +gain                  mean rho = -0.221
+  partner follows agent, -gain (countering)     mean rho = -0.222
+  agent follows partner, -gain (countering)     mean rho = +0.221
+
+K3: phase aliasing on a rhythmic channel (period 2 s), partner follows agent at lag L, mean rho at the matched scale
+  lag = 0.25 period: mean rho = +0.635
+  lag = 0.50 period: mean rho = +0.000
+  lag = 0.75 period: mean rho = -0.635
+
+K4: node completions (contact time, 30 Hz)
+  one 10-min recorded session: deepest scale completing at least once = 14 (9.1 min)
+  one 20-min recorded session: deepest scale completing at least once = 15 (18.2 min)
+  one 60-min recorded session: deepest scale completing at least once = 16 (36.4 min)
+  first year at 1 h/day, completed nodes per scale: j=16:  601.5; j=18:  150.4; j=20:   37.6; j=22:    9.4; j=24:    2.3
+  first year at 2 h/day, completed nodes per scale: j=16: 1203.0; j=18:  300.8; j=20:   75.2; j=22:   18.8; j=24:    4.7
+
+K5: one relationship, many scales: partner follows agent at +gain, lag 0.6 s; mean rho by scale
+  own motion smoothed tau=0.1 s |  0.07s:+0.00  0.13s:-0.00  0.27s:-0.00  0.53s:-0.07  1.07s:+0.14  2.13s:-0.00  4.27s:+0.01  8.53s:-0.01 17.07s:+0.02
+  own motion smoothed tau=0.3 s |  0.07s:+0.00  0.13s:-0.00  0.27s:-0.01  0.53s:-0.05  1.07s:+0.22  2.13s:+0.06  4.27s:-0.00  8.53s:-0.00 17.07s:-0.01
+  own motion smoothed tau=1.0 s |  0.07s:-0.00  0.13s:+0.00  0.27s:-0.00  0.53s:-0.01  1.07s:+0.24  2.13s:+0.13  4.27s:+0.05  8.53s:-0.00 17.07s:-0.00
+
+K6: own channel drifting slowly (a mood display), partner moving on his own; is rho a lead-lag or a partner-only readout?
+  own drift 0.002/min, node     2.1 s: corr(rho, his own Haar curvature) = +0.035, mean|rho| = 0.063
+  own drift 0.002/min, node    17.1 s: corr(rho, his own Haar curvature) = +0.312, mean|rho| = 0.024
+  own drift 0.002/min, node   136.5 s: corr(rho, his own Haar curvature) = +0.530, mean|rho| = 0.013
+  own drift 0.020/min, node     2.1 s: corr(rho, his own Haar curvature) = +0.288, mean|rho| = 0.068
+  own drift 0.020/min, node    17.1 s: corr(rho, his own Haar curvature) = +0.675, mean|rho| = 0.087
+  own drift 0.020/min, node   136.5 s: corr(rho, his own Haar curvature) = +0.655, mean|rho| = 0.076
+  own drift 0.200/min, node     2.1 s: corr(rho, his own Haar curvature) = +0.758, mean|rho| = 0.144
+  own drift 0.200/min, node    17.1 s: corr(rho, his own Haar curvature) = +0.859, mean|rho| = 0.227
+  own drift 0.200/min, node   136.5 s: corr(rho, his own Haar curvature) = +0.852, mean|rho| = 0.209
