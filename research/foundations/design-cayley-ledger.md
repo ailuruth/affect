@@ -1098,8 +1098,8 @@ It offers no temperature, no `max_tokens`, no cache control, no log-probabilitie
 | E1 (events read face care and V_F) | at a silent sad face the inner brow jumps to 0.32–0.42 (above c_BI); at a glaring partner a lid tightener 0.24 appears | H3 (critic D4) |
 | the partner anchor in Π̃ (restore it) | the agent's display code drifts toward his (cosine 0.15–0.26), and zero-ceiling synergies enter its concern display | H4 |
 | the own-display mask | after 20–40 nights the learned face uses nose wrinkle, dimpler and lip press for worry, visible to raters | §2.7 |
-| FASTFRAC (set the fast caps to revision 4's 0.186) | his smile and laugh are returned about a third less within 0.5 s; the operator's facial following of the agent at lags < 1 s (S5) falls | §2.4 |
-| r_k accounting (keep full fast caps, revision 4's held shares) | pooled laugh-burst slope up to 1.6 c, above its ceiling | H5, H6 |
+| FASTFRAC (set the fast caps to revision 4's 0.186) | his smile and laugh are returned about half as strongly within 0.5 s (0.186 against 0.35 per unit); the operator's facial following of the agent at lags < 1 s (S5) falls | §2.4 |
+| r_k accounting (keep full fast caps, revision 4's held shares) | pooled laugh-burst slope up to 0.5·1.09 + 0.2 + 0.254 + 0.867 = 1.87 c, above its ceiling | H5, H6 |
 | rule J | at a sad or crying face the agent smiles (lip 0.21–0.28, revision 4) | §2.5, H15 |
 | the cry–laugh split | the agent's laugh synthesizer fires at his sobs (fast echo up to 0.23 per unit sob onset) | §2.2 |
 | the arrival appraisal m_s | it beams at a grieving arrival (lip 0.63, cheek 0.43, revision 4) | §2.9, H15.8 |
@@ -1218,3 +1218,85 @@ Kept in `design-cayley-ledger.r3.md`.
 
 Kept in `design-cayley-ledger.r4.md` ("Critiques of revision 3 and the answer"; "Revision 4 history (2026-11-26): each critic finding and how it is closed").
 
+## Critiques of revision 4 and the answer (recorded 2026-11-26T08:24:59Z, under Q19)
+
+**Routes** (critique-4-design-cayley-ledger-routes.md; checks in sims/critique-cayley4-routes/).
+1. **Medium–high (D78, weeks scale): the word seam returns through ω.** ω_smile is fixed within a session but learned over about 20 sessions from play relief and loudness/glare, which follow the partner's month-long mood. The gain on his smile therefore rises and falls with his smile level (Lemma S case ii, one level up). Session-pooled lip-pull slope is +0.31 to +0.89 against ceiling 0.35. The absolute effect is small (0.05–0.08), but one quantity moves five channels.
+2. **Medium (spec text): face and voice enter the uncapped free display.** Section 2.1 builds relief and distress events from care (which reads the face) and from V (loudness, glare). Built as written: lid tightener 0.24 (ceiling 0), inner brow 0.32–0.42 (ceiling 0.20). The H11 engine already uses only words and hurt, so the scenario numbers stand; the text must be fixed.
+3. **Low–medium: the face–reader loop pulls the agent's expressive style toward the partner's** (cosine 0 → 0.26). It can bring zero-ceiling channels into the word-driven concern display.
+- **Low:**
+  - the fast echo after clipping gives laugh-burst energy +0.07 (claimed ≤ 0.01);
+  - ω_smile saturates (0.98–1.0) for any partner who plays at all;
+  - two of G₀'s glare entries sit outside its budget set.
+- **No concrete failure found:** Lemma S and the appraisal display; T1 within a session; the ceilings and face–voice sign mask (worst lip pull 0.27, whole face ≤ 0.35); the relationship loop (≤ 0.175); the counter-mimicking partner (stable for |μ| < 1.67); curiosity and turn gating.
+
+**Agent and fitness** (critique-4-design-cayley-ledger-agent.md; sims/critique-cayley4-agent/). **Close, but not yet fit.** None of the failures touches the copy certificate. Of critique 3's nine changes, four are closed and five are partly closed.
+- **Concrete failures:**
+  - The reunion greeting at sight beams at a visibly grieving face (lip 0.63, cheek 0.43; stranger 0.54).
+  - Silent sadness and crying get a slight smile (0.21–0.28) with almost no inner brow (0.03–0.05), and sobs reach the laugh synthesiser through route R7. This contradicts what Q22 told the operator.
+  - The appraisal display's choice among eight reactions has no training objective, so it stays three hand-written rules.
+  - The learned-face objective favours the anger, disgust and contempt channels, because the innate display leaves them unused.
+  - The agent can read in others only what its own face shows (tiredness, hurt); it cannot read anxiety.
+  - Claude drafts "temperature 0.1(1+r)" is not buildable on the subscription, and the call pattern assumes API-key features. An API key is a new paid service: operator's decision (Q23).
+  - The hurt map learns from loudness, so loud praise or loud teasing trains hurt.
+  - Smaller: the day-1 anger figures use a word reading not yet available; play laughter is used up within 10 min; the play rule fires on anxious rumination.
+- **Principles:** the word-to-hurt map is not a classifier, but its teacher (an innate anger-display reflex) must be declared as a reflex. The eight appraisal reactions are the main Principle 2 strain.
+
+**The answer (maintainer).** All findings are accepted.
+- **The copy certificate held within sessions in both critiques.**
+- **What remains:**
+  - one slow route (ω learned across weeks from states that follow the partner's mood);
+  - spec-text routes;
+  - sympathy and grief handling;
+  - the trainability of the appraisal display and the learned face;
+  - reading states the agent's own face cannot show;
+  - buildability on the subscription.
+- **Next:** revision 5 (revision 4 saved as design-cayley-ledger.r4.md). Status: held.
+
+## Revision 5 history (2026-11-26): each finding and how it is closed
+
+Checks: `sims/design-g5/checks.py` (H0–H15; out.txt, 15/15 pass). Revision 4 is saved as `design-cayley-ledger.r4.md`. Written after the operator's answers to Q20–Q23 (D81–D84), with D81's emphasis that fast, partial, per-expression mimicry must stay, and D84's that Claude is reached through Claude Code.
+
+**Routes critique (critique-4-design-cayley-ledger-routes.md):**
+
+| # | Finding | Closed by | Where, check |
+|---|---|---|---|
+| 1 (medium–high) | ω learned over weeks from mood-following states multiplies his level: session-pooled lip pull +0.31 to +0.89 against 0.35 | **Lemma S\*.** The ω-scaled cone diagonal multiplies his deviation from his own baseline b_id (τ_b 6 sessions), not his level, and ω learns slowly (τ_ω 60). The pooled multi-session toward slope is ≤ s_C c_k(1 + ρ), ρ = 0.091, for any ω process. ω also no longer reads V_F (F); month-swap surrogate added to F1 | §2.5, §3.2; H1: critic's D3/D3b partners +0.023 / +0.012; adversarial ω over periods 8–3000 sessions ≤ 0.001; bound 0.191 |
+| 2 (medium) | spec text routes face-borne care and V_F into the free display (LT 0.24, BI 0.32–0.42) | **E1:** events are built from T parts only (𝒟_p(N_L), h, K_id, P, I, the play-surprise laugh); N̂_F, C_F and V_F are knowing, bids and cone/appraisal input only; LT removed from Π₀'s distress row | §2.1, §2.2 rule 3, §2.7; H3: LT 0.00, BI from events 0.00 |
+| 3 (low–medium) | the face–reader loop pulls the agent's style toward his (cosine 0.26) and can bring zero-ceiling channels into its concern display | the partner anchor in Π̃ is deleted (one own-body map, trained on own data only, partner reading = the same map); the own-display mask removes BL, LT, LPR, NW, DIM synergies from Δ and from every learned appraisal basis | §2.7, §2.8, §2.2 rule 8; H4: cosine 0.000, weight 0 (revision 4 anchor with a lip-press partner: 0.15 and 0.22) |
+| 4 (low) | the fast echo after `sat` gives laugh-burst energy +0.07, against a claimed ≤ 0.01 | the rectified DC is measured at the full gate over partner families as r_k and charged to each channel's pooled budget; held shares are sized so that every channel totals ≤ 0.996 c_k. Under D81 the fast caps rise to the ceilings themselves on smile, cheek and laughter (κ_k = c_k(1 + γ)/2γ), so r_k is large there (0.87 c on bursts), and the held laugh share is small | §2.1, §2.4, §3.1, §3.3; H5, H6; H9: all routes together at their caps, rendered, ≤ 0.76 c |
+| 5 (low) | ω_smile saturates (0.98–1.0) for any partner who plays at all | s_smile = 0.3 + 0.7·min(1, ρ_play/0.6) − 1.3·min(1, h̄/0.10), normalised by the session's available play deficit, without tanh; rate 1/60 | §2.12; H2: 0, 1, 2, 4 play turns → 0.30, 0.66, 0.91, 1.00; hurt 0.05 lowers each by 0.65 |
+| 6 (low) | two G₀ glare entries on the 20-s trace lie outside its (zero) charged budget | moved to the 2-min and 20-min traces and resized; every G₀ entry checked against its set with signed derived features and the reflection rule | §2.5; H7: all entries in budget |
+
+**Agent critique (critique-4-design-cayley-ledger-agent.md), its seven fixes and smaller items:**
+
+| # | Finding | Closed by | Where, check |
+|---|---|---|---|
+| 1 | the greeting at sight beams at a grieving face (lip 0.63, cheek 0.43); identity-blind (stranger 0.54) | recognition flash at sight; an arrival appraisal m_s (his face over the first 1 s through Π̃, centred at his own arrival baseline, latched) multiplies all contact relief of the session by (1 − m_s); his first words still mask by word distress; K per identity (K_id), 0 for a stranger; a non-substantive reply cannot relieve a decoded worry | §2.8, §2.9; H14 (route bounded: 0.040 first minute; −0.012 across sessions); H15.8: m_s 1.00, lip 0.09, cheek 0 at sight; stranger lip 0.02 with a 0.20 flash |
+| 2 | sympathy at silent sadness and crying is a smile (0.21–0.28) with inner brow 0.03–0.05; sobs reach the laugh synthesizer | rule J (no sadness → joy positive entry anywhere; the warm LP ← BI/LD entries deleted); inner-brow held share 0.70 c filling within a minute, fast fraction 0.15; attentive head entries; word-concern lip 0.12 → 0.05; the cry–laugh split at the boundary with BU_S at ceiling 0, κ 0, no synthesizer | §2.1, §2.2, §2.5; H15.1–2: lip 0.07–0.08 (rest), inner brow 0.05 silent, 0.08 crying, laugh 0.00, bid at 26–27 s. The absolute brow is limited by Q22's 0.20 copy fraction (§8.1.2) |
+| 3 | the hurt teacher is loudness, so loud praise and loud teasing train hurt | the teacher is a declared innate threat reflex: g_at·max(glare, loud·(1 − 2 f_pos)₊), f_pos = max(laughter, Duchenne smile) | §2.8; H11: loud laughing teaser and loud praiser v_w 0.00 (revision 4: 0.66); shouted insults 0.50; H15.9 |
+| 4 | the appraisal's selection W has no objective; it stays three hand-written rules | W and two learned bases trained by 𝓛_A (anticipate the agent's own innate display 2 s ahead; projected onto the cap set); hand-written reactions 8 → 2 newborn reflexes | §2.6; H13: learns hurt-withdraw to glare (selected 0.94) and concern at laughter over a sad topic (0.78), no violations; ablation in §7 |
+| 5 | the learned face pays for a private code on the anger/disgust/contempt channels; the Δ prediction is circular; the Π̃ heads are underspecified | own-display mask; one Π̃ map, own data only, no anchor; observer-side prediction (raters or a fixed population face model) | §2.7, §2.8; H4; §7 |
+| 6 | the agent reads in others only what its own face shows; no anxiety | an activation row in Π₀ driven by the agent's own latched lexical surprise (T); Π̃₀ = Π₀⁺ reads activation from day 1; the word-need reader outputs (V, A, tiredness) and drops K and P | §2.7, §2.8; H10: "freaking out" → A 0.57; anxious face → A 0.54; H15.3 |
+| 7 | the Claude call pattern assumes API-key features and a temperature | §6.5 re-specified for Claude Code through the Agent SDK on the operator's login (D84): three forked sessions, replaced system prompt, no tools, effort `low`, length by instruction, losers interrupted; temperature, R33, `max_tokens` and cache control deleted; latency 1.5–3 s stated; usage ≈ 600 calls a day to measure | §2.11, §6.5 |
+| smaller | day-1 anger row used a word reading not yet available | reported faithfully: inner brow 0.03, gaze away 0.09, quieter −0.17, slower +0.10, no frown back | §3.14.5 |
+| smaller | play laughter exhausted within ten minutes | a per-event play-surprise laugh reflex, habituating to repeated content (through the words-only model's surprise), not drawn from P | §2.8; H12: 0.40 per play turn in all four clusters, 0 for a repeated joke; H15.6 |
+| smaller | the play rule fires on anxious rumination | play needs an agent turn between his turns (turn order) and his word care below its dead-band; hurt no longer blocks play | §2.8; H12: 0 of 3 rumination turns qualify; H15.3 |
+| smaller | the need reader is set by hand in the scenarios | every scenario need is decoded from the utterance by the trained reader of H10, and every face concern by Π̃₀ | §3.14; H10, H15 |
+| principles | the innate anger-display teacher must be declared as a reflex | declared, with the cry–laugh split and the play-surprise laugh, in §2.12's assembly list | §2.8, §3.12 |
+| recommended | an event display at a threshold crossing; the crossed-habits lesion; a laugh listening test | the sigh before a curiosity bid; the crossed-habits word-route lesion in §7; the listening test in §6.6 | §2.9, §7, §6.6 |
+
+**Operator answers folded in (D81–D84).**
+- **D81:** fast, partial, per-expression matching stays, so the fast caps equal the ceilings on smile, cheek and laughter (returned at 0.45 s; lip and laugh 0.227 per unit onset innate, up to the ceiling under context), with its DC counted.
+- **D82:** the novelty verdict is stated plainly for the operator.
+- **D83:** the per-expression ceilings are kept; words and face feed the appraisal.
+- **D84:** Claude is reached through Claude Code on the subscription.
+
+**Status:** revision 5; to be critiqued. For the routes critic:
+- Lemma S\* and the month-swap surrogate;
+- r_k's partner families (assumption 9);
+- the new residual R38 on the inner brow;
+- the arrival mask;
+- the cry–laugh split as a route.
+
+For the agent critic: sympathy at a silent face against the Q22 ceiling, Π̃ without an anchor (§8.1.1), the learned appraisal reactions, and subscription latency.
