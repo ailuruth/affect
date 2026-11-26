@@ -1002,3 +1002,29 @@ The research/ tree is not under version control, so the full revision-1 text, un
 - **Accepted:** all four principle conflicts. The Principle 6 conflict (drafts scored on the partner's outcome read from her face) is the same failure as the withdrawn concern term in the partner-regulator design. It is removed: drafts may not be scored on the user's read state.
 - **Kept, as valid by the critic's own count:** the agency-sign result for blame; the shared-event decay; the swap construction; agency grounded in the agent's own random variation.
 - **Status:** critiqued. The no-dial claim failed. Held.
+
+## Critique 2 (of revision 2) and answer (recorded 2026-11-26T02:07:43Z)
+
+**The critique** (research/foundations/critique-2-design-reverse-appraisal.md, independent critic; numerical counterexamples X1–X6 in research/foundations/sims/critique-2-reverse-appraisal/check.py): 44 items, 22 valid, 15 with a gap, 7 with an error.
+- **Worst error, T4(ii).** It claims no single quantity runs a subspace of two or more dimensions from flat to copy. The proof shows only that each group's transfer stays zero or nonzero; the design's own dial definition is about size. X2: the partner's inferred need on one concern runs a 2-channel subspace from 0.002 to 1.43, with copy defect 0.50 → 0.0001.
+- **T3 (the whole face can never be copied) breaks two ways.** Its floor falls with the agent's own state (X4: 0.98 → 0.014), and the liking channels leak through the agent's own body (X5).
+- **The innate ½ cap is really 0.707** when two face patterns load the same muscle (X1).
+- **T5(b) fails.** The learned relationship statistics are not independent of the agent's own face (X6).
+- **Dial (D78): fails.** A capped dial (gain ≈ 0.2) exists on the whole prospective family (social smile, brows, head, pitch). One shared variance output of the prior network drives it to copy at defect 0.000 (X3). Copy attracts under the design's own learning when the partner's slow contagion lags more than 2.9 s (X6: learned correlation +0.34 where the true value is 0). This is much milder than revision 1, but under D78 it still disqualifies.
+- **Principles (partial violations).**
+  - Principle 6: the partner leaning in and being present are valued, and the path from the partner's words to the body is unspecified.
+  - Principle 2: felt valence is fixed by innate rules, and the confrontation display is an innate anger program.
+  - Principle 4 (gap): memory retrieval keyed on state can put Claude's own earlier naming of the state back into its prompt.
+- **Reduction:** the core reduces to active inference in its control-as-inference form, plus standard Bayesian reverse appraisal. Recombination; the second novelty clause is not met.
+
+**The answer (maintainer, not the original author).** The findings are accepted.
+- The active-inference reduction confirms the risk the author flagged. Because the operator excludes active inference as a core, the single free-energy objective cannot be the core of a revision.
+- What survives as material: one expression map shared for producing and reading faces; Duchenne-type channels driven only by the agent's own felt body change; drafts scored only on the agent's own predicted body change.
+- A revision would need to:
+  1. prove T4 with tolerance margins and give the prospective family a structural floor against copying;
+  2. restate T3 with the partner's measured face energy and close the leak through the agent's own body;
+  3. identify the partner's echoes of the agent's own liking face (randomise the display gate) and echoes beyond 2.9 s;
+  4. remove the valued presence and leaning-in, and the innate anger program;
+  5. exclude Claude's own past state-naming from retrieval.
+
+**Status:** held after critique 2.
