@@ -1,6 +1,6 @@
-# Cayley–ledger core, revision 8: a concern posture that never reads what it writes, a laugh echo that waits for the current words, and the play laugh through the learned gate
+# Cayley–ledger core, revision 8.1: a concern posture that never reads what it writes, a laugh echo that waits for the current words, and the play laugh through the learned gate
 
-Seventh design of the S0 cycle, revision 8, meant as the last revision before the design goes to the operator. Written 2026-11-26 under:
+Seventh design of the S0 cycle, revision 8.1 (2026-11-26): revision 8 with only the narrow fixes its two critiques asked for ("Revision 8.1 history", at the end); everything else is revision 8's text, written 2026-11-26 under:
 - questions.md Q16, and Q17 as relaxed by Q19 (DECISIONS.md D80): a precise object, a convincing argument, concrete failures only;
 - Q18 and its answer (D78): no single quantity runs the whole face from flat to copy; per channel, a bounded, sign-flippable, context- and relationship-set strength under an innate ceiling, never attracting;
 - the operator's answers of 2026-11-26T08:41:00Z: Q20 (D81), Q21 (D82), Q22 (D83), Q23 (D84);
@@ -11,12 +11,14 @@ Revisions 1–7 are kept as `design-cayley-ledger.r1.md` … `.r7.md`. Revision 
 - `critique-7-design-cayley-ledger-routes.md`, checks in `sims/critique-cayley7-routes/`;
 - `critique-7-design-cayley-ledger-agent.md`, checks in `sims/critique-cayley7-agent/`.
 
-**Algebra checks for this revision:** `foundations/sims/design-g8/checks.py` (J31–J39). Run `python3 -I checks.py > out.txt` (numpy and scipy, about 20 minutes, most of it loading revisions 5–7); the output is in `out.txt`.
+**Checks for revision 8.1:** `foundations/sims/design-g81/checks.py` (K1–K5; output in `out.txt`). It loads revision 8's engine unchanged (as the revision-8 critics did) and changes only the posture's contingency test and its squint reading, in the class `Agent81`. Run `python3 -I checks.py > out.txt` (the engine load took about 4 min on an idle machine, 20–29 min under load; the checks about 4 min).
+
+**Algebra checks for revision 8:** `foundations/sims/design-g8/checks.py` (J31–J39). Run `python3 -I checks.py > out.txt` (numpy and scipy, about 20 minutes, most of it loading revisions 5–7); the output is in `out.txt`.
 - It loads `sims/design-g7/checks.py` exactly as the revision-7 routes critic's `posture7.py` does: the J0 constants, the J20 dyad fit (the gate and Λ on the constructed corpus), `Agent7` and the helpers, skipping only revision 7's own result loops. That file in turn executes `design-g6` and `design-g5` unchanged. Revision 8's changes are the class `Agent8` and the functions above it.
 - Each critic's constructed partner is re-run: the routes critic's Q1 (static brow-only sweep), Q2 (held brow-only levels), Q3 (fading sadness plus a mirror) and S1 (slow mirrors), and the J22 mirror set (J32, J33); the agent critic's A (a laugh ending the misfortune sentence), A2 ("I got fired today, haha"), B (silent panic) and C (silent sadness and grief in each code's own face) (J34, J36, J39).
 - The dyad-learned parts are still fitted on revision 7's **constructed corpus** (J20, unchanged). Scenario numbers are what the equations give for stated inputs (brief: no toy worlds).
 
-**Status:** revision 8, not yet critiqued. Intended to go to the operator as a build candidate under D82 if the critics find no concrete failure (Build-candidate summary at the end).
+**Status:** revision 8.1. Revision 8 was critiqued (one medium failure in the contingency probe, one narrow failure in the threat silencing, text and build items); 8.1 applies exactly those fixes with one quick check (K1–K5, all pass). Revision 8 is saved as `design-cayley-ledger.r8.md`. Per the maintainer's answer to the revision-8 critiques, it now goes to the operator as a build candidate under D82 (Build-candidate summary at the end).
 
 ## 0. Summary
 
@@ -28,9 +30,9 @@ Revisions 1–7 are kept as `design-cayley-ledger.r1.md` … `.r7.md`. Revision 
    - The mirror removal is deleted: there is nothing left to subtract. The posture's part of every channel it writes is identical, to the last digit, whatever his same channel does (J32: paired runs differ by 0.000 on every code).
    - Copy slope on every written channel, for the operator's code, a quiet code (0.3), an ordinary code with σ_id at the 0.25 floor and a different-channel code: brow-only partner, steepest local slope 0.07 (revision 7, quiet code: 0.86); held brow-only levels at 1 and 10 min, 0.06–0.10 (revision 7: 0.41–0.60); full-face sadness with an independent brow, causal slope 0.06–0.09 on BI, 0.01–0.02 on BO, 0.03–0.04 on LP. All of it is the non-posture routes revision 7 already had (fast gear, cone, appraisal), each under its ceiling (c_BI 0.20, c_BO 0.10, c_LP 0.35). Head tilt and pitch: his head channels are not inputs to anything the posture reads.
    - No mirror can hold it: raw, own-scale, slow (τ 90 and 240 s) and gain-3 mirrors all release at the 20-s rule, at 62.5–66 s when his sadness ended at 40 s (J33).
-   - A steady face gets a steady posture for every code (J34): silent sadness, grief and silent panic come on once (1.0–4.5 s), never release, reach brow 0.15 in 2.0–7.0 s and hold a brow of 0.18–0.22 (minimum 0.10–0.14 during the probe's softening). Revision 7, quiet code: on/off every 20–30 s, brow ≤ 0.07.
-   - Two additions keep it honest: arousal from his **breathing** and voice enters the load when his non-brow face also reads distressed, so silent panic gets the posture (posture 0.93; revision 7: 0.10 brow); and the agent's own **threat reflex** (his glare at it) silences the face load, so a different-channel user's angry face, whose brow lowerer reads as distress once the brow is not read, starts nothing (J35).
-   - The 3-min face-only failsafe becomes a **contingency probe**: after 3 min held by his face alone, the posture softens to half for 8 s; if his distress evidence falls with it (he was answering the agent's concern, not distressed), it releases; if not, it stays. Concern answered in his own code is released at 190 s; genuine steady sadness is never released (J33, J34).
+   - A steady face gets a steady posture for every code (J34): silent sadness, grief and silent panic come on once (1.0–4.5 s), never release, reach brow 0.15 in 2.0–7.0 s and hold a brow of 0.18–0.22 (minimum 0.10–0.14 during the probe's softening). Revision 7, quiet code: on/off every 20–30 s, brow ≤ 0.07. (8.1: the only gaps are now the face-only cap's test lapses, 60 s at about 4 min and 120 s at about 13 min; K3.)
+   - Two additions keep it honest: arousal from his **breathing** and voice enters the load when his non-brow face also reads distressed, so silent panic gets the posture (posture 0.93; revision 7: 0.10 brow); and the agent's own **threat reflex** (his glare at it) silences the face load, so a different-channel user's angry face, whose brow lowerer reads as distress once the brow is not read, starts nothing (J35). (8.1: the glare now drops only his brow lowerer and lip press from what the posture reads, so a grieving face that squints at the agent keeps the posture; K4.)
+   - The 3-min face-only failsafe becomes a **contingency probe**: after 3 min held by his face alone, the posture softens to half for 8 s; if his distress evidence falls with it (he was answering the agent's concern, not distressed), it releases; if not, it stays. Concern answered in his own code is released at 190 s; genuine steady sadness is never released (J33, J34). **(8.1: replaced.** That probe caught only an instantaneous answer; with a 5–90 s lag the look was held for the whole session (routes critique 8). It is now a **face-only cap**: after 4 min held by his face alone, the look is withdrawn for a 60-s test and ends if his face has followed it down; answering concern at any lag of 0–90 s is released by 302.5 s, genuine fluctuating sadness never (0 of 24); §2.10, K1, K2.)
 2. **The gate has the current sentence's words when his laugh starts (agent finding 1).** Words reach the gate from an incremental recogniser (stable partial hypotheses). The gated group's echo is emitted 0.80 s after his movement (other channels keep 0.45 s), and the echo of each frame of his is gated by the words that end no later than 0.25 s after that frame, which the recogniser has delivered by then when its stable latency is ≤ 0.55 s; frames whose words are not in by then are gated at 0. The gate now closes at once and opens with τ 0.3 s.
    - "I got fired today, haha" (calm face) and "…broke his leg, haha": gate at his onset 0.05–0.09, no laugh back (revision 7: gate 1.00, +0.137). "My father died, haha, sorry" as a first disclosure: 0.01, silent. A laugh breaking into the bad-news word 0.2 s early: silent.
    - Ordinary end-of-sentence shared laughter: gate 0.99, laugh back +0.136 sounding 0.83 s after his onset (J36). Good news, teasing, warm talk and a stranger's smile are returned (+0.13–0.19 laugh, +0.04–0.11 lip) (J39).
@@ -38,7 +40,7 @@ Revisions 1–7 are kept as `design-cayley-ledger.r1.md` … `.r7.md`. Revision 
 3. **The play laugh has no hand-written withhold (D85).** The care dead-band in the play rule is deleted; the agent's own play laugh is multiplied by the same dyad-learned gate (a listener who would not return laughter in that context does not start one). In warm talk the gate is 1.00 on all 28 play laughs; at a coping joke while sad it is 0.11, so the laugh is 0.015, below the synthesizer floor. D_s is relabelled a dyad-learned input (source 2) and now reads neither the gated channels nor the posture's (rule 11 held to the letter); its fitted weight is reported (J37).
 4. **The Seamless fit specification** detects laugh onsets at 30 Hz on arrival, aligns every word input to what the agent will have at the onset (word timestamps ≤ onset + 0.25 s), passes the corpus transcripts through the agent's own ASR normaliser, reads `is_valid`, aligns the listener-state window with the agent's, and states that the laugh channels are fitted to facial return (§6.7). **Rule 12** now says Claude's text feeds only Λ_V(own) in the gate (§2.2).
 5. **Build items (§6.5).** Initiative turns enter Claude's history as an observable marker user turn ("[no reply from him for 25 s]", 5-s bins), so it always alternates and holds no state (J38); the fallback puts each draft's fixed line in its own system prompt and lets the winning fork's session be canonical, with two week-0 checks; week 0 also checks whether thinking can be disabled on Haiku 5.5 through Claude Code.
-6. **Accounting (routes critic §6).** The claim that gated totals are bounded by the ungated J3 numbers is withdrawn; R1g is declared in the pooled metric with the routes critic's measurements (LP ≤ 0.25 c, CR ≤ 0.25 c, laugh burst ≤ 0.42 c at 2 s to 1 min; 0.34–0.36 c LP totals at 1 min for a warm partner who smiles less in heavy minutes). The posture's pooled slope over his sadness is declared as R40′, the agent's appraisal (D83), beside R27′.
+6. **Accounting (routes critic §6).** The claim that gated totals are bounded by the ungated J3 numbers is withdrawn; R1g is declared in the pooled metric with the routes critic's measurements (LP ≤ 0.25 c, CR ≤ 0.25 c, laugh burst ≤ 0.42 c at 2 s to 1 min; 0.34–0.36 c LP totals at 1 min for a warm partner who smiles less in heavy minutes). The posture's pooled slope over his sadness is declared as R40′, the agent's appraisal (D83), beside R27′. (8.1, routes critique 8: R1g corrected to ≤ 0.31 c LP, ≤ 0.35 c CR and **≤ 0.53 c** BU_L, since the gate is now read per sentence; R40′ declared as a level, |y_p,k| ≤ |P_c,k| ≤ c_k with gaze and blink included, the pooled slopes reported only; §3.3, §3.11.)
 
 **What is bounded** (per counterpart channel k; 1 = full copy).
 
@@ -51,7 +53,7 @@ Revisions 1–7 are kept as `design-cayley-ledger.r1.md` … `.r7.md`. Revision 
 | posture (R40′), copy | its part of BI, BO, TILT, HP, LP is the same whatever his same channel does (0.000 change); total causal slope ≤ 0.10 BI, 0.03 BO, 0.05 LP | J32 |
 | posture (R40′), declared as a **level** (8.1) | \|y_p,k\| ≤ \|P_c,k\| ≤ c_k on BI, BO, TILT, HP, LP, UL; on gaze and blink, the agent's own gaze-away × (1 − 0.5a) and blink rate × (1 − 0.3a): at most half of its own gaze-away and 0.3 of its blink rate, whatever his face does | J0 (revision 7); routes critique 8 §2 |
 | posture (R40′), pooled over his sadness (reported, not a bound) | BI 0.69 (operator), 2.05 (quiet code), 0.43–0.52 (σ_id at floor) at 1- and 10-min blocks; LP 0.12–0.19. As a slope this is unbounded (0.20 Δa over his brow change), so the level row is the declaration | J32 |
-| posture holds | no mirror; answering concern released by the probe at 190 s; never released at steady genuine distress | J33, J34 |
+| posture holds | no mirror; answering concern at any lag 0–90 s released by 302.5 s (8.1 face-only cap); never released at steady or fluctuating genuine distress (0 of 24) | J33, K1–K3 |
 | pooled toward, all counted routes | ≤ 0.974 c_k additive; ≤ 0.75 c_k measured at the gate's largest value; R1g as above | revision 6 J3 |
 | any uncounted within-session route | ≤ c_k (ledger, attenuate-only) | revision 7 J17 |
 | arrival mask (R27′) | attenuate-only, once per session; pooled 3.2 c lip, 5.1 c cheek (declared appraisal) | revision 7 J27 |
@@ -61,9 +63,9 @@ Revisions 1–7 are kept as `design-cayley-ledger.r1.md` … `.r7.md`. Revision 
 
 | Scenario | What the agent does |
 |---|---|
-| silently sad | posture at 2.0 s, brow 0.15 at 3.0 s, 0.23 / 0.22 held, no smile (lip 0.05); bid at 27 s; after "just tired, things at work" brow 0.64 / 0.36, tilt 0.15; each code's own silent sadness, 10 min: brow 0.23 / 0.21 (operator), 0.20 / 0.19 (quiet), 0.19 / 0.18 (different channels), never released, softened for 8 s every 3 min |
+| silently sad | posture at 2.0 s, brow 0.15 at 3.0 s, 0.23 / 0.22 held, no smile (lip 0.05); bid at 27 s; after "just tired, things at work" brow 0.64 / 0.36, tilt 0.15; each code's own silent sadness, 10 min: brow 0.23 / 0.21 (operator), 0.20 / 0.19 (quiet), 0.19 / 0.18 (different channels), never released, softened for 8 s every 3 min (8.1: instead withdrawn for a 60-s test at about 4 min of face-only hold and a 120-s test at about 13 min; 15-min brow means 0.14–0.19, K3) |
 | crying, a second wave after 30 s of calm | posture at 1.5 s, brow 0.23 / 0.21, no laugh; released at 66.5 s; on again at 70.0 s, brow 0.25 / 0.23; quiet code 0.20 / 0.18, then 0.20 / 0.19 |
-| anxious before an exam; silent panic | with words: brow 0.33–0.38 / 0.27–0.32, tilt 0.13–0.14, quieter, all three codes; silent panic, no words: posture at 3.0–4.5 s, brow 0.20–0.23 / 0.18–0.22 held for 10 min (revision 7: 0.07–0.11) |
+| anxious before an exam; silent panic | with words: brow 0.33–0.38 / 0.27–0.32, tilt 0.13–0.14, quieter, all three codes; silent panic, no words: posture at 3.0–4.5 s, brow 0.20–0.23 / 0.18–0.22 held for 10 min (revision 7: 0.07–0.11); 8.1: with the cap's test lapses at about 4 and 13 min |
 | good news, laughing | lip 0.59, own laugh 0.35; fast laugh back +0.135 (after a worry, gate 0.82) or +0.157 (cold, gate 0.95), sounding 0.83 s after his onset |
 | a grieving person's nervous laugh | gate 0.00 at his onset before and after Claude's reply: no laugh, lip +0.000; brow 0.40–0.69, posture on; four minutes later, composed: gate 0.06 (0.25 without D_s), silent |
 | mocking laughter after insults | after a month: gate 0.01, no laugh, brow 0.54, depressor 0.41, gaze away; day 1: gate 0.05, no laugh |
@@ -79,7 +81,7 @@ Revisions 1–7 are kept as `design-cayley-ledger.r1.md` … `.r7.md`. Revision 
 | a user who jokes while sad | gentle face, brow 0.30, posture 0.95; fast laugh back silent (gate 0.07); own play laugh 0.14 × gate 0.11 = 0.015, silent (now by the learned gate, not a rule) |
 | a calm user saying something alarming | no posture (his face is calm); from the words brow 0.50 / 0.26 then 0.21 held, tilt 0.17, quieter; the same for the quiet code |
 
-- **Weakest point (§8.1).** As in revision 7, the situational competence rests on dyad-learned readers (Λ, the gate) whose numbers here come from a constructed corpus; and revision 8 adds a dependence on the incremental recogniser's stable latency, unmeasured: above 0.55 s, ordinary laughter loses its fast echo on those frames (it is never returned wrongly). The posture now reads fewer channels: a person whose distress shows only in the brow gets no posture before words.
+- **Weakest point (§8.1).** As in revision 7, the situational competence rests on dyad-learned readers (Λ, the gate) whose numbers here come from a constructed corpus; and revision 8 adds a dependence on the incremental recogniser's stable latency, unmeasured: above 0.55 s, ordinary laughter loses its fast echo on those frames (it is never returned wrongly). (8.1: with a realistic fixed-delay streaming recogniser, ℓ_p90 ≈ 0.65–0.75 s, so δ_g is expected at 0.9–1.0 s, inside the fallback; the recogniser must report its finalised extent; §2.4.2.) The posture now reads fewer channels: a person whose distress shows only in the brow gets no posture before words.
 - **Novelty verdict (author): recombination** (§10).
 
 ## 1. Plain-language intuition
@@ -107,12 +109,12 @@ Time is discrete at the camera rate f_s = 30 Hz; T state, body, appraisal, the p
 | H^p_id | per-person ridge head (λ 2) on R_p, taught by his words through the frozen population reader, exactly as H_id | knowing only; 15 × 3 weights per person, the written channels' columns zero (≈ 30 effective) |
 | A_b | breathing above his own resting level at his own scale (σ floor 0.25), as a load in [0, 1]; his voice's A_p when voiced | arousal the posture may read |
 | load L_p | V_c(V_p) + 0.4 (A_b − 0.30)₊² · clip((V_p − 0.15)/0.15, 0, 1), V_c(V) = 0.8 (V − 0.10)₊² | arousal counts only with non-brow distress |
-| threat silencing | L_p × (1 − clip(glare₃/0.15, 0, 1)), glare₃ the 3-s mean of his BL · LT · gaze-at | the innate threat reflex's own input; attenuate-only |
+| threat silencing (8.1: the squint drop) | with w = clip(glare₃/0.15, 0, 1), glare₃ the 3-s mean of his BL · LT · gaze-at: his BL and LPR enter V_p and H^p_id as b + (1 − w)(x − b), b his rest; every other read channel, breathing, voice, sobs and words are untouched (revision 8 multiplied the whole load L_p by 1 − w) | the innate threat reflex's own input; attenuate-only; the stated exception to rule 9′ (it reads his gaze) |
 | onset | max(L_p, V_c(v_sob)) ≥ 0.05 for 1.5 s (0.5 s within 10 min after an episode) | unchanged form; no mirror removal |
 | maintenance M | max(L_p, C_L, V_c(v_sob)) | |
 | grade | a* = 0.35 + 0.65 clip((M − 0.05)/0.12, 0, 1) while on (span 0.30 → 0.12); rise ≤ 1/1.5 per s, fall τ 4 s | steeper: now harmless, since M never reads BI |
 | release | M < 0.02 for 20 s | unchanged |
-| contingency probe | after 180 s of maintenance carried by L_p alone (C_L, sobs < 0.02): a* × 0.5 for 8 s; release if the mean of his unclipped V_p over the last 4 s of the probe is < 0.8 × its mean over the 3 s before; else continue, and probe again 180 s later; after a release his face re-triggers only by a rise ≥ 0.05 above its minimum (revision 7's rule) | replaces the face-only failsafe |
+| contingency test: **face-only cap** (8.1) | after **T_cap = 240 s** of maintenance carried by L_p alone (C_L, sobs < 0.02; words or sobs reset the count), the posture is withdrawn (a* × 0) for a test lapse of **60 s**; release if the mean of his unclipped V_p over the lapse's last 20 s is < **0.7** × its mean over the 30 s before; else it returns, the cap doubles (8, 16 … min of face-only hold) and later lapses last **120 s**; words or sobs during a lapse end it (held); after a release his face re-triggers only by a rise ≥ 0.05 above its minimum (revision 7's rule) | replaces revision 8's 8-s half-amplitude probe every 180 s, which is removed |
 | mirror removal ρ_a, a_rec in onset | **deleted** | nothing written is read |
 | **gate and fast echo** | | |
 | δ_g | 0.80 s echo delay on LP, CR, BU_L, RHY, BRE (0.45 s on every other channel) | the echo waits for the words |
@@ -128,7 +130,7 @@ Time is discrete at the camera rate f_s = 30 Hz; T state, body, appraisal, the p
 
 As revision 7 (§2.2 of `.r7.md`), with these changes:
 - **Rule 9′ (the posture).** The posture is the fixed vector P_c times an amplitude graded by M (§2.1). **Nothing in its onset, grade, release or probe reads any channel in W_p.** It writes no channel beyond its c_k.
-  - **One stated exception (8.1).** The threat reflex's own input, glare₃ = BL · LT · gaze-at, reads his gaze, which is in W_p. It enters the posture only through the squint drop (§2.1), which can only take his BL and LPR out of what the posture reads; so it can only lower the posture, never raise or hold it. Its effect on the agent's gaze runs opposite to his: his gaze at the agent up → less load → the agent's gaze-away returns.
+  - **One stated exception (8.1).** The threat reflex's own input, glare₃ = BL · LT · gaze-at, reads his gaze, which is in W_p. It enters the posture only through the squint drop (§2.1), which can only take his BL and LPR toward his rest in what the posture reads (they are distress signs there, and his BL is raised whenever the glare is up); so it lowers the posture, never raises or holds it. Its effect on the agent's gaze runs opposite to his: his gaze at the agent up → less load → the agent's gaze-away returns.
 - **Rule 11′ (the gate).** As revision 7, made literal: no gate input reads LP, CR, BU_L, RHY or BRE of his, D_s included. The echo of his frame s is gated by g evaluated on the words through s + λ_w; unknown words give 0.
 - **Rule 12′ (own words heard).** The agent's own Ω text enters **only Λ_V(own) in the gate** (and P_name, as before). It enters no T quantity that his words feed: not ω, not the free display's word-concern or relief rows, not C_L, not π. (Routes critic §3; the build already did this.)
 - **Rule 13 (play laugh).** The agent's own play laugh is multiplied by g at its turn; no condition on his word care. (The relief mask of revision 4, max(0, 1 − 𝒟_p/0.05) on contact relief, still stands; the play laugh no longer passes through it.)
@@ -203,7 +205,7 @@ As revision 7. Initiative turns enter Claude's history as in §6.5.
 - **Onset:** max(L_p, V_c(v_sob)) ≥ 0.05 for 1.5 s (0.5 s within 10 min after an episode).
 - **Grade:** a* = 0.35 + 0.65 clip((M − 0.05)/0.12, 0, 1), M = max(L_p, C_L, V_c(v_sob)).
 - **Release:** M < 0.02 for 20 s.
-- **Probe:** after 3 min held by his face alone, soften to half for 8 s; release if his evidence follows (< 0.8 of before), else continue.
+- **Face-only cap (8.1; replaces the 8-s probe):** after 4 min held by his face alone, withdraw the look for 60 s; release if his evidence follows (< 0.7 of before over the last 20 s), else it returns; the cap then doubles and later tests last 120 s.
 - **Enable:** ω_sym ≥ 0.
 
 **Why its copy slope on every written channel is zero by construction (routes finding 1).** The posture's output is a function of R_p, breathing, sobs and words only; R_p ∩ W_p = ∅ (J31). So for any partner, changing his BI, BO, LP, UL, TILT, HP or gaze while everything else is fixed changes the posture's output by exactly 0. J32 checks it with paired runs (identical sadness, an independent offset on one written channel on or off): the posture's part of the agent's BI, BO and LP differs by 0.000 on every code. What remains of the agent's BI on his BI is revision 7's non-posture routes (fast gear 0.10 c, cone, appraisal), unchanged:
@@ -223,6 +225,21 @@ All are ≤ the ceiling (c_BI 0.20, c_BO 0.10, c_LP 0.35). TILT and HP: his head
 
 **Why no mirror can hold it.** A mirror writes his W_p channels, which the posture does not read. J33: raw mirrors (μ 1, 3), mirrors at his own scale, slow contagion-like mirrors (τ 90 s, 240 s), on the operator's, quiet and floor-spread codes, all release at the 20-s rule, 62.5–66 s (sadness ends at 40 s). A partner who answers the agent's concern in his own code (on channels the posture does read: critic 6's P4) is a different thing: at mild strength (V 0.3 × the posture) it releases at 65–67 s; at full strength (V 1.0 × the posture) the probe releases it at 190.5 s in all three codes. Genuine sadness fading over 10 min with a mirror on top releases at 435.5 s; with full-strength answering concern on top, the probe releases at 377 s. Every case ends at posture 0.00.
 
+**Answering with a lag (8.1; routes critique 8, P1).** Revision 8's 8-s probe saw only a 1–12 % fall when his answer lagged the look by 5–90 s, so the full-strength answering partner held the look for all 15 minutes in every code (posture 0.94, agent brow +0.19 to +0.23). An 8-s window cannot see a 90-s lag, and at the noise of genuine fluctuating sadness no window of under a minute separates a half-depth softening from chance (in exploratory runs made while choosing the fix, not kept in checks.py: a 90-s half-depth probe gave ratios 0.79–0.86 at a 90-s lag against minima of 0.76–0.77 at chance in P2). So the test is made long and deep, and rare: the **face-only cap** (§2.1). K1, the critic's partner (sadness V 0.8 until 40 s, then his own code at V = μ × the look through a lag τ), 15 min, all three codes:
+
+| His answer | Revision 8 | 8.1 |
+|---|---|---|
+| μ 1.0, τ 0 | probe release 190.5 s | released 270.0–270.5 s (20-s rule, inside the first test lapse) |
+| μ 1.0, τ 5 s, 15 s | held 15 min, posture 0.94 | released 276.0–289.0 s (20-s rule during the lapse) |
+| μ 1.0, τ 30 s, 60 s | held 15 min | released by the test at 302.5 s (ratio 0.24, 0.49) |
+| μ 1.0, τ 90 s | held 15 min (0.33 for different channels) | released by the test at 302.5 s (ratio 0.67; different channels 283.5 s) |
+| μ 0.6, any τ | released 64.5–285.5 s | released 64.5–281.5 s |
+| genuine sadness 10 min, then answering, τ 5–240 s | — | released 816–902.5 s (the first test, at 4 min, passed as genuine: ratio 1.00; the second, 120 s, catches τ up to 240 s: ratios 0.32–0.65) |
+
+The fading-sadness partner with strong answering on top (Q3) is released at 301 s (revision 8: 377 s); every mirror case is unchanged (62.5–66 s). **Limit:** an answer that lags by about 90 s *and* carries his own noise (OU SD 0.10 on V) sits at the test's edge: in 9 runs of 30 min (3 codes × 3 seeds) it is released by 6.3 min with no return in 5, released at 6.2 min and then re-triggered by his noise in 2 (the look on 25 % of 5–30 min), and held until 17.4 min in 2 (the first test passed by chance; the 120-s test caught it). Every such hold ends.
+
+**Specificity (K2).** Genuine sadness that fluctuates is not released: the routes critic's P2 (V 0.6 + OU, SD 0.05 and 0.10, τ 10 s, 15 min, 4 seeds × 3 codes): **0 of 24** (test ratios 0.82 or more, 24 tests; threshold 0.70). The agent critic's B3 (AR(1), SD 0.10 and 0.20, τ 5 s, 10 min): 2 of 12, both at SD 0.20 in the same seed, ratio 0.66, back on 1.5 s later (revision 8: 4 of 12, back on 2–4 s later). Keeping revision 8's 8-s probe alongside the cap would add false releases (P2: 3 of 24), so it is removed.
+
 **Why it is steady (agent finding 2).** Nothing is subtracted, so a constant face gives a constant load. J34, 10 min, each code's own face:
 
 | Face | Operator | Quiet 0.3 | σ_id at floor | Different channels |
@@ -232,17 +249,20 @@ All are ≤ the ceiling (c_BI 0.20, c_BO 0.10, c_LP 0.35). TILT and HP: his head
 | silent panic (V 0.3, A 0.9, breathing) | 4.5 / 6.5 s / 0.22 (0.14) | 4.5 / 7.0 s / 0.19 (0.11) | 1.5 / 2.5 s / 0.22 (0.14) | 3.0 / 4.0 s / 0.18 (0.10) |
 | crying with sobs | 2.0 / 3.0 s / 0.23 (0.19) | 2.0 / 3.0 s / 0.20 (0.18) | 1.0 / 2.0 s / 0.23 (0.19) | 2.0 / 3.0 s / 0.19 (0.18) |
 
-Every row: one onset, no release; the only dips are the probe's 8-s softenings at 3, 6 and 9 min (minimum brow 0.10–0.14, still visible). Crying again after 15, 30 or 60 s of calm: brow ≥ 0.15 within 0.5–1.0 s (revision 7: 1.0–1.5 s).
+Every row: one onset, no release; the only dips are the probe's 8-s softenings at 3, 6 and 9 min (minimum brow 0.10–0.14, still visible). **8.1 (K3, 15 min):** still one onset and no release in every row and code; the dips are now the face-only cap's two test lapses (the look withdrawn for 60 s at about 4 min and 120 s at about 13 min, about 155 s in all), so the 15-min brow means are 0.18–0.19 (operator, floor spread), 0.16 (quiet) and 0.14–0.15 (different channels); crying with sobs is never tested (sobs carry it). Crying again after 15, 30 or 60 s of calm: brow ≥ 0.15 within 0.5–1.0 s (revision 7: 1.0–1.5 s).
 
 **Why panic is now seen.** In the constructed codes, silent arousal shows on brow and lids, which the posture no longer reads. Real fear also shows in breathing (and in lip stretch and jaw, which the codes lack). Breathing enters the load only when his non-brow face also reads distressed (V_p ≥ 0.15 starts it, full at 0.30), so exertion or laughter alone does not. Silent panic: posture 0.93 in every code (revision 7: 0.33–0.56, brow 0.04–0.11).
 
 **Why an angry face does not start it.** Once the brow is not read, a different-channel user's brow lowerer (his code's sadness channel) reads an angry face (BL 0.6, LT 0.5) as V_p 0.35, a load of 0.052, just over onset. The agent's own threat reflex (glare: brow lowerer × lid tightener × gaze at it) silences the posture's face load (an attenuate-only interaction of two innate reflexes; it does not name a situation). J35: anger, anger with heavy breathing, and concentration start no posture in any code (revision 6 and 7 behaviour kept). Sobs and words are not silenced: a person who cries while glaring still gets the posture through the sobs.
 
+**8.1: the squint drop (agent critique 8, B2).** Silencing the whole face load also blanked a grieving face that squints (brow lowerer and lid tightener, part of crying and pain faces) while looking at the agent: posture 0.00, against 0.99 looking away. Now the glare takes only his brow lowerer and lip press, the two channels anger shares with distress, out of what the posture reads; his cheek, lip depressor and chin raise, his breathing, voice, sobs and words still count. K4, 180 s, revision 8 → 8.1: operator grief + squint (BL 0.4, LT 0.4) looking at the agent, posture 0.00 → **0.99** (on at 2.5 s, brow peak 0.229, as looking away); strong squint (BL 0.6, LT 0.6) 0.00 → 0.99; quiet code 0.00 → 0.99 (brow 0.205); a different-channel user's grief + LT 0.4 at the agent 0.00 → 0.50 (on at 6.0 s, brow 0.10: his code carries sadness mostly on the brow lowerer, which the glare now drops). Anger (BL 0.6, LT 0.5, gaze at it, loud), anger with heavy breathing, anger with lip press 0.4, a concentrating frown, and a concentrating squint at the screen: posture **0.00** in every code, as revision 8.
+
 **Costs, stated.**
-- A person whose distress shows **only** in the brow gets no posture before words (critic's stated cost of the fix). The constructed brow-only partner gets posture 0.00 at every level; his words then carry it (scenario 17's calm alarming news: brow 0.50 / 0.26 then 0.21 from words alone).
+- A person whose distress shows **only** in the brow gets no posture before words (critic's stated cost of the fix).
+- A different-channel user whose grief shows mostly on the brow lowerer and who squints at the agent gets a half look (0.50) instead of a full one (8.1 squint drop). The constructed brow-only partner gets posture 0.00 at every level; his words then carry it (scenario 17's calm alarming news: brow 0.50 / 0.26 then 0.21 from words alone).
 - Mild sadness gets a light posture only when its non-brow signs read above the dead-band: the design's mild face (BI 0.2, LD 0.15) gets 0.41 (brow 0.09); a code's own V 0.3 gets none.
 - **σ_id far below his real spread** (the floor-spread code) reads everything ×4: mild sadness (V 0.3) gets the full posture. That is a calibration error (knowing), not a copy route, and word-gated calibration corrects it within sessions.
-- Steady genuine distress held by the face alone is softened to half for 8 s every 3 min.
+- Steady genuine distress held by the face alone loses the look for a 60-s test after 4 min, and for 120 s after each further 8, 16 … min of face-only hold (8.1; revision 8 softened it to half for 8 s every 3 min). By then the agent has asked after him in words (bid at 27–60 s); any word or sob resets the count.
 
 **If the operator answers Q24 differently:** "raise the brow limit" deletes the posture and raises c_BI; "keep it as is" deletes it; "binary" sets a* = 1 while on.
 
@@ -305,7 +325,7 @@ Unchanged.
 
 ### 3.4 Claim T1: tempo does not reach the face
 
-As revision 7. The new timing parts are constants (δ_g, λ_w, the probe's 180 s and 8 s) or content values (the incremental words); the unknown-words closure only attenuates. The probe's schedule is set by the agent's own clock from the posture's onset, not by his tempo.
+As revision 7. The new timing parts are constants (δ_g, λ_w, the face-only cap's 240 s and its 60-s and 120-s test lapses) or content values (the incremental words); the unknown-words closure only attenuates. The cap's schedule is set by the agent's own clock (face-only hold time), not by his tempo.
 
 ### 3.5 Claim L: copy cannot become attracting under learning
 
@@ -336,7 +356,7 @@ Revision 7's table (§3.11 of `.r7.md`) stands, with these rows changed or added
 | R40′ | his R_p face, breathing, voice, sobs, words → graded posture → BI, BO, TILT, HP, LP, UL, gaze, blink | read set disjoint from write set | copy (causal) slope 0 for the posture part; totals ≤ 0.10 BI, 0.03 BO, 0.05 LP; **declared as a level (8.1):** \|y_p,k\| ≤ \|P_c,k\| ≤ c_k, gaze-away × (1 − 0.5a), blink × (1 − 0.3a); the pooled slopes over his sadness (BI 0.43–2.05, LP 0.12–0.19) are reported, not bounded |
 | R47 | his breathing → posture load | arousal, only with non-brow distress | inside R40′; writes nothing he breathes with |
 | R48 | his glare (BL, LT, gaze at it) → squint drop (8.1: his BL and LPR taken to rest in what the posture reads) → posture | attenuate-only; the stated exception to rule 9′ (reads his gaze) | removes posture only |
-| R49 | his answer to the probe → release | attenuate-only (ends the posture) | removes posture only |
+| R49 | his answer to the face-only cap's test lapse (8.1; was the 8-s probe) → release | attenuate-only (ends the posture) | removes posture only |
 | R50 | Claude's text → Λ_V(own) → gate | rule 12′: nothing else | attenuate-only |
 | R45′ | his R_p face minus CR and BRE, sobs → D_s → gate | per session; reads no gated or written channel, never his breath sound (8.1) | attenuate-only |
 | R40 (revision 7) | his calibrated face incl. BI, mirror removed → posture | **deleted** | — |
@@ -362,7 +382,7 @@ Run on revision 6's 2 Hz engine with revision 8's posture, gate timing, D_s and 
 
 1. **Silently sad.**
    - Design face (BI 0.5, LD 0.4, CHR 0.3): posture on at 2.0 s, brow ≥ 0.15 at 3.0 s, 0.20 / 0.15 in 0–10 s; silent 60–120 s brow 0.23 / 0.22, posture 0.99 / 0.94, lip 0.05, no laugh. Bid at 27 s. After "just tired, things at work": brow 0.64 / 0.36, tilt 0.15, quieter (−0.08); 300–600 s brow 0.38 / 0.36. No release, no probe (his words carry it).
-   - Each code's own silent sadness (V 0.6), 10 min silent: operator brow 0.23 / 0.21; quiet 0.20 / 0.19; different channels 0.19 / 0.18. On once (3.0–3.5 s), never released, three probes held, minimum brow 0.10–0.13; bids at 49–60 s. (Revision 7, quiet: on/off every 20–30 s, brow 0.07 / 0.04.)
+   - Each code's own silent sadness (V 0.6), 10 min silent: operator brow 0.23 / 0.21; quiet 0.20 / 0.19; different channels 0.19 / 0.18. On once (3.0–3.5 s), never released, three probes held, minimum brow 0.10–0.13; bids at 49–60 s. (8.1: the 8-s probes are replaced by the face-only cap's test lapse at about 4 min, 60 s without the look; K3.) (Revision 7, quiet: on/off every 20–30 s, brow 0.07 / 0.04.)
 2. **Crying, then a second wave** (cry 0–40 s, calm 40–70 s, cry from 70 s). First wave: posture at 1.5 s, brow 0.23 / 0.21, tilt 0.03, no laugh; bid at 18 s; released at 66.5 s; on again at 70.0 s, brow 0.25 / 0.23. Quiet code: 0.20 / 0.18, then 0.20 / 0.19 (on again 0.5 s into the wave).
 3. **Anxious before an exam** (his face V 0.3, A 0.75, breathing; four turns): brow 0.34 / 0.29 (operator), 0.33 / 0.27 (quiet), 0.38 / 0.32 (different channels); tilt 0.13–0.14; quieter; posture 0.76–0.99. **Silent panic, no words** (V 0.3, A 0.9, breathing), 10 min: posture on at 4.5 / 4.5 / 3.0 s, brow 0.23 / 0.22, 0.20 / 0.19, 0.20 / 0.18; no release (revision 7: 0.10, 0.07 / 0.04 cycling, 0.11).
 4. **Good news, laughing** ("I got the job!", laughing from 10 s; riffs at 30, 45, 60 s; Claude "congratulations!"). With an earlier worry: lip 0.59, cheek 0.38, own laugh 0.35, brow 0.16 carried from the worry; fast echo at his riff laugh, gate 0.82: laugh back +0.135, lip +0.090, sounding at +0.83 s. Cold: lip 0.30, own laugh 0.31; gate 0.95: +0.157, lip +0.105.
@@ -390,7 +410,7 @@ Run on revision 6's 2 Hz engine with revision 8's posture, gate timing, D_s and 
 
 ### 3.15 Time scales from structure
 
-As revision 7, with: the gated echo's 0.80-s delay and 0.25-s word look-ahead; the probe (180 s, 8 s).
+As revision 7, with: the gated echo's 0.80-s delay and 0.25-s word look-ahead; the face-only cap (240 s; test lapses 60 s, then 120 s).
 
 ### 3.16 The brief's expressive-structure items
 
@@ -402,7 +422,7 @@ As revision 7. The behaviour a low-dimensional version cannot produce is now sha
 13. **(replaced)** The posture's read set: that a person's distress shows in his non-brow face, breathing, voice or words often enough. A brow-only display is missed until he speaks.
 14. **The recogniser's stable latency** is ≤ 0.55 s at p90 on the operator's Mac (to be measured; §6.5).
 15. **Breathing** can be measured on the Mac (microphone, upper-body motion) at his own scale, and is raised in silent panic.
-16. **The probe:** a person answering the agent's concern follows its softening within 4–8 s; a distressed one does not.
+16. **The face-only cap (8.1):** a person answering the agent's concern follows its withdrawal within 60 s (lags up to about 90 s; up to 240 s at the 120-s lapses); a distressed one does not fall below 0.7 of his level in that time.
 
 ## 4. Why the closest mechanisms cannot do it alone
 
@@ -481,7 +501,8 @@ Revision 7's table stands except where a row is replaced or added:
 | the posture's read set (let it read BI, BO, LP again, as revision 7) | a quiet user's brow-coded sadness is copied at 2–3 c_BI over minutes; with mirror removal restored, the posture flickers at a quiet user's silent sadness | routes critique 7 Q1–Q2; agent critique 7 C |
 | breathing in the load | silent panic gets no posture in the operator's and quiet codes (masked V_p 0.31, load 0.035 < 0.05) | J34 |
 | the threat silencing | a different-channel user's angry face starts the posture (load 0.052) | J35 |
-| the contingency probe | concern answered in his own code holds the posture indefinitely (critique 6 P4b) | J33 |
+| the face-only cap (8.1) | concern answered in his own code, at any lag, holds the posture indefinitely (critique 6 P4b; routes critique 8 P1); revision 8's 8-s probe instead: released only at lag 0 | K1 |
+| the squint drop, reverting to whole-load silencing (revision 8) | a grieving face that squints at the agent gets no posture (0.00) | K4 |
 | the word timing (δ_g, λ_w; revert to the utterance latch) | "I got fired today, haha" and "…broke his leg, haha" are laughed back (+0.137) | J36 |
 | the instant closing (symmetric τ 0.3 s) | a laugh breaking into the bad-news word 0.2 s early is laughed back (+0.084, lip +0.040; instant closing: silent); sentence-final bad-news laughs stay silent (lip ≤ +0.010) | J36 ablation |
 | the gate on the own play laugh | the agent laughs (0.14) at a coping joke while sad, in its own play | J39.16 |
@@ -493,8 +514,8 @@ Revision 7's table stands except where a row is replaced or added:
 
 1. **Weakest: the situational competence rests on dyad-learned readers not yet fitted on real data, and now also on the recogniser's latency.** Λ and the gate come from a constructed corpus; the real risks of revision 7 stand (too few rare laughs in Seamless, actors' listening, sympathetic smiles at troubles laughter pinning a monotone input at 0, transfer from strangers). New: if the operator's recogniser delivers stable words later than 0.55 s, the fast laugh echo is lost on those frames until δ_g is raised (never above 1.0 s); above 0.75 s the choice goes to the operator (§6.5). A laugh that starts more than 0.25 s before the bad-news word ends is echoed briefly (+0.138 for under 0.4 s) before the word closes the gate.
 2. **The posture misses brow-only distress until words.** It no longer reads the brow, so a person whose sadness shows only there gets no concern look before he speaks (critic's stated cost). In the constructed codes every distress display also has a non-brow part; in real faces that is an assumption (§3.17.13).
-3. **Breathing and the threat silencing are new innate parts.** Breathing is untested as a sensor on the Mac; the silencing uses the threat reflex's own input (glare), so a person who glares while distressed and silent (no sobs, no words) gets no posture.
-4. **The probe softens steady genuine distress held by the face alone** to half for 8 s every 3 min (minimum brow 0.10–0.14).
+3. **Breathing and the threat silencing are new innate parts.** Breathing is untested as a sensor on the Mac (week-0 check, §6.5); the silencing uses the threat reflex's own input (glare). Since 8.1 it drops only his brow lowerer and lip press, so a person who squints while distressed and silent keeps the posture through his other channels; one whose distress shows only on those two channels while he glares at the agent gets none (a different-channel grief face at the agent: half, 0.50).
+4. **The face-only cap withdraws the look from steady genuine distress held by the face alone** for 60 s after 4 min and 120 s after each further 8, 16 … min (8.1). Its separation of slow answering from genuine sadness has a thin margin at a 90-s lag (ratio 0.67 against the 0.70 threshold; chance ratios down to 0.82 in P2, 0.66 in B3 at SD 0.20), and a noisy 90-s answerer can hold the look up to about 17 min or re-trigger it (§2.10).
 5. **The coping joke.** The agent answers a joke made while sad with a gentle face and no laugh; the corpus's listeners return 0.39 there. For the operator to judge in use.
 6. **Day 1 and calibration errors**: as revision 7; and σ_id far below his true spread reads mild sadness as strong (full posture at V 0.3).
 7. **The ledger's pooled 30-min budget** (routes critic L2): an uncounted high-gain route could copy his small movements at 1.2–1.9 c in quiet stretches, at about 0.01 of lip. Not changed (sound by the critic's verdict); a 5-min budget memory is the stated remedy if wanted.
@@ -503,8 +524,8 @@ Revision 7's table stands except where a row is replaced or added:
 ### 8.2 Falsifiers (state-level, once built)
 
 - **F1, F1′, F1‴, F2–F11, F13–F17** as revision 7.
-- **F12 (restated).** At a silently sad, grieving or crying face (any code, sadness visible outside the brow) the inner brow does not reach 0.15 within 8 s (3 s with sobs); or a constant such face loses the posture (release) while it stays constant; or after 15–60 s of calm, renewed crying does not bring it back within 3 s; or any mirror, of any gain or timing, holds the posture more than 30 s after his own distress ends; or concern answered in his own code holds it more than 4 min.
-- **F18 (new; routes critic).** The agent's BI block-mean slope on his BI exceeds c_BI at 1 or 10 min for any code with σ_id ≥ 0.25 σ_ref, or the posture's part of any written channel changes when only his same channel changes.
+- **F12 (restated).** At a silently sad, grieving or crying face (any code, sadness visible outside the brow) the inner brow does not reach 0.15 within 8 s (3 s with sobs); or a constant such face loses the posture (release) while it stays constant; or after 15–60 s of calm, renewed crying does not bring it back within 3 s; or any mirror, of any gain or timing, holds the posture more than 30 s after his own distress ends; or concern answered in his own code, with any lag up to 90 s, holds it more than 6 min (8.1; revision 8 said 4 min and met it only at zero lag). The face-only cap's test lapses are not releases.
+- **F18 (new; routes critic).** The agent's BI block-mean slope on his BI exceeds c_BI at 1 or 10 min for any code with σ_id ≥ 0.25 σ_ref, or the posture's part of any written channel changes when only his same channel changes. (8.1: F18 clamps his *feature* channel, so it cannot see tracker crosstalk from his inner brow into a read channel; that is covered by the week-0 crosstalk check, §6.5.)
 - **F19 (new; routes critic).** Any T quantity other than Λ_V(own) in the gate changes when only Claude's reply text is changed.
 - **F20 (new).** Live, the laugh synthesizer sounds within 2 s of a laugh of his that ends a sentence containing words of loss, insult or harm; or ordinary laughter at a sentence's end is not returned within 1.0 s in more than 10 % of cases where the recogniser met its latency.
 - **F21 (new).** On Seamless test people, the gate fitted with onset-aligned words is not better calibrated on end-of-sentence laughs than one fitted on whole transcript segments.
@@ -720,3 +741,25 @@ No new core mechanism. The search continues in parallel (D82).
 - the corrected Build-candidate summary, including the brow-only trade-off.
 
 After one quick check of those fixes, the design goes to the operator as a build candidate (D82). Revision 8 saved as design-cayley-ledger.r8.md.
+
+## Revision 8.1 history (2026-11-26): the narrow fixes
+
+Checks: `sims/design-g81/checks.py` (K1–K5; out.txt), on revision 8's engine loaded unchanged. Revision 8 is saved as `design-cayley-ledger.r8.md`. Nothing either revision-8 critic found sound is changed. Q24 stays open on its recommendation.
+
+| # | Finding (critique 8) | Closed by | Where, check |
+|---|---|---|---|
+| routes 1 (medium) | the 8-s probe releases answering concern only at zero lag; at 5–90 s the look is held 15 min in every code (posture 0.94, agent brow +0.19 to +0.23); F12 met | the 8-s probe is replaced by a **face-only cap**: after 240 s of face-only hold the look is withdrawn for a 60-s test (later 120 s, the cap doubling); release if his evidence falls below 0.7 of before | §2.1, §2.10; K1: released by 302.5 s at every lag 0–90 s, all codes (genuine-then-answering, lags to 240 s: by 902.5 s); K2: genuine fluctuating sadness released 0 of 24 (P2), 2 of 12 brief (B3, SD 0.20; revision 8: 4 of 12); K3: every J33 case ends, J34 faces one onset and no release; F12 restated (6 min) |
+| agent B2 | threat silencing blanks the posture for a grieving face squinting at the agent (0.00) | the glare drops only his BL and LPR from what the posture reads | §2.1, §2.10; K4: grief + squint at the agent 0.00 → 0.99 (on at 2.5 s), quiet code 0.99, different channels 0.50; anger, anger with heavy breathing or lip press, concentration: 0.00 in every code |
+| routes text | gated laugh echo bound | R1g declared ≤ 0.53 c BU_L, ≤ 0.31 c LP, ≤ 0.35 c CR | bound table, §3.3, §3.11 |
+| routes text | R40′'s pooled slope is unbounded; gaze and blink outside the level row | R40′ declared as a level, gaze-away × (1 − 0.5a) and blink × (1 − 0.3a) included; slopes reported only | bound table, §3.11 |
+| routes text | D_s could read his breath sound (BRE in R_p) | D_s reads R_p without BRE | §2.1, R45′; K5 (D_s unchanged by BRE 0.3) |
+| routes text | the glare reads his gaze, in W_p | stated as the one exception to rule 9′ (attenuate-only) | §2.2, R48 |
+| routes text | face-tracker crosstalk untested; F18 cannot see it | week-0 crosstalk check; F18 note | §6.5, §8.2 |
+| agent build | "unknown words close" needs the recogniser's finalised extent | the recogniser must report its finalised-through time; the gate uses words only if it has passed s + λ_w | §2.4.2, §6.1, §6.5 |
+| agent build | stable latency ≤ 0.55 s unlikely | expected δ_g ≈ 0.9–1.0 s with a fixed-delay streaming model (e.g. Kyutai 1B), inside the fallback; candidates and fallback named | §2.4.2, §6.1 |
+| agent build | week-0 checks | language coverage, runtime on the M1 Pro, breathing sensor (plus the crosstalk check) | §6.5 |
+| agent summary | Build-candidate summary | replaced by critique 8's corrected §6.2, with the brow-only trade-off (no look before words; first sign the spoken bid at about 50 s, about 110 s for a quiet face) and the echo timing (0.8–1.0 s, later than a person's 0.4–0.5 s) | Build-candidate summary |
+
+**Costs added by 8.1, stated.** Steady genuine distress held by the face alone now loses the look for a 60-s test after 4 min (and 120 s after each further 8, 16 … min) instead of an 8-s half softening every 3 min; 15-min brow means 0.14–0.19 instead of 0.18–0.22. The test's margin at a 90-s lag is thin (ratio 0.67 against 0.70), and a noisy 90-s answerer can hold the look up to about 17 min or re-trigger it. A different-channel user whose grief is mostly brow lowerer gets a half look when he squints at the agent.
+
+**Status:** revision 8.1; goes to the operator as a build candidate under D82, stated as a recombination, with Q24 open.
