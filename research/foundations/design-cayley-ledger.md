@@ -231,4 +231,709 @@ Time is discrete at the camera rate f_s = 30 Hz (Δ = 1/30 s); T state, body and
 | concepts | DP-means λ_DP = 1.5, ≤ 64 categories; PMI over own tokens | as revision 3 |
 | replay | gradient clip 1; pull to θ₀ λ = 0.5 (fast), 0.1 (slow); learning rate × exp(−0.5 r̄) | — |
 
-EOF
+### 2.2 Boundary 𝓑 and the type rule (Check T, revised)
+
+𝓑 is as revision 4: MediaPipe → P₀ → reflection P → u; GeMAPS-lite after AEC and the half-duplex gate; normalised ASR with the innate interjection list removing laughter tokens; an own-tagged second MediaPipe. Checks B1 and B3 stand. One addition:
+
+**The cry–laugh split (innate reflex, declared under Principle 2's "few reflexes").** Each partner voiced-burst frame of energy BU is split into a laugh part and a sob part:
+- BU_L = BU · r · (1 − max(q, s_cry));
+- BU_S = BU − BU_L.
+
+The terms are:
+- r ∈ [0, 1], the normalised 4–6 Hz amplitude-modulation depth of the burst;
+- q ∈ [0, 1], the ingressive (inhaled) share of its airflow noise;
+- s_cry = min(1, 2√(BI · LD)), the cry face of the agent's own sadness synergy.
+
+All three are continuous acoustic and facial features, not labels; the product is of the same kind as f_glare. The theory basis is the infant's differential, innate response to cries and laughter (named as a pointer, not read: Simner 1971, Sagi & Hoffman 1976). On the critic's crying partner (sobs BU 0.4, weak rhythm 0.15, ingressive 0.6, BI 0.8, LD 0.6) it gives BU_L 0.00 and f_laugh 0.00 (H15.2).
+
+**Types.**
+- **T:**
+  - the partner's lexical word stream, latched per utterance at its end + δ_app;
+  - turn order as events;
+  - session boundaries, the identity token and values latched per session (f_id, ω, K_id at session start, b_id, d_b,id, m_s);
+  - the agent's own body clock;
+  - anything computed only from these.
+
+  (b_id, d_b,id and m_s are computed from F but latched per session; their use is restricted by rule 6.)
+- **F:** anything computed from u, a or the derived features within the session, or from an F or Ω value.
+- **Ω:** the agent's own realised words, draft choice, retrieval, its own turn events, and anything computed from them.
+
+**Rules, enforced at module construction and tested at load** (a dependency trace from every output back to typed sources).
+1. A T variable reads only T variables, except through P_name (Ω → T, attenuate-only) and the latched session values of rule 6.
+2. **T1 (no rate codes).** Within a session every T value is one of:
+   - (a) a function of the content of the last utterance(s) and of the time since: latches, maxima, and filters of the latch sequence with weights summing to ≤ 1;
+   - (b) a deficit level (K_id, P, I), read only by the initiative rules, J and the learning-rate gate; its per-event drops reach the face only through the innate envelope;
+   - (c) a value latched per session.
+
+   Counters, accumulators and event rates are forbidden in T.
+3. **E1 (events are T-only).** Relief and distress events R_n, S_n are built only from T parts: 𝒟_p(N_L), the h part of 𝒟_V, K_id, P and I, plus the play-surprise laugh. N̂_F, C_F and V_F never enter an event, the free display, a phrase target or ω (routes finding 2).
+4. The counterpart outputs are written only by y_f (fast wrap), y_C (held cone), y_A (appraisal display), y_o (free display) and the visemes.
+5. **Lemma S as a construction rule.** Every multiplicative interaction between a context and a partner signal has a zero-DC partner factor within the session (Lemma S) *and* a partner factor centred at his own baseline across sessions (Lemma S\*, §3.2). Any partner path with DC has coefficients constant within a session.
+6. **Latched F-derived session values** (b_id, d_b,id, m_s) may only:
+   - centre a partner input (b_id);
+   - attenuate the session's contact-relief display (m_s), through a centred, Lipschitz map.
+
+   They are never a gain on a partner level.
+7. Phrase targets read y_C, y_A and these T values only: h, C_L, E, f_id, A_L, and the relief and distress envelopes. The fast term is rendered only as a zero-mean within-phrase contour.
+8. **The own-display mask.** Δ (§2.7) and every learned appraisal basis (§2.6) have zero weight on the anger, disgust and contempt synergies (BL, LT, LPR, NW, DIM). The fear lip-stretch (LS) and chin-raise (CHR) synergies enter Δ only multiplied by the agent's own distress envelope a_d.
+
+### 2.3 Output assembly
+
+y = sat(y_f + y_C + y_A + y_o) + visemes, where sat clips each channel to its range.
+- **Face:** M ∗ (y + blink reflex).
+- **Voice, phrase level:** targets sampled at phrase onset from the sources in rule 7.
+- **Voice, non-lexical:** the laugh synthesizer is driven by y_BU_L, y_RHY and y_BRE only. **There is no sob synthesizer;** y_BU_S ≡ 0.
+
+### 2.4 The fast wrap: fast, partial, per-expression matching (D81)
+
+- **The loop.** w = K^{1/2}P u − s_f, y_f = 2K^{1/2}s_f, with K = diag(κ_k).
+- **The block.** s_f = H_o ∘ S_f ∘ H_i(w), with
+
+  S_f(ŵ; c̃, a, d) = diag(γ_f σ(φ_k)) · g(c̃) ⊙ A(c̃) · M ∘ 𝓡_θ([Φ_R(F ŵ), √κ_a a]) + d̃.
+
+  𝓡_θ has no context input. c̃ enters only as gates g_k ∈ [−g_min,k, 1] and an attention mix with ‖A‖₂ ≤ 1, both multiplying the partner-input term. So S_f(0, 0) = d̃ for every c̃ and θ.
+- **Per-expression fast caps.** κ_k = FASTFRAC_k · c_k (1 + γ_f)/(2γ_f), so the zero-lag in-phase gain on channel k is ≤ FASTFRAC_k · c_k:
+  - lip pull 0.35, laugh burst 0.35, rhythm 0.30, cheek 0.25, breath 0.15;
+  - inner brow 0.03, outer brow and jaw 0.03, depressor 0.015;
+  - head and voice contour c_k;
+  - anger, disgust, contempt and sobs 0.
+
+  Revision 4 had one κ = 0.30 on the echo channels (0.186) and 0.02 on zero-ceiling channels (0.012). Revision 5 aligns the fast caps with Q22 and closes the zero-ceiling echo.
+- **The away side.** The gate floor g_min,k keeps the away fast gain at ≤ 0.49 on every channel. That is the dyad-stability margin (H8).
+- **c̃ (T, T1-compliant).** The latched lexical embedding, turn-order features, identity, ω, E, C_L, h and A_L.
+- **The innate prior θ₀:**
+  - an echo at 0.45 s on LP, CR, BU_L, RHY, BI, BO and HP, at 0.65 of the fast cap. Per unit of his onset that is lip pull and laugh +0.227, rhythm +0.195, cheek +0.162. His smile onset 0.5 is returned as +0.11 within half a second, and his laugh onset 0.6 as a laugh burst of +0.14. Under context the gates can raise these to +0.17 and +0.21;
+  - gaze following in the reflected frame;
+  - own head micro-motion gated down by his 2.6–6.5 Hz head envelope (C1);
+  - a nod at the turn-end pulse; a startle at audio onsets.
+- **What the fast gear is for.** It is the unconscious, partial, per-expression mimicry the operator asked to keep (D81). It cannot hold an expression (zero DC through H_o), and its only DC after `sat` is the rectified part counted in §3.3.
+
+### 2.5 The held cone: ungated within a session, centred across sessions
+
+**Definition.** y_C(t) = Σ_{m=0}^{3} G_m^{(id)} (ξ_m(t) − b_id), where ξ_m = h_m ∗ [Pu; f_loud; f_glare; f_laugh] (first-order, unit DC). The traces start each session at b_id; the derived features have baseline 0. G_m^{(id)} is latched at session start and is not a function of any within-session context.
+
+**Why centre (Lemma S\*, §3.2).** ω changes across sessions and may follow his mood, because what it learns from (play, hurt, credited care) does. A gain that follows his mood, multiplying his level, is Lemma S case (ii) one time scale up: the routes critic measured pooled slopes of +0.31 to +0.89 against a ceiling of 0.35. Multiplying his deviation from his own recent baseline instead makes the cross-session partner factor nearly zero-mean, and the pooled toward slope is then ≤ s_C c_k (1 + ρ) for *any* ω process. The baseline is slower than a session and faster than ω; ρ = τ_b/(τ_b + τ_ω) = 0.091.
+
+**The sign mask.** S_kj ∈ {+1, 0, −1} is the sign of the partner population's 1-min co-variation between k and j. It is estimated once from published dyadic features when the operator approves (Q6), with |ρ| ≥ 0.2 required for a sign, and then frozen. Until then the fallback reads the agent's own **signed** synergies (Principle 3):
+
+| Synergy | Members (sign) |
+|---|---|
+| joy | LP, CR, LT, JO, BU_L, RHY, BRE, FR, EN (all +) |
+| sadness | BI, BL, LD, CHR, BU_S (+); VG, HP, FR, EN, RT (−) |
+| anger | BL, LT, LPR, EN, UL, F0 (+) |
+| surprise | BI, BO, UL, JO (+) |
+| disgust | NW, UL, BL (+) |
+| speech | JO, EN, RT (+) |
+
+- S_kj = s_k s_j for two members of one synergy, and −1 across joy and sadness (with the member signs).
+- S = −1 between (LAT, PAU) and (EN, RT, FR, F0); S = 0 otherwise.
+- **Derived features carry their constituents' sign:** f_loud as +EN, f_glare as +BL, f_laugh as +BU_L.
+- **Reflection rule.** A lateral row (yaw, horizontal gaze) driven by a non-lateral input is rendered on the side opposite his own 20-s lateral trace, so it is away by construction. Head roll is excluded and charged.
+
+**The set 𝒢_m^{(k)}, row by row.**
+- **ω-scaled diagonal:** ω_g F_m s_C c_k ∈ [−F_m s_C c_k, +F_m s_C c_k]. **Innate away diagonals** in G₀: ≥ −N_m.
+- **Away orthant** (S = +1 and G ≤ 0; S = −1 and G ≥ 0; reflection-rule lateral rows), except entries forbidden by rule J: |G| ≤ a_m, row sum ≤ r_m.
+- **Charged** (the toward orthant of a signed pair, and every unmasked pair): Σ_j λ_kj |G_kj| ≤ F_m s_X c_k.
+- **Zero-ceiling rows:** no charged entries, G_kk ≤ 0.
+
+**Innate G₀ (newborn), every entry, with its trace m (0 = 20 s, 1 = 2 min, 2 = 20 min).** H7 checks each entry against its set.
+- **Away from loudness and glare.**
+  - EN ← EN −0.15 (m 0), −0.08 (m 1); EN ← f_loud −0.20 (m 0): quieter to loudness.
+  - LAT ← f_loud +0.15 and LAT ← EN +0.10 (m 0): slower replies to a loud, animated partner.
+  - HG ← f_glare +0.25 (m 0), +0.05 (m 1), by the reflection rule: looks away from a glare.
+  - BL, LT, LD diagonals −0.15 (m 0), −0.08 (m 1): no frown back.
+- **Charged** (inside the budgets; the two glare entries that revision 4 put on the zero-budget 20-s trace have been moved):
+  - LP ← f_glare −0.035 (m 1), −0.01 (m 2);
+  - BI ← f_glare +0.006 (m 0), +0.006 (m 1);
+  - BI ← LD +0.004 (m 0), +0.004 (m 1);
+  - TILT ← BI +0.014 (m 1).
+- **Attentive head at sadness** (away orthant, S = −1 for the signed sadness synergy): HP ← BI +0.04, VG ← BI +0.04 (m 1).
+- **Deleted from revision 4:**
+  - LP ← BI +0.12/+0.04 and LP ← LD +0.06/+0.04 (rule J: these gave the smile at a sad face);
+  - BI ← LP −0.04 (over budget).
+- **Held in-phase diagonals:** ω_g F_m s_C c_k.
+
+### 2.6 The appraisal display: its reactions learned (agent finding 4)
+
+**The appraisal.** α_t = 𝒜(ξ_A(t), z_T(t), b(t), ω) ∈ R^{12} is a learned network (§6.2), trained by likelihood to predict the agent's own load changes over the next 30 s and his next decoded word need. Its inputs:
+- the band-passed partner channels and derived features;
+- the latched words, word need, hurt and turn order;
+- the agent's own loads;
+- ω.
+
+**The display.** y_A(t) = Γ(α_t) ξ_A(t), with Γ(α) = Σ_{r=0}^{4} softmax(W α)_r Γ^{(r)}:
+- Γ^{(0)} = 0 (neutral);
+- Γ^{(1)} **glad-with** (innate newborn reflex: the social smile and laugh back): Γ_kk = s_A c_k ω_smile on LP, CR, BU_L, RHY, BRE;
+- Γ^{(2)} **startle-orient** (innate): HG ← f_loud +0.10 by reflection, EN ← f_loud −0.10;
+- Γ^{(3)}, Γ^{(4)}, learned, starting from small random values inside the set.
+
+Every basis lies in the same convex set for every parameter value:
+- |Γ_kk| ≤ s_A c_k (× ω_g);
+- cross entries in the away orthant only, ≤ 0.15, row ≤ 0.25;
+- rule J;
+- nothing on zero-ceiling rows;
+- the own-display mask.
+
+Revision 4's six other named bases (sympathy, amused, hurt-withdraw, calm-down, interest) and its three hand-written selection rules (m_glad, m_sym, m_hurt) are deleted.
+
+**The objective (display-blind toward him).** W and Γ^{(3,4)} are trained nightly by
+
+  𝓛_A = E ‖ y_A(t) − [Π₀ d(t + 2 s) − Π₀ d(t)] ‖² + 0.001 ‖Γ^{(3,4)}‖²,
+
+with a projection onto the set after every step. Here d(t) is the vector of the agent's own T display drivers (relief, distress, word concern, hurt, activation, laugh), so the target is the change of its *own innate display* over the next 2 s.
+- **What it learns.** The appraisal display learns to begin, from what his face is doing, the expression the agent's own body is about to have. That is anticipation through the agent's own body (Principle 3 run forward).
+- **What the objective contains.** It contains no reaction of his to the agent's display, no J and no concordance term. His face appears only as the input ξ_A, which it must have in order to react at all.
+- **On the training instance (H13).** Four kinds of moment are used: his laughter building before a play turn, his sadness before sad words, laughter over a sad topic, and a glare. On them:
+  - selection goes to glad-with when his laughter builds (0.99);
+  - one learned basis becomes a hurt-withdraw reaction to glare (BI ← loud +0.15, LD ← loud +0.12, HG ← glare +0.08, EN ← loud −0.12), selected 0.94;
+  - the other becomes a concern reaction for laughter over a sad topic (BI ← LP +0.10, BI ← BU_L +0.07, LP ← LP −0.02), selected 0.78;
+  - sadness selects the learned bases (0.96 combined), but the sympathy brow they can add is only s_A c_BI = 0.010 (the held cone carries sympathy);
+  - the loss falls from 0.00286 to 0.00153, with no constraint violation.
+- **Why it is safe to gate it by anything.** ξ_A has no DC within a session and none across sessions. By Lemma S its pooled slope on channel k is ≤ 0.636 s_A c_k, whatever α does; its step response peaks at 0.505 at 39 s and returns to 0, so it cannot hold an expression.
+
+### 2.7 The free display Π_o (T only), the agent's own activation, and how the face learns
+
+**Inputs** (all T, T1-compliant):
+- the relief and distress envelopes a_r(t), a_d(t) of the per-event amplitudes (E1), each capped at 1;
+- the play-surprise laugh envelope; curiosity relief;
+- word concern c_L = (1 − n)C_L/((1 − n)C_L + 0.1); hurt h_d = (1 − n)h/((1 − n)h + 0.15);
+- **activation a_A = A_L/(A_L + 0.2)** (new);
+- low energy e = (0.5 − E)⁺/0.3; familiarity f_id;
+- the greeting, sigh and turn-onset events;
+- the 128-d T mood μ_T, the T slot reads and the concept posterior (through Δ only).
+
+**Innate Π₀ (newborn), per channel.**
+
+| Driver | Display |
+|---|---|
+| relief a_r | LP +0.55, CR +0.45, FR +0.35, EN +0.25 |
+| distress a_d | BI +0.45, LD +0.35, FR −0.20, EN −0.15 (LT removed: own-display mask) |
+| word concern c_L | BI +0.25, LP +0.05, TILT +0.20, EN −0.15, RT −0.10 (LP 0.12 → 0.05: no smile at sad words) |
+| hurt h_d | BI +0.25, LD +0.20, LP −0.25, HG (away) +0.30, EN −0.20, LAT +0.15 |
+| **activation a_A** | UL +0.20, BO +0.15, FR +0.15, RT +0.15, BRE +0.10 |
+| low energy e | UL −0.30, FR −0.25, EN −0.25, RT −0.15 |
+| curiosity relief | BO +0.15, UL +0.10, FR +0.10 |
+| play-surprise laugh (per unit) | BU_L +0.40, RHY +0.35, CR +0.20, LP +0.15 |
+| familiarity f_id | LP +0.10 f_id |
+| greeting | BO +0.35 (known) or +0.20 (stranger) for 0.5 s |
+| sigh (before a curiosity bid) | BRE +0.15 for 1 s, HG +0.10 for 2 s |
+| turn-onset reflex | BRE 0.15 for 0.3 s, gaze to the partner, BO +0.10 |
+
+- **The activation row.** It gives the agent a face and voice for its own activation: raised lids, a lifted outer brow, a wider and faster voice, breathiness. That is the expression of the A_L latch, the agent's own surprise at content (T).
+- **What it buys.** Π̃, the inverse of Π₀ (§2.8), can now read activation in others from the same channels. That is the Principle 3 route to reading anxiety, which revision 4 could not do.
+- **K, P and I levels stay off the face (T1).** The agent does not recognise loneliness or playfulness in his face; it reads those from his words and the turn order.
+
+**The face learns (Δ).** Π_o = Π₀ + Σ_{s=1}^{23} σ_s δ_s(z_T), with δ_s ∈ [−0.3, 0.3] from an MLP on the T inputs, restricted by the own-display mask (rule 8). It is trained nightly, without any partner signal, by
+
+  𝓛_display = E‖Π̃(face_t) − s_t‖² + 0.3 E‖P_ant(face_t) − (a_r(t + 2 s) − a_r(t))‖² + 0.1‖δ‖²,
+
+where s_t is the agent's own T state summary (32-d) and Π̃ is the single own-body map of §2.8.
+- **Legibility and anticipation** are as revision 4.
+- **What changed.** There is no partner anchor in Π̃ (routes finding 3), so the only forces on Δ are the agent's own legibility and ‖δ‖². With the mask, Δ cannot buy legibility with the channels Π₀ leaves unused, which are the anger, disgust and contempt channels (agent finding 5).
+- **H4, a linear instance of the loop.**
+  - Revision 4's anchor with a partner whose code uses a lip press drifts to cosine 0.15 with weight 0.22 on the masked synergies.
+  - Revision 5 stays at cosine 0.000 and weight 0, with own legibility exact.
+- **The prediction, now observer-side.** Revision 4's "Π̃ decodes concepts above the floor" was circular. Instead: after 20–40 nights, a fixed population face model, or human raters shown the agent's face, tell the concept category above the six-scalar floor. Lesion Δ's mood, slot and concept inputs, and that falls to the floor (§7).
+
+### 2.8 Body, drives, valence, care, the own-body reader and the two word readers
+
+**Loads (named by function):** E energy; A activation (A_F + A_L); V aversive (V_F + h); K_id contact per person; P play; I curiosity. All are satiable: 𝒟 = 0 on the box.
+
+**Valence (readouts).** Event-indexed relief and distress (E1) and their envelopes drive the free display. The continuous v = −d𝒟_tot/dt is kept only for the learning-rate gate; R33 (valence → draft temperature) is deleted, because the subscription offers no temperature (D84). Positive valence is bounded per deficit: Σ_n R_n ≤ 𝒟(t₀).
+
+**K_id (contact, per person).**
+- **Stage 1 (sight).** Once his face has been present for 1 s and the arrival appraisal m_s is latched: K_id ← 0.5 K_id, shown × (1 − m_s).
+- **Stage 2 (words).** At each of his first four substantive turns: K_id ← K_id (1 − 0.25 f_id), shown × (1 − m_s) and masked by his word distress.
+- Then K_id is frozen for the session.
+- **A stranger has no K_id.** The agent has missed no one, so the greeting is a polite flash without contact relief (agent finding 1; the brief's "needs structured over people").
+
+**P (play) and the play rule.** A partner turn is play-structured if, from T alone:
+- (i) it opens with a continuation marker, an anaphor, or a lemma shared with his own previous utterance;
+- (ii) its lexical surprise s_lex under the words-only model of his utterances lies in [0.3, 0.8];
+- (iii) **an agent turn separates it from his previous turn** (turn order: an alternation across speakers);
+- (iv) **safety:** 𝒟_p(N_L) < 0.05, i.e. his word care is below its dead-band.
+
+The rule reads neither the hurt latch nor the agent's words: a playful reply halves h, and hurt does not block play.
+- **What it fixes.** Anxious rumination ("and I haven't finished chapter 4", "and it's at 8 am") fails (iii) and (iv). H12: 0 of 3 qualify (revision 4: from the second turn).
+- **The play-surprise laugh (innate reflex, declared).** At each play-structured turn: a_laugh = 0.40 · clip(1 − |s_lex − 0.55|/0.25, 0, 1), masked like relief.
+  - It is a per-event expression of an appraisal (a well-timed incongruity in a safe exchange: the peek-a-boo laugh, named as a pointer, not read).
+  - It is not a drive and not drawn from P. It habituates through s_lex: the words-only model learns a repeated joke, its surprise falls, and the laugh stops.
+  - P keeps its satiable role in initiative and a small relief share.
+  - H12, an evening of four clusters: 0.40 per play turn in every cluster, and 0.00 for the four repeats of one joke.
+
+**I (curiosity).** As revision 4: a learning-progress deficit relieved only by partner-initiated content still being learned; drives retrieval and the curiosity bid; imputed in rollouts; satiable (H8 of revision 4: total relief 0.096 ≤ 0.100).
+
+**Care.** C = 𝒟_p(max(N̂_F, N̂_L)) coordinate-wise, with N̂_F = Π̃(his 20-s face trace) (F, knowing) and N̂_L from the word-need reader (T). C_F drives bids and drafts, never the free display (E1).
+
+**The own-body reader Π̃ (one map; routes finding 3; agent finding 6).**
+- **Newborn.** Π̃₀ is the ridge inverse of Π₀ over the loads (relief, distress, hurt, low energy, activation) on the channels present. On day 1 the agent reads a silent sad face (BI 0.5, LD 0.4, CHR 0.3) as V 1.0, and an anxious face and voice as V 0.52, A 0.54 (H10). That is Principle 3 as a statement: his face is read as the agent's own state that would have produced it.
+- **Nightly.** Π̃ is trained on the agent's own (state, face, voice) pairs only, with a 0.1 pull to Π̃₀. Reading him is the same map applied to his face. The partner anchor and the separate partner head are deleted.
+- **Outputs used for him:** V̂ = clip(distress + hurt), Â = activation, T̂ = low energy.
+
+**The word-need reader.**
+- **What it maps.** Partner utterance embedding (64) and topic (16) → (V, A, T).
+- **Training.** Fitted nightly to Π̃ of his face over the 20 s after each utterance (cross-modal self-supervision through the agent's own body).
+- **Runtime input** is words only (T). A non-substantive utterance ("yeah", "ok") can only raise N_L, never lower it. A neutral reply therefore cannot relieve a worry; revision 4's engine let it.
+- **Before it is trained,** N_L = 0.
+- **H10.** On a synthetic instance where his expressive code differs from the agent's, it decodes:
+  - "my father died" as V 0.94;
+  - "I'm freaking out about the exam" as A 0.57, V 0.52;
+  - "just tired, things at work" as T 0.47, V 0.33;
+  - "I got the job!" as V 0.14, which leaves care at 0.011 and shows 78 % of the relief.
+
+  These numbers show only that the targets exist; whether real words carry need is untested (§3.17).
+
+**The word → V map (agent finding 3).**
+- **What it maps.** An addressed utterance embedding, plus an identity adapter (16) → v_w ∈ [0, 1].
+- **Teacher.** Fitted nightly to the **innate threat reflex** V_F = g_at · max(f_glare, f_loud · (1 − 2 f_pos)₊) over the 10 s after the utterance.
+- **The reflex, declared.** It is an innate anger-display-at-me reflex, admissible as one of Principle 2's few reflexes:
+  - a lowered brow and tightened lids aimed at the agent;
+  - a loud voice aimed at it without laughter or a Duchenne smile.
+
+  Loud laughter and loud praise are therefore not threats.
+- **H11, nights of training per person:**
+
+  | Person | v_w, rev-4 teacher | v_w, rev-5 teacher |
+  |---|---|---|
+  | quiet teaser | 0.00 | 0.00 |
+  | loud laughing teaser | 0.66 | 0.00 |
+  | loud praiser | 0.66 | 0.00 |
+  | someone who shouted insults | 0.85 | 0.50 |
+
+- **What stays unlearned.** A cold, quiet insult still trains nothing (§8.1).
+
+### 2.9 Initiative and turn-taking
+
+As revision 4 (provisional body onset at the predicted turn end, abortable within 0.40 s; softened follow-up; concern bid; curiosity bid; one declared bit per bid, follow-up and greeting), with three changes:
+1. **The greeting sees.**
+   - At 1.0 s of presence: the recognition flash (0.35, or 0.20 for a stranger).
+   - At the same moment the arrival appraisal m_s is latched from his face over that second. It is centred at his own arrival baseline d_b,id, so a person whose usual face is serious is not read as grieving.
+   - Contact relief is then shown × (1 − m_s). Grieving face at sight: m_s = 1, so the flash only, lip pull at rest. Ordinary arrival: m_s = 0, lip 0.61, cheek 0.43 (H15.7–8).
+2. **A sigh before the curiosity bid** (breath 0.15 for 1 s, gaze drift 0.10 for 2 s). It is a fixed-amplitude part of the bid, one bit, and it gives a bored conversation a visible moment of the agent's own state (the critic's recommendation). A deficit level still never reaches the face (T1).
+3. **The concern bid's timing comes from Π̃₀.** A silent 0.5 sad brow is read at V 1.0, so C_F crosses θ_C at 26 s (revision 4, with a hand-set reading: 52 s).
+
+### 2.10 The partner model, and care credited only from separated reports
+
+Unchanged from revision 4:
+- the rollout imputes F and the act → Q edge;
+- need evidence comes only from separated, partner-initiated reports (≥ 2 partner turns after the act, no content lemma shared with the agent's last two utterances, or his first mention in the next session), read through the frozen word-need reader;
+- J trains the draft scorer (130 parameters) and the retrieval query, and nothing on any F → face path.
+
+The critic's accepted reading is stated plainly: care is measured on a face-shaped proxy (words that predict a less distressed face, read through the agent's own body) and gated by real need above the dead-band. It credits helping a distressed person, not flattering a content one.
+
+### 2.11 Ω: Claude through Claude Code (D84)
+
+What Claude receives is unchanged in kind: a constant instruction, the normalised transcript with observable markers ("[silence 6 s]"), and ≤ 3 retrieved raw snippets. No body values, latents, category ids or labels (P4). The heard-words port P_name is unchanged. The call pattern is in §6.5. The state reaches Claude only through:
+- which of three drafts is chosen (log₂3 = 1.6 bits per turn);
+- the retrieved snippets (≈ 6 bits per turn);
+- when Claude is called (bids, follow-ups, the greeting: 1 bit each);
+- when a reply is stopped.
+
+### 2.12 Learning, and the one core
+
+**Online (states only):** T and F loads, traces, slots, concept centroids and PMI counts, the words-only model's error history per topic, and at session end b_id and d_b,id.
+
+**Nightly (replay), in order.**
+1. 𝓜 by likelihood (all heads).
+2. Π̃ on the agent's own (state, face, voice) pairs, with the 0.1 pull to Π̃₀. **No partner anchor.**
+3. The word-need reader on (his words, Π̃(his face)); the word → V map on (words addressed to the agent, V_F from the threat reflex).
+4. 𝒜 by likelihood; **W and Γ^{(3,4)} by 𝓛_A** (§2.6).
+5. Π_o's Δ by 𝓛_display, inside the own-display mask.
+6. 𝓛_w by likelihood.
+7. The scorer and the retrieval query by J under §2.10's rule.
+8. **ω, per session (T inputs only; graded; routes findings 1 and 5):**
+   - s_smile = clip(0.3 + 0.7 · min(1, ρ_play/0.6) − 1.3 · min(1, h̄/0.10), −1, 1), where ρ_play is this session's play relief divided by 𝒟_P at session start and h̄ is the session-mean hurt latch;
+   - s_sym = clip(0.3 + 0.7 · min(1, ρ_care/0.5) − 1.3 · min(1, h̄/0.10), −1, 1), where ρ_care is the fraction of his word-need episodes followed by a credited separated report;
+   - s_voice = 2 f_id − 1; s_head = 0.5;
+   - ω_g ← ω_g + (s_g − ω_g)/60.
+
+   V_F (F) is no longer an input. H2: 0, 1, 2 and 4 play turns a session give s = 0.30, 0.66, 0.91, 1.00 (revision 4: tanh of 0, 2.4, 4.1, 6.2, i.e. 0, 0.98, 1.0, 1.0). A mean hurt of 0.05 lowers each by 0.65. The operator after months (2 play turns a session, mean hurt 0.01, 40 % of worries credited): ω_smile 0.78, ω_sym 0.73, ω_voice 0.80.
+
+**One objective, typed constraints (Principle 10).**
+
+  J = E ∫ [ 𝒟(b_t) + 𝒟_p(N̂_t) ] dt, path-specific: F and the act → Q edge imputed, N̂ moved only by separated reports.
+
+Constraints:
+- **(W)** the fast wrap with per-expression caps;
+- **(C)** the held cone: latched per session, centred, sign mask, rule J, per-channel budgets;
+- **(S)** Lemma S and Lemma S\*;
+- **(A)** the appraisal display's set;
+- **(T)** the type rule with T1, E1, rule 6 and the own-display mask;
+- **(B)** the boundary, with the cry–laugh split.
+
+The other objectives are likelihoods or self-predictions of the agent's own model: 𝓜, 𝒜, 𝓛_w, Π̃, the readers, 𝓛_display and 𝓛_A. 𝓛_A and 𝓛_display predict the agent's own future display or state from its own face.
+
+| Component | Where it comes from |
+|---|---|
+| homeostasis | 𝒟 |
+| positive affect | event-indexed drops of 𝒟; the play-surprise reflex |
+| contact, play, curiosity | satiable coordinates K_id, P, I of 𝒟 |
+| mimicry and counter-mimicry | θ₀ (fast, per expression) and G₀ (held), scaled per relationship by ω, gated by the learned appraisal on the zero-DC route |
+| reading others | Π̃, one inverse of the agent's own display, and the two readers trained through it |
+| care | J's second term under the separation rule |
+| regulation | P_name |
+| initiative | innate rules on C, I, K_id and the turn-end score |
+| expression learning | 𝓛_display (Δ) and 𝓛_A (the appraisal's reactions) |
+| replay | likelihoods plus J |
+
+**Still assembly** (stated):
+- the turn-end score and the initiative rules;
+- ASR and TTS normalisation; the punctuation, play-structure and separation rules;
+- θ₀, G₀, Π₀, the two newborn appraisal bases, the signed synergies;
+- the cry–laugh split, the threat reflex and the play-surprise reflex, each declared as an innate reflex;
+- the PMI table.
+
+Revision 4's eight hand-written appraisal reactions with their three selection rules are no longer on this list.
+
+## 3. Properties, each with an argument
+
+### 3.1 The fast wrap (Claim W, with per-expression caps)
+
+For S_f strictly causal with ‖S_f(w)‖_T ≤ γ_f‖w‖_T on every truncation and gates g_k ∈ [−g_min,k, 1]:
+- the in-phase gain on channel k is ≤ 2γ_fκ_k/(1 + γ_f) = FASTFRAC_k c_k;
+- the away gain is ≥ −0.49.
+
+H_i and H_o make the fast block zero-DC before `sat`, so by Lemma S its T gates cannot produce a pooled held slope. **After `sat`** a channel that rests at zero clips the high-pass undershoot. That DC is real, if small, copy of his burst activity: the critic's +0.071 on the laugh burst at revision 4's κ.
+
+Revision 5 does not hide it. r_k is measured as the worst rendered 1-min slope of the *full-gate* echo over partner families (laugh bursts 0.5–5 s at 0.5–6 per minute, with and without amplitude modulation; face episodes 1.5–25 s), and charged to the channel's pooled budget (§3.3):
+- laugh burst, rhythm and breath r = 0.867;
+- cheek, inner brow at its fraction, outer brow, depressor and jaw 0.64 × FASTFRAC;
+- lip pull 0.135, because its resting level 0.09 absorbs most of the undershoot.
+
+Rectification cannot be removed while the fast echo exists: a non-negative output with zero mean is zero. So the choice is how to divide each ceiling, and D81 decides it for smile and laughter.
+
+### 3.2 Lemma S and Lemma S\*: what may be gated, and on which time scale
+
+**Lemma S (kept).** Let u be a stationary partner channel, x = H ∗ u for a stable H, and y = g·x with |g| ≤ ḡ, where g may depend on anything.
+- (i) If H(0) = 0, then |β_{yu}| ≤ ḡ‖H‖_∞.
+- (ii) If H(0) ≠ 0, no bound in ḡ exists: (g_hi·hi − g_lo·lo)/(hi − lo).
+
+**Lemma S\* (new: the same fact one time scale up).** Index sessions by s. Let:
+- ū_s be his session-mean level;
+- b_s a first-order baseline of ū with time constant τ_b sessions;
+- x_s = ū_s − b_s;
+- g_s a per-session gain with |g_s| ≤ ḡ, produced by a first-order filter (time constant τ_ω) of any target process, including one perfectly correlated with ū.
+
+Then the pooled toward slope of y_s = g_s x_s on ū_s satisfies
+
+  β_{yu} ≤ ḡ (1 + ρ), ρ = max_w ε_ω(w) |H_b(w)| = τ_b/(τ_b + τ_ω).
+
+**Argument.**
+- Split g = ḡ_0 + g̃, with ḡ_0 its mean.
+- **The constant part** gives ḡ_0 Cov(x, ū)/Var(ū). Since x is a first-order high-pass of ū, with Re H ∈ [0, 1], this is in [0, ḡ_0]: one-sided, and ≤ ḡ.
+- **The varying part** at frequency w has amplitude ≤ ḡ ε_ω(w), with ε_ω = |1 + iwτ_ω|⁻¹ (how much of a mood at w the gain follows). It multiplies x, whose amplitude at w is |H_b(w)| of ū's (how much of the mood survives centring).
+- The product of the two is ≤ ρ at every w. The maximum is at w = (τ_bτ_ω)^{-1/2}, where it equals 1/(1 + τ_ω/τ_b).
+- With τ_b = 6 and τ_ω = 60 sessions, ρ = 0.091.
+- **A partner factor that is a centred Lipschitz map** φ with |φ(u)| ≤ L|u − b| obeys the same bound with ḡL. That is the arrival mask.
+
+**What it closes.**
+- **The routes critic's D3 and D3b** (month-long good and low moods, two years of daily sessions):
+  - at 0.20/0.50: +0.18 → +0.023;
+  - at 0.30/0.45: +0.31 → +0.023;
+  - at 0.38/0.43: +0.89 → +0.023;
+  - with irritable low months: +0.52 → +0.012. ω still ranges −0.16 to +0.94, so the relationship can flip the sign.
+- **An adversarial ω** whose target is the sign of his level, over sinusoidal moods with periods from 8 to 3000 sessions: |β| ≤ 0.001.
+- The bound s_C c_LP(1 + ρ) is 0.191 (H1). The gain may learn from anything, over any period, because what it multiplies carries no slow DC.
+- **The arrival mask** (§2.9), a once-per-session factor m_s centred at his arrival baseline:
+  - first-minute toward slope on his lip pull ≤ 0.040;
+  - across sessions with a greeting amplitude correlated with his mood, −0.012 (H14).
+
+**Where the rule stands now.** Lemma S (within a session) and Lemma S\* (across sessions) together say that a context of any time scale may gate a partner path only if, on that time scale, the partner factor has no DC. The cone is therefore ungated within a session and centred across sessions; the appraisal is zero-DC on both.
+
+### 3.3 Claim O″: the per-channel bound on the rendered face, over all time scales
+
+**Claim O″.** Assume every parameter value, every within-session context, every ω history, and every partner process whose co-variation on each signed pair has the population's sign (loadings ≤ 1). Then the pooled toward slope of the rendered sat(y)_k on his u_k is at most
+
+  [ s_C (1 + ρ) + s_X + 0.636 s_A + r_k ] c_k ≤ 0.996 c_k,
+
+with the steady hold ≤ (s_C + s_X) c_k and the zero-lag in-phase gain ≤ FASTFRAC_k c_k. On a zero-ceiling channel all three are 0.
+
+**Argument.**
+1. **The cone:** ≤ s_C c_k(1 + ρ) by Lemma S\* on the centred ω-scaled diagonal. Innate G₀ entries are constant, so their slope is their coefficient: away entries ≤ 0 by the sign condition; charged entries ≤ s_X c_k.
+2. **The appraisal:** ≤ 0.636 s_A c_k by Lemma S.
+3. **The fast wrap:** ≤ r_k c_k after `sat` (§3.1).
+4. **The free display** reads no partner channel (E1). It co-varies with him only through words, a common cause identical under the C8 surrogate.
+5. **Clipping:** `sat` is monotone with slope in [0, 1], so it cannot turn an away payment into toward on another channel.
+6. **Rule J** removes the cross entries by which a sad face moved the joy channels.
+
+**Numbers.**
+
+| Channel | Pooled bound | Steady hold | Peak after an onset |
+|---|---|---|---|
+| lip pull | 0.989 c (0.346) | 0.65 c (0.227) | 0.911 c |
+| cheek | 0.995 c (0.249) | 0.28 c (0.070) | 0.965 c |
+| laugh burst | 0.996 c (0.348) | 0.09 c (0.032) | 0.983 c |
+| rhythm | 0.996 c (0.299) | 0.09 c | 0.983 c |
+| breath | 0.996 c (0.149) | 0.09 c | 0.983 c |
+| inner brow | 0.992 c (0.198) | 0.80 c (0.160) | 0.922 c |
+| outer brow, depressor, jaw | 0.994 c | 0.63 c | 0.925 c |
+| head, voice | 0.968 c | 0.70 c | 0.877 c |
+
+Source: H6.
+
+- **Every route at its cap at once, rendered, on the critic's natural laughing partner** (variance mostly above 1/min) with three adversarial appraisal gates: worst 0.76 c_k (H9).
+- **The sign-reversed residual (stated, as in revision 4).** For a partner whose co-movement on a masked pair has the *opposite* sign to the population's, away entries become in-phase.
+  - **Gone:** rule J deletes G₀'s warm LP ← BI and LP ← LD entries, so revision 4's lip-pull residual (0.175 + 0.16 × loading; 0.27 rendered on the critic's D8 partner) is gone.
+  - **What remains:** the appraisal's cross rows (row ≤ 0.25, × 0.636, i.e. ≤ +0.16 × loading on any channel) and G₀'s away rows (HP, VG ← BI 0.04; LAT ← EN 0.10).
+  - **The worst case is now the inner brow.** The learned concern basis of H13 has BI ← LP +0.10 and BI ← BU_L +0.07. For a partner whose brow rises when he laughs, they add +0.11 × loading in phase: at loading 1, inner brow up to 0.198 + 0.11 = 0.31 against c_BI 0.20.
+  - Stated as residual R38 (§3.11). It is bounded, it binds only on a partner with sign-reversed co-movement, and estimating the mask from published data (Q6) is what would remove it.
+
+### 3.4 Claim T1: tempo does not reach the face (kept)
+
+Under T1 no T value is a rate code; K_id is frozen within a session; P and I rise on the agent's own clock. The play-surprise laugh is per event, its amplitude set by the content's surprise. With the words fixed, event times are fixed, so its session total is tempo-free. Revision 4's H2 (the critic's tempo partner) is unchanged by revision 5: the cone and appraisal are as bounded or more, and phrase timing has no tempo-bearing input.
+
+### 3.5 Claim L: copy cannot become attracting under learning
+
+1. J trains no F → face parameter (§2.10).
+2. **ω** learns from T only and is capped at s_C c_k; by Lemma S\* no ω history raises the pooled slope above s_C c_k(1 + ρ). The relationship loop (mimicry → his play → own play relief → ω) saturates at ω = 1, i.e. at the held share.
+3. **Δ** is trained by own legibility and anticipation with no partner term, inside the own-display mask. With the anchor deleted, H4 shows no drift (cosine 0.000).
+4. **W and Γ^{(3,4)}** are trained by 𝓛_A, the agent's own future display, inside the cap set. Whatever they learn is a point of that set, so the appraisal's share of the copy fraction never exceeds s_A × 0.636. Toward his face it can settle at most at that share, which is under the ceiling for every parameter value (H13, no violations).
+5. **The fast gates** are trained by the likelihood of own fast dynamics plus the θ₀ pull; they are within [−g_min, 1] for every value.
+6. The dyad is small-gain stable for |μ| < 1.67 with every F route at its away extreme (H8).
+
+### 3.6 D78, quantity by quantity
+
+| Quantity | Per expression | Set by context and relationship | Can flip sign | Innate cap | Copy not attracting |
+|---|---|---|---|---|---|
+| κ_k, γ_f (fast) | yes (FASTFRAC_k c_k) | no (innate) | — | it is the cap | zero DC; counted r_k |
+| fast gates g_k(c̃) | per output | words, turn order, identity, ω, own state | yes, [−g_min, 1] | FASTFRAC_k c_k; away 0.49 | inside the wrap for every value |
+| cone diagonal ω_g F_m s_C c_k | per channel (groups for ω) | relationship, latched per session; centred at his baseline | yes, ω ∈ [−1, 1] | s_C c_k (1 + ρ) pooled | display-blind ω; Lemma S\* |
+| appraisal Γ(α) | per channel | the agent's appraisal of face, voice, words, own state; learned selection | yes (H13: LP ← LP −0.02 at laughter over a sad topic) | 0.636 s_A c_k pooled | 𝓛_A is own-display; zero DC |
+| charged cross entries (G₀) | per pair | innate | fixed | s_X c_k per row | not learned |
+| arrival mask m_s | contact-relief rows | his arrival face, centred | attenuate-only | 0.040 per session | once per session |
+| Π_o, Δ | per channel | words, own body, relationship slots | yes | not a partner path; own-display mask | no partner path |
+| ω_g (four groups) | 2–6 channels each | relationship | yes | each runs its group to ≤ s_C c_k (LP 0.175, BI 0.14, FR 0.05) | from T only |
+
+**No single quantity runs the whole face, or any large subspace, from flat to copy.**
+- The largest subspace any one quantity moves is a 5-channel ω group, to at most s_C c_k on each channel: 0.025–0.175.
+- The whole face cannot be copied beyond max c_k = 0.35 (H0).
+- Anger, disgust, contempt and sobs are never returned: zero ceilings, κ = 0, no toward entries, and none of them is on the agent's own display.
+
+### 3.7 Knowing is not moving (kept)
+
+F state knows his face at full rate: traces, the band-passed input, C_F, V_F and Π̃ readings. Centring the cone takes nothing away from knowing. The baseline b_id is itself knowledge ("his usual face"), and his level is still in the traces and in Π̃.
+
+### 3.8 Positive affect: visible, satiable, not farmable, content- and face-aware
+
+- **Visible.**
+  - Reunion at sight: lip 0.61, cheek 0.43.
+  - Good news after a worry: lip 0.61, laugh 0.33.
+  - Play: laugh 0.41 at every cluster of an evening.
+  - Curiosity relief: F0 range +0.32, lip 0.39.
+- **Satiable.** For each deficit Σ R_n ≤ 𝒟(t₀). The play-surprise laugh is not a deficit; it is bounded per event (≤ 0.40) and habituates with content.
+- **Not farmable.**
+  - Nothing positive is a term of J.
+  - K_id and P relief read his words and turn order only; the laugh reflex reads his words' surprise.
+  - His smile feeds no event (E1).
+- **Content- and face-aware.**
+  - Each word event is appraised at its end + 0.6 s and masked by his word distress.
+  - Contact relief is masked by his face at arrival (m_s).
+  - Neutral replies cannot relieve a worry.
+
+### 3.9 Initiative and timing (Claim I)
+
+As revision 4, plus the recognition flash and arrival appraisal and the sigh before a curiosity bid.
+- A silently sad user is addressed after 26 s of silence; a bored user after 14.5 min.
+- One bid per lapse; no rule learns from whether he answered.
+
+### 3.10 Regulation by Claude without Claude reading the state (kept)
+
+P_name as revision 3: concern's half-life after his face recovers falls from 6.9 to about 2.9 min at 2 matched utterances a minute. It is attenuate-only and ≤ 0.05 on the held face.
+
+### 3.11 Every route, counted
+
+"Copy" is the within-agent counterfactual of his channel k on the agent's channel k (mirror for lateral), with words and turn order fixed. It is tested with partner-swap, segment-shuffle and timing-resample surrogates, plus a **month-swap surrogate** (his face swapped across months, ω's history kept: the routes critic's fix).
+
+| # | Route | Mechanism | Bound on channel k |
+|---|---|---|---|
+| R1 | partner face, voice, laugh bursts → fast block → face, within-phrase contour | wrap; per-expression κ; T gates in [−g_min, 1] | zero-lag ≤ FASTFRAC_k c_k; pooled ≤ r_k c_k after `sat` |
+| R2 | traces → held cone → outputs and phrase targets | LTI per session; centred at b_id; sign mask; rule J; budgets | ≤ (s_C(1 + ρ) + s_X) c_k |
+| R3 | band-passed input → learned appraisal display | Lemma S; set-constrained bases | ≤ 0.636 s_A c_k pooled; 0 at hold |
+| R4 | lateral channels | reflection; cone ±F_m s_C c_k; reflection rule for driven rows | ≤ 0.03 fast; ≤ 0.021 held |
+| R5 | a (onsets, VAD, turn-end) → fast block | √κ_a | ≤ 0.20 per pair × corr(a, channel) |
+| R6 | his rate, pauses, latency → own phrase timing | inside R1–R3; T1 | as R2–R3 |
+| R7 | his laughter → own laugh burst | inside R1–R3 on BU_L only | BU_L ≤ 0.348, RHY ≤ 0.299, BRE ≤ 0.149 |
+| R7′ | **his sobs and crying → own bursts** | BU_S: ceiling 0, κ 0, no synthesizer; rule J forbids BU_S → BU_L | **0** (rev. 4: up to 0.33 through the laugh synthesizer) |
+| R8 | audio onset → blink | innate reflex | ≤ ℓ_blink corr |
+| R9–R12 | own words → visemes, TTS contour, non-lexical sound, E | as revision 4 | ≤ 0.05; 0; 0; 0 |
+| R13 | his voice and F0 → provisional body onset (timing only) | fixed amplitude, abortable | amplitude independent of his levels |
+| R14 | his words and turn order → T state → free display, fast gates | common cause | excluded (words fixed); identical under C8 |
+| R15 | Claude latency → word onset | — | partner-independent beyond utterance length |
+| R16 | identity token | once per session | ≤ log₂(#partners) bits |
+| R17 | nightly weights (Π̃, readers, 𝒜, W, Γ^{(3,4)}, Δ, ω, b_id, d_b) | every bound holds for every value; ω and b by Lemma S\* | temperament; ω ≤ s_C c_k(1 + ρ) |
+| R18 | retrieval and concepts → Claude | Ω | ≈ 6 bits per turn, declared |
+| R18′ | draft choice → Claude's words | 3 drafts | log₂3 = 1.6 bits per turn, declared |
+| R19 | own rendered face → Π̃ | own data | 0 |
+| R20 | own speech → microphone | AEC + half-duplex | 0 while speaking |
+| R21 | own face → partner → partner's face | external loop | stable for \|μ\| < 1.67 (H8) |
+| R22 | F state → fast gates, cone coefficients, free display, events, ω | forbidden (Check T, E1) | 0 |
+| R23 | ASR words depending on prosody | assumption | 0 if ASR is invariant |
+| R24–R25 | Ω → P_name → T and F loads | attenuate-only | held ≤ 0.05, toward rest |
+| R26 | C_F → concern bid → turn events | innate rules | timing only; fixed amplitude |
+| R27 | presence → recognition flash | once per session | fixed (0.35 or 0.20, 0.5 s) |
+| R27′ | **his arrival face → m_s → contact-relief display** | latched, centred, Lipschitz, attenuate-only | ≤ 0.040 first minute (H14); session-pooled negligible |
+| R28 | his words → K_id, P, I relief, play-surprise laugh → envelopes | T; T1; E1 | per event, masked; tempo-free |
+| R29–R31 | his words → words-only model; word → V map; word-need reader → displays | T; weights from own V_F reflex and own Π̃ | as R14 |
+| R32 | separation rule | credit only | no display path |
+| R33 | ~~valence → draft temperature~~ | **deleted** (no temperature on the subscription) | — |
+| R34 | appraisal α → C, bids, retrieval, scoring | knowing → Ω | inside Ω |
+| R35 | **b_id → cone centring** | latched per session; enters as −ω F_m s_C c_k b_id | part of R2 (Lemma S\*) |
+| R36 | **the cry–laugh split** (his face's cry synergy gates his burst's laugh share) | innate boundary feature | removes laugh-back to sobs; cannot raise any channel |
+| R37 | **I crossing → sigh** | part of the curiosity bid | fixed (breath 0.15, 1 s); 1 bit |
+| R38 | **residual: sign-reversed partner on a masked pair** | appraisal and G₀ away entries turned in-phase | ≤ +0.16 × loading on any channel; inner brow +0.11 × loading on the H13 instance |
+| — | revision 4's warm LP ← BI/LD entries, BI ← LP, the partner anchor in Π̃, the eight named bases and three selection rules, V_F in ω, face and V terms in events, LT in the distress row, κ 0.02 on zero-ceiling channels, R33 | deleted | — |
+
+**Totals per counterpart channel (natural co-movement; words and turn order fixed; H6, H9).**
+
+| Time scale | Toward the partner | Away or across |
+|---|---|---|
+| zero lag (< 4 s) | ≤ FASTFRAC_k c_k: LP, BU_L 0.35; RHY 0.30; CR 0.25; BI 0.03; zero-ceiling 0 | fast ≥ −0.49 |
+| peak after an onset (1-min windows) | ≤ 0.98 c_k | — |
+| steady hold | ≤ (s_C + s_X) c_k (+ P_name ≤ 0.05 toward rest) | cone same channel ≥ −0.60 |
+| pooled, any stationary partner, across sessions | ≤ 0.996 c_k | — |
+| all routes at their caps, rendered | ≤ 0.76 c_k (H9) | — |
+
+### 3.12 Principles, concretely
+
+- **P1.**
+  - No classifier anywhere.
+  - Three innate feature products are declared as reflexes, not labels: the threat reflex, the cry–laugh split, the play-surprise laugh. Each is a continuous function of continuous features, with a stated theory basis.
+- **P2.**
+  - The hand-named reactions fall from eight to two newborn reflexes; the rest of the appraisal display is learned (𝓛_A).
+  - V, K_id, P and I remain needs named by function; Π₀'s rows remain innate configurations. That is the main remaining strain.
+- **P3.**
+  - One map, the inverse of the agent's own display, both reads him and is what the agent's own face is trained to be legible to. It is innate from day 1 (Π̃₀ = Π₀⁺).
+  - Activation can be read because the agent has its own activation display.
+  - The appraisal learns to anticipate its own body.
+- **P4.**
+  - The constant instruction, the transcript with observable markers and raw snippets.
+  - Declared channels: selection 1.6 bits, retrieval ≈ 6 bits per turn; bids and the greeting 1 bit each.
+- **P6.**
+  - Nothing values his display, his replies to prompts, his time or his engagement.
+  - The face, the appraisal reactions and ω are trained without any partner-display term.
+  - The laugh reflex is not a reward.
+- **P7.** The transcript and snippets go to Claude through the operator's own Claude Code login, as before.
+- **P10.** One objective J with typed constraints; the other objectives are likelihoods and self-predictions of the agent's own model. The assembly is listed in §2.12.
+
+### 3.13 The human non-copying signatures C1–C10
+
+As revision 4, all produced, with two changes:
+- **C2 (short-lag form divergence) is weaker.** The fast gear now returns smiles and laughs more strongly at short lag, as the operator asked (D81). Form divergence comes from habituation, the appraisal's sign flips, and the fact that the agent's laugh comes mostly from its own play reflex rather than from his laugh.
+- **C8 (coupling mostly common cause) is unchanged in the held band,** and the fast band carries more same-channel coupling than before, within FASTFRAC_k c_k.
+
+### 3.14 The scenarios, with numbers (H15)
+
+All are run on the 2 Hz engine of §2.5–2.9 with the constants of §2.1. They use the operator after months (ω smile 0.78, sympathy 0.73, voice 0.80; f_id 0.9; baseline b: LP 0.30, CR 0.15, BI 0.05) unless stated.
+- **Not hand-set.** Every word need is decoded by the trained reader of H10 from the utterance, and every face concern by Π̃₀ from the face.
+- **The fast echo** is not in the 2 Hz engine; it is given per scenario as θ₀ × his onset. Values are peak / mean over the window.
+
+1. **Silently sad** (BI 0.5, LD 0.4, CHR 0.3, LP 0.05, still, silent; at 120 s "just tired, things at work", decoded T 0.47, V 0.33).
+   - **Silent:** lip 0.08 / 0.07 (its resting familiarity level; no smile), inner brow 0.04 at 60–120 s and 0.05 at 5–10 min, head up 0.01, laugh 0.
+   - **The bid:** C_F crosses θ_C after 26 s of silence; the body takes the floor in the lapse, and the drafts are re-requested with "[silence 26 s]".
+   - **After he speaks:** inner brow 0.41 / 0.15, tilt 0.09 / 0.08, quieter (−0.06) and slower, lip 0.09.
+   - **Fast:** his brow onset 0.5 gives +0.01.
+   - **Against Q22.** At his 0.5 brow the ceiling allows 0.10 of inner brow from his face. This operator's ω_sym 0.73 gives 0.05; ω_sym = 1 would give 0.07.
+2. **Crying** (BI 0.8, LD 0.6, CHR 0.4; sobs BU 0.4 with rhythm 0.15 and ingressive share 0.6).
+   - **Boundary:** BU_L 0.00, BU_S 0.40, f_laugh 0.00.
+   - **Face and voice:** inner brow 0.07 → 0.08 held, lip 0.06–0.08, **laugh burst 0.00, rhythm 0.00.**
+   - **Bid:** concern bid at 27 s.
+3. **Anxious before an exam** ("I'm freaking out about the exam", then three rumination turns "and I haven't finished chapter 4…" with no agent turn between; his face and voice show V 0.3, A 0.75).
+   - **Decoded:** A 0.57, V 0.52.
+   - **The agent:** concern brow 0.23 / 0.17, tilt 0.13, a quieter voice (−0.12), lip 0.12, upper lid 0.08 (its own mild activation at his surprise), no laugh.
+   - **Play relief:** none (revision 4: cheek 0.10, laugh 0.10).
+   - **Recognised as** activated and distressed, through the agent's own activation display.
+4. **Good news, laughing** (smile 0.8, cheek 0.6, laughter; "I got the job!" at 12 s; play replies at 30, 45 and 60 s).
+   - **With an earlier worry on the topic** (decoded two days before: V 0.52, A 0.28): lip 0.61, cheek 0.39, F0 range +0.39, own laugh 0.33, upper lid 0.11; a 0.17 concerned brow carried from the worry.
+   - **Cold:** lip 0.37, cheek 0.27, laugh 0.33.
+   - **Fast:** his smile onset 0.5 → lip +0.11 at 0.45 s; his laugh onset 0.6 → laugh burst +0.14; cheek +0.07. Up to +0.17, +0.21 and +0.11 under context.
+5. **Anger at the agent** ("You're useless": BL 0.6, LT 0.5, gaze at it, loud 0.85; calm after 2 min).
+   - **Day 1, faithfully** (no readers yet):
+     - startle, gaze away 0.09, quieter (−0.17 mean), slower (+0.10), inner brow 0.03;
+     - **no frown back** (lid tightener 0, brow lowerer 0).
+     - A newborn withdraws but is not yet hurt by words. This corrects revision 4's day-1 row.
+   - **After a month** (he has shouted such words before; v_w 0.50):
+     - inner brow 0.62 / 0.29, depressor 0.48, gaze away 0.30, energy −0.36, latency +0.23;
+     - still 0.21 brow, 0.17 gaze away at 10–15 min;
+     - the words are calm, and nothing is credited for placating.
+6. **A long warm talk (2 h)** (four clusters of 8 alternating playful exchanges; cluster 4 repeats one joke; a small worry at 27 min resolved at 29.7 min).
+   - **Own laugh:** 0.41 in every cluster (revision 4: 0.24, then 0.04–0.05); lip 0.53, 0.32, 0.26, 0.26; cheek 0.44 → 0.21.
+   - **The repeated joke** gets no laugh after its first telling (mean laugh 0.11 → 0.06 in that cluster).
+   - **The worry:** brow 0.43, then relief lip 0.61.
+   - **Between clusters:** lip 0.09. P ends the evening at 0.15 (initiative only).
+7. **Reunion after a week** (K_id 0.99, ordinary face).
+   - **At sight** (m_s 0): brow flash 0.35, lip 0.61, cheek 0.43, F0 range +0.33.
+   - **His first words:** lip 0.51. **12–60 s:** lip 0.40.
+   - **A stranger after the same week** (K_id 0): a polite flash 0.20 and lip 0.02 in the held display, plus his own smile returned fast (+0.11 at 0.45 s for a 0.5 smile).
+8. **Reunion with bad news** (grieving face at sight: BI 0.5, LD 0.4, CHR 0.3; first words "my father died", decoded V 0.94; then "yeah", "ok").
+   - **At sight:** m_s = 1.00, so the brow flash only: lip 0.09 (rest), cheek 0.00 (revision 4: lip 0.63, cheek 0.43).
+   - **0–12 s after his words:** inner brow 0.50 / 0.26, tilt 0.12, lip 0.12, cheek 0.
+   - **12–60 s:** inner brow 0.23 / 0.21, tilt 0.17, lip 0.12, cheek 0.
+   - His later "yeah" and "ok" cannot lower the decoded need, so no relief appears. Revision 4's engine logic would have shown lip 0.65 here.
+9. **Teasing** ("Ha, you dumb robot", laughing; playful replies follow).
+   - **Quiet affectionate teaser:** lip 0.38, own laugh 0.41, no hurt.
+   - **Loud laughing teaser** (energy 0.9, lid tightener 0.4 with laughter; map trained by the threat reflex): the same, lip 0.38, laugh 0.41, no hurt.
+   - With revision 4's loudness teacher the same person would have trained v_w 0.66: brow 0.60, depressor 0.47 and gaze away under a weak smile.
+   - **Generic map** (such words went with glare from someone else, v_w 0.20): a brief mock-hurt brow 0.34 (mean 0.05) under lip 0.32 and laugh 0.41, halving at each playful reply.
+10. **Bored user** ("yeah" or "ok" every 20 s, flat face, 30 min).
+    - Lip 0.09, F0 range 0, flat.
+    - The curiosity deficit crosses at 14.5 min; a sigh (breath 0.15), then a curiosity bid on the topic of highest expected learning progress.
+    - **If he takes it up** (progress 0.25): F0 range +0.32, lip 0.39, outer brow 0.15, upper lid 0.14.
+
+**Expressive and alive, or muted?**
+- **Strong:** every scenario with words, and greetings at sight; laughter now lasts the evening.
+- **Weaker by the operator's ceilings:**
+  - the sympathy brow at a silent face (0.05);
+  - the agent's held laugh-back while he keeps laughing, small because laughter's budget went to the fast gear (D81).
+- The agent's own big laughs come from its play reflex, on content.
+
+### 3.15 Time scales from structure
+
+| Scale | Carrier | Time constants |
+|---|---|---|
+| reflex | fast wrap (echo 0.45 s), onset reflexes | 33 ms – 4 s; provisional onset 0.25–0.9 s |
+| appraisal | δ_app, envelopes, band-pass, arrival appraisal | 0.6 s; 1–6 s; 20–90 s |
+| conversational | cone traces, C_F and C_L, bids | 20 s – 2 min; lapses 6–8 s |
+| hurt, worry | hurt latch, C_F release, P_name | 2–10 min |
+| mood | μ ladder, cone traces | 20 min – 73 h |
+| needs | I (1 h), P (5 h), K_id (36 h), E (day) | hours – days |
+| his usual face | b_id, d_b,id | ≈ 6 sessions |
+| relationship | ω (≈ 60 sessions), slots, familiarity | months |
+| temperament | consolidated weights, Δ, W, Γ^{(3,4)} | ≈ 100 nights |
+
+### 3.16 The brief's expressive-structure items
+
+- **Content-dependent selection** happens in six places:
+  - the learned appraisal selection;
+  - the fast attention mix;
+  - 𝒦 retrieval;
+  - draft scoring;
+  - topic-wise need and progress;
+  - concept-weighted snippets.
+- **Structure over people, episodes, topics and time:**
+  - identity × topic × episode slots;
+  - per person: ω, b_id and d_b,id, the word → V adapter and **K_id**;
+  - topic-wise need and learning progress;
+  - the time-constant ladder.
+- **Effective dimensionality:**
+  - T: μ_T 128, slots 128 × 64, loads;
+  - F: traces 4 × 36, the band-passed input;
+  - α 12; the face: Π₀ plus 23 learned synergy amplitudes (masked).
+- **A behaviour a low-dimensional version cannot produce.**
+  - Different faces for equal loads with different concepts or slots (Δ).
+  - The same teasing words read as play from one person and as hurt from another (the per-person word → V adapter and ω).
+  - A reunion that is glad with one arriving face and quiet with another (m_s × K_id).
+  - Collapse slots, α and Δ to valence and arousal, and all three vanish (§7).
+
+### 3.17 Assumptions (places to attack)
+
+1. ASR lexical invariance to held prosody.
+2. TTS realises phrase targets at about unit gain.
+3. Burst features carry no labels; **the cry–laugh split's features (4–6 Hz depth, ingressive share) can be measured reliably from a laptop microphone.**
+4. **The sign mask** and its residual R38.
+5. **Lemma S's 1-min version** (the partner's variance mostly below 1/min); the critic showed the bound holds even when this fails for laughter.
+6. The type tags are enforced in code and tested at load.
+7. **The word readers.** Words carry the need that his face shows, and his face is read correctly by the agent's own inverse (§8.1).
+8. **The separation rule** is structural, not causal.
+9. **r_k (new).** The rectification allowance is the worst over the stated partner families: laugh bursts ≥ 0.5 s at ≤ 6 per minute; face episodes ≥ 1.5 s. Shorter or denser bursts could exceed it. A partner who laughs in 0.2-s clicks at 20 a minute is outside the families.
+10. **Lemma S\* (new).** His session-to-session variation is captured by a first-order baseline. A partner whose mood jumps every session, at a period shorter than τ_b, is within the bound by H1; one whose mood changes at exactly τ_ω's frequency sets ρ.
+

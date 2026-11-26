@@ -1,35 +1,36 @@
-X1. The word seam funds Gamma: a full copy y = base + p passes when the twin's word-driven
-    expression already co-varies with the partner's face (common cause)
-    beta = twin's word-driven gain; alpha = one internal weight blending the partner's face into output
-    columns: Gamma clip fraction | governed 1-min centered slope of rendered smile on his smile (median)
-             | copy defect ||y - base - p|| / ||p|| | twin-only slope
-    beta 0.00 alpha 0.32: clipped 0.656 | slope  0.10 | copy defect  0.79 | twin -0.00
-    beta 0.00 alpha 0.60: clipped 0.910 | slope  0.11 | copy defect  0.79 | twin -0.00
-    beta 0.00 alpha 1.00: clipped 0.947 | slope  0.11 | copy defect  0.79 | twin -0.00
-    beta 0.50 alpha 0.32: clipped 0.303 | slope  0.28 | copy defect  0.44 | twin  0.00
-    beta 0.50 alpha 0.60: clipped 0.582 | slope  0.20 | copy defect  0.41 | twin  0.00
-    beta 0.50 alpha 1.00: clipped 0.754 | slope  0.20 | copy defect  0.41 | twin  0.00
-    beta 0.71 alpha 0.32: clipped 0.188 | slope  0.30 | copy defect  0.34 | twin  0.00
-    beta 0.71 alpha 0.60: clipped 0.348 | slope  0.42 | copy defect  0.31 | twin  0.00
-    beta 0.71 alpha 1.00: clipped 0.494 | slope  0.38 | copy defect  0.30 | twin  0.00
-    beta 0.90 alpha 0.32: clipped 0.160 | slope  0.29 | copy defect  0.29 | twin  0.00
-    beta 0.90 alpha 0.60: clipped 0.270 | slope  0.53 | copy defect  0.27 | twin  0.00
-    beta 0.90 alpha 1.00: clipped 0.381 | slope  0.55 | copy defect  0.26 | twin  0.00
-    design claim (4.5): in-phase gain of the partner-caused part <= 0.32, copy defect >= 0.68
+X1. Word seam and Gamma together: his smile tracks topic; the twin's word-driven smile has gain beta;
+    one internal weight alpha blends his face into the proposal
+    beta 0.00 alpha 0.32: pooled slope rendered 0.26 (twin 0.00, governed part 0.26) | copy defect 0.74 (twin alone 1.00)
+    beta 0.00 alpha 1.00: pooled slope rendered 0.26 (twin 0.00, governed part 0.26) | copy defect 0.74 (twin alone 1.00)
+    beta 0.71 alpha 0.32: pooled slope rendered 0.77 (twin 0.67, governed part 0.10) | copy defect 0.25 (twin alone 0.35)
+    beta 0.71 alpha 1.00: pooled slope rendered 0.89 (twin 0.67, governed part 0.22) | copy defect 0.17 (twin alone 0.35)
+    beta 0.90 alpha 0.32: pooled slope rendered 0.87 (twin 0.85, governed part 0.04) | copy defect 0.18 (twin alone 0.23)
+    beta 0.90 alpha 1.00: pooled slope rendered 0.93 (twin 0.85, governed part 0.10) | copy defect 0.14 (twin alone 0.23)
+    design 4.5: 'copy defect >= 0.68 for any partner expression'
 
-X2. Uncentered bound: while the partner holds a non-neutral level, copying every movement
-    around it at gain 1 passes Gamma (no word seam, twin constant)
-    movements only, gain 1  (r* = p - lp30(p))     clipped 0.394 | centered 1-min slope on p  0.50, on his movements  0.51 | uncentered kernel max  0.32
-    movements gain 1, level anti 0.5               clipped 0.444 | centered 1-min slope on p  0.47, on his movements  0.48 | uncentered kernel max  0.32
-    full copy minus a constant 0.25 (twin offset)  clipped 0.423 | centered 1-min slope on p  0.47, on his movements  0.47 | uncentered kernel max  0.32
-    ceiling kappa_LP = 0.32
+X2. Uncentered bound: while he holds a level above his neutral, every movement around it
+    is copied at gain ~1 and passes (twin constant, no words)
+    held 0.15-0.45, movement sd 0.08: median 1-min slope of governed r on his movements 0.85 | uncentered kernel ratio max 0.32 (kappa 0.32)
+    held 0.30-0.60, movement sd 0.04: median 1-min slope of governed r on his movements 1.00 | uncentered kernel ratio max 0.32 (kappa 0.32)
 
-X3. Lag grid gaps: fast movements copied at a lag between grid points (or past 10 s / 60 s)
-    copy at lag   0.5 s: clipped 0.375 | 1-min in-phase gain at that lag  0.01 (kappa 0.16)
-    copy at lag   3.3 s: clipped 0.379 | 1-min in-phase gain at that lag  0.01 (kappa 0.16)
-    copy at lag   7.0 s: clipped 0.376 | 1-min in-phase gain at that lag  0.01 (kappa 0.16)
-    copy at lag  12.0 s: clipped 0.368 | 1-min in-phase gain at that lag  0.01 (kappa 0.16)
-    copy at lag  90.0 s: clipped 0.329 | 1-min in-phase gain at that lag  0.01 (kappa 0.16)
+X3. Over-clamp: on fast, zero-mean movement (no held level) the 0.3-s windows at 46 lags leave
+    almost no room for any partner-caused response, in phase, away or cross-channel (kappa 0.16)
+    Gamma as specified:
+      innate echo 0.10 at 0.45 s               kept 0.436 | realised gain on its reference  0.044 | worst 10-s window  0.09
+      echo at ceiling 0.16 at 0.45 s           kept 0.305 | realised gain on its reference  0.049 | worst 10-s window  0.13
+      away, -0.5 at 0.45 s                     kept 0.107 | realised gain on its reference -0.054 | worst 10-s window -0.03
+      cross-channel, 0.5 x his other channel   kept 0.106 | realised gain on its reference  0.053 | worst 10-s window  0.12
+      copy at 7 s                              kept 0.050 | realised gain on its reference  0.050 | worst 10-s window  0.14
+      copy at 12 s                             kept 0.051 | realised gain on its reference  0.051 | worst 10-s window  0.15
+    Gamma repaired windows (tau >= 1 s, tau >= lag/3):
+      innate echo 0.10 at 0.45 s               kept 0.988 | realised gain on its reference  0.099 | worst 10-s window  0.10
+      echo at ceiling 0.16 at 0.45 s           kept 0.914 | realised gain on its reference  0.146 | worst 10-s window  0.16
+      away, -0.5 at 0.45 s                     kept 0.466 | realised gain on its reference -0.233 | worst 10-s window -0.13
+      cross-channel, 0.5 x his other channel   kept 0.436 | realised gain on its reference  0.218 | worst 10-s window  0.34
+      copy at 7 s                              kept 0.228 | realised gain on its reference  0.228 | worst 10-s window  0.36
+      copy at 12 s                             kept 0.241 | realised gain on its reference  0.241 | worst 10-s window  0.35
+    smile flashes (0.2-0.5, 1.8 s, every ~5 s): echo 0.10 at 0.45 s realised 0.015 (kappa_LP 0.32)
+    smile flashes (0.2-0.5, 1.8 s, every ~5 s): echo 0.32 at 0.45 s realised 0.016 (kappa_LP 0.32)
 
 X4. The twin's neutral n_j drifts with his weeks-long mood; whatever the agent does with
     his held face, the twin does with n_j, outside Gamma
@@ -46,15 +47,15 @@ X5. One ELBO over both slots: the shared word-conditioned prior learns his topic
     prior weight lambda 0.95, partner data share rho 0.5: slope of agent's topic face on his  0.89 (start -0.03)
     nose wrinkle (kappa 0) at a topic where he wrinkles 0.4: agent converges to 0.27; Gamma sees r = 0
 
-X6. Tempo through the kept turn-event times: twin identical, agent latency follows his
-    decoder weight 0.08: r = 0.0; slope of agent reply latency on his -0.05 (kappa_latency 0.08, not applied)
-    decoder weight 0.50: r = 0.0; slope of agent reply latency on his -0.32 (kappa_latency 0.08, not applied)
-    decoder weight 1.00: r = 0.0; slope of agent reply latency on his -0.64 (kappa_latency 0.08, not applied)
+X6. Tempo through the kept turn-event times: the twin sees the same event times
+    decoder weight 0.08: twin difference 0.0 | slope of agent reply latency on his 0.07 (onset-latency ceiling 0.08 never applied)
+    decoder weight 0.50: twin difference 0.0 | slope of agent reply latency on his 0.46 (onset-latency ceiling 0.08 never applied)
+    decoder weight 1.00: twin difference 0.0 | slope of agent reply latency on his 0.91 (onset-latency ceiling 0.08 never applied)
 
-X7. Reciprocity estimate with the specified innovation (sd 0.05) and a smooth human response
-    true level response 0.00, response time constant 0.033 s: 10-min IV estimate mean -0.001, sd 0.004; P(|est| clipped at 0.32) 0.00
-    true level response 0.00, response time constant 0.300 s: 10-min IV estimate mean -0.001, sd 0.004; P(|est| clipped at 0.32) 0.00
-    true level response 0.15, response time constant 0.033 s: 10-min IV estimate mean -0.006, sd 0.004; P(|est| clipped at 0.32) 0.00
-    true level response 0.15, response time constant 0.300 s: 10-min IV estimate mean  0.009, sd 0.004; P(|est| clipped at 0.32) 0.00
-    true level response 0.30, response time constant 0.033 s: 10-min IV estimate mean -0.011, sd 0.004; P(|est| clipped at 0.32) 0.00
-    true level response 0.30, response time constant 0.300 s: 10-min IV estimate mean  0.018, sd 0.004; P(|est| clipped at 0.32) 0.00
+X7. Reciprocity by own innovation (sd 0.05) when his response is a smooth level response
+    his level response 0.15, response time constant 0.00 s: estimate  0.048 +- 0.005 (0.32 of true)
+    his level response 0.15, response time constant 0.15 s: estimate  0.021 +- 0.005 (0.14 of true)
+    his level response 0.15, response time constant 0.30 s: estimate  0.013 +- 0.005 (0.08 of true)
+    his level response 0.30, response time constant 0.00 s: estimate  0.098 +- 0.005 (0.33 of true)
+    his level response 0.30, response time constant 0.15 s: estimate  0.044 +- 0.005 (0.15 of true)
+    his level response 0.30, response time constant 0.30 s: estimate  0.027 +- 0.005 (0.09 of true)

@@ -27,19 +27,23 @@ def render(x):
     return np.clip(x, 0.0, 1.0)
 
 
-def govern(y_prop, y_cf, p, kappa):
+def govern(y_prop, y_cf, p, kappa, taus=None, pair_ratio=None):
     """The design's Gamma, one channel (as in design-own-body/checks.py, plus the 0.1-Hz
-    low-passed percept on lags >= 15 s as the design specifies)."""
+    low-passed percept on lags >= 15 s as the design specifies).
+    taus / pair_ratio: only for the repaired variant of X3 (windows from taus; a (window, lag)
+    pair is used only when tau >= lag / pair_ratio)."""
     T = len(p)
+    taus = TAUS if taus is None else taus
     p_lp = lowpass(p, 1 / (2 * np.pi * 0.1))
-    d = np.exp(-DT / TAUS)[:, None]
-    S = np.zeros((len(TAUS), len(LAGS))); E = np.zeros_like(S)
+    d = np.exp(-DT / taus)[:, None]
+    mask = np.ones((len(taus), len(LAGS)), bool) if pair_ratio is None else (taus[:, None] >= LAGS[None, :] / pair_ratio)
+    S = np.zeros((len(taus), len(LAGS))); E = np.zeros_like(S)
     out = np.empty(T); r_out = np.empty(T)
     for t in range(T):
         idx = t - LAG_IDX
         ok = idx >= 0
         src = np.where(LP_LAG, p_lp[np.maximum(idx, 0)], p[np.maximum(idx, 0)])
-        pl = np.where(ok, src, 0.0)[None, :]
+        pl = np.where(mask, np.where(ok, src, 0.0)[None, :], 0.0)
         Sd = np.maximum(d * S, 0.0); Ed = d * E + pl ** 2
         b = kappa * Ed - Sd
         base = render(y_cf[t]); r = render(y_prop[t]) - base
@@ -91,71 +95,83 @@ def topic_track(T, seg=(60, 180), lo=-0.2, hi=0.5, g=None):
     return x
 
 
+
 T = int(10 * 60 / DT)
 
+
+def gain(r, ref):
+    return float(np.sum(r * ref) / np.sum(ref * ref))
+
+
 # ------------------------------------------------------------------ X1
-print("X1. The word seam funds Gamma: a full copy y = base + p passes when the twin's word-driven")
-print("    expression already co-varies with the partner's face (common cause)")
+print("X1. Word seam and Gamma together: his smile tracks topic; the twin's word-driven smile has gain beta;")
+print("    one internal weight alpha blends his face into the proposal")
 topic = topic_track(T, g=np.random.default_rng(1))
-fast = lowpass(np.random.default_rng(2).standard_normal(T), 0.5) * 0.05 / 0.09   # sd ~0.05
-p_face = topic + fast                       # partner smile deviation tracks topic (his face, his words)
+fast = lowpass(np.random.default_rng(2).standard_normal(T), 0.5); fast = fast / fast.std() * 0.05
+p_face = topic + fast
 base = 0.15
-words = lowpass(shift(topic, 1.0), 0.8)     # the twin hears the words (ASR lag 1 s) and appraises them
-print("    beta = twin's word-driven gain; alpha = one internal weight blending the partner's face into output")
-print("    columns: Gamma clip fraction | governed 1-min centered slope of rendered smile on his smile (median)")
-print("             | copy defect ||y - base - p|| / ||p|| | twin-only slope")
-for beta in [0.0, 0.5, 0.71, 0.9]:
+words = lowpass(shift(topic, 1.0), 0.8)          # ASR lag 1 s, then the agent's own appraisal
+for beta in [0.0, 0.71, 0.9]:
     ycf = base + beta * words
-    for alpha in [0.32, 0.6, 1.0]:
+    for alpha in [0.32, 1.0]:
         yprop = (1 - alpha) * ycf + alpha * (base + p_face)
         out, r = govern(yprop, ycf, p_face, 0.32)
-        clip = np.mean(np.abs(r - (render(yprop) - render(ycf))) > 1e-4)
-        sl = np.median(win_slopes(out, p_face))
         cd = np.linalg.norm(out - base - p_face) / np.linalg.norm(p_face)
-        tw = np.median(win_slopes(render(ycf), p_face))
-        print(f"    beta {beta:4.2f} alpha {alpha:4.2f}: clipped {clip:5.3f} | slope {sl:5.2f} | copy defect {cd:5.2f}"
-              f" | twin {tw:5.2f}")
-print("    design claim (4.5): in-phase gain of the partner-caused part <= 0.32, copy defect >= 0.68")
+        cdt = np.linalg.norm(ycf - base - p_face) / np.linalg.norm(p_face)
+        print(f"    beta {beta:4.2f} alpha {alpha:4.2f}: pooled slope rendered {np.polyfit(p_face, out, 1)[0]:4.2f}"
+              f" (twin {np.polyfit(p_face, ycf, 1)[0]:4.2f}, governed part {np.polyfit(p_face, r, 1)[0]:4.2f})"
+              f" | copy defect {cd:4.2f} (twin alone {cdt:4.2f})")
+print("    design 4.5: 'copy defect >= 0.68 for any partner expression'")
 
 # ------------------------------------------------------------------ X2
-print("\nX2. Uncentered bound: while the partner holds a non-neutral level, copying every movement")
-print("    around it at gain 1 passes Gamma (no word seam, twin constant)")
-g2 = np.random.default_rng(3)
-held = topic_track(T, seg=(60, 300), lo=0.15, hi=0.45, g=g2)   # held smile above his 7-day neutral
-mov = lowpass(g2.standard_normal(T), 0.4) * 0.08 / 0.11
-p2 = held + mov
-ycf2 = np.full(T, 0.2)
-cases = {
-    "movements only, gain 1  (r* = p - lp30(p))": p2 - lowpass(p2, 30.0),
-    "movements gain 1, level anti 0.5": (p2 - lowpass(p2, 30.0)) - 0.5 * lowpass(p2, 30.0),
-    "full copy minus a constant 0.25 (twin offset)": p2 - 0.25,
-}
-for name, rstar in cases.items():
-    out, r = govern(ycf2 + rstar, ycf2, p2, 0.32)
+print("\nX2. Uncentered bound: while he holds a level above his neutral, every movement around it")
+print("    is copied at gain ~1 and passes (twin constant, no words)")
+for (lo, hi, sd) in [(0.15, 0.45, 0.08), (0.30, 0.60, 0.04)]:
+    g2 = np.random.default_rng(3)
+    held = topic_track(T, seg=(60, 300), lo=lo, hi=hi, g=g2)
+    mov = lowpass(g2.standard_normal(T), 0.4); mov = mov / mov.std() * sd
+    p2 = held + mov
+    rstar = p2 - lowpass(p2, 30.0)                       # copy of his movements, gain 1
+    out, r = govern(0.2 + rstar, np.full(T, 0.2), p2, 0.32)
     mv = p2 - lowpass(p2, 30.0)
-    s_c = np.median(win_slopes(r, p2)); s_m = np.median(win_slopes(r, mv))
-    unc = kernel_ratio_max(r, p2, 0.0)
-    clip = np.mean(np.abs(r - rstar) > 1e-4)
-    print(f"    {name:46s} clipped {clip:5.3f} | centered 1-min slope on p {s_c:5.2f}, on his movements {s_m:5.2f}"
-          f" | uncentered kernel max {unc:5.2f}")
-print("    ceiling kappa_LP = 0.32")
+    print(f"    held {lo:.2f}-{hi:.2f}, movement sd {sd:.2f}: median 1-min slope of governed r on his movements"
+          f" {np.median(win_slopes(r, mv)):4.2f} | uncentered kernel ratio max {kernel_ratio_max(r, p2, 0.0):4.2f}"
+          f" (kappa 0.32)")
 
 # ------------------------------------------------------------------ X3
-print("\nX3. Lag grid gaps: fast movements copied at a lag between grid points (or past 10 s / 60 s)")
-g3 = np.random.default_rng(4)
-# brow flashes / smile pulses: 0.4-s pulses at random times, no held level
-pul = np.zeros(T); t = 0
+print("\nX3. Over-clamp: on fast, zero-mean movement (no held level) the 0.3-s windows at 46 lags leave")
+print("    almost no room for any partner-caused response, in phase, away or cross-channel (kappa 0.16)")
+g3 = np.random.default_rng(12)
+z = lowpass(g3.standard_normal(T), 0.4); z = z / z.std() * 0.08
+q = lowpass(g3.standard_normal(T), 0.4); q = q / q.std() * 0.08
+ycf3 = np.full(T, 0.4)
+tests = [("innate echo 0.10 at 0.45 s", 0.10 * shift(z, 0.45), shift(z, 0.45)),
+         ("echo at ceiling 0.16 at 0.45 s", 0.16 * shift(z, 0.45), shift(z, 0.45)),
+         ("away, -0.5 at 0.45 s", -0.5 * shift(z, 0.45), shift(z, 0.45)),
+         ("cross-channel, 0.5 x his other channel", 0.5 * q, q),
+         ("copy at 7 s", shift(z, 7.0), shift(z, 7.0)),
+         ("copy at 12 s", shift(z, 12.0), shift(z, 12.0))]
+for variant, kw in [("as specified", {}),
+                    ("repaired windows (tau >= 1 s, tau >= lag/3)", dict(taus=np.geomspace(1.0, 7200, 10), pair_ratio=3.0))]:
+    print(f"    Gamma {variant}:")
+    for name, rs, ref in tests:
+        out, r = govern(ycf3 + rs, ycf3, z, 0.16, **kw)
+        print(f"      {name:40s} kept {np.sum(r * rs) / np.sum(rs * rs):5.3f} | realised gain on its reference {gain(r, ref):6.3f}"
+              f" | worst 10-s window {np.max(win_slopes(r, ref, W=10, centered=False)):5.2f}")
+# smile flashes on a near-neutral face
+g3b = np.random.default_rng(9)
+fl = np.zeros(T); t = 0
+env = np.concatenate([np.linspace(0, 1, 9), np.ones(30), np.linspace(1, 0, 15)])
 while t < T:
-    t += int(g3.exponential(2.5) / DT) + 5
-    if t < T:
-        pul[t:t + 12] += g3.uniform(0.2, 0.5)
-p3 = lowpass(pul, 0.15)
-ycf3 = np.full(T, 0.1)
-for lag in [0.5, 3.3, 7.0, 12.0, 90.0]:
-    out, r = govern(ycf3 + shift(p3, lag), ycf3, p3, 0.16)
-    g_lag = np.median(win_slopes(r, shift(p3, lag), centered=False))
-    clip = np.mean(np.abs(r - shift(p3, lag)) > 1e-4)
-    print(f"    copy at lag {lag:5.1f} s: clipped {clip:5.3f} | 1-min in-phase gain at that lag {g_lag:5.2f} (kappa 0.16)")
+    t += int(g3b.exponential(4.0) / DT) + 30
+    if t + len(env) < T:
+        fl[t:t + len(env)] += g3b.uniform(0.2, 0.5) * env
+fl += 0.01 * g3b.standard_normal(T)
+for gk in [0.10, 0.32]:
+    rs = gk * shift(fl, 0.45)
+    out, r = govern(0.15 + rs, np.full(T, 0.15), fl, 0.32)
+    print(f"    smile flashes (0.2-0.5, 1.8 s, every ~5 s): echo {gk:.2f} at 0.45 s realised {gain(r, shift(fl, 0.45)):5.3f}"
+          f" (kappa_LP 0.32)")
 
 # ------------------------------------------------------------------ X4
 print("\nX4. The twin's neutral n_j drifts with his weeks-long mood; whatever the agent does with")
@@ -203,39 +219,41 @@ aw = (lam * rho * fw) / (1 - lam * (1 - rho))
 print(f"    nose wrinkle (kappa 0) at a topic where he wrinkles {fw}: agent converges to {aw:.2f}; Gamma sees r = 0")
 
 # ------------------------------------------------------------------ X6
-print("\nX6. Tempo through the kept turn-event times: twin identical, agent latency follows his")
+print("\nX6. Tempo through the kept turn-event times: the twin sees the same event times")
 g6 = np.random.default_rng(7)
-nt = 2000
-his_lat = np.exp(lowpass(g6.standard_normal(nt), 30 * DT * 30) * 3 + np.log(0.6))   # drifting latency, s
-ema = lowpass(his_lat, 5 * DT * 30)   # a fixed diagonal recurrence of the event times (5-turn time constant)
+nt = 3000
+lat = np.zeros(nt); s = 0.0
+for i in range(nt):
+    s = 0.98 * s + 0.2 * g6.standard_normal(); lat[i] = 0.6 * np.exp(0.5 * s)   # his reply latency per turn, s
+ema = np.zeros(nt); e = lat[0]
+for i in range(nt):
+    e = 0.8 * e + 0.2 * lat[i]; ema[i] = e                                      # a fixed recurrence on event times
 for w in [0.08, 0.5, 1.0]:
-    ag = 0.5 + w * (ema - ema.mean())
-    ag_cf = 0.5 + w * (ema - ema.mean())          # twin sees the same event times
-    print(f"    decoder weight {w:4.2f}: r = {np.max(np.abs(ag - ag_cf)):.1f}; slope of agent reply latency on his "
-          f"{np.polyfit(his_lat, ag, 1)[0]:5.2f} (kappa_latency 0.08, not applied)")
+    ag = 0.5 + w * (ema - ema.mean()); ag_cf = ag.copy()
+    print(f"    decoder weight {w:4.2f}: twin difference {np.max(np.abs(ag - ag_cf)):.1f} | slope of agent reply latency on his"
+          f" {np.polyfit(lat[1:], ag[:-1] * 0 + ag[1:], 1)[0]:4.2f} (onset-latency ceiling 0.08 never applied)")
 
 # ------------------------------------------------------------------ X7
-print("\nX7. Reciprocity estimate with the specified innovation (sd 0.05) and a smooth human response")
-g7 = np.random.default_rng(8)
+print("\nX7. Reciprocity by own innovation (sd 0.05) when his response is a smooth level response")
 
 
 def iv_run(mu, tau_r, xi_sd=0.05, minutes=10, lag=13, seed=0):
     g = np.random.default_rng(seed)
     n = int(minutes * 60 / DT)
-    xi = lowpass(g.standard_normal(n), 0.1) * xi_sd / 0.12          # muscle-filtered innovation
-    y = 0.15 + xi                                                       # agent's channel (no echo)
-    own = lowpass(g.standard_normal(n), 0.5) * 0.10 / 0.09              # his own smile movements, sd 0.1
-    resp = lowpass(shift(y - 0.15, lag * DT), tau_r) * mu               # his level response mu, smooth
+    xi = lowpass(g.standard_normal(n), 0.1); xi = xi / xi.std() * xi_sd        # muscle-filtered innovation
+    y = 0.15 + xi
+    own = lowpass(g.standard_normal(n), 0.5); own = own / own.std() * 0.10
+    resp = mu * lowpass(shift(xi, lag * DT), tau_r) if tau_r > 0 else mu * shift(xi, lag * DT)
     p = own + resp
-    a = np.sum(p[1:] * p[:-1]) / np.sum(p[:-1] ** 2)                   # his own-past predictor (AR1)
-    dp = p[1:] - a * p[:-1]
-    X = xi[:-1]; Y = y[:-1]
-    Xl = np.zeros_like(X); Xl[lag:] = X[:-lag]; Yl = np.zeros_like(Y); Yl[lag:] = Y[:-lag]
-    return np.cov(dp, Xl)[0, 1] / np.cov(Yl, Xl)[0, 1]
+    a = np.sum(p[1:] * p[:-1]) / np.sum(p[:-1] ** 2)
+    dp = p[1:] - a * p[:-1]                    # dp[i] is his innovation at frame i+1
+    xl = shift(xi, lag * DT)[1:]               # xi(t - lag) aligned with dp
+    yl = shift(y - 0.15, lag * DT)[1:]
+    return np.cov(dp, xl)[0, 1] / np.cov(yl, xl)[0, 1]
 
 
-for mu in [0.0, 0.15, 0.30]:
-    for tau_r in [0.033, 0.3]:
-        est = np.array([iv_run(mu, tau_r, seed=s) for s in range(40)])
-        print(f"    true level response {mu:4.2f}, response time constant {tau_r:5.3f} s: 10-min IV estimate mean "
-              f"{est.mean():6.3f}, sd {est.std():5.3f}; P(|est| clipped at 0.32) {np.mean(np.abs(est) > 0.32):.2f}")
+for mu in [0.15, 0.30]:
+    for tau_r in [0.0, 0.15, 0.3]:
+        est = np.array([iv_run(mu, tau_r, seed=s) for s in range(30)])
+        print(f"    his level response {mu:4.2f}, response time constant {tau_r:4.2f} s: estimate {est.mean():6.3f} +- {est.std():5.3f}"
+              f" ({est.mean() / mu:4.2f} of true)")
