@@ -47,10 +47,10 @@ Revisions 1–7 are kept as `design-cayley-ledger.r1.md` … `.r7.md`. Revision 
 | fast gear, any instant | 0 ≤ y_f,k(t) ≤ g G_k x_k(t − δ_k), δ_k 0.80 s on LP, CR, BU_L, RHY, BRE and 0.45 s elsewhere; G_k as revision 6 | §2.4 |
 | fast gear, any window (W′) | window mean ≤ G_k × his window mean; swing ≤ G_k × the larger mean | §3.1 |
 | context gate | g ∈ [0, 1]; frozen; monotone; reads none of his LP, CR, BU_L, RHY, BRE (D_s now included); unknown words → 0 | J21, J37 |
-| gated group, pooled (R1g, declared) | ≤ 0.25 c (LP, CR), ≤ 0.42 c (BU_L) at 2 s–1 min; ≤ 0.36 c LP totals at 1 min | routes critic T1–T3 |
+| gated group, pooled (R1g, declared) | ≤ 0.31 c (LP), ≤ 0.35 c (CR), **≤ 0.53 c (BU_L)** at 2 s–1 min, with the gate read per sentence (8.1; revision 8 declared 0.42 c); within 0.04 c of the ungated values | routes critics 7 (T1–T3) and 8 (R1s, R1s-x) |
 | posture (R40′), copy | its part of BI, BO, TILT, HP, LP is the same whatever his same channel does (0.000 change); total causal slope ≤ 0.10 BI, 0.03 BO, 0.05 LP | J32 |
-| posture (R40′), level | \|y_p,k\| ≤ \|P_c,k\| ≤ c_k on every channel | J0 (revision 7) |
-| posture (R40′), pooled over his sadness (declared appraisal) | BI 0.69 (operator), 2.05 (quiet code), 0.43–0.52 (σ_id at floor) at 1- and 10-min blocks; LP 0.12–0.19 | J32 |
+| posture (R40′), declared as a **level** (8.1) | \|y_p,k\| ≤ \|P_c,k\| ≤ c_k on BI, BO, TILT, HP, LP, UL; on gaze and blink, the agent's own gaze-away × (1 − 0.5a) and blink rate × (1 − 0.3a): at most half of its own gaze-away and 0.3 of its blink rate, whatever his face does | J0 (revision 7); routes critique 8 §2 |
+| posture (R40′), pooled over his sadness (reported, not a bound) | BI 0.69 (operator), 2.05 (quiet code), 0.43–0.52 (σ_id at floor) at 1- and 10-min blocks; LP 0.12–0.19. As a slope this is unbounded (0.20 Δa over his brow change), so the level row is the declaration | J32 |
 | posture holds | no mirror; answering concern released by the probe at 190 s; never released at steady genuine distress | J33, J34 |
 | pooled toward, all counted routes | ≤ 0.974 c_k additive; ≤ 0.75 c_k measured at the gate's largest value; R1g as above | revision 6 J3 |
 | any uncounted within-session route | ≤ c_k (ledger, attenuate-only) | revision 7 J17 |
