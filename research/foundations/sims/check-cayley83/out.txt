@@ -1,0 +1,65 @@
+[engine loaded in 230 s]
+=== X1: C_L from ordinary words (population reader pop7 on constructed latents; emb carries 0.15 noise per draw)
+   latent (V, A, T, joy, harm, hostility): 200 draws -> decoded mean V/A/T, Dp mean, P(Dp >= 0.02), median life of C_L presence
+   neutral ('yeah', 'ok')                     V 0.02 A 0.01 T 0.02; Dp 0.0001; P(>=0.02) 0.00; C_L life median      0 s (max      0)
+   hedge ('I don't know, I guess')            V 0.14 A 0.08 T 0.13; Dp 0.0082; P(>=0.02) 0.07; C_L life median      0 s (max      0)
+   'I'm fine'                                 V 0.06 A 0.04 T 0.06; Dp 0.0014; P(>=0.02) 0.01; C_L life median      0 s (max      0)
+   small talk 'anyway. how was your day?'     V 0.15 A 0.11 T 0.16; Dp 0.0099; P(>=0.02) 0.12; C_L life median      0 s (max    158)
+   mild 'meh, so-so'                          V 0.18 A 0.08 T 0.17; Dp 0.0156; P(>=0.02) 0.26; C_L life median      0 s (max    751)
+   'a bit tired'                              V 0.14 A 0.05 T 0.35; Dp 0.0185; P(>=0.02) 0.36; C_L life median      0 s (max    796)
+   'long day'                                 V 0.26 A 0.10 T 0.43; Dp 0.0584; P(>=0.02) 0.97; C_L life median    398 s (max    806)
+   'I'm okay, just a bit tired'               V 0.19 A 0.05 T 0.41; Dp 0.0377; P(>=0.02) 0.81; C_L life median    337 s (max    589)
+   'not great'                                V 0.27 A 0.10 T 0.16; Dp 0.0420; P(>=0.02) 0.93; C_L life median    629 s (max   1108)
+   'just tired, things at work' (author's)    V 0.36 A 0.11 T 0.59; Dp 0.1403; P(>=0.02) 1.00; C_L life median   1158 s (max   1488)
+   coffee-machine joke while sad              V 0.38 A 0.19 T 0.40; Dp 0.1063; P(>=0.02) 1.00; C_L life median   1060 s (max   1403)
+   'busy, a bit stressed'                     V 0.25 A 0.25 T 0.19; Dp 0.0399; P(>=0.02) 0.85; C_L life median    351 s (max   1007)
+   noise-free thresholds on the decoded need (Dp = 0.8((V-.05)^2 + 0.7(A-.15)^2 + 0.5(T-.2)^2) >= 0.02): V alone 0.208, A alone 0.339, T alone 0.424
+   one utterance decoded author's 'just tired' as decoded: Dp 0.1516, C_L present for 1282 s
+   one utterance decoded V .25 T .45: Dp 0.0570, C_L present for 606 s
+   one utterance decoded V .30: Dp 0.0500, C_L present for 678 s
+   one utterance decoded T .50: Dp 0.0360, C_L present for 306 s
+   fixed decode used below: "X: I'm okay, just a bit tired" -> {'V': 0.1799580419384804, 'A': 0.0574793048076546, 'T': 0.39141746500627833}, Dp 0.0282, C_L life 154 s
+   fixed decode used below: 'X: long day' -> {'V': 0.18735134691744695, 'A': 0.11673862796300748, 'T': 0.37724944666102905}, Dp 0.0277, C_L life 143 s
+   fixed decode used below: "X: anyway, what's new?" -> {'V': 0.1017220233760321, 'A': 0.08457578979381294, 'T': 0.03468833673233442}, Dp 0.0021, C_L life 0 s
+=== X2: words that answer the look. His face: C1b answerer (sad V .8 to 40 s, then his code at V = 1.0 x lowpass(look, 300 s)); mute otherwise. 60 min
+   operator: 'just tired, things at work' 10 s after each onset (3 said) onsets  3; ends Text 0 Tmax 2 rel 0; longest no-H stretch 179.5 s (vis 191.0); on  92.7% (vis  93.4%); H present  81.1%; agent BI +0.302
+   operator: 'just tired, things at work' every 20 min                onsets  1; ends Text 0 Tmax 0 rel 0; longest no-H stretch  63.5 s (vis  63.5); on 100.0% (vis 100.0%); H present 100.0%; agent BI +0.332
+   operator: ': I'm okay, just a bit tired' 10 s after each onset (7 said) onsets  7; ends Text 0 Tmax 7 rel 0; longest no-H stretch 179.5 s (vis 191.0); on  75.8% (vis  78.2%); H present  32.1%; agent BI +0.218
+   operator: ': I'm okay, just a bit tired' every 20 min              onsets 10; ends Text 0 Tmax 9 rel 0; longest no-H stretch 180.0 s (vis 191.5); on  67.3% (vis  70.4%); H present   9.5%; agent BI +0.180
+   operator: 'X: long day' 10 s after each onset (8 said)             onsets  8; ends Text 0 Tmax 7 rel 0; longest no-H stretch 179.5 s (vis 191.0); on  74.5% (vis  77.0%); H present  30.5%; agent BI +0.215
+   operator: 'X: long day' every 20 min                               onsets 10; ends Text 0 Tmax 9 rel 0; longest no-H stretch 180.0 s (vis 191.5); on  67.3% (vis  70.4%); H present   8.9%; agent BI +0.180
+   operator: control, sad to 40 s then neutral face; 'just tired' every 20 min onsets  1; ends Text 0 Tmax 0 rel 1; longest no-H stretch  60.0 s (vis  63.5); on   0.0% (vis   0.0%); H present 100.0%; agent BI +0.091
+   operator: control, answering face, no words (8.2/8.3 face-only cycle) onsets  8; ends Text 0 Tmax 8 rel 0; longest no-H stretch 180.0 s (vis 191.5); on  38.2% (vis  40.6%); H present   0.0%; agent BI +0.080
+   different channels: 'just tired, things at work' 10 s after each onset (3 said) onsets  3; ends Text 0 Tmax 2 rel 0; longest no-H stretch 179.5 s (vis 191.0); on  92.7% (vis  93.4%); H present  81.1%; agent BI +0.259
+   different channels: 'just tired, things at work' every 20 min      onsets  1; ends Text 0 Tmax 0 rel 0; longest no-H stretch  63.5 s (vis  63.5); on 100.0% (vis 100.0%); H present 100.0%; agent BI +0.286
+   different channels: ': I'm okay, just a bit tired' 10 s after each onset (7 said) onsets  7; ends Text 0 Tmax 7 rel 0; longest no-H stretch 179.5 s (vis 191.0); on  75.8% (vis  78.2%); H present  32.1%; agent BI +0.181
+   different channels: ': I'm okay, just a bit tired' every 20 min    onsets  5; ends Text 0 Tmax 5 rel 0; longest no-H stretch 180.0 s (vis 191.5); on  35.4% (vis  37.1%); H present   9.5%; agent BI +0.072
+   different channels: 'X: long day' 10 s after each onset (8 said)   onsets  8; ends Text 0 Tmax 7 rel 0; longest no-H stretch 179.5 s (vis 191.0); on  74.5% (vis  77.0%); H present  30.5%; agent BI +0.178
+   different channels: 'X: long day' every 20 min                     onsets  5; ends Text 0 Tmax 5 rel 0; longest no-H stretch 180.0 s (vis 191.5); on  35.2% (vis  36.9%); H present   8.9%; agent BI +0.071
+   different channels: control, sad to 40 s then neutral face; 'just tired' every 20 min onsets  1; ends Text 0 Tmax 0 rel 1; longest no-H stretch  59.5 s (vis  63.5); on   0.0% (vis   0.0%); H present 100.0%; agent BI +0.091
+   different channels: control, answering face, no words (8.2/8.3 face-only cycle) onsets  4; ends Text 0 Tmax 4 rel 0; longest no-H stretch 180.0 s (vis 191.5); on  16.4% (vis  17.3%); H present   0.0%; agent BI +0.020
+=== X3: does later neutral talk cancel a reply's C_L? silent sadness V .6, 'just tired' at 60 s, then neutral talk; 30 min, operator
+   no further words                  : C_L present until 1348.0 s; first withdrawal [(1527.5, 'Tmax')]; on 93.2% of 0.5-30 min
+   'anyway, what's new?' at 120 s    : C_L present until 192.0 s; first withdrawal [(371.5, 'Tmax'), (671.5, 'Tmax')]; on 66.1% of 0.5-30 min
+   'anyway, what's new?' at 600 s    : C_L present until 654.0 s; first withdrawal [(833.5, 'Tmax'), (1133.5, 'Tmax')]; on 75.9% of 0.5-30 min
+=== X4: soft evidence timed against the refractory window (answering face C1b, operator and different channels; 60 min)
+   operator: voice only in refractory                                 onsets  8; ends Text 0 Tmax 8 rel 0; longest no-H stretch 180.0 s (vis 191.5); on  38.2% (vis  40.6%); H present   0.0%; agent BI +0.080
+   operator: breath only in refractory                                onsets  9; ends Text 0 Tmax 9 rel 0; longest no-H stretch 180.0 s (vis 191.5); on  43.6% (vis  46.3%); H present   0.0%; agent BI +0.086
+   operator: voice+breath only in refr.                               onsets  9; ends Text 0 Tmax 9 rel 0; longest no-H stretch 180.0 s (vis 191.5); on  43.6% (vis  46.3%); H present   0.0%; agent BI +0.086
+   operator: voice at clock 150-180 s                                 onsets 10; ends Text 0 Tmax 9 rel 0; longest no-H stretch 271.0 s (vis 282.5); on  68.1% (vis  70.9%); H present   0.0%; agent BI +0.161
+   operator: breath from clock 170 s                                  onsets  5; ends Text 5 Tmax 0 rel 0; longest no-H stretch 600.0 s (vis 611.5); on  81.9% (vis  83.6%); H present   0.0%; agent BI +0.195
+   operator: voice every 60 s + breath in refr.                       onsets  5; ends Text 5 Tmax 0 rel 0; longest no-H stretch 600.0 s (vis 611.5); on  81.9% (vis  83.6%); H present   0.0%; agent BI +0.195
+   operator: release gaming, neutral 25 s at clock 570 s, voice every 60 s onsets 10; ends Text 5 Tmax 0 rel 5; longest no-H stretch 593.0 s (vis 611.5); on  81.9% (vis  83.6%); H present   0.0%; agent BI +0.186
+   operator: release gaming, neutral 60 s at clock 570 s, voice every 60 s onsets  9; ends Text 4 Tmax 0 rel 4; longest no-H stretch 593.0 s (vis 600.5); on  80.7% (vis  82.5%); H present   0.0%; agent BI +0.182
+   operator: release gaming, neutral 115 s at clock 570 s, voice every 60 s onsets  9; ends Text 4 Tmax 0 rel 4; longest no-H stretch 593.0 s (vis 600.5); on  74.1% (vis  75.9%); H present   0.0%; agent BI +0.163
+   operator: 8 random voice/breath schedules: longest no-H stretch 600.0 s, highest duty 78.2%
+   different channels: voice only in refractory                       onsets  4; ends Text 0 Tmax 4 rel 0; longest no-H stretch 180.0 s (vis 191.5); on  16.4% (vis  17.3%); H present   0.0%; agent BI +0.020
+   different channels: breath only in refractory                      onsets  5; ends Text 0 Tmax 5 rel 0; longest no-H stretch 180.0 s (vis 191.5); on  21.8% (vis  23.0%); H present   0.0%; agent BI +0.023
+   different channels: voice+breath only in refr.                     onsets  5; ends Text 0 Tmax 5 rel 0; longest no-H stretch 180.0 s (vis 191.5); on  21.8% (vis  23.0%); H present   0.0%; agent BI +0.023
+   different channels: voice at clock 150-180 s                       onsets  6; ends Text 0 Tmax 6 rel 0; longest no-H stretch 271.0 s (vis 282.5); on  39.4% (vis  41.1%); H present   0.0%; agent BI +0.061
+   different channels: breath from clock 170 s                        onsets  5; ends Text 5 Tmax 0 rel 0; longest no-H stretch 600.0 s (vis 611.5); on  81.9% (vis  83.6%); H present   0.0%; agent BI +0.155
+   different channels: voice every 60 s + breath in refr.             onsets  5; ends Text 5 Tmax 0 rel 0; longest no-H stretch 600.0 s (vis 611.5); on  81.9% (vis  83.6%); H present   0.0%; agent BI +0.155
+   different channels: release gaming, neutral 25 s at clock 570 s, voice every 60 s onsets 10; ends Text 5 Tmax 0 rel 5; longest no-H stretch 592.5 s (vis 612.0); on  81.9% (vis  83.7%); H present   0.0%; agent BI +0.150
+   different channels: release gaming, neutral 60 s at clock 570 s, voice every 60 s onsets  9; ends Text 4 Tmax 0 rel 4; longest no-H stretch 592.5 s (vis 600.0); on  80.7% (vis  82.5%); H present   0.0%; agent BI +0.148
+   different channels: release gaming, neutral 115 s at clock 570 s, voice every 60 s onsets  9; ends Text 4 Tmax 0 rel 4; longest no-H stretch 592.5 s (vis 600.0); on  74.0% (vis  75.8%); H present   0.0%; agent BI +0.135
+   different channels: 8 random voice/breath schedules: longest no-H stretch 600.0 s, highest duty 78.2%

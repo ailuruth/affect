@@ -1,0 +1,7 @@
+checks_g6:26: RuntimeWarning: invalid value encountered in scalar divide
+Traceback (most recent call last):
+  File "/home/user/affect/research/foundations/sims/check-cayley83/check.py", line 175, in <module>
+    exec(compile(A83 + MINE, "chk83x", "exec"), G)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "chk83x", line 209, in <module>
+NameError: name 'time' is not defined. Did you forget to import 'time'?

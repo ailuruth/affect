@@ -16,7 +16,7 @@ Decisions that are yours (visual identity, data leaving this Mac, new paid servi
 
 The third fails because speaking a few slightly soft words every few minutes keeps resetting it.
 
-**Now.** A narrow revision 8.3 is being written: only your distress words or sobs can keep the look going; voice and breathing can stretch the limit to 10 minutes but never past it. It will get one quick check. Meanwhile the design is put to you in Q27, with the failure stated plainly, because the core has no other known failure and the remaining question is how the concern look should behave, which is your call.
+**Now.** A narrow revision 8.3 is being written: only your distress words or sobs can keep the look going; voice and breathing can stretch the limit to 10 minutes but never past it. It got one quick check, which passed with no concrete failure (2026-11-26T17:57:02Z; see Q27). Before that check the design is put to you in Q27, with the failure stated plainly, because the core has no other known failure and the remaining question is how the concern look should behave, which is your call.
 
 **The second design** (running the agent again with your face set to neutral) stays held: its check now lives inside the main design.
 
@@ -541,11 +541,12 @@ Fixes for situational failures are designed through these three sources.
 
 **Novelty, plainly:** a recombination. Every part exists already; what is new is how they are composed. No new core mechanism has been found; that search continues alongside (D82).
 
-**Known failure, plainly (revision 8.2's check).** If you answer the agent's concerned look with your own face and also speak a few slightly soft words every few minutes, or your breathing rises strongly in answer, the look can stay on indefinitely, with the agent's brow held up throughout. This is the mutual stuck state you ruled out. A silent partner cannot do this: the look is then on at most 3 of every 5 minutes. Revision 8.3, now being written, closes it: only distress words or sobs keep the look going; voice and breathing stretch the limit to at most 10 minutes. Its cost: sadness that shows only in your face and voice, without words, gets the look at most 10 minutes at a time, then a 2-minute pause.
+**Known failure: closed (2026-11-26T17:57:02Z).** Revision 8.2's check found that if you answer the agent's concerned look with your own face and also speak a few slightly soft words every few minutes, or breathe strongly in answer, the look could stay on indefinitely. Revision 8.3 closes this, and its independent check passed with no concrete failure: without distress words or sobs, the look is on at most 10 minutes at a stretch and at most about 82 % of the time, whatever your face, voice and breathing do. Silent faces alone still get at most 3 minutes on, 2 off.
+- **Costs of the fix:** sadness shown only in your voice or breathing gets the look 10 minutes on, 2 minutes off.
+- **What remains, judged acceptable:** if you sob, or name your distress, whenever the look returns, it stays on (93–100 % of the time). That is treated as real distress, not copying, since your words alone never start it. It is listed as a risk to watch in live tests.
 
 **Options:**
-- **Build it once 8.3 passes one quick check** (my recommendation): building starts on the version without known failures; if the check fails, I come back here before building.
-- **Build it now as 8.2:** building starts at once, and the voice-and-breathing loop is watched for in live tests and fixed there.
+- **Build revision 8.3** (my recommendation; its check passed): building starts on the version with no known concrete failure.
 - **Hold for more revisions:** no building yet; the critics keep working on the concern look and anything else they find.
 - **Don't build this one; keep searching for a genuinely new mechanism:** the research cycle continues and only a new core comes back to you.
 

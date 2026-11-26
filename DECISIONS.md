@@ -456,4 +456,6 @@ To change: the operator asks for a different attribution.
 - **Meanwhile:** a narrow revision 8.3 (only distress words and sobs reset the face-only clock; voice and breathing extend it to at most 600 s; then 120 s off) is being written for one quick independent check. Recommended option: build once 8.3 passes.
 - **Not decided here:** whether to build, Q24, and the other choices in the Build-candidate summary.
 
+- **Update (2026-11-26T17:57:02Z):** revision 8.3 passed its independent check (check-cayley-ledger-8.3.md) with no concrete failure; Q27 now offers building 8.3, and the 'build now as 8.2' option is dropped.
+
 To change: the operator answers Q27 (build now, build after 8.3, hold, or don't build), or asks for the design to be withheld until it has no known failure.
