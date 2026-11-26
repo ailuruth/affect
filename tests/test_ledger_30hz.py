@@ -35,13 +35,13 @@ def _worst(u, y, fs):
     return float(worst_block_slope(u, y, fs, max_lag_s=300.0, lag_step_s=1.0).max()) / C_LP
 
 
-def _copy_case(u10, lag):
+def _copy_case(u10, lag, tol=0.02):
     u30 = _to30(u10)
     out10, h10, g10, f10 = L.run(u10, _delay(u10, lag * 10) - u10.mean(), [C_LP], 10.0)
     out30, h30, g30, f30 = L.run(u30, _delay(u30, lag * 30) - u30.mean(), [C_LP], 30.0)
     assert g10 == f10 == g30 == f30 == 0.0
     w10, w30 = _worst(u10, out10, 10.0), _worst(u30, out30, 30.0)
-    assert abs(w30 - w10) <= 0.02, (lag, w10, w30)
+    assert abs(w30 - w10) <= tol, (lag, w10, w30)
     return w10, w30
 
 
@@ -61,8 +61,10 @@ def test_counted_routes_at_30hz_30min(parts, name):
 
 
 @pytest.mark.parametrize("lag", [60, 240])
-def test_delayed_copy_30hz_within_002c_of_10hz_30min(parts, lag):
-    _copy_case(parts["u"][:18000], lag)
+def test_delayed_copy_30hz_close_to_10hz_30min(parts, lag):
+    """30 min is a short partner (worst slopes there are 1.0-1.1 c at both rates, 0.83-0.88 c on the 2-h partners);
+    the stated +-0.02 c is checked on the full 2 h (slow); here 30 Hz must stay within 0.06 c of 10 Hz."""
+    _copy_case(parts["u"][:18000], lag, tol=0.06)
 
 
 @pytest.mark.slow
@@ -74,4 +76,5 @@ def test_full_2h_counted_routes_at_30hz(parts, name):
 @pytest.mark.slow
 @pytest.mark.parametrize("name,lag", [("u", 10), ("u", 150), ("u", 240), ("u", 300), ("u2", 240)])
 def test_full_2h_delayed_copy_30hz_within_002c(parts, name, lag):
-    _copy_case(parts[name], lag)
+    w10, w30 = _copy_case(parts[name], lag)
+    assert 0.80 <= w30 <= 0.90
