@@ -10,12 +10,12 @@
 [PASS] F7 defect floor: C=0.1,sd=0.1: worst defect 0.686 >= 0.707 - 0.095; C=0.1,sd=0.15: worst defect 0.815 >= 0.832 - 0.095; C=0.35,sd=0.1: worst defect 0.265 >= 0.275 - 0.095; C=0.35,sd=0.15: worst defect 0.378 >= 0.394 - 0.095; C=0.6,sd=0.1: worst defect 0.160 >= 0.164 - 0.095; C=0.6,sd=0.15: worst defect 0.235 >= 0.243 - 0.095
 [PASS] F8 landscape persistence: max distance of equilibrium from its centre 0.0500 < r=0.1 (tilt 0.05)
 [PASS] F9 slew bound: RMS above corner 0.0902 <= V/w_c 0.2000
-     slow-route rate Sigma = 6.81e-04 /s
+     slow-route rate Sigma = 9.51e-04 /s
      channel           T=4s   T=10s  T=30s  T=60s   (W_k + c_k + O_k + 2*Sigma*T), partner RMS a=1
-     smile/brow mid    0.535  0.544  0.571  0.612
-     smile/brow slow   0.485  0.494  0.521  0.562
-     other mid/slow    0.435  0.444  0.471  0.512
-[PASS] F10 totals: max single-channel 0.612; 4-channel subspace 0.319; whole Schur face 0.139; observable defect floors (sd=0.15, a=1): single 0.24, 4-ch 0.43, whole 0.73; at a=2: single 0.12, whole 0.48; loop gain Gamma_A 0.465
-[PASS] F11 attention-chasing worst case: varpi_4=0.859, varpi_32=0.236; worst whole Schur face 0.262 (floor 0.50); worst 4-channel 0.469 (floor 0.30)
+     smile/brow mid    0.538  0.549  0.587  0.644
+     smile/brow slow   0.488  0.499  0.537  0.594
+     other mid/slow    0.438  0.449  0.487  0.544
+[PASS] F10 totals: max single-channel 0.644; 4-channel subspace 0.324; whole Schur face 0.144; observable defect floors (sd=0.15, a=1): single 0.23, 4-ch 0.42, whole 0.72; at a=2: single 0.12, whole 0.46; loop gain Gamma_A 0.643; floor at single 0.549 with sd doubled: 0.48
+[PASS] F11 attention-chasing worst case: varpi_4=0.859, varpi_32=0.236; worst whole Schur face 0.267 (floor 0.49); worst 4-channel 0.474 (floor 0.30)
 
 14/14 checks pass

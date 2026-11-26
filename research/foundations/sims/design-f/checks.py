@@ -285,7 +285,8 @@ def f10():
     c, cT, cw, O = 0.15, 1.0, 0.2, 0.08            # REN Schur / twisted ceilings, logit Lipschitz, role cap
     A, vb, kb, kz, vz, nz = 0.25, 1/600, 0.5, 0.25, 1/600, 5
     tau, sd, m = 0.6, 0.15, 80
-    slow = A * vb + c * (kb * vb + kz * np.sqrt(nz) * vz)       # per second
+    Lown = 0.05
+    slow = A * vb + c * (kb * vb + kz * np.sqrt(nz) * vz) + Lown * (vb + np.sqrt(nz) * vz)  # per second
     W = {"smile/brow mid": 0.30, "smile/brow slow": 0.25, "other mid/slow": 0.20}
     print(f"     slow-route rate Sigma = {slow:.2e} /s")
     print("     channel           T=4s   T=10s  T=30s  T=60s   (W_k + c_k + O_k + 2*Sigma*T), partner RMS a=1")
@@ -299,11 +300,12 @@ def f10():
     whole = tau / K + c * np.sqrt(m / K) / np.sqrt(m) + O + 2 * slow * 10
     four = min(0.30, tau / 4) + c * np.sqrt(m / 4) / np.sqrt(m) + O + 2 * slow * 10
     # incremental (loop) gain of the continuous part, window T<=30 s, gamma=4, T_R=120 s
-    Ga = 0.30 + cT / np.sqrt(m) + 2.0 * tau * cw / (1 - 4 * 30 / (2 * 120)) / np.sqrt(m)
+    Ga = np.sqrt(0.30 * tau) + cT / np.sqrt(m) + 2 * 2.0 * tau * cw / (1 - 4 * 30 / (2 * 120)) / np.sqrt(m)  # Schur test + REN + context
     report("F10 totals", mx < 0.65 and whole < 0.15,
            f"max single-channel {mx:.3f}; 4-channel subspace {four:.3f}; whole Schur face {whole:.3f}; "
            f"observable defect floors (sd=0.15, a=1): single {fl(mx):.2f}, 4-ch {fl(four):.2f}, whole {fl(whole):.2f}; "
-           f"at a=2: single {fl(mx,2):.2f}, whole {fl(whole,2):.2f}; loop gain Gamma_A {Ga:.3f}")
+           f"at a=2: single {fl(mx,2):.2f}, whole {fl(whole,2):.2f}; loop gain Gamma_A {Ga:.3f}; "
+           f"floor at single 0.549 with sd doubled: {0.30/np.sqrt(0.549**2+0.09):.2f}")
 
 
 def f11():
@@ -318,8 +320,9 @@ def f11():
         Mp = np.max(np.abs(np.roll(u, 15, axis=0)), axis=1)
         out.append((K, np.linalg.norm(M) * np.linalg.norm(Mp) / np.sum(u ** 2)))
     w32 = out[1][1]
-    whole = 0.6 * w32 + 0.15 * np.sqrt(80 / 32) / np.sqrt(80) + 0.08 + 2 * 6.81e-4 * 10
-    four = min(0.30, 0.6 * out[0][1]) + 0.15 * np.sqrt(80 / 4) / np.sqrt(80) + 0.08 + 2 * 6.81e-4 * 10
+    S = 0.25 / 600 + 0.15 * (0.5 / 600 + 0.25 * np.sqrt(5) / 600) + 0.05 * (1 / 600 + np.sqrt(5) / 600)
+    whole = 0.6 * w32 + 0.15 * np.sqrt(80 / 32) / np.sqrt(80) + 0.08 + 2 * S * 10
+    four = min(0.30, 0.6 * out[0][1]) + 0.15 * np.sqrt(80 / 4) / np.sqrt(80) + 0.08 + 2 * S * 10
     fl = lambda C: 0.15 / np.sqrt(C ** 2 + 0.15 ** 2)
     report("F11 attention-chasing worst case", whole < 0.3 and four < 0.5,
            f"varpi_4={out[0][1]:.3f}, varpi_32={w32:.3f}; worst whole Schur face {whole:.3f} (floor {fl(whole):.2f}); "
