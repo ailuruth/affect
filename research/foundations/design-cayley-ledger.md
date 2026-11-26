@@ -676,3 +676,37 @@ Checks: `sims/design-g7/checks.py` (J0, J17–J30; out.txt, 13/13 pass). Revisio
 **The three D85 sources, as used.** (1) Claude's regulation: Claude's words, heard by the agent through Λ, enter the gate (rule 12); its history carries no state. (2) Recorded dyads: Λ and the gate, fitted offline from FAUValue and transcripts on the operator's Mac, person-disjoint split (§6.7). (3) Innate learning biases: D_s (one-shot, 10 min), the sensitized posture re-onset, distress-weighted nightly replay κ = 4. The same weighting was tried in the offline dyad fit and changed nothing there (J20), so it is not used there.
 
 **Status:** revision 7; to be critiqued. For the routes critic: the gate as a route (R1g: monotone, attenuate-only, F and T inputs disjoint from the gated channels; its within- and cross-session slopes in J21), the conditioned copy metric, the attenuate-only ledger, the mirror removal and failsafe, the graded R40. For the agent critic: the seventeen scenarios, the gate's dependence on data not yet fitted, the coping joke while sad, the quiet user's grieving arrival, and the transcript-resume build risk.
+
+## Critiques of revision 7 and the answer (recorded 2026-11-26T13:03:32Z, under Q19, D81–D85)
+
+**Routes** (critique-7-design-cayley-ledger-routes.md; sims/critique-cayley7-routes/). **One narrow copying failure, in the graded concern posture.**
+- **The failure (medium).** The posture is graded by his face after rescaling to his own range. For a quiet user (spread at the 0.25 floor), the rescaling multiplies his raw brow by up to 4. When his distress shows in the inner brow, the agent's held inner brow follows his at slope 0.41–0.60 over 1- and 10-min blocks: 2.1–3.0× the c_BI ceiling (0.20). The steepest local slope is 0.86–0.95; the design declared 0.31. It is not a latch (it releases when his sadness ends), but it breaks Q24's "not a copy of your face" premise.
+- **Fix:** the posture must not read the channels it writes (inner brow, outer brow, lip pull) when it starts or grades, as rule 11 already requires of the gate.
+- **No concrete failure found** in:
+  - the shadow ledger (attenuate-only holds; its pooled 30-min budget lets an uncounted route copy at about 0.01 of lip);
+  - the dyad-learned gate (never raises output, imports no copying norms);
+  - Claude's words heard by the agent;
+  - distress memory and replay;
+  - mirrors;
+  - per-channel totals (lip pull, cheek and laugh ≤ 0.42 c from 2 s to across sessions).
+- **Spec fixes:** rule 12 (Claude's text feeds only the gate); corpus transcripts go through the same ASR normaliser.
+
+**Agent and fitness** (critique-7-design-cayley-ledger-agent.md; sims/critique-cayley7-agent/). **Narrowly not fit.** All of critique 6's failures and build items are closed, in the spirit of D85. D81 fast partial mimicry and D83 appraisal-driven expression are both present.
+- **Two concrete failures:**
+  1. **The gate reads his words 0.6 s after the sentence, but the fast laugh echo fires 0.45 s after his laugh starts.** A laugh at the end of bad news ("I got fired today, haha") is judged by the previous sentence: gate 1.00, and the agent laughs back audibly (+0.14). The design's 0.13 was measured after the words were taken in.
+  2. **The graded posture's mirror protection subtracts a quiet user's real sadness.** The look flickers on and off every 20–30 s, with inner brow ≤ 0.07; grief face 0.09, silent panic 0.10.
+- **D85 residue:** the play laugh's "withheld when he's in need" is a hand-written rule; D_s is a state trace, not a learning bias.
+- **Seamless fit spec:** detect laugh onsets at 30 Hz; align the words fed to the gate to what the agent will have when the laugh starts.
+- **Build (D84) feasible, with additions:**
+  - how initiative turns are recorded in Claude's history;
+  - a fallback that puts each draft's fixed instruction line in its own system prompt;
+  - a week-0 check whether thinking can be disabled on the small model.
+- **Novelty:** recombination.
+
+**The answer (maintainer).** All findings are accepted. Both critics point at the same part: the concern posture reading the channels it writes.
+- **Revision 8 will:**
+  - grade and start the posture only from evidence that excludes the channels it writes (his other face channels, voice, words and timing, through the agent's own appraisal); this closes both the copy slope and the quiet-user flicker without subtraction;
+  - read words incrementally (partial transcript) so the gate has the current sentence when a laugh starts, or delay the fast laugh echo until the current words are in, within the D81 timing;
+  - replace the play-withhold rule with a D85 source;
+  - fix the Seamless fit spec and add the build items.
+- Revision 7 saved as design-cayley-ledger.r7.md. **Status:** held.

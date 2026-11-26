@@ -1,0 +1,15 @@
+=== Q1: R40 on a brow-only sad partner, three readings of the same raw brow: agent-like code, quiet code (0.3), ordinary code with sigma_id at the 0.25 floor
+   agent-like         ratio sigma_id/sigma_ref(BI) 1.00: his +0.02 -> agent -0.002 (post 0.00); his +0.06 -> agent 0.001 (post 0.00); his +0.10 -> agent 0.004 (post 0.00); his +0.15 -> agent 0.007 (post 0.00); his +0.20 -> agent 0.011 (post 0.00); his +0.30 -> agent 0.018 (post 0.00); his +0.50 -> agent 0.112 (post 0.40)
+      steepest local slope of agent BI on his raw BI 0.47 (2.3 c_BI); slope over his +0.02..+0.30 0.07 (0.4 c_BI); agent brow above his own raw rise at: none
+   quiet code 0.3     ratio sigma_id/sigma_ref(BI) 0.30: his +0.02 -> agent -0.002 (post 0.00); his +0.06 -> agent 0.001 (post 0.00); his +0.10 -> agent 0.006 (post 0.01); his +0.15 -> agent 0.033 (post 0.13); his +0.20 -> agent 0.076 (post 0.33); his +0.30 -> agent 0.119 (post 0.51); his +0.50 -> agent 0.220 (post 0.94)
+      steepest local slope of agent BI on his raw BI 0.86 (4.3 c_BI); slope over his +0.02..+0.30 0.47 (2.4 c_BI); agent brow above his own raw rise at: none
+   sigma_id at floor  ratio sigma_id/sigma_ref(BI) 0.25: his +0.02 -> agent -0.002 (post 0.00); his +0.06 -> agent 0.001 (post 0.00); his +0.10 -> agent 0.005 (post 0.01); his +0.15 -> agent 0.034 (post 0.13); his +0.20 -> agent 0.081 (post 0.35); his +0.30 -> agent 0.129 (post 0.56); his +0.50 -> agent 0.220 (post 0.94)
+      steepest local slope of agent BI on his raw BI 0.95 (4.8 c_BI); slope over his +0.02..+0.30 0.51 (2.5 c_BI); agent brow above his own raw rise at: none
+=== Q2: held distress that changes slowly (his brow-only level re-drawn every 2 min, 20 min): block slopes of the agent's BI
+   agent-like        : 1 min blocks: slope 0.05 (0.3 c_BI; his block SD 0.089); 10 min blocks: slope 0.09 (0.4 c_BI; his block SD 0.004); posture on 0% of the time; releases []
+   quiet code 0.3    : 1 min blocks: slope 0.56 (2.8 c_BI; his block SD 0.078); 10 min blocks: slope 0.60 (3.0 c_BI; his block SD 0.065); posture on 56% of the time; releases [(381.5, 'release'), (461.0, 'release'), (518.5, 'release'), (576.0, 'release')]
+   sigma_id at floor : 1 min blocks: slope 0.45 (2.2 c_BI; his block SD 0.082); 10 min blocks: slope 0.41 (2.1 c_BI; his block SD 0.059); posture on 50% of the time; releases [(379.5, 'release'), (621.5, 'release'), (662.5, 'release'), (703.5, 'release')]
+=== Q3: a genuinely sad brow-only partner who also mirrors the posture (raw mu 1.0), sadness fading over 10 min
+   agent-like        : onsets []; releases []; last 2 min agent BI -0.005, posture 0.00
+   quiet code 0.3    : onsets [2.0, 223.0]; releases [(182.0, 'failsafe'), (400.0, 'release')]; last 2 min agent BI -0.005, posture 0.00
+   sigma_id at floor : onsets [1.5, 223.5]; releases [(181.5, 'failsafe'), (422.5, 'release')]; last 2 min agent BI -0.005, posture 0.00

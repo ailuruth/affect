@@ -1,0 +1,7 @@
+=== S1: slow mirror. His genuine sadness (his code at V 0.8) ends at 40 s; from then on his face is neutral plus mu x P_c x lp_tau_m(the agent's shown posture), raw units. 900 s.
+   agent-like         tau_m    90 s mu 1.0: onsets [2] (1 in all); releases [(61, 'r')]; 600-900 s: posture on 0%, agent BI -0.005, his BI above neutral +0.000 (end)
+   agent-like         tau_m   240 s mu 1.0: onsets [2] (1 in all); releases [(60, 'r')]; 600-900 s: posture on 0%, agent BI -0.005, his BI above neutral +0.001 (end)
+   quiet code 0.3     tau_m    90 s mu 1.0: onsets [2] (1 in all); releases [(60, 'r')]; 600-900 s: posture on 0%, agent BI -0.005, his BI above neutral +0.000 (end)
+   quiet code 0.3     tau_m   240 s mu 1.0: onsets [2] (1 in all); releases [(60, 'r')]; 600-900 s: posture on 0%, agent BI -0.005, his BI above neutral +0.000 (end)
+   sigma_id at floor  tau_m    90 s mu 1.0: onsets [1] (1 in all); releases [(64, 'r')]; 600-900 s: posture on 0%, agent BI -0.005, his BI above neutral +0.000 (end)
+   sigma_id at floor  tau_m   240 s mu 1.0: onsets [1] (1 in all); releases [(64, 'r')]; 600-900 s: posture on 0%, agent BI -0.005, his BI above neutral +0.001 (end)
