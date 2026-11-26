@@ -1,0 +1,44 @@
+=== H1: constants, band split, combined gain
+[PASS] H1a power complementarity |HP_4s|^2+|LP_60s|^2 <= 1: max = 1.0000
+[PASS] H1b combined S gain <= sqrt(gf^2+gs^2) <= gamma: max_w |S| = 0.4464, sqrt bound 0.4924, gamma 0.5
+   fast          gamma 0.450 kappa 0.30: in-phase <= 0.186, anti >= -0.491, centre -0.152, radius 0.339
+   slow/DC       gamma 0.200 kappa 0.30: in-phase <= 0.100, anti >= -0.150, centre -0.025, radius 0.125
+   overall       gamma 0.492 kappa 0.30: in-phase <= 0.198, anti >= -0.582, centre -0.192, radius 0.390
+   lateral fast  gamma 0.450 kappa 0.05: in-phase <= 0.031, anti >= -0.082, centre -0.025, radius 0.056
+   lateral slow  gamma 0.200 kappa 0.05: in-phase <= 0.017, anti >= -0.025, centre -0.004, radius 0.021
+[PASS] H1c lateral<-symmetric cross route per pair (fast) <= 0.20: 0.200
+=== H2: a slow state that knows the held face cannot copy it (DC through the wrap)
+[PASS] H2a knowing: slow state tracks the held level: corr(1-min knowledge, partner 1-min mean) = 0.994
+[PASS] H2b moving, copy-seeking slow readout: 1-min-mean slope <= slow in-phase cap + edges: slope +0.092 (cap 0.100)
+[PASS] H2c moving, opposite-sign slow readout reaches the anti side: slope -0.133 (anti cap -0.150)
+   same knowledge read straight to the face (no wrap): 1-min slope +0.906
+=== H3: context-set, sign-flippable fast strengths learned from clean u; cone holds for every value
+[PASS] H3 friendly    target +0.15: learned lag-0.45 s gain +0.135; lag bound [-0.333, +0.344] (rho_u = -0.04)
+[PASS] H3 opposed     target -0.40: learned lag-0.45 s gain -0.238; lag bound [-0.331, +0.346] (rho_u = -0.05)
+[PASS] H3 copy-target target +1.00: learned lag-0.45 s gain +0.129; lag bound [-0.331, +0.346] (rho_u = -0.05)
+   r1-style noisy release, best linear coefficient: +0.00018 (target +0.15)
+=== H4: head yaw / roll / horizontal gaze reflected before the cone, kappa_lat = 0.05
+   mirror-seeking    : mirror-copy gain +0.031, anatomical-copy gain +0.015
+   anatomical-seeking: mirror-copy gain +0.045, anatomical-copy gain +0.077
+[PASS] H4 both handednesses of lateral copy bounded: max 0.077 (r1 critic: 0.58); caps mirror 0.031, anatomical 0.082
+=== H5: event-rate dial. Partner smile bursts at varying rate, no held level
+[PASS] H5 slow block on LP(w) only: 1-min-mean slope <= slow cap + edges: slope +0.015; forbidden fast->slow demodulation at the fast gain: +0.109
+=== H6: own-words port. Adversary: Claude's words track the partner's held level exactly
+   1-min means: port contribution slope +0.0033
+   10-min means: port contribution slope +0.0033
+[PASS] H6 port 1-min-mean effect <= 2 tau a / T: max |1-min mean| 0.0236, bound 0.050
+=== H7: worst held-level response over a window after onset, any operator in the slow disc
+   1-min mean at   1.0 min after onset: worst in-phase +0.132 (steady-state cap 0.100, slow |H| cap 0.150)
+   1-min mean at   5.0 min after onset: worst in-phase +0.179 (steady-state cap 0.100, slow |H| cap 0.150)
+   1-min mean at  30.0 min after onset: worst in-phase +0.246 (steady-state cap 0.100, slow |H| cap 0.150)
+   1-min mean at  60.0 min after onset: worst in-phase +0.265 (steady-state cap 0.100, slow |H| cap 0.150)
+   (l2 disc alone: transient 1-min means can exceed the steady-state cap; r2 therefore adds an l-inf bound)
+[PASS] H7 with ||sigma||_1 <= gs: worst 1-min mean of the held response <= 2 k gs/(1-gs) at every time: worst found +0.120, bound 0.150
+=== H8: per-channel totals
+   zero-lag in-phase, any band: <= 0.198 (fast alone 0.186); port RMS <= 0.1
+   held (steady state): <= 0.100 in phase, >= -0.150; port 0
+   1-min means: <= 0.100 + port 0.050 + fast edges ~0.01 = 0.160
+   10-min means: <= 0.100 + port 0.0050
+   lagged copy, broadband, fast: <= 0.186+|m|...: radius 0.339; any-signal fast 0.491
+
+13/13 checks pass
