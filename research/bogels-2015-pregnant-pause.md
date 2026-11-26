@@ -1,0 +1,25 @@
+# Never say no ... How the brain interprets the pregnant pause in conversation (Bögels, Kendrick & Levinson)
+
+Sara Bögels, Kobin H. Kendrick & Stephen C. Levinson, *PLOS ONE* 10(12):e0145474, 2015, doi:10.1371/journal.pone.0145474 (PMC4689543, CC BY).
+
+## What was read
+The full PMC text: introduction (which reviews the corpus and listener-judgment work on silence, including Kendrick & Torreira 2015 and the Roberts et al. listener studies), materials, design, EEG methods, results and discussion. Figures not seen; captions read. This note stands in for Roberts, Francis & Morgan 2006 (*Speech Communication* 48:1079–1093), which could not be reached (Elsevier and every mirror blocked); only what Bögels et al. report about the Roberts studies is used here.
+
+## Claims and evidence
+- **Silence after an initiating action is not empty; it predicts the answer.** "Any delay in responding–even mere silence–may be interpreted as the first move toward some form of disagreement/rejection" (Clayman, quoted). Preferred responses (acceptance, compliance) are simple and fast; dispreferred ones (declining, rejecting) are delayed, start with "uh", "well", and carry accounts.
+- **The crossover is near 700 ms.** In English requests, offers, invitations, proposals and suggestions (Kendrick & Torreira 2015, reported here), "preferred responses mostly occurred after short gaps, but as the delay mounted to around 700 ms, dispreferred responses became more frequent than preferred ones"; roughly two thirds of responses delayed by 700 ms or more were dispreferred. Preferred responses are 63% of responses overall.
+- **People take the initiative back after about 1.7 s.** Corpus example: "D'they have a good cook there? (1.7 second silence) Nothing special?" The questioner reads the silence as a coming "no" and **reformulates her own question so that the negative answer becomes the preferred one**. That is the human pattern for initiative after an unanswered turn: re-speak, and make the hard answer easier to give.
+- **Listener judgments** (Roberts et al., summarised): after a request or assessment, a "yeah"/"sure" that follows a longer silence is judged less willing.
+- **Experiment.** 32 Dutch listeners, 120 corpus requests/offers/proposals/invitations, each followed by 300 ms or 1000 ms of spliced background noise and then *ja* or *nee*. A fast "no" gave an N400 effect against a fast "yes" (negative cluster 168–528 ms, p = .006); after 1000 ms the N400 contrast vanished (interaction in 300–500 ms, p = .032). A late frontal positivity for "no" appeared at both delays (242–796 ms, p = .002). Reading: a fast answer is expected to be positive; a 1-s gap already makes "no" expected; "no" costs extra processing either way.
+- Only one of 32 participants noticed anything about timing: the silence is processed without awareness.
+
+**Limits:** constructed splices, single-word answers, Dutch telephone speech; ERPs, not behaviour; no measurement of what the *first speaker* does during the silence (the 1.7 s case is one transcript).
+
+## What it means for the designs
+1. **Two kinds of silence must be told apart, and only one of them is about initiative.** (a) A *gap after a turn that made a response relevant* (the agent asked or offered something): meaning accrues from about 300 ms, a "no" or trouble is expected by 700 ms to 1 s. (b) A *lapse* in which nobody owes a turn. A silently sad user produces the second kind; this paper gives no timing for lapses, and none should be borrowed from it.
+2. **After its own unanswered question, the agent's initiative should be a pursuit that lowers the bar, at about 1–2 s, once.** The human move is not to wait or repeat but to re-offer an easier response ("Nothing special?"). For a sad partner: after "How was today?" plus 1.5 s of silence, a softer re-offer ("Or just a long one?") rather than a second question or a topic change. One pursuit per silence, unlearned, as Knox et al. require for contact bids.
+3. **The agent's own latency is read as stance.** R15 in revision 2 lets the onset wait for Claude (1–3 s). By this evidence every agent answer then lands in the window where listeners expect a refusal or trouble. The fast loop must produce a turn onset (breath, particle, gaze) within about 300 ms regardless of the draft, and longer latencies should be produced only as a state-driven output (hesitation when the agent's own appraisal is mixed), never as system delay.
+4. **Initiative is an act the body produces before any words.** The meaning of the gap is computed by the listener without awareness; the agent's equivalent is that the silence timer and the decision to re-speak belong in the fast layer, with Claude asked only for the words of the pursuit after the body has decided to take the floor.
+
+## Verdict
+**adopt (timing evidence):** about 300 ms for an unmarked answer, about 700 ms as the point where silence predicts trouble, and one self-repair at about 1–2 s as the human initiative pattern after an unanswered turn. Nothing here about lapses or about initiative from the speaker's own concern.

@@ -1,0 +1,30 @@
+# The neurobiology of social play and its rewarding value in rats (Vanderschuren, Achterberg & Trezza)
+
+Louk J.M.J. Vanderschuren, E.J. Marijke Achterberg & Viviana Trezza, *Neuroscience & Biobehavioral Reviews* 70:86–105, 2016 (PMC5074863, author manuscript).
+
+## What was read
+From the PMC author manuscript: the abstract; the full Introduction (§1.1 structure of play, §1.2 functions, §1.3 rewarding properties including place and operant conditioning, Figure 1 and its legend); §2.1 Opioids in full; §2.3 Dopamine skimmed for the motivation/performance dissociation; the Discussion and Highlights in full. Not read in detail: §2.2 cannabinoids, §2.4 noradrenaline, §2.5, §3 (frontal cortex, striatum, amygdala, habenula). This note is an open review in the Panksepp PLAY tradition, used in place of a Panksepp review of PLAY/SEEKING (panksepp-primary-affective-systems.md already exists).
+
+## Findings / the computation, precisely
+
+**Play is a deprivation-sensitive, satiable appetite.** Pinning and pouncing "are stimulated by brief periods of social isolation (hours to several days)". A 3.5-h isolation "has been shown to induce a half-maximal increase in the amount of social play". Lever pressing for play under a progressive-ratio schedule "was higher in rats isolated for 24 hr before testing than in animals isolated for 2 hr". Conditioned place preference (CPP) for play appeared in isolated rats; "No CPP developed in animals that were group-housed or housed with an adult rat." Douglas et al.: "No social CPP was found in group-housed adults". The reward value of play depends on the need state: sated animals do not learn a preference for it.
+
+**The reward is in mutual, active engagement, not in being the initiator or in the partner's mere presence.**
+- Partner rendered non-playful (scopolamine, or methylphenidate, which "reduces play-related behaviours without affecting general social interest"): no CPP.
+- Across eight conditioning sessions, CPP correlated with pins (r_s = 0.66) and pounces (r_s = 0.73), not with social exploration (r_s = −0.37), and also with *being* pinned (0.67) and *being* pounced (0.64), n = 10. "it is the active engagement in social play, rather than being the initiator of the interaction, that determines its rewarding properties."
+- Social contact without play supports CPP only weakly (8 pairings instead of 2 through a barrier); with touch prevented, sight and smell only, "place aversion was found".
+- Play is reciprocal by structure: "the on-top and on-bottom positions alternate during social play, whereas this is obviously not the case during aggression", and is signalled as play (50-kHz calls, jumpy gait, play-bow in dogs).
+
+**Liking and wanting dissociate for play.** Opioids in nucleus accumbens modulate the expression and pleasure of play: morphine prolongs play bouts ("the internal coherence of social play may be enhanced"); intra-NAc mu-antagonist CTAP blocks play CPP. Dopamine governs motivation: cocaine, methylphenidate and GBR-12909 *raised* lever pressing for play, yet "cocaine and methylphenidate reduced the expression of social play during reinforced play periods", "supporting the notion that motivation for play and its expression are mediated through distinct neural mechanisms".
+
+**It competes with, and does not reduce to, food.** Chimpanzees (Mason et al. 1963) "still chose play half of the time" when hungry or with palatable food on offer; isolation-reared adolescent rats chose social interaction over palatable food more often.
+
+**Function.** Delayed benefits (flexibility in "novel, changeable or challenging situations"; play-deprived rats are impaired only there) are "highly unlikely to be the primary immediate drivers"; "animals play because they enjoy doing so."
+
+## What it means for the designs
+- **A satiable play appetite.** Model a play deficit P with the same form as other body variables: rises slowly (half-maximal effect after hours of no play), relieved by play episodes, inside a box at rest. Relief of P is positive valence by the rate reading (joffily-coricelli-2013-valence-free-energy.md). When P is in its box, play earns nothing, exactly as group-housed rats show no CPP.
+- **Shared joy without rewarding the partner's smile.** Define what relieves P as *mutual, turn-alternating engagement in a non-serious exchange*: the agent's own playful move (a tease, a callback, an absurd extension) followed by a partner move that continues the frame, then the agent's again. The trigger is the *structure* of the exchange (alternation and continuation of the frame, read from content and timing), not the partner's facial valence, laughter or time spent. Being on the receiving end counts as much as initiating, so the agent gains nothing by pushing. A partner who does not play back gives no relief (no CPP with non-playful partners), so the agent stops rather than escalates.
+- **Principle 6 test.** Hold the exchange structure fixed and vary only the partner's smile amplitude and session length: the agent's P relief and play choices must not change. Vary the structure with smiles fixed: they must.
+- **Keep wanting and liking separate, both bounded.** A cue-triggered wanting gain for play (dopamine-like) may raise the agent's tendency to offer play, but must be multiplied by P (zero when sated), so it is need-gated rather than the non-satiable term robinson-berridge-2008 warns about. The "liking" readout (prolonging a bout once in it) is a property of the relief, shown on the face.
+- **Play sits below distress.** Panksepp's note already set PLAY suppressed while separation distress is active; this review adds that play requires safety (context effects on initiation). In the agent: P relief is only available when V and C are low; good news that clears C can therefore unlock play, a natural sequence of relief then playfulness.
+- **Limits.** Rats, mostly juveniles; the agent is not developing. The play/aggression distinction relies on signals the agent must read from text and timing, which is harder than a 50-kHz call. Sections §2.2–§3 not read in detail.
