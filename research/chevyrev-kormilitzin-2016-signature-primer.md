@@ -1,0 +1,27 @@
+# A Primer on the Signature Method in Machine Learning (Chevyrev & Kormilitzin)
+
+Citation: I. Chevyrev, A. Kormilitzin. "A Primer on the Signature Method in Machine Learning." arXiv:1603.03788 (v2, 17 Jan 2025; first version 2016).
+
+Source read: arXiv v2 PDF, text-extracted. Read in full: Part 1 (definition, path integrals, the controlled differential equation and Picard expansion, geometric meaning of levels 1–2, reparametrisation invariance, shuffle product, Chen's identity with proof, time reversal with proof, log-signature, expected signatures and the Stone–Weierstrass argument, the further-topics section on rough paths, uniqueness up to tree-like equivalence, jumps, the moment problem and higher dimensions) and Part 2 sections 2.1–2.2 (paths from data, cumulative sum, base-point, time and lead–lag augmentations, signed area, worked level-2 computation, log-signature, the lead–lag/quadratic-variation identity, the handwritten-digit example). Skimmed: section 2.3 (survey of applications) and the reference list. The primer's proofs were checked where they are short (Chen, time reversal); Theorem 1.29 (log-signature is a Lie series) is stated without proof in the source.
+
+## What the object is
+- For a path X: [a,b] → R^d, the signature S(X) is the sequence of all iterated integrals S^{i1…ik} = ∫_{a<t1<…<tk<b} dX^{i1}…dX^{ik}, with S^∅ = 1.
+- **It is the universal solution of a controlled differential equation.** For linear vector fields, Picard iteration of dY = V(Y) dX gives Y_t = y + Σ_k Σ_I V_{ik}(…V_{i1}(y)) S(X)^I_{a,t}; "the solution Y_t is completely determined by the signature". The same holds for nonlinear vector fields (Chen; Hambly–Lyons; Boedihardjo–Geng–Lyons–Yang; cited, not read).
+- **Level 2 carries the signed (Lévy) area:** A = ½(S^{12} − S^{21}). "If an increase (resp. decrease) in the component X¹ is followed by an increase (resp. decrease) in X², then the area A … is positive. If the relative moves … are in the opposite direction, then A is negative." In the log-signature, A is exactly the coefficient of the Lie bracket [e1, e2].
+- **Chen's identity:** S(X∗Y) = S(X) ⊗ S(Y) — signatures of consecutive windows compose by the (non-commutative) tensor product. **Time reversal:** S(←X)^{i1…ik} = (−1)^k S(X)^{ik…i1}, so S(X) ⊗ S(←X) = 1.
+- **Invariances (and blind spots):** translation invariant; invariant under any monotone reparametrisation ("one can never recover from the signature the exact speed at which the path is traversed"); blind to tree-like excursions (a path followed by its reverse has trivial signature). Time must be added as a channel to be seen.
+- **Characteristic:** linear functionals of the signature are dense in continuous functions on (time-augmented) paths (Proposition 1.35), and on compact sets the expected signature determines the law of a random path (Corollary 1.36).
+- **Lead–lag:** the area of the lead–lag embedding of a 1-D stream is its quadratic variation (worked example: 16.5).
+
+## What it means for the design
+
+1. **Self/other asymmetry is native at level 2.** Take one expression channel k and the 2-D path Y_k = (s_k, p_k) (agent's own channel, partner's channel read into the agent's own coordinates). Its Lévy area A_k = ½∫(Δs_k dp_k − Δp_k ds_k) is
+   - antisymmetric under swapping self and other (A(p,s) = −A(s,p)) and under time reversal — a sign that says *who moved first*, with no learned parameter;
+   - **exactly zero on zero-lag affine copying** s_k = a·p_k + b for any a, b (the integrand is a·Δp dp − Δp·a dp = 0) — copy and anti-copy both carry no area (my derivation from the definition);
+   - **exactly zero when either party holds still** (dp = 0 or ds = 0 makes the path a segment): a held partner level produces nothing, and the partner's movement produces nothing unless the agent itself moves. "Reading the other through one's own body" becomes a bilinear fact: the partner registers only in commutation with the agent's own motion.
+   - For sinusoids s = r_s sin ωt, p = r_p sin(ωt+φ), the area per period is −π r_s r_p sin φ (my computation): maximal at a quarter-period lag, zero at copy and anti-copy. **The risk is stated here:** a loop that seeks area is rewarded by *lagged* copying.
+2. **Time scales by composition rather than by time constants.** Chen's identity truncated at level 2 is exact composition in a step-2 nilpotent group: (x₁, a₁)·(x₂, a₂) = (x₁+x₂, a₁+a₂+½[x₁,x₂]). Applied recursively on a dyadic tree of windows, the area over a long window is the sum of leaf areas plus one commutator ½(Δs_left Δp_right − Δp_left Δs_right) per split node (my derivation). This is an exact scale decomposition of "who leads whom": fine nodes are reflex-scale lead–lag, coarse nodes are episode- and day-scale lead–lag.
+3. **Reparametrisation invariance is a hazard for timing.** Without a time channel the signature cannot see speed, so latency (D81's fast echo window) is invisible; any core using it must add time or intensity channels (Kidger et al. do this for the same reason).
+
+## Verdict
+- [A primer on the signature method in machine learning (Chevyrev & Kormilitzin)](chevyrev-kormilitzin-2016-signature-primer.md) — 2016/2025 — adopt (as mathematical object) — the Lévy area of (own channel, partner channel) is swap-antisymmetric, zero on any zero-lag affine copy and on any held level, and its sign says who led; Chen's identity gives an exact dyadic scale decomposition of lead–lag; hazard: area is maximal for quarter-period lagged copying, and the signature is blind to speed without a time channel.
