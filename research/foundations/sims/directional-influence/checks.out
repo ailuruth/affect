@@ -1,0 +1,25 @@
+D1/D2  target a_t; sources p_{t-1}, a_{t-1} (bits; Imin PID)
+  copy                                 TE=1.000 red=0.000 unq_p=1.000 unq_a=0.000 syn=-0.000  spearman=+1.000
+  anti-copy                            TE=1.000 red=0.000 unq_p=1.000 unq_a=0.000 syn=-0.000  spearman=-1.000
+  xor (avoid repeating pair pattern)   TE=1.000 red=0.000 unq_p=0.000 unq_a=0.000 syn=1.000  spearman=+0.001
+  noisy anti (p=.8)                    TE=0.280 red=0.000 unq_p=0.280 unq_a=-0.000 syn=0.000  spearman=-0.602
+D3  rho_S(x,y)=-0.983 rho_S(y,z)=-0.994 rho_S(x,z)=+0.979  (two flips = copy)
+D4  m= 4 strips reversed incr: rho_S=-0.875 MI(64-bin)=6.00 max[C-ceiling]=+0.0075
+D4  m= 4 strips reversed decr: rho_S=-1.000 MI(64-bin)=6.00 max[C-ceiling]=-0.0031
+D4  m= 4 strips random   incr: rho_S=+0.065 MI(64-bin)=6.00 max[C-ceiling]=+0.0639
+D4  m= 4 strips random   decr: rho_S=-0.060 MI(64-bin)=6.00 max[C-ceiling]=+0.0639
+D4  m=16 strips reversed incr: rho_S=-0.992 MI(64-bin)=6.00 max[C-ceiling]=+0.0013
+D4  m=16 strips reversed decr: rho_S=-1.000 MI(64-bin)=6.00 max[C-ceiling]=-0.0031
+D4  m=16 strips random   incr: rho_S=+0.066 MI(64-bin)=6.00 max[C-ceiling]=+0.0249
+D4  m=16 strips random   decr: rho_S=+0.058 MI(64-bin)=6.00 max[C-ceiling]=+0.0248
+D4  m=64 strips reversed incr: rho_S=-1.000 MI(64-bin)=6.00 max[C-ceiling]=-0.0032
+D4  m=64 strips reversed decr: rho_S=-1.000 MI(64-bin)=6.00 max[C-ceiling]=-0.0031
+D4  m=64 strips random   incr: rho_S=-0.042 MI(64-bin)=6.00 max[C-ceiling]=+0.0164
+D4  m=64 strips random   decr: rho_S=-0.042 MI(64-bin)=6.00 max[C-ceiling]=+0.0163
+D4  copy M      : rho_S=+1.000 max[C-ceiling]=+0.1242
+D4  anti-copy W : rho_S=-1.000 max[C-ceiling]=-0.0031
+D4  independent : rho_S=-0.001 max[C-ceiling]=+0.0009
+D5  -LP(a=50)*delay(0.5s): DC gain -1.00, max_w Re H = +0.993
+D5  -LP(a=2)*delay(0.5s): DC gain -1.00, max_w Re H = +0.468
+D5  -LP(a=0.5)*delay(0.5s): DC gain -1.00, max_w Re H = +0.171
+D5  -LP(a=0.5)*delay(0.05s): DC gain -1.00, max_w Re H = +0.022
