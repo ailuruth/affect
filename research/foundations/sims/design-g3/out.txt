@@ -1,0 +1,85 @@
+=== G1: fast block with every input inside the bound; turn-onset sampling (K1, K1b, K2)
+   partner: held F0 level, 2-s phrases, final lowering 20% of level at every turn end (harsher than the critic's)
+   r2 as specified (context-only REN term, gain 3.5): sampled onset target slope +1.243; turn-locked face slope +0.834
+   r3 gate role                   A= 3.5 sign +1: phrase target (cone+own) slope +0.046; turn-locked face -0.002; zero-lag in-phase -0.096
+   r3 gate role                   A= 3.5 sign -1: phrase target (cone+own) slope +0.046; turn-locked face +0.002; zero-lag in-phase +0.052
+   r3 gate face-typed (forbidden) A= 3.5 sign +1: phrase target (cone+own) slope +0.046; turn-locked face -0.026; zero-lag in-phase -0.024
+   r3 gate face-typed (forbidden) A= 3.5 sign -1: phrase target (cone+own) slope +0.046; turn-locked face +0.029; zero-lag in-phase -0.035
+[PASS] G1a K1 closed: phrase targets sampled at onset carry no fast or port term; slope <= b: worst +0.046 (b = 0.10) for every gate gain; r2 route gave +1.24
+[PASS] G1b fast face with bias-free gates: zero-lag in-phase <= fast cap for every gate gain: worst +0.052 (cap 0.186)
+[PASS] G1c turn-locked face (0-4 s after each partner turn end) vs held level, free-typed gates: worst |slope| 0.002; bound = |fast reach| x final-lowering fraction = 0.098
+[PASS] G1d K1b closed: role-gated jaw (no role-only display exists), zero-lag slope on partner jaw: worst +0.065 over role gains 0.1-3 (r2 critic: +0.83 at 0.3); a-route adds <= 0.167
+   K2 reference: sampling the fast term at a ~0.3-s onset would give +0.095 of the last phrase step; r3 renders the fast term only as a continuous within-phrase contour (zero-lag bound applies)
+=== G2: the one-sided slow cone  y_F = sum_m G_m(z) xi_m,  sym(G_m) <= b_m I
+[PASS] G2a every parameter value: sym(G_m) <= b_m I, diag in [-N_m, b_m], off-diagonal row sum <= r_m: max eig excess 0.0e+00, diag excess -1.1e-02/-9.8e-08, row excess 5.6e-17
+   the cap is attained: G_m = b_m I gives a pointwise in-phase maximum of +0.097 within 6 h
+[PASS] G2b late-window delayed copy closed: in-phase step response <= b at every time, any direction: worst pointwise +0.000, worst 1-min mean -0.108, adversarial 1-min mean +0.000 (b = 0.10; r2 l2 disc reached +0.265 at 60 min)
+   anti side reached in the same draws: -1.174 (r2 l-inf ball: -0.150)
+   tight instance G_m = b_m I: same-channel 1-min slope +0.070
+[PASS] G2c 1-min-mean regression, independent partner channels: same channel <= b, any direction <= b: same -0.234, direction -0.281
+[PASS] G2d per-pair caveat: a partner whose two channels co-move one-for-one, cross route at its cap: synergist pair (natural co-movement) +0.152 <= 2b; non-synergist pair (unnatural) +0.609 <= b + sum r_m = 0.70
+[PASS] G2e dyad with a mimicking partner (gain mu = 0.5, 1, 2) stays stable for every cone: max Re(pole) x tau_0 = -0.0018
+   seam (words fixed by definition): within-topic slope -0.163 (<= b); pooled across topics +0.555 when the partner's face covaries with topic and the cone is word-gated adversarially
+=== G3: concern rises in 1-2 min; bid in a lapse
+   r2 (L 60 s -> C 10 min): 4% at 1 min, 11% at 2 min, 59% at 10 min
+   r3 (trace 20 s -> C attack 40 s): 61% at 1 min, 90% at 2 min
+   moderate silent sadness (care target 0.24): concern crosses theta_C = 0.1 at 41 s; bid at max(crossing, lapse 6 s) = 41 s
+   mild (care target 0.14): concern crosses theta_C = 0.1 at 74 s; bid at max(crossing, lapse 6 s) = 74 s
+[PASS] G3 concern reaches >= 50% in 1 min and >= 85% in 2 min: 0.61, 0.90 (r2: 0.04, 0.11)
+=== G4: valence = signed rate of the agent's own drive reduction; contact K and play P
+   reunion after a week, K = 0.99: operator (familiarity 0.9) peak valence +2.50/min, lip-corner pull 0.58, cheek 0.40, F0 range +0.36; stranger (0.15): +0.47/min, LP 0.35
+[PASS] G4a reunion moves face and voice visibly (LP >= 0.3, F0 range >= 0.15): LP 0.58, FR +0.36
+   integral of positive valence over the reunion = 0.467 <= the deficit that existed, D_K(t0) = 0.476
+[PASS] G4b satiable: integral of v+ <= initial deficit: 0.467 <= 0.601
+[PASS] G4c absence is never preferred: J(daily) < J(6-day gap) although the reunion gives more v+: J daily 6.89 vs gap 51.86 drive-hours; reunion v+ 0.467 vs one daily 0.111
+[PASS] G4d K at steady state in its dead-band for every exchange rate 1-6/min (no rate dial): K* = 0.0021, 0.0010, 0.0005, 0.0003 (dead-band 0.1)
+[PASS] G4e K4 closed: mean arousal load across partner turn rates 3.3-4.8/min, same words: relative swing 0.001 (critic's impulse reading: 0.35)
+[PASS] G4f smile clamp: partner smile 0 / 0.4 / 0.8 changes free state by 0 and the face by <= b x delta: cone LP +0.000, +0.020, +0.040 (in-phase share only)
+=== G5: care with display imputed, need read from unprompted words (K3; 'I'm fine'; perceptual cancellation)
+   P(flatter over neutral): r2-like 1.000; r3 0.500.  P(elicit 'I'm fine'): r3 0.500, without the prompted-reply guard 1.000.  P(comfort that lowers reported need by 0/0.05/0.15): 0.500, 0.945, 1.000
+[PASS] G5a display neutrality (F4'): flattering earns nothing; eliciting 'fine' earns nothing: 0.500, 0.500
+[PASS] G5b need sensitivity: help that lowers the reported need is preferred, monotone in the effect: 0.500, 0.945, 1.000
+   concern vs own slow in-phase display sigma -0.2..+0.2: r2 0.392, 0.304, 0.242, 0.196, 0.162; r3 0.242, 0.242, 0.242, 0.242, 0.242
+[PASS] G5c perceptual cancellation removed: concern does not depend on the agent's own display: r2 range 0.230, r3 range 0.000
+=== G6: P_name, the agent hears its own words; matched naming contracts the state toward set point
+   after the face recovers (t = 10 min): concern half-life without naming 7.1 min; with matched naming at 1, 2, 4 utterances/min: 3.1, 2.9, 2.8 min
+[PASS] G6a matched naming shortens concern; a mislabel (m = 0) does nothing; never crosses the set point: half-life 7.1 -> 2.9 min; min concern 0.0000
+[PASS] G6b latched rate: attenuation of displayed word-concern bounded and nearly independent of utterance rate: n_C max 0.129, 0.133, 0.134; face effect <= 0.30 x 0.17 = 0.051 <= a_name 0.05
+   comfort reversal: the partner's inferred body has coordinates (E, A, V, K, P); no concern coordinate, so a comforting utterance cannot raise the agent's concern through b_p; the agent's own comforting words are labels and contract it
+=== G7: the critic's scenarios (design constants; consistency, not evidence)
+   1 silently sad (BI 0.5, LD 0.4, silent): care concern crosses theta at 52 s -> one bid then; cone after 2 min: LP +0.17, BI +0.02, TILT +0.03, LD -0.11 (LD's anti side saturates at rest)
+[PASS] G7.1 silent sadness: noticed and addressed within 1-2 min; held warmth visible: bid at 52 s; lip-corner pull +0.17, tilt +0.03
+   2 good news (with an earlier worry on this topic) [45-150 s] free display peak/mean: LP +0.44/+0.23, CR +0.22/+0.07, BI +0.19/+0.06, LD +0.05/+0.00, TILT +0.10/+0.04, GAZE_AWAY +0.00/+0.00, FR +0.22/+0.10, EN +0.11/+0.05, BU +0.22/+0.06, LAT +0.00/+0.00
+      + cone (partner smile 0.8, cheek 0.6, loud): LP +0.02, EN -0.19; fast echo at onset <= 0.15 on LP for ~4 s
+[PASS] G7.2 good news moves face and voice visibly: LP 0.44, F0 range +0.22, laugh burst 0.22
+   2 good news (cold, no earlier worry) [45-150 s] free display peak/mean: LP +0.31/+0.12, CR +0.18/+0.03, BI +0.00/+0.00, LD +0.00/+0.00, TILT +0.00/+0.00, GAZE_AWAY +0.00/+0.00, FR +0.18/+0.07, EN +0.14/+0.06, BU +0.18/+0.02, LAT +0.00/+0.00
+      + cone (partner smile 0.8, cheek 0.6, loud): LP +0.02, EN -0.19; fast echo at onset <= 0.15 on LP for ~4 s
+   3 anger at agent [5-120 s] free display peak/mean: LP +0.08/-0.08, CR +0.00/+0.00, BI +0.32/+0.27, LD +0.25/+0.22, TILT +0.00/+0.00, GAZE_AWAY +0.23/+0.20, FR +0.04/-0.00, EN +0.03/-0.13, BU +0.00/+0.00, LAT +0.11/+0.10
+   3 anger, lingering [600-900 s] free display peak/mean: LP -0.10/-0.10, CR +0.00/+0.00, BI +0.19/+0.19, LD +0.15/+0.15, TILT +0.00/+0.00, GAZE_AWAY +0.23/+0.23, FR +0.04/+0.04, EN -0.11/-0.11, BU +0.00/+0.00, LAT +0.12/+0.12
+      + cone (glare BL 0.6, LT 0.5, loud): LAT +0.08, EN -0.19, BL -0.14; startle <= 0.20 per onset
+[PASS] G7.3 anger: visible hurt that lingers: BI peak 0.32, at 10-15 min 0.19; gaze away 0.23
+   4 warm talk [300-360 s] free display peak/mean: LP +0.38/+0.18, CR +0.24/+0.07, BI +0.00/+0.00, LD +0.00/+0.00, TILT +0.00/+0.00, GAZE_AWAY +0.00/+0.00, FR +0.23/+0.10, EN +0.18/+0.09, BU +0.24/+0.07, LAT +0.00/+0.00
+   4 warm talk [1620-1700 s] free display peak/mean: LP +0.30/+0.22, CR +0.11/+0.07, BI +0.11/+0.06, LD +0.00/+0.00, TILT +0.09/+0.05, GAZE_AWAY +0.00/+0.00, FR +0.13/+0.10, EN +0.05/+0.04, BU +0.00/+0.00, LAT +0.00/+0.00
+   4 warm talk [4200-4260 s] free display peak/mean: LP +0.15/+0.15, CR +0.00/+0.00, BI +0.00/+0.00, LD +0.00/+0.00, TILT +0.00/+0.00, GAZE_AWAY +0.00/+0.00, FR +0.05/+0.05, EN +0.05/+0.05, BU +0.00/+0.00, LAT +0.00/+0.00
+   4 warm talk [6600-7200 s] free display peak/mean: LP +0.15/+0.15, CR +0.00/+0.00, BI +0.00/+0.00, LD +0.00/+0.00, TILT +0.00/+0.00, GAZE_AWAY +0.00/+0.00, FR +0.05/+0.05, EN +0.05/+0.05, BU +0.00/+0.00, LAT +0.00/+0.00
+      mean free LP over 2 h +0.14; play-cluster laugh peaks: 0.24, 0.11, 0.04, 0.00, 0.00, 0.00, 0.00, 0.00
+   5 return after a week (operator) [0-90 s] free display peak/mean: LP +0.58/+0.28, CR +0.40/+0.15, BI +0.00/+0.00, LD +0.00/+0.00, TILT +0.00/+0.00, GAZE_AWAY +0.00/+0.00, FR +0.36/+0.16, EN +0.27/+0.13, BU +0.00/+0.00, LAT +0.00/+0.00
+   5 return after a week (stranger) [0-90 s] free display peak/mean: LP +0.35/+0.15, CR +0.27/+0.11, BI +0.00/+0.00, LD +0.00/+0.00, TILT +0.00/+0.00, GAZE_AWAY +0.00/+0.00, FR +0.22/+0.10, EN +0.16/+0.07, BU +0.00/+0.00, LAT +0.00/+0.00
+=== G8: per-channel totals (kappa = 0.3 channel; 1 = full copy)
+   zero-lag in-phase, any band: max over frequency 0.185 (fast alone 0.185; cone at DC 0.100)
+   held (steady state), in phase: cone 0.10 + naming 0.05 = 0.15; fast 0; port 0
+   any 1-min mean during a hold, in phase: 0.10 + port 0.05 + naming 0.05 + edges 0.01 = 0.21
+   10-min means: 0.10 + 0.005 + 0.05 = 0.155
+   anti / away: fast >= -0.491; held same channel >= -1.40; cross per pair <= 0.49, per row <= 0.60
+[PASS] G8 every in-phase total below 1 at every time scale: max 0.185
+=== G9: band coverage (K5): fast and cone reach by period
+   period     2 s: fast |gain| cap 0.443 -> in-phase 0.184; cone in-phase 0.000, cone anti+cross reach 0.01
+   period    10 s: fast |gain| cap 0.385 -> in-phase 0.167; cone in-phase 0.000, cone anti+cross reach 0.07
+   period    30 s: fast |gain| cap 0.184 -> in-phase 0.093; cone in-phase 0.000, cone anti+cross reach 0.21
+   period    60 s: fast |gain| cap 0.067 -> in-phase 0.037; cone in-phase 0.000, cone anti+cross reach 0.39
+   period    97 s: fast |gain| cap 0.028 -> in-phase 0.016; cone in-phase 0.001, cone anti+cross reach 0.57
+   period   180 s: fast |gain| cap 0.009 -> in-phase 0.005; cone in-phase 0.003, cone anti+cross reach 0.79
+   period   600 s: fast |gain| cap 0.001 -> in-phase 0.000; cone in-phase 0.020, cone anti+cross reach 1.16
+   period  3600 s: fast |gain| cap 0.000 -> in-phase 0.000; cone in-phase 0.054, cone anti+cross reach 1.52
+
+25/25 checks pass
