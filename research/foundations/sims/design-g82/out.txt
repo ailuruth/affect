@@ -12,3 +12,8 @@ checks_g6:26: RuntimeWarning: invalid value encountered in scalar divide
    operator           lp    tau  90 s mu 1.0 start 0.80: onsets 1, ends ['Tmax'], longest face-only stretch 192 s, look on 0% of 10-40 min, BI last 10 min -0.005
    operator           lp    tau 150 s mu 1.0 start 0.80: onsets 3, ends ['Tmax', 'Tmax', 'Tmax'], longest face-only stretch 192 s, look on 10% of 10-40 min, BI last 10 min -0.005
    operator           lp    tau 300 s mu 1.0 start 0.80: onsets 8, ends ['Tmax', 'Tmax', 'Tmax', 'Tmax']..., longest face-only stretch 192 s, look on 64% of 10-40 min, BI last 10 min +0.099
+   operator           lp    tau 600 s mu 1.0 start 0.80: onsets 8, ends ['Tmax', 'Tmax', 'Tmax', 'Tmax']..., longest face-only stretch 192 s, look on 64% of 10-40 min, BI last 10 min +0.142
+   operator           lp    tau  90 s mu 1.2 start 0.67: onsets 1, ends ['Tmax'], longest face-only stretch 192 s, look on 0% of 10-40 min, BI last 10 min -0.005
+   operator           lp    tau 150 s mu 1.2 start 0.67: onsets 8, ends ['Tmax', 'Tmax', 'Tmax', 'Tmax']..., longest face-only stretch 192 s, look on 64% of 10-40 min, BI last 10 min +0.129
+   operator           lp    tau 300 s mu 1.2 start 0.67: onsets 8, ends ['Tmax', 'Tmax', 'Tmax', 'Tmax']..., longest face-only stretch 192 s, look on 64% of 10-40 min, BI last 10 min +0.148
+   operator           lp    tau 600 s mu 1.2 start 0.67: onsets 8, ends ['Tmax', 'Tmax', 'Tmax', 'Tmax']..., longest face-only stretch 192 s, look on 64% of 10-40 min, BI last 10 min +0.148

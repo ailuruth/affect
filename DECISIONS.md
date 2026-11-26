@@ -440,8 +440,10 @@ To change: the operator reopens Q23.
 
 To change: the operator reopens Q26.
 
-## D86. No attribution trailers in commits or PRs (operator instruction; recorded 2026-11-26T16:12:39Z; replaces D79)
-- Commit messages and PR descriptions carry no Co-Authored-By lines (neither Claude's nor the operator's), no Claude-Session line, and no "Generated with Claude Code" line.
-- This replaces D79.
+## D86. Commit and PR attribution: only the operator's co-author trailer (operator instruction; recorded 2026-11-26, amended 2026-11-26T16:15:32Z; replaces D79)
+- Every commit carries exactly one trailer: `Co-Authored-By: ailuruth <65430552+ailuruth@users.noreply.github.com>`.
+- No Claude Co-Authored-By line, no Claude-Session line, and no "Generated with Claude Code" line, in commit messages or PR descriptions.
+- Commits already on main are not rewritten.
+- The Cayley-ledger build-candidate decision is recorded as D87, not D86.
 
-To change: the operator asks for trailers again.
+To change: the operator asks for a different trailer set.
