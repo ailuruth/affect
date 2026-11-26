@@ -2,6 +2,40 @@
 
 Decisions that are yours (visual identity, data leaving this Mac, new paid services, changes to existing Ailurini behavior). Work that these block is not built; work they do not block continues.
 
+## Report 5: one design revised twice, and a question about novelty (Q21 below; 2026-11-26T06:31:55Z)
+
+**The design.** The seventh design puts one built-in limit, the same whichever way the agent learns, on every path from the agent's inner state to its own face and voice. Two revisions followed.
+- **First version.** It hid your face from the agent's mind behind heavy noise. The critics showed this stops caring as well as copying: it would never notice you were sad. Speech rate, laughter in the transcript and head and gaze mirroring also leaked.
+- **Second version.** The agent knows you fully: its slow inner state follows your held expression almost perfectly. Every path to its expression is bounded, and in its own checks held copying fell from 0.91 to 0.09. This separation of knowing you from moving toward you works, and it carries forward.
+- **The critics still found:**
+  - the slow state's knowledge reaches the fast face through an unbounded side input, so the agent's pitch follows yours at 0.9;
+  - the limit added against slow copying works in both directions, so the agent is muted, held within ±0.15 whichever way it would move;
+  - the agent has no positive feelings: good news and warm moments leave it unmoved;
+  - it never speaks first;
+  - its care learns to prefer drafts that make you look happier, which is a form of flattery.
+
+**What comes next.**
+- Read on three gaps:
+  - satiable positive drives: wanting good things, not only avoiding bad ones;
+  - care that learns to actually help without being rewarded for how you look;
+  - how and when a listener takes the initiative.
+- Then a third revision:
+  - a one-sided limit on the slow paths too;
+  - every side input inside the limit.
+
+**Still no design to choose from.**
+
+## Q21. Should a design with no known concrete failure be put to you even if it combines existing mechanisms? (asked 2026-11-26T06:31:55Z; work continues meanwhile)
+
+**Why this comes up.** Eight designs so far, and the critics have judged every one a combination of existing mechanisms. Your rule, as last written, is that a design with no known concrete failure goes to you as a candidate to build. The brief also asks for a genuinely new core mechanism. The two can conflict: the current design may soon have no concrete failure and still be a combination.
+
+**Options:**
+- **Put it to you, with the novelty verdict stated plainly** (my recommendation). You decide whether a sound combination is worth building as a first testbed, while the search for a new mechanism continues in parallel.
+- **Hold it until a design is also new.** Only a design judged new reaches you.
+- **Something else:** tell me the rule.
+
+**What it blocks:** nothing now. It matters only once a design clears the concrete-failure check.
+
 ## Report 4: two more reading rounds and a sixth design (no answer needed, 2026-11-26T04:48:22Z)
 
 **What was read.** Seven readers, about 45 sources. This session's network first allowed no paper sites. A personal environment for this project now allows the main open-access ones. Some sources were still unreachable: where a reader used a later paper that restates the results, its note says so, and nothing unread is cited.
