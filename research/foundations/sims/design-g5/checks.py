@@ -71,15 +71,21 @@ CEIL = dict(BI=0.20, BO=0.10, BL=0.0, UL=0.0, LT=0.0, CR=0.25, NW=0.0, LP=0.35, 
             MCL=0.0, LRO=0.0, F0=0.05, FR=0.10, EN=0.05, RT=0.05, PAU=0.05, LAT=0.05, BU_L=0.35, BU_S=0.0,
             RHY=0.30, BRE=0.15)
 assert list(CEIL) == CH and len(CH) == 33
-ONE_SIDED = ("CR", "BU_L", "RHY", "BRE")          # at 0 when the agent is at rest: sat clips the fast undershoot
-KAP = {}
-for k in CH:
-    KAP[k] = (0.30 if k in ("LP", "BI", "BO", "HP") else 0.10 if k in ("CR", "BU_L", "RHY") else
-              0.0 if k == "BU_S" else 0.02 if CEIL[k] == 0 else 0.05 if k in ("YAW", "TILT", "HG", "BRE") else 0.10)
-SH = {k: (0.50, 0.20, 0.35) for k in CH}          # (cone diagonal, charged cross, appraisal |Gamma_kk|) x c_k
-SH["BI"] = (0.65, 0.15, 0.15)
-for k in ONE_SIDED: SH[k] = (0.45, 0.15, 0.20)
-ECHO = {k: 0.65 * 2 * GF / (1 + GF) * KAP[k] for k in CH}   # theta_0 echo amplitude per unit onset
+ONE_SIDED = ("CR", "BU_L", "RHY", "BRE", "BI", "BO", "LP", "LD", "JO")   # sat clips the fast undershoot here
+SIGNED = ("HP", "VG", "YAW", "TILT", "HG", "F0", "FR", "EN", "RT", "PAU", "LAT")  # [-1, 1] or phrase-level contour only
+# fast wrap (D81: fast, partial, per-expression matching stays): the zero-lag in-phase cap 2 g k/(1+g) equals c_k
+FASTFRAC = {k: (0.3 if k in ("BI", "BO", "LD", "JO") else 1.0) for k in CH}  # smile, cheek, laughter: full ceiling
+KAP = {k: FASTFRAC[k] * CEIL[k] * (1 + GF) / (2 * GF) for k in CH}          # zero on anger/disgust/contempt and sobs
+FASTCAP = {k: 2 * GF / (1 + GF) * KAP[k] for k in CH}                       # = FASTFRAC c_k at zero lag
+AWAY_FAST = 0.49                                                            # floor on the fast gates: away gain <= 0.49
+GMIN = {k: (min(1.0, AWAY_FAST * (1 - GF) / (2 * GF * KAP[k])) if KAP[k] > 0 else 0.0) for k in CH}
+ECHO0 = {k: (0.65 * FASTCAP[k] if k in ("LP", "CR", "BU_L", "RHY", "BI", "BO", "HP") else 0.0) for k in CH}
+REST = dict(LP=0.09)                                                        # the agent's resting level (familiarity)
+# pooled shares (cone diagonal, charged cross, appraisal |Gamma_kk|) x c_k; the fast allowance r_k (H5) fills the rest
+SH = {k: (0.50, 0.20, 0.35) for k in CH}
+SH["LP"] = (0.50, 0.15, 0.25); SH["BI"] = (0.55, 0.12, 0.10); SH["CR"] = (0.22, 0.06, 0.08)
+for k in ("BU_L", "RHY", "BRE"): SH[k] = (0.07, 0.02, 0.05)
+for k in ("BO", "LD", "JO"): SH[k] = (0.48, 0.15, 0.20)
 
 # ----------------------------------------------------------- the cross-session ripple factor rho (Lemma S*)
 wgrid = np.logspace(-4, 0.5, 4000)               # rad per session
@@ -224,27 +230,29 @@ report("H4 no style drift toward his code and no weight on zero-ceiling synergie
        f"cosine {o5[-1][1]:+.3f} at night 400 (rev 4: 0.26), weight {o5[-1][2]:.2f}, own legibility {o5[-1][3]:.2f}")
 
 # =========================================================== H5: the fast echo after sat (routes low finding 4)
-print("=== H5: fast echo on one-sided channels after sat: rectification allowance r_k, worst over partner families")
+print("=== H5: fast echo at its full cap (= c_k) after sat: rectification allowance r_k, worst over partner families")
 fs = 10.0; T = int(12 * 3600 * fs); MIN = int(60 * fs); d = int(0.45 * fs)
-RECT = {}
-fams = []
+RECT = {k: 0.0 for k in CH}
 mood = blocks(T, 10 * 60, fs)
-for dur in (0.5, 1.0, 2.5, 5.0):
+fam = {"burst": [], "episode": []}
+for dur in (0.5, 1.0, 2.5, 5.0):                                # laugh bursts (BU_L, RHY, BRE)
     for amp_mod in (False, True):
-        L = laughs(0.5 + 5.5 * mood, T, fs, dur=dur)
-        amp = (0.3 + 0.7 * mood) if amp_mod else np.ones(T)
-        fams.append((f"bursts {dur:.1f} s, rate 0.5-6/min" + (", amplitude with mood" if amp_mod else ""), amp * L))
-Lc = laughs(np.full(T, 3.0), T, fs)               # constant rate, amplitude varies with mood
-fams.append(("constant rate 3/min, amplitude 0.2-1 with mood", (0.2 + 0.8 * mood) * Lc))
-for k in ("BU_L", "RHY", "CR", "BRE"):
+        L = laughs(0.5 + 5.5 * mood, T, fs, dur=dur); amp = (0.3 + 0.7 * mood) if amp_mod else np.ones(T)
+        fam["burst"].append(amp * L)
+for dur in (1.5, 4.0, 10.0, 25.0):                              # face episodes (smiles, cheek, brow)
+    L = laughs(0.3 + 3.0 * mood, T, fs, dur=dur, spread=0.6)
+    fam["episode"].append((0.3 + 0.7 * mood) * L); fam["episode"].append(np.clip(0.2 * mood + 0.6 * L, 0, 1))
+for k in ONE_SIDED:
+    if CEIL[k] == 0: continue
     worst = 0.0
-    for lab, u in fams:
-        echo = ECHO[k] * hp(np.concatenate([np.zeros(d), u[:-d]]), 4.0, fs)
-        s_ = slope(means(u, MIN), means(np.clip(echo, 0, 1), MIN)); worst = max(worst, s_)
-    RECT[k] = worst
-    print(f"   {k}: kappa {KAP[k]:.2f}, echo {ECHO[k]:.3f} per unit onset; worst rendered 1-min slope of the echo alone "
-          f"{worst:+.3f} = {worst / CEIL[k]:.3f} c_k")
-print("   (revision 4, kappa 0.30 on the burst: +0.071 on the critic's partner)")
+    for u in fam["burst" if k in ("BU_L", "RHY", "BRE") else "episode"]:
+        echo = FASTCAP[k] * hp(np.concatenate([np.zeros(d), u[:-d]]), 4.0, fs)
+        base = REST.get(k, 0.0)
+        worst = max(worst, slope(means(u, MIN), means(np.clip(base + echo, 0, 1) - base, MIN)))
+    RECT[k] = worst / CEIL[k]
+    print(f"   {k:4s}: fast cap {FASTCAP[k]:.3f} at zero lag (innate echo {ECHO0[k]:.3f} per unit onset at 0.45 s); "
+          f"worst rendered 1-min slope of the full-gate echo {worst:+.3f} = r_k {RECT[k]:.3f} c_k")
+print("   signed and phrase-level channels: no clipping at rest, r_k = 0; (rev 4: echo 0.121 on bursts gave +0.071)")
 
 # =========================================================== H6: the totals, per channel
 print("=== H6: per-channel totals toward the partner (pooled over any stationary partner, across sessions)")
@@ -252,11 +260,11 @@ worst_tot = 0.0; rows = []
 for k in CH:
     if CEIL[k] == 0: continue
     sc, sx, sa = SH[k]
-    tot = sc * (1 + RHO) + sx + sa * HBP + RECT.get(k, 0.0) / CEIL[k]
-    hold = sc + sx; peak = sc + sx + sa * KBP + RECT.get(k, 0.0) / CEIL[k]
+    tot = sc * (1 + RHO) + sx + sa * HBP + RECT[k]
+    hold = sc + sx; peak = sc + sx + sa * KBP + RECT[k]
     worst_tot = max(worst_tot, tot); rows.append((k, tot, hold, peak))
 for k, tot, hold, peak in rows:
-    if k in ("LP", "BI", "CR", "BU_L", "RHY", "BRE", "FR", "EN"):
+    if k in ("LP", "BI", "CR", "BU_L", "RHY", "BRE", "BO", "LD", "FR", "EN"):
         print(f"   {k:5s}: pooled <= {tot:.3f} c = {tot * CEIL[k]:.3f}; steady hold {hold:.2f} c = {hold * CEIL[k]:.3f}; "
               f"peak after an onset {peak:.3f} c")
 report("H6 every channel's shares, cross-session ripple and fast allowance fit under its ceiling", worst_tot <= 1.0,
@@ -298,7 +306,7 @@ G0 = [("EN", "EN", 0, -0.15), ("EN", "EN", 1, -0.08), ("EN", "loud", 0, -0.20), 
       ("LAT", "EN", 0, +0.10), ("HG", "glare", 0, +0.25), ("HG", "glare", 1, +0.05),
       ("BL", "BL", 0, -0.15), ("BL", "BL", 1, -0.08), ("LT", "LT", 0, -0.15), ("LT", "LT", 1, -0.08),
       ("LD", "LD", 0, -0.15), ("LD", "LD", 1, -0.08),
-      ("LP", "glare", 1, -0.04), ("LP", "glare", 2, -0.01), ("BI", "glare", 1, +0.012), ("BI", "LD", 1, +0.005),
+      ("LP", "glare", 1, -0.035), ("LP", "glare", 2, -0.01), ("BI", "glare", 1, +0.012), ("BI", "LD", 1, +0.004),
       ("TILT", "BI", 1, +0.014), ("HP", "BI", 1, +0.04), ("VG", "BI", 1, +0.04)]
 viol = []
 for m in range(4):
@@ -327,10 +335,10 @@ report("H7 G0 lies in its own set on every trace", not viol, "; ".join(viol) if 
 # =========================================================== H8: dyad stability (critic D7 re-run)
 print("=== H8: single-channel loop gain with a counter-mimic, every F route at its away extreme")
 w = np.logspace(-5, 1, 4000); worst_g = 0
-for k in ("LP", "BI", "EN"):
+for k in ("LP", "BI", "BU_L", "EN"):
     cn = -sum(N_M[m] / (1 + 1j * w * TAU_M[m]) for m in range(4))
     ap = -SH[k][2] * CEIL[k] * (1 / (1 + 1j * w * 20) - 1 / (1 + 1j * w * 90))
-    fa = -2 * GF / (1 - GF) * KAP[k] * (1j * w * 4 / (1 + 1j * w * 4)) * np.exp(-1j * w * 0.45)
+    fa = -2 * GF / (1 - GF) * KAP[k] * GMIN[k] * (1j * w * 4 / (1 + 1j * w * 4)) * np.exp(-1j * w * 0.45)
     G = np.abs(cn + ap + fa).max(); worst_g = max(worst_g, G)
     print(f"   {k}: max|G| {G:.3f} -> small-gain stable for |mu| < {1 / G:.2f}")
 report("H8 the dyad is stable with any partner for |mu| <= 1.5", 1 / worst_g >= 1.5, f"|mu| < {1 / worst_g:.2f}")
