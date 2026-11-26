@@ -648,3 +648,13 @@ Stop fixing critique findings with rules for particular situations, for example 
 
 **What it blocks:** nothing now.
 
+## Q33. Should the agent's own brow rise at your words of need? (asked 2026-11-26T21:36:34Z; work continues on the current design meanwhile)
+
+**Why this comes up.** You removed the built-in concern look (Q24). The design still has a built-in newborn-style reaction of the agent's own distress: when your words tell it you need something, its care rises and its face briefly shows its own distress, an inner-brow raise of up to +0.45 with drooping lids and a lower voice, for a few seconds. The checker judged this an allowed innate reaction (newborns cry at another's cry), not a rule for a situation, but noted it is close to what you removed.
+
+**Options:**
+- **Keep it** (my recommendation): the agent shows a brief distress of its own at your words of need from day 1; a lasting concern face is still learned.
+- **Remove it:** the agent's face does not move at your words of need until it learns to; Claude's words carry its concern until then.
+
+**What it blocks:** nothing now.
+

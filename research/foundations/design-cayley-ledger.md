@@ -196,7 +196,7 @@ Time is discrete at the camera rate f_s = 30 Hz; T state, body, appraisal and th
 | **cross-entry sign prior** | on face pairs (both channels among the 24 facial action units): sign of the 1-min co-variation of listener channel k with speaker channel j across dyads, \|ρ\| ≥ 0.2, frozen; learned cross entries take that sign or 0. Other pairs: the agent's own synergies' within-synergy signs; cross-synergy pairs unsigned and charged (no rule J; M8) | S32, M8 |
 | **ω** | one person-valence target s for every group (S37); priors per group as revision 5 (stranger 0.5, 0.3, 0.2, 0.5) | |
 | **physiological sigh** | BRE +0.15 for 1 s at a spontaneous rate of one per 3 min × (1 + 2 max(0, 0.5 − E)/0.3) | body reflex (S35) |
-| **shadow ledger** | constraints at (2 s; lags 0, 0.5, 1, 2, 3 s), (10 s; lags 0–120 s in 5-s steps), (60 s; lags 0–300 s in 10-s steps): 61 per channel; each holds the partner-caused part's slope at κ c_k, **κ = 0.70** on every channel and constraint (9.1) | §2.13 (D90) |
+| **shadow ledger** | constraints at (2 s; lags 0, 0.5, 1, 2, 3 s), (10 s; lags 0–300 s in 5-s steps; 9.2), (60 s; lags 0–300 s in 10-s steps): 97 per channel; each holds the partner-caused part's slope at κ c_k, **κ = 0.70** on every channel and constraint (9.1) | §2.13 (D90) |
 
 ### 2.2 Boundary 𝓑 and the type rule
 
@@ -857,6 +857,14 @@ Revision 9 is saved verbatim as `design-cayley-ledger.r9.md`. Check: `sims/desig
 
 **Status:** revision 9.1, build core; for re-check. Q30 (head, gaze, voice from the dyads) and Q31 (S46) are with the operator.
 
+## Check of revision 9.1 and the answer (recorded 2026-11-26T21:36:34Z)
+
+**Independent check** (check-cayley-ledger-9.1.md; sims/check-cayley91/). **FAIL, one concrete failure.** The 0.70 c margin does not hold the ceiling across the scanned delays: with 5-min mood blocks an unlisted copy delayed 150 / 180 / 210 / 240 / 300 s is left at 1.04 / 1.07 / 1.01 / 1.02 / 1.05 c (9.1 measured only 10, 90, 120, 240 s; its claim that the window "holds 150–240-s delays too" is false). A lower margin alone does not close it (0.65 c leaves 1.006 c at 240 s). Everything else holds: the softened follow-up and rule J are gone; no head, gaze or voice claim is dyad-learned; no copy route opened; D78-4 and D81 hold (0.45 s echo); the trimming cost is stated. The +0.45 brow at his words of need and relief masking are not situation-specific rules, but the brow is close to what D89 removed (to the operator: Q33). Summary: restate the ledger figures; list S46 under the innate items.
+
+**The answer (maintainer): revision 9.2, one uniform setting, verified by the checker's own run.** The 10-s window is scanned at lags 0–300 s (5-s steps), like the 60-s window: 97 constraints per channel instead of 61, about 1.6× the ledger's compute, no new memory. At 0.70 c every delay from 10 to 300 s comes out at **0.83–0.88 c**, and the counted routes (fast mimicry included) change **0 frames** (check-cayley-ledger-9.1.md, ledger_close.py). F22 now covers delays of 10–300 s at ≤ 1.0 c. This is the second failure of the ledger-margin step; the fix is the checker's own measured setting, not a new mechanism, so the step is closed here rather than revised again. Where the text above (§0 move 4, §2.13, §3.3, §3.11, §7, §8.1, Revision 9.1 history) still says "lags to 120 s at the 10-s window", "61 constraints" or "≤ 1.02 c at 240 s", revision 9.2 supersedes it. S46 is added to the summary's innate list.
+
+**Status:** revision 9.2, the build core; no known concrete failure. Next: the build specification.
+
 ## Build core summary
 
 (Replaces the Build-candidate summary of revisions 8.1–8.3, whose last text is kept verbatim in `design-cayley-ledger.r8.3.md`.)
@@ -865,7 +873,8 @@ Revision 9 is saved verbatim as `design-cayley-ledger.r9.md`. Check: `sims/desig
 
 **What is built.**
 - **Knowing him:** per-person calibration; the agent's own inverse Π̃ reading his face (and breathing) as its own state would produce it; the face head H_id taught by his words; the frozen population word reader with a per-person adapter; Λ, how listeners' faces answer words. Knowing never sets a gain on a path to the face.
-- **Every path to its own face and voice, capped per expression:** the innate ceilings c_k (smile and laughter highest, sympathy brow 0.20, anger, disgust and contempt 0); the frozen per-channel fast echo at 0.45 s; the held cone, centred at his own baseline; the appraisal display; the free display, driven by words and the agent's own body only; the attenuate-only shadow ledger, which now scans delays to 120 s (10-s window) and 300 s (60-s window).
+- **Every path to its own face and voice, capped per expression:** the innate ceilings c_k (smile and laughter highest, sympathy brow 0.20, anger, disgust and contempt 0); the frozen per-channel fast echo at 0.45 s; the held cone, centred at his own baseline; the appraisal display; the free display, driven by words and the agent's own body only; the attenuate-only shadow ledger, which scans delays to 300 s at both its 10-s and 60-s windows and holds every partner-caused part at 0.70 c (9.2): unlisted copies delayed 10–300 s stay at 0.83–0.88 c.
+- **Also innate until you answer Q31:** the agent's own face cannot learn to show anger, disgust or contempt (S46).
 - **Claude:** three forks per turn through the subscription, resumed from an engine-written transcript; its words are the agent's words; the agent hears them, and that is how Claude regulates it.
 - **Innate, and nothing else:** the body (drives for energy, contact, play, curiosity, care; its voice and laugh; relief masked by its own concurrent distress; its own surprise at content); reflexes (the fast echo, the threat reflex, the cry–laugh split, startle, the startle blink, gaze following, keeping its head still while his moves, the physiological sigh, the social smile back); newborn expressions (smile, cry face, gaze aversion, interest, startle); the per-expression ceilings; general learning biases (a shape-constrained learner, multi-scale memory traces, distress-weighted replay, calibration from calm moments, credit only from separated reports).
 

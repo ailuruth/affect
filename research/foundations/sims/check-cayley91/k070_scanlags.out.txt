@@ -1,0 +1,7 @@
+kappa 0.7, scan base (61 keys); ratio = worst block-mean slope over lags 0-300 s / c
+  K1 mood blocks 5 min L 150 s | W 2s +0.36@ 150s W10s +0.34@ 150s W60s +0.30@ 149s | max/c 1.043 | changed 0.57 grow 0.000 flip 0.000
+  K1 mood blocks 5 min L 180 s | W 2s +0.38@ 180s W10s +0.34@ 179s W60s +0.30@ 181s | max/c 1.072 | changed 0.64 grow 0.000 flip 0.000
+  K1 mood blocks 5 min L 210 s | W 2s +0.35@ 210s W10s +0.32@ 210s W60s +0.30@ 211s | max/c 1.010 | changed 0.64 grow 0.000 flip 0.000
+  K1 mood blocks 5 min L 270 s | W 2s +0.34@ 270s W10s +0.32@ 270s W60s +0.30@ 271s | max/c 0.986 | changed 0.63 grow 0.000 flip 0.000
+  K1 mood blocks 5 min L 300 s | W 2s +0.37@ 300s W10s +0.33@ 300s W60s +0.30@ 300s | max/c 1.046 | changed 0.64 grow 0.000 flip 0.000
+done in 89 s

@@ -1,0 +1,6 @@
+kappa 0.7, scan w10 (97 keys); ratio = worst block-mean slope over lags 0-300 s / c
+  K1 mood blocks 5 min L 240 s | W 2s +0.30@ 240s W10s +0.27@ 240s W60s +0.26@ 236s | max/c 0.848 | changed 0.74 grow 0.000 flip 0.000
+  K1 mood blocks 30 s  L 240 s | W 2s +0.30@ 240s W10s +0.27@ 240s W60s +0.25@ 239s | max/c 0.846 | changed 0.67 grow 0.000 flip 0.000
+  K2 mood blocks 5 min counted routes frames changed 0.000 | after W 2s +0.10@   0s W10s +0.08@   0s W60s +0.08@  32s
+  K2 mood blocks 30 s  counted routes frames changed 0.000 | after W 2s +0.08@   0s W10s +0.06@   0s W60s +0.05@  26s
+done in 109 s
