@@ -1,0 +1,44 @@
+{
+ "P1": [
+  "lam_own"
+ ],
+ "P2": [
+  "D_T_prev",
+  "P_play",
+  "drop_events",
+  "e_agent_turn",
+  "env_drop",
+  "env_laugh",
+  "env_progress",
+  "env_rise",
+  "laugh_events",
+  "progress_events",
+  "q_hat",
+  "q_trace",
+  "rise_events"
+ ],
+ "P3": [
+  "q_bit_agent"
+ ],
+ "P4": [
+  "p_name"
+ ],
+ "P5": [
+  "D_T_prev",
+  "I_lp",
+  "P_play",
+  "drop_events",
+  "env_drop",
+  "env_laugh",
+  "env_progress",
+  "env_rise",
+  "last_speaker",
+  "laugh_events",
+  "progress_events",
+  "q_hat",
+  "q_trace",
+  "rise_events",
+  "t_agent_end",
+  "t_agent_start"
+ ]
+}

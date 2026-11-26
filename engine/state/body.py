@@ -212,7 +212,7 @@ class Body(TypedState):
     def _his_utterance(self, u: Utterance) -> None:
         L = self.L
         e = L.encode_his(u)
-        slot = L.enc.topic(u.words)
+        slot = L.enc.topic(u.text_norm)
         tc = topic_code(slot, like=e)
         r = L.pop(e, tc)
         self.reader_his = r
@@ -222,18 +222,19 @@ class Body(TypedState):
         self.surprisal_last = s_lex
         self._set("A_L", "A", "lexical_rise", np.maximum(self.A_L, AL_GAIN * s_lex ** 2))
         self._set("h_word", "V", "h_word_latch", np.maximum(self.h_word, L.word_v(e, tc)))
-        N = self.N_L * 1.0
-        N[slot] = np.maximum(N[slot], r)
-        self.N_L = N
+        onehot = (np.arange(TOPIC_DIM) == slot)[:, None]
+        self.N_L = np.where(onehot, np.maximum(self.N_L, r[None, :]), self.N_L)   # (no item writes: tags survive)
         agent_before = self.last_speaker * 0.0 + (self.last_speaker == 1.0)
         x = np.stack([self.lam_his_last[0], self.lam_his_prev[0], self.e_agent_turn[0], agent_before * 1.0, s_lex])
         self.q_hat = L.qhat(x)
         self._set("P_play", "P", "qhat_term", self.P_play * (1.0 - P_QGAIN * self.q_hat))
         self.laugh_events = self.laugh_events + ((np.float64(u.t_end), LAUGH_GAIN * self.q_hat),)
-        if not (self.last_speaker == 1.0):                  # partner-initiated: not a reply to an agent turn
-            self._set("I_lp", "I", "progress_term", np.maximum(0.0, self.I_lp - I_GAIN * L.progress(e)))
+        initiated = 1.0 - agent_before                     # partner-initiated: not a reply to an agent turn
+        lowered = np.maximum(0.0, self.I_lp - I_GAIN * L.progress(e))
+        self._set("I_lp", "I", "progress_term", self.I_lp + initiated * (lowered - self.I_lp))   # data flow, no branch
         self.t_his_end = np.float64(u.t_end) + 0.0 * e[0]
         self.t_his_spoke = self.t_his_end
+        self.q_bit_agent = ports.turn_question_bit(self.last_own, False)
         self.last_speaker = 0.0 * e[0]
 
     def _own_heard(self, oh: OwnHeard) -> None:

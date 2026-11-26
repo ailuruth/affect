@@ -67,3 +67,14 @@ def test_engine_never_imports_eval():
     assert violations("from eval import events", in_engine=True)
     assert violations("import eval.config", in_engine=True)
     assert not violations("import numpy as np\nfrom scipy.signal import lfilter")
+
+
+def test_fast_path_modules_import_numpy_and_stdlib_only():
+    """spec §2.1: the `fast` process imports numpy and the stdlib only; the M4 fast-path modules (fast gear, cone,
+    appraisal, gates, free display, assembly, shadow, ledger, asserts, type trace) load no other third-party package."""
+    import subprocess
+    import sys
+    code = ("import sys; import engine.shadow.shadow, engine.invariants.typetrace; "
+            "print(sorted({m.split('.')[0] for m in sys.modules} & {'scipy', 'torch', 'pandas', 'sklearn'}))")
+    out = subprocess.run([sys.executable, "-c", code], cwd=ROOT, capture_output=True, text=True, check=True)
+    assert out.stdout.strip() == "[]"

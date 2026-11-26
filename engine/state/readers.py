@@ -1,4 +1,4 @@
-"""Readers and word encoders (spec §1.3 "Readers", §1.2.6, §3.2). Knowing only: their outputs enter care, initiative,
+"""Readers and word encoders (spec §1.3 "Readers", §1.2.6, §3.2). Knowing only: their outputs enter the partner-load terms, initiative,
 the gates' masked inputs and draft scoring, never a gain on a path to the face.
 
 UNTRAINED STUBS. Every learned part here has its declared shape and a `trained = False` flag; weights are zero (or,

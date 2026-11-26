@@ -9,7 +9,7 @@ UNTRAINED STUBS with their fixed shapes (`trained = False`); M3 (dyad fit) and M
   - QHat: monotone additive logistic model (the gate form) on (Lambda_V of his last two turns, Lambda_V of the agent's
     last turn through port P2, turn order, surprisal). Untrained: its base rate, here 0 (no own laugh).
   - TurnModel: logistic p_end and hazard (~100 weights each); theta_end = 0.5 until the val fit. Untrained: weights 0.
-  - Omega: per-group omega in [-1, 1]; prior of a new person; the one person-valence rule (S37), applied per session
+  - Omega: per-group omega in [-1, 1]; prior of a new person; the one omega_rule (S37), applied per session
     in replay (M8) from inputs replay computes (rho_rel, h_bar).
 """
 from __future__ import annotations
@@ -147,3 +147,26 @@ class Learned:
 _UNREAD = set(ENTRIES["echo_gate_unread"].value)
 READ_IDX = tuple(i for i, c in enumerate(TABLE.codes) if c not in _UNREAD)
 OWN_READ_IDX = tuple(i for i, c in enumerate(TABLE.codes) if c not in ("LP", "CR"))
+
+
+def randomise_for_trace(L: Learned, seed: int = 0, scale: float = 0.05) -> Learned:
+    """Small random weights on every stub, for the type trace only: provenance does not depend on the weights'
+    values, but a zero weight can leave a branch untaken (an event of amplitude 0 is not recorded), so the trace runs
+    the dataflow with generic nonzero weights. Never used to render."""
+    r = np.random.default_rng(seed)
+    for part in (L.lam, L.word_v, L.pname, L.reader_his, L.reader_own):
+        part.W = scale * r.standard_normal(part.W.shape)
+        part.b = np.abs(scale * r.standard_normal(part.b.shape))
+    L.pop.W1 = scale * r.standard_normal(L.pop.W1.shape)
+    L.pop.W2 = scale * r.standard_normal(L.pop.W2.shape)
+    L.pop.b2 = np.full(3, 0.3)
+    L.surprisal = lambda e: np.abs(e[0]) * 0.0 + 0.5 + 0.0 * e[1]
+    L.progress = lambda e: np.abs(e[1]) + 0.05
+    for gm in (L.gates.g, L.gates.g_o, L.qhat):
+        gm.beta = scale * r.standard_normal(gm.beta.shape)
+        gm.b0 = 0.0 if gm.link == "logistic" else -0.1
+    L.ld.W = scale * r.standard_normal(L.ld.W.shape)
+    L.appraisal.W1 = scale * r.standard_normal(L.appraisal.W1.shape)
+    L.appraisal.W2 = scale * r.standard_normal(L.appraisal.W2.shape)
+    L.appraisal.Wsel = r.standard_normal(L.appraisal.Wsel.shape)
+    return L

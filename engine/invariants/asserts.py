@@ -243,3 +243,152 @@ def check_a17_model(path, models_lock: Path | None = None) -> str:
     if digest not in set(listed.values()):
         raise InvariantError("A17", f"{p.name}: SHA-256 {digest[:12]} not in models.lock")
     return digest
+
+
+# ==================================================================================================== M4 (A1-A9)
+# Each check returns what failed (a mask or a list); the caller (engine/shadow/shadow.py, `Safety`) applies the
+# fail-safe of its row in spec §4.3 for the rest of the session and logs the failure with its frame.
+
+def check_a1(y_f: np.ndarray, x_d: np.ndarray, E: np.ndarray, G: np.ndarray, one_sided: np.ndarray,
+             tol: float = 1e-6) -> np.ndarray:
+    """A1 (30 Hz): 0 <= y_f,k <= G_k x_d,k + 1e-6 on one-sided channels; |y_f,k| <= G_k |E_k| on signed ones.
+    Returns the mask of failing channels (fail-safe: channel k renders ybar_k)."""
+    y, xd, E, G = (np.asarray(a, dtype=np.float64) for a in (y_f, x_d, E, G))
+    bad_one = (y < -tol) | (y > G * xd + tol)
+    bad_signed = np.abs(y) > G * np.abs(E) + tol
+    return np.where(one_sided, bad_one, bad_signed)
+
+
+def check_a2(g, g_o) -> list:
+    """A2 (30 Hz) range part: 0 <= g <= 1 and 0 <= g_o <= 1 (the provenance part runs in the type trace at load:
+    engine/invariants/typetrace.py, display terms g and g_o). Returns the failing gate names (fail-safe: that gate is
+    set to its context-free constant, reading nothing)."""
+    out = []
+    for name, v in (("g", g), ("g_o", g_o)):
+        v = float(v)
+        if not (0.0 <= v <= 1.0) or not math.isfinite(v):
+            out.append(name)
+    return out
+
+
+def t_state_digest(fields: dict) -> str:
+    """SHA-256 of every T field (name, dtype, shape, bytes; event records and tuples recursively), for A5."""
+    h = hashlib.sha256()
+
+    def feed(v):
+        if isinstance(v, (tuple, list)):
+            h.update(b"(")
+            for x in v:
+                feed(x)
+            h.update(b")")
+        elif v is None:
+            h.update(b"None")
+        else:
+            a = np.ascontiguousarray(np.asarray(v.view(np.ndarray) if isinstance(v, np.ndarray) else v,
+                                                dtype=np.float64))
+            h.update(str(a.shape).encode())
+            h.update(a.tobytes())
+
+    for name in sorted(fields):
+        h.update(name.encode())
+        feed(fields[name])
+    return h.hexdigest()
+
+
+def check_a5(factual_t: dict, shadow_t: dict, held: dict | None = None) -> list:
+    """A5 (2 Hz on the T state, 30 Hz on the fast-loop T inputs): the shadow's independently computed T state
+    equals the factual one, field by field; the held values (Ω, rule-6 latches, noise, g, D_tau) equal their
+    sources (copy check). Returns the names that differ (fail-safe: the whole output falls back to ybar, the factual
+    T state is overwritten by the shadow's, learning for the session is off, build marked failed)."""
+    bad = [k for k in sorted(set(factual_t) | set(shadow_t))
+           if k not in factual_t or k not in shadow_t
+           or t_state_digest({k: factual_t[k]}) != t_state_digest({k: shadow_t[k]})]
+    for name, (src, copy) in (held or {}).items():
+        if t_state_digest({name: src}) != t_state_digest({name: copy}):
+            bad.append("held:" + name)
+    return bad
+
+
+def check_a6(G: np.ndarray, omega, sign_table: np.ndarray, G0: np.ndarray | None = None) -> list:
+    """A6 (each write): omega_g in [-1, 1]; every cone entry in its set; face-pair cross entries carry the prior sign
+    or 0 (innate G0 entries are exempt from the prior, not from the budgets). G (4, 33, 36). Returns violations
+    (fail-safe: the cone falls back to its last valid latch, or to G0 and the diagonal)."""
+    from engine.config.channels import TABLE
+    from engine.routes import cone as C
+    out = []
+    om = np.asarray(omega, dtype=np.float64)
+    if np.any(np.abs(om) > 1.0) or not np.all(np.isfinite(om)):
+        out.append(("omega", "outside [-1, 1]"))
+    D = C.diagonal(np.clip(om, -1, 1))
+    G0 = C.g0_entries() if G0 is None else G0
+    for m in range(4):
+        diag = G[m, np.arange(C.N), np.arange(C.N)]
+        cap = C.shares(m) * TABLE.array("s_C") * TABLE.array("c")
+        for k in range(C.N):
+            if abs(diag[k]) > cap[k] + 1e-12 or abs(diag[k] - D[m, k]) > 1e-12:
+                out.append((m, k, "diagonal is not omega_g F_m s_C c_k"))
+            if TABLE.c[k] == 0.0 and diag[k] > 0.0:
+                out.append((m, k, "zero-ceiling diagonal > 0"))
+        off = G[m].copy()
+        off[np.arange(C.N), np.arange(C.N)] = 0.0
+        learned = off - G0[m]
+        _, _, bad_l = C.usage(learned, m, sign_table)
+        out += bad_l
+        ch, aw, bad_all = C.usage(off, m, sign_table)
+        out += [b for b in bad_all if b[3] != "face pair against the dyad sign prior"]
+        budget, _, rcap = C.budgets(m)
+        for k in range(C.N):
+            if ch[k] > budget[k] + 1e-12:
+                out.append((m, k, "charged cross budget exceeded"))
+            if aw[k] > rcap + 1e-12:
+                out.append((m, k, "away row cap exceeded"))
+            if TABLE.c[k] == 0.0 and ch[k] > 0.0:
+                out.append((m, k, "toward entry on a zero-ceiling row"))
+    return out
+
+
+def check_a7(bases: np.ndarray, omega, sign_table: np.ndarray, delta=None) -> list:
+    """A7 (after each replay step, at load): every appraisal basis in its convex set; the learned bases (index >= 3)
+    and Delta have zero weight on BL, LT, LPR, NW, DIM (Q31 kept). Returns violations (fail-safe: learned bases and
+    Delta <- 0, innate bases and Pi_0 only)."""
+    from engine.routes import appraisal as AP
+    out = []
+    for r in range(bases.shape[0]):
+        out += [(r,) + v for v in AP.violations(bases[r], omega, sign_table, learned=r >= 3)]
+    if delta is not None:
+        out += [("Delta", c, "own-display mask") for c in delta.mask_violations()]
+    return out
+
+
+def check_a8(L_d: np.ndarray, W: np.ndarray | None = None) -> list:
+    """A8 (load, 2 Hz): |L_d,k| <= 0.45; TILT, HP, VG, FR, EN rows of L_d are 0 under D70. Returns violations
+    (fail-safe: L_d <- 0)."""
+    from engine.config.channels import TABLE
+    from engine.config.innate import ENTRIES
+    bound = ENTRIES["listener_display_max"].value
+    zero = [TABLE.index(c) for c in ENTRIES["listener_display_zero_rows"].value]
+    v = np.asarray(L_d, dtype=np.float64)
+    out = [(TABLE.codes[k], "above 0.45") for k in range(v.shape[0]) if abs(v[k]) > bound + 1e-12]
+    out += [(TABLE.codes[k], "row without a D70 target is not 0") for k in zero if v[k] != 0.0]
+    if W is not None and not np.all(np.isfinite(W)):
+        out.append(("W", "non-finite weights"))
+    return out
+
+
+def check_a9(env_laugh, y: np.ndarray, synth_input: dict) -> list:
+    """A9 (30 Hz; the per-phrase WORLD part comes with the prosody stage at M5): own laugh <= 0.40; the laugh-synth
+    input only from y_BU_L, y_RHY, y_BRE; y_BU_S = 0. Returns violations (fail-safe: laugh synth gated to 0; speech
+    with neutral prosody)."""
+    from engine.config.channels import TABLE
+    from engine.config.innate import ENTRIES
+    out = []
+    if float(env_laugh) > ENTRIES["own_laugh_max"].value + 1e-12:
+        out.append("own laugh above 0.40")
+    if set(synth_input) != {"BU_L", "RHY", "BRE"}:
+        out.append("laugh-synth input from another channel")
+    for code, v in synth_input.items():
+        if code in ("BU_L", "RHY", "BRE") and v != y[TABLE.index(code)]:
+            out.append(f"laugh-synth input {code} is not y_{code}")
+    if y[TABLE.index("BU_S")] != 0.0:
+        out.append("y_BU_S is not 0")
+    return out
