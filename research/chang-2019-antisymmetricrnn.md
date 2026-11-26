@@ -1,45 +1,49 @@
 # AntisymmetricRNN, and stable architectures for deep networks (Chang et al.; Haber & Ruthotto)
 
-Bo Chang, Minmin Chen, Eldad Haber & Ed H. Chi, "AntisymmetricRNN: A dynamical system view on recurrent neural networks", *ICLR* 2019, arXiv:1902.09689. Companion: Eldad Haber & Lars Ruthotto, "Stable architectures for deep neural networks", *Inverse Problems* 34(1):014004, 2018 (arXiv:1705.03341, 2017).
+Bo Chang, Minmin Chen, Eldad Haber & Ed H. Chi, "AntisymmetricRNN: A dynamical system view on recurrent neural networks", *ICLR* 2019, arXiv:1902.09689. Companion: Eldad Haber & Lars Ruthotto, "Stable architectures for deep neural networks", *Inverse Problems* 34(1):014004, 2018, arXiv:1705.03341 (v3).
 
 ## What was read
+- **Chang et al.:** the arXiv text in full, §§1–5, Appendix B (the proof) and Appendix C (experimental details). Figures were seen only as captions, and the CIFAR and noise-padded tables were skimmed.
+- **Haber & Ruthotto:** the abstract and §§1, 3 and 4.1–4.3 (stability, antisymmetric weights, Hamiltonian networks, symplectic propagation). §§4.4–6 (derivatives, regularisation, experiments) were skimmed only.
 
-**Not read in this session.** arxiv.org is outside this session's network allowlist. A search confirmed:
-- the paper treats RNNs as discretised ODEs;
-- it uses an antisymmetric weight matrix so that the Jacobian's eigenvalues are purely imaginary;
-- it adds a diffusion term $-\gamma I$ because forward Euler is unstable on the imaginary axis;
-- it reports better long-term memory than LSTMs on some tasks.
-
-The equations below are the standard form as I know it, consistent with that summary. The claims about the dyad are mine, checked in `foundations/sims/symmetry-no-copy/checks.py` (C1–C3).
+Claims about the dyad are mine and are checked in `foundations/sims/symmetry-no-copy/checks.py` (C1–C3, C7).
 
 ## The computation, precisely
+**The critical criterion (Chang §3.2).** The paper argues that $\mathrm{Re}(\lambda_i(J))\ll0$ "results in a lossy system", so it asks for:
+> "Re(λ_i(J(t))) ≈ 0, ∀i ... a condition we referred to as the critical criterion."
 
-**AntisymmetricRNN.**
-$$h_t = h_{t-1} + \epsilon\,\tanh\!\big((W-W^\top-\gamma I)h_{t-1} + Vx_t + b\big).$$
-- **Why it holds memory.** The underlying ODE $\dot h=\tanh((W-W^\top)h+\dots)$ has a Jacobian $\mathrm{diag}(\tanh')\,(W-W^\top)$. The eigenvalues of $W-W^\top$ are purely imaginary, so the linearised flow neither explodes nor contracts: gradients and memories are preserved.
-- **Why $\gamma$.** Forward Euler on the imaginary axis is unstable, so $\gamma>0$ shifts the spectrum slightly left. $\gamma$ trades memory against numerical stability.
+**The antisymmetric ODE.** $h'(t)=\tanh\big((W_h-W_h^\top)h+V_hx(t)+b_h\big)$ (eq. 8). Its Jacobian is $J=\mathrm{diag}(\tanh'(\cdot))(W_h-W_h^\top)$, "whose eigenvalues are all imaginary".
 
-**Haber & Ruthotto.** They give two "stable" designs.
-1. **Antisymmetric layers**, with $Y_{j+1}=Y_j+h\,\sigma(K_jY_j+b_j)$ and $K_j=-K_j^\top$.
-2. **Hamiltonian layers**, with $\dot Y=\sigma(KZ)$, $\dot Z=-\sigma(K^\top Y)$, integrated with leapfrog or Verlet. These are volume-preserving and time-reversible.
+**Proposition 3 (App. B).** If $W$ is antisymmetric and $D$ is an invertible diagonal matrix, then $\mathrm{Re}\,\lambda_i(DW)=0$. Proof: $v^*Wv=\lambda\,v^*D^{-1}v$, where the left side is imaginary and $v^*D^{-1}v$ is real.
 
-By Liouville's theorem a volume-preserving flow has no asymptotically stable sets.
+The paper also stresses that "the input and bias term only affect the bounded diagonal matrix": **the input enters inside the nonlinearity, so it cannot change the imaginary spectrum.**
+
+**Forward Euler needs diffusion.** With imaginary eigenvalues, $|1+\epsilon\lambda|>1$. Hence the AntisymmetricRNN is $h_t=h_{t-1}+\epsilon\tanh((W_h-W_h^\top-\gamma I)h_{t-1}+V_hx_t+b_h)$ (eq. 12), with $\gamma\in\{0.001,\dots,1\}$ (App. C).
+
+**Haber & Ruthotto.**
+- **Antisymmetric ResNet (eq. 4.12):** $Y_{j+1}=Y_j+h\sigma(\tfrac12 Y_j(K_j-K_j^\top-\gamma I)+b_j)$.
+- **Hamiltonian networks.** They use $\dot y=-\nabla_zH$, $\dot z=\nabla_yH$, which "conserve rather than increase or dissipate the energy". The key form is eq. 4.15:
+  $$\dot y=\sigma(K z+b),\quad \dot z=-\sigma(K^\top y+b),$$
+  which "is stable regardless of the spectrum or size of the matrices K(t) since the overall matrix in the linear transformation is antisymmetric". It is integrated with Verlet (4.17). The paper's Example 1 adds that $K_-$ (eigenvalues −2) gives "a contraction that annihilates differences in the features".
 
 ## What it means for the designs
+The operator's suggestion was that coupling which conserves rather than contracts leaves no attracting copy. **The papers' guarantee is about a closed system's own Jacobian. The dyad is open, and the guarantee does not carry over.**
 
-The operator's suggestion was that coupling which conserves rather than contracts leaves no attracting copy. **That holds for a closed system and fails for the dyad, which is open.** There are three failures, all checked.
+1. **H&R's 4.15 is a self–partner pair, but closed.** Read $y$ as self and $z$ as partner-model: the antisymmetric interconnection preserves energy, and nothing attracts. But the real partner is exogenous. It is not a state variable whose back-reaction $-\sigma(K^\top y)$ the agent controls.
+2. **The input placement matters, and helps only nominally (C7).** In Chang's form the partner enters inside the tanh. Take $V=-\Omega$, so that $h=u$ (copy) is an equilibrium. With $\gamma=0$, copy is a centre: never attracting, with final distance 0.74. **But the time-average of the orbit equals copy (distance 0.008).** With the $\gamma>0$ the paper needs for discretisation, copy attracts (final distance 0.027). "Never attracting" is hollow when the orbit circles the copy.
+3. **Error-driven skew coupling tracks (C1).** $\dot x=-dx+gK(u-x)$ with $K$ skew has DC transfer approaching $I$ as $g\to\infty$ (distance 0.98, 0.45, 0.05, 0.005 at $g$ = 0.1, 1, 10, 100).
+4. **Skew forcing copies quadrature signals (C2).** $\dot x=-dx+gJu$: for independent (time-reversible) partner channels the zero-lag same-channel correlation is about 0. For channels in quadrature it is 0.895, and 0.999 at the best lag. A rotation acts as a delay.
+5. **Skew stages in series compose to the identity (C3).** $JJ^\top=I$. Skew maps are closed under sums but not under products, so a two-stage indirect route reopens copy.
 
-1. **Error-driven skew coupling copies (C1).** $\dot x=-dx+gK(u-x)$ with $K$ skew. The transverse spectrum is $-d\pm ig\theta$, stable for every $g$. The DC transfer $(dI+gK)^{-1}gK$ approaches $I$ as $g$ grows (distance to $I$: 0.98, 0.45, 0.05, 0.005 at $g$ = 0.1, 1, 10, 100). Skew coupling acting on an *error* is high-gain tracking.
-2. **Skew forcing copies rotating signals (C2).** $\dot x=-dx+gJu$, with $J$ a 90° rotation in a channel plane. Then $\langle u,Ju\rangle=0$ pointwise, and for a time-reversible partner (independent OU channels) the zero-lag copy correlation is about 0, as expected. But for a partner whose two channels are in quadrature (a circular signal), the rotation is a time shift. The 90° rotation and the filter's −63° lag partly cancel, giving a **zero-lag copy correlation of 0.895 and a lagged correlation of 0.999**. Face channels with lead–lag structure (for example smile onset leading cheek raise) are exactly such signals.
-3. **Two skew stages in series compose to the identity (C3).** $J\cdot J^\top=I$. Skew maps are closed under addition (a Lie algebra) but not under composition. A two-stage indirect route, percept → state → face, each stage skew, reproduces copy. $J\cdot J=-I$ gives anti-copy. This is the recurring failure (copy returning through indirect routes) in its simplest algebraic form.
+**The positive residue.** A non-contracting internal memory, from Hamiltonian or skew layers, suits persistent affect. Parameterisation by construction (the H&R 4.15 form is "stable regardless of the spectrum or size of the matrices") is the right *kind* of guarantee: a property of the parameter class, not of tuned values. But the property needed for no-copy must be closed under products and sums, which skewness is not.
 
-**The positive residue.**
-- *Inside* the agent, a Hamiltonian or skew core keeps state without contraction, which suits persistent affect.
-- A pure group action of the partner on the self, $x\mapsto R(u)x$ with $R(u)$ orthogonal, conserves the self's norm, a Casimir the partner cannot change. That gives "the partner owns direction, the self owns magnitude". But scaled copy remains whenever the rotation aligns $x$ with $u$, and parallel routes do not compose within a group.
-
-The class that survives sum, product and feedback is the equivariant class, not the skew class (see `golubitsky-2002-symmetry-perspective.md`).
-
-**Is it an excluded framework?** It is an RNN cell, a linear operator plus a nonlinearity: excluded as a core. Usable as a numerical constraint (non-contracting internal memory).
+**Is it an excluded framework?** Yes as a core: an RNN cell, a linear operator plus a nonlinearity. Usable as a numerical device.
 
 ## Verdict
-**reject (as a no-copy mechanism; primary not read).** Conserving or skew coupling does not prevent copy in an open dyad: error-driven skew coupling tracks, rotation equals delay for circular signals, and two skew stages compose to the identity. Keep only the idea of a non-contracting internal memory.
+**reject (as a no-copy mechanism).** Conservation holds for the closed system's Jacobian. In the open dyad:
+- copy is a centre whose time-average is copy;
+- error-driven skew coupling tracks;
+- rotation acts as delay;
+- two skew stages give the identity.
+
+Keep the lesson that guarantees should hold for a whole parameter class.
