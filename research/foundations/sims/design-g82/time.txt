@@ -1,1 +1,7 @@
 checks_g6:26: RuntimeWarning: invalid value encountered in scalar divide
+
+real	24m43.773s
+user	44m41.762s
+sys	0m0.877s
+
+note: this run shared the machine with two stray processes (engine load 1260 s); an earlier run of the same file on an idle machine took real 7m12s (engine 222 s, checks 211 s).
