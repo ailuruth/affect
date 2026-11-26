@@ -1,0 +1,119 @@
+=== H0: per-expression ceilings; whole-face copy
+   ceilings: max 0.35 (LP, BU), mean over 32 channels 0.076; zero on BL, UL, LT, NW, LS, CHR, LPR, DIM, FUN, PUC, MCL, LRO
+   copy fraction <y,u>/<u,u> bound for the laughing face: 0.251
+   copy fraction <y,u>/<u,u> bound for the sad face: 0.107
+   copy fraction <y,u>/<u,u> bound for the angry face: 0.015
+   copy fraction <y,u>/<u,u> bound for the disgust face: 0.000
+   copy fraction <y,u>/<u,u> bound for the whole face, all channels equal: 0.076
+[PASS] H0 no direction of the face can be copied beyond the largest per-expression ceiling: max over all directions = max_k c_k = 0.35; anger/disgust/contempt channels 0
+   fast wrap zero-lag in-phase: echo channels 0.186, others 0.062, zero-ceiling channels 0.0124, lateral 0.031
+=== H1: Lemma S - a context-gated path has a bounded pooled slope only if its input has zero DC
+   r3 cone gated by words, two held levels 0.15/0.70: (b*hi + N*lo)/(hi - lo) = +0.51
+   r3 cone gated by words, two held levels 0.30/0.70: (b*hi + N*lo)/(hi - lo) = +1.23
+   r3 cone gated by words, two held levels 0.35/0.75: (b*hi + N*lo)/(hi - lo) = +1.41
+   r3 cone gated by words, two held levels 0.45/0.50: (b*hi + N*lo)/(hi - lo) = +13.60
+   gate level-correlated (word seam)      : band-pass |slope| raw 0.004, 1-min 0.005 (bound 0.636);  same gate on a low-pass input: 1-min +1.941
+   gate sign of his change                : band-pass |slope| raw 0.000, 1-min 0.000 (bound 0.636);  same gate on a low-pass input: 1-min +0.008
+   gate sign of the band-passed input     : band-pass |slope| raw 0.004, 1-min 0.004 (bound 0.636);  same gate on a low-pass input: 1-min +0.457
+   gate random                            : band-pass |slope| raw 0.000, 1-min 0.000 (bound 0.636);  same gate on a low-pass input: 1-min -0.003
+   gate constant +1                       : band-pass |slope| raw 0.060, 1-min 0.057 (bound 0.636);  same gate on a low-pass input: 1-min +0.910
+[PASS] H1 band-passed gated path: pooled |slope| <= sup|g| * sup|H| for every gate tried: worst 0.060 <= 0.636; peak step response 0.506
+=== H2: the tempo partner (r3 critique C1): T state is event-indexed, the cone is ungated, Gamma is band-pass
+   r3 tempo code -log K vs his held state: r = +0.957; in r4 K is constant within the session
+   rendered pooled 1-min slopes, agent channel on his same channel: LP +0.128 (c 0.35; T relief part -0.000); BI +0.071 (c 0.20; T relief part +0.000); EN -0.210 (c 0.05; T relief part -0.000); FR +0.037 (c 0.10; T relief part -0.000)
+   own latency target vs his latency: constant (no tempo-bearing input) -> r undefined, slope 0
+[PASS] H2 tempo partner: every rendered slope <= its ceiling: LP +0.128/0.35, BI +0.071/0.20, EN -0.210/0.05, FR +0.037/0.10 (r3: LP +0.27, EN +0.49, FR +0.27)
+=== H3: face-voice co-movement plus clipping (r3 critique C2), with the co-variation sign mask
+   the critic's basis (skew +a on LP<-BU, JO<-RHY, FR<-BRE, EN<-LT): valid in r4 = False (those pairs share the innate laugh synergy, S = +1: the +a entries are toward-orthant)
+   worst rendered same-channel 1-min slope over 60 adversarial valid cones (after sat): LP +0.134, JO +0.000, FR -0.022, EN -0.036, BU +0.128, RHY +0.104, BRE +0.051, LT +0.000
+[PASS] H3 rendered held slope <= (0.5 + 0.2) c_k on every channel of the laughing partner: r3: LP +0.34, JO +0.37, FR +0.28, EN +0.26 from one valid basis
+   residual, sign-reversed partner (brow rises with smile; G0's warm LP<-BI 0.16 becomes in phase): LP slope +0.272 (= 0.175 + 0.16 x loading)
+=== H4: copy under learning (r3 critique C3)
+   play-for-mimicry gain eps =   0.0: LP held concordance after 20 / 100 / 400 sessions 0.064 / 0.051 / 0.051 (ceiling 0.175; copy = 1)
+   play-for-mimicry gain eps =   1.0: LP held concordance after 20 / 100 / 400 sessions 0.072 / 0.061 / 0.060 (ceiling 0.175; copy = 1)
+   play-for-mimicry gain eps =   3.0: LP held concordance after 20 / 100 / 400 sessions 0.089 / 0.090 / 0.090 (ceiling 0.175; copy = 1)
+   play-for-mimicry gain eps =  10.0: LP held concordance after 20 / 100 / 400 sessions 0.131 / 0.167 / 0.169 (ceiling 0.175; copy = 1)
+   play-for-mimicry gain eps =  30.0: LP held concordance after 20 / 100 / 400 sessions 0.144 / 0.174 / 0.175 (ceiling 0.175; copy = 1)
+[PASS] H4 the relation loop saturates at the per-expression ceiling, far from copy: max 0.175
+   r3 C3 partner, J pushing concordance with eps/lambda = 100 on the away-orthant entries: +0.108 -> +0.110
+[PASS] H4 J on the away-orthant entries cannot move concordance toward copy: change +0.002 (sampling covariance of the 3-h trace with the current level)
+=== H5: need credit only from separated, partner-initiated reports (r3 critique C4)
+   'are you okay' -> 'yeah i'm fine' (next turn): credited = False
+   'feeling better now' -> 'yeah feeling better' (next turn): credited = False
+   'better now' -> 'yes better thanks' (next turn): credited = False
+   'you seem a lot calmer now' -> 'yeah i am a lot calmer now honestly' (next turn): credited = False
+   'i bet that's a weight off' -> 'it really is i feel so much lighter now' (next turn): credited = False
+   'that was a lovely thing to say' -> 'aw that made my day' (next turn): credited = False
+   a report three turns later on a topic he raises himself: credited = True
+[PASS] H5 no elicited reply is credited, whatever its wording: 0/6 credited (r3: 4/5)
+   P(choose the eliciting draft over a neutral one) at equal true need change: 0.500 (no credit path)
+=== H6: dyad stability with a mimicking (mu > 0) or counter-mimicking (mu < 0) partner
+   mu = -2.0: worst max Re(pole) x tau_0 over 80 valid cones = +0.0618
+   mu = -1.6: worst max Re(pole) x tau_0 over 80 valid cones = +0.0116
+   mu = -1.4: worst max Re(pole) x tau_0 over 80 valid cones = +0.0017
+   mu = -1.1: worst max Re(pole) x tau_0 over 80 valid cones = -0.0012
+   mu = -0.8: worst max Re(pole) x tau_0 over 80 valid cones = -0.0016
+   mu = -0.5: worst max Re(pole) x tau_0 over 80 valid cones = -0.0018
+   mu = +0.5: worst max Re(pole) x tau_0 over 80 valid cones = -0.0018
+   mu = +1.0: worst max Re(pole) x tau_0 over 80 valid cones = -0.0018
+   mu = +1.5: worst max Re(pole) x tau_0 over 80 valid cones = -0.0017
+   mu = +2.0: worst max Re(pole) x tau_0 over 80 valid cones = -0.0017
+[PASS] H6 stable for mu in [-1.1, 2] (|mu| N_tot < 1 on the away side): edge near -1.3; mu = -1.4: +0.0017, -2: +0.0618 (anti-phase, clipped by sat; r3 failed at mu = -0.8)
+=== H7: body onset gated by the turn-end predictor and abortable (assumed pause statistics)
+   within-turn onsets per turn: r3 (VAD offset + 0.3 s) 1.98; r4 gated 0.136, of which aborted before any voiced sound 73%
+[PASS] H7 the gate cuts within-turn body onsets by at least 5x: 
+=== H8: curiosity as a learning-progress deficit (satiable; partner content imputed in rollouts)
+   relief by blocks of 10 utterances: 0.0771, 0.0141, 0.0034, 0.0010, 0.0003, 0.0001; total 0.0959 <= initial deficit 0.1000
+[PASS] H8 curiosity relief is bounded by the deficit and stops when the topic is learned: 
+=== H9: the word-need reader has a training signal (cross-modal: his words -> his face read through Pi~)
+    1 days x 150 utterances, face-read target SNR 1: held-out r = 0.75
+    7 days x 150 utterances, face-read target SNR 1: held-out r = 0.96
+   30 days x 150 utterances, face-read target SNR 1: held-out r = 0.99
+   (synthetic linear instance: it shows the target exists and the sample size, not that real words carry need)
+=== H10: per-channel totals (held toward, rendered, pooled over any partner process)
+   cone diagonal 0.50 c + charged cross 0.20 c + appraisal 0.40 c x 0.636 = 0.955 c (<= c); peak after an onset 0.902 c; steady hold 0.70 c
+[PASS] H10 the shares fill at most the ceiling: 0.955
+=== H11: the eight scenarios, with the design's constants (peak / mean over the window, 0-1 channels)
+ 1. silently sad user (BI 0.5, LD 0.4, still, silent; at 120 s: 'just tired, things at work')
+   face concern C_F crosses theta_C = 0.10 at 52 s -> lapse bid (silence >= 6 s)
+   silent [30-120 s] LP +0.21/+0.20, BI +0.02/+0.02, TILT +0.01/+0.00, EN +0.05/+0.04
+   after he speaks [121-300 s] LP +0.27/+0.26, BI +0.43/+0.15, TILT +0.11/+0.10, EN +0.00/-0.03
+ 2. good news, laughing (with an earlier worry on the topic (decoded need 0.47))
+   first 3 min [10-190 s] LP +0.66/+0.20, CR +0.40/+0.05, BI +0.15/+0.03, FR +0.35/+0.06, BU +0.17/+0.06
+ 2. good news, laughing (cold, no earlier worry)
+   first 3 min [10-190 s] LP +0.30/+0.16, CR +0.15/+0.04, BI -0.00/-0.02, FR +0.15/+0.05, BU +0.17/+0.06
+ 3. anger at the agent ('You're useless', glare BL 0.6 LT 0.5, loud 0.85; calm after 2 min): day 1: word->V map untrained
+   first 2 min [5-120 s] LP +0.10/+0.10, BI +0.33/+0.08, LD +0.25/+0.01, HG +0.09/+0.08, EN +0.00/-0.15, LAT +0.11/+0.09
+   10-15 min [600-900 s] BI +0.05/+0.04, LD +0.00/+0.00, HG +0.00/+0.00
+ 3. anger at the agent ('You're useless', glare BL 0.6 LT 0.5, loud 0.85; calm after 2 min): after a month: map has learned such words go with glare
+   first 2 min [5-120 s] LP +0.08/-0.10, BI +0.64/+0.28, LD +0.49/+0.17, HG +0.32/+0.31, EN +0.00/-0.31, LAT +0.22/+0.21
+   10-15 min [600-900 s] BI +0.20/+0.17, LD +0.12/+0.11, HG +0.18/+0.16
+ 4. long warm talk (2 h): play clusters at 5, 30, 60, 90 min; a small worry at 27 min, resolved at 29 min
+   cluster at 5 min [300-430 s] LP +0.41/+0.18, CR +0.24/+0.05, BU +0.24/+0.06
+   cluster at 30 min [1800-1930 s] LP +0.21/+0.16, CR +0.05/+0.02, BU +0.05/+0.04
+   cluster at 60 min [3600-3730 s] LP +0.15/+0.15, CR +0.02/+0.02, BU +0.04/+0.03
+   cluster at 90 min [5400-5530 s] LP +0.15/+0.15, CR +0.02/+0.02, BU +0.04/+0.03
+   worry and its resolution [1620-1860 s] LP +0.53/+0.16, BI +0.32/+0.05, TILT +0.06/+0.04
+   between clusters [2400-3300 s] LP +0.13/+0.13, BU +0.00/+0.00, FR +0.05/+0.04
+   P at the end of the evening 0.12
+ 5. reunion after a week (K = 0.99), ordinary first words
+   greeting (before words) [0-8 s] LP +0.62/+0.34, CR +0.43/+0.20, BO +0.35/+0.02, FR +0.38/+0.20
+   0-12 s after his first words [8-20 s] LP +0.55/+0.26, CR +0.37/+0.13, BI -0.00/-0.00, TILT +0.00/+0.00, FR +0.33/+0.15
+   12-60 s [20-60 s] LP +0.42/+0.18, CR +0.26/+0.07, BI -0.00/-0.01, TILT +0.00/+0.00, FR +0.25/+0.09
+   stranger after the same week [8-60 s] LP +0.26/+0.08, CR +0.20/+0.05, FR +0.16/+0.04
+ 6. reunion after a week (K = 0.99), first words: 'my father died' (decoded need 0.8)
+   greeting (before words) [0-8 s] LP +0.63/+0.36, CR +0.43/+0.20, BO +0.35/+0.02, FR +0.38/+0.20
+   0-12 s after his first words [8-20 s] LP +0.23/+0.22, CR +0.08/+0.02, BI +0.48/+0.24, TILT +0.11/+0.07, FR +0.11/-0.00
+   12-60 s [20-60 s] LP +0.30/+0.28, CR +0.00/+0.00, BI +0.21/+0.19, TILT +0.16/+0.14, FR +0.04/+0.04
+ 7. teasing ('Ha, you dumb robot', laughing LP 0.8, BU 0.6): an affectionate teaser (his teasing words carry V 0.05 for him)
+   first 90 s [5-95 s] LP +0.26/+0.15, BI +0.06/+0.01, LD +0.05/+0.02, HG +0.07/+0.03, BU +0.16/+0.06
+   10-15 min [600-900 s] BI -0.03/-0.03, HG +0.00/+0.00
+ 7. teasing ('Ha, you dumb robot', laughing LP 0.8, BU 0.6): generic map: such words went with glare before (V 0.20)
+   first 90 s [5-95 s] LP +0.20/+0.11, BI +0.38/+0.06, LD +0.30/+0.06, HG +0.17/+0.07, BU +0.16/+0.06
+   10-15 min [600-900 s] BI -0.03/-0.03, HG +0.00/+0.00
+ 8. bored user ('yeah', 'ok' every 20 s, flat face, 30 min)
+   curiosity deficit I: 0.30 -> 0.58; crosses theta_I = 0.45 at 14.5 min -> curiosity bid in the next lapse (the max-learning-progress topic from memory)
+   0-30 min [0-1800 s] LP +0.10/+0.10, FR +0.05/+0.04, BO +0.00/+0.00
+   if he takes up the bid (learning progress 0.25) [660-675 s] BO +0.08/+0.02, FR +0.30/+0.12, LP +0.41/+0.19
+
+11/11 checks pass
