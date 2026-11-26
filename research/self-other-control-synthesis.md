@@ -1,0 +1,34 @@
+# Self–other control of automatic imitation: the computation that stops "reading through my body" from becoming copying (synthesis)
+
+Cycle question: every design lets the partner's face come back into the agent's face through indirect routes. The brain has the same problem: seeing an action activates one's own motor code (automatic imitation), yet people do not copy. What computation prevents it, stated so a design can formalise it?
+
+**Evidence status.** The six new notes (brass-2009, santiesteban-2012, sowden-2015, wang-hamilton-2012, darda-ramsey-2019, hogeveen-2015) and lanillos-2020 are **abstract- or excerpt-level only**. Every full-text host was blocked by this session's network policy. Their claims below are abstract claims. The parts with full-text backing come from notes already in the repo: cook-2014-mirror-neurons-origin (crossed training), blakemore-wolpert-frith-2002 (comparator and attenuation), synofzik-2008-2013 (posterior attribution) and mimicry-context-synthesis (shape, not size). The structure below is my inference from all of them.
+
+## What the evidence says, in one paragraph
+Perceived actions are mapped into the observer's own motor code by a learned association (Cook 2014: sensorimotor contingency; 50–90 min of crossed training abolishes or reverses it). Control of the resulting tendency is **not** a gain on that map. It is **attributing the active representation to self or other** (Brass 2009; Sowden 2015: disrupting rTPJ raises imitative but not spatial interference), followed by **generic conflict resolution** that favours the self-attributed intention (Darda & Ramsey 2019: the consistent fMRI signature is the multiple-demand network, not mPFC/rTPJ). A separate **context router** then decides whether, and with what sign, other-attributed content should influence output (Wang & Hamilton 2012, STORM: gaze adds 13 ms of facilitation; Hogeveen 2015: IFC stimulation makes imitation more context-dependent *in both directions*, while TPJ stimulation reduces only inappropriate imitation). The same attribution variable is used to hold another's perspective (Santiesteban 2012: imitation-inhibition training improved the Director task 24 h later; contested).
+
+## The computation, stated for formalisation
+Let $o_t$ be the partner's face observation, $u_t$ the agent's own motor intention (the output of its core), and $P$ the learned partner-to-own correspondence (ASL; it may be non-identity or crossed).
+
+1. **Shared code, two registers.** Do not let $P(o_t)$ add into the agent's motor state. Write it into a separate **other-register** $x^{o}_t = P(o_t)$ that uses the same coordinates as the self-register $x^{s}_t$ (driven by $u_t$). "Read through my own body" (Principle 3) means *same coordinates*. It does not mean *same slot*. Inference about the partner (Yoshida & Man inversion) runs on $x^{o}$.
+2. **Attribution.** For each component $k$, $a_{t,k} = p(\text{self} \mid o, u, \text{context})$. Fast part: the forward model's prediction error under own commands (Blakemore; Lanillos). Slow part: context priors (Synofzik). Activation is assigned to registers by $a$. The attribution is learned and can fail. A mimicking partner looks like a mirror, so identifiability needs the agent's own unpredictable variation (contingency-causal-synthesis).
+3. **Selection.** Output $y_t = \text{select}(x^{s}_t)$ by ordinary competitive or normative dynamics. Other-register content reaches output **only** through a router:
+   $$x^{s}_{t+1} = f(x^{s}_t, u_t) + W(c_t)\,x^{o}_t,\qquad \|W(c)\| \le w_{\max} < 1,$$
+   with $W(c)$ signed, per expression, and learned per partner and context (STORM/IFC). Copying is the special case $W = I$ with $u$ silent. The bound and $u$'s permanent presence (point 5) exclude it.
+4. **The partition carries through the latent state (my extension; no source tests this).** The indirect copy route is: partner face → agent affect → agent face. The brain data cover only the motor route. To close indirect routes, the provenance tag must be **carried through the core**: affect evidence derived from $x^{o}$ updates the agent's beliefs about the partner and the shared event (social appraisal) and enters the agent's own affect only through its own concerns, never by an identity map. The testable invariant: the Jacobian $\partial y / \partial o$ along *all* paths, at the copy direction, is bounded by $w_{\max}$ times the appraisal's gain. No path composes to $\approx I$. This is the whole-system guard the designs are missing. The brain supplies the motor half of it; the affective half is a design obligation.
+5. **Always an own intention.** If control is generic conflict resolution (Darda & Ramsey), it resists the mirrored input only when an own intention competes. An idle agent with a blank $u$ has nothing to select for, so leaks win. The core must always supply $u$: a set-point face, a breathing or blink rhythm, homeostatic tone.
+
+**What this is not:** not attenuation of the partner (that is Blakemore's self-attenuation, the opposite direction). Not a global inhibitor. Not a single gain, since a stronger partition removes only wrong leaks, and a stronger router makes influence *more conditional* both ways (Hogeveen).
+
+## Time scales
+- Attribution and selection: within a response (sub-second); imitative interference is tens of ms on RTs of hundreds of ms [the usual figure; not verified this session]; gaze modulation 13 ms.
+- Router context: seconds to minutes (gaze, primes, partner behaviour).
+- Partition and map learning: minutes to hours (50–90 min of crossed training, Cook; one-day training, Santiesteban), with effects 24 h later.
+
+## Open questions
+1. **Is the attribution per component or per episode?** A smile can be shared while a frown is countered. Per-expression gating (mimicry-context-synthesis) suggests per component, but no source here tests it.
+2. **Indirect routes.** Does the brain stop emotional contagion by the same partition? None of these sources addresses affect. Empathy-without-contagion work (e.g. Lamm, Bird & Silani on self–other distinction in empathy; Steinbeis et al. 2015 on rSMG) is the next reading.
+3. **The idle case.** Is spontaneous facial mimicry larger when the observer has no competing task? This is a prediction of point 5 and checkable in published EMG data.
+4. **Identifiability under a mimicking partner.** How much own variation is needed for $a$ to stay calibrated?
+5. **Replication.** Darda & Ramsey's null for rTPJ against Sowden's TMS effect; the Santiesteban transfer failing on self-report. The partition's *neural* specificity is open. The computational split (attribution, then generic selection, then context router) survives either result.
+6. **Re-read everything here in full** once pmc.ncbi.nlm.nih.gov, frontiersin.org, biorxiv.org and arxiv.org are reachable.
