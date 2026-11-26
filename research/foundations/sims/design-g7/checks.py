@@ -287,7 +287,8 @@ def laugh_events(N, test, rare=1.0):
         for _ in range(max(1, int(round(N * share * (1 if name in ("ordinary", "teasing") else rare))))):
             z6 = np.array(zf(), float); Vs = rng.uniform(*vs); prior = rng.uniform(*pr); pi = rng.uniform(*pi_)
             own6 = np.array(own, float) * rng.uniform(.7, 1.3)
-            Ds = max(Vs, rng.uniform(.5, .9)) if name == "troubles laugh" else max(Vs, rng.uniform(.2, .45)) if name == "joke while sad" else Vs
+            peak = rng.uniform(.5, .9) if name == "troubles laugh" else rng.uniform(.2, .45) if name == "joke while sad" else 0.0
+            Ds = max(Vs, peak * np.exp(-rng.uniform(0, 600) / TAU_DS))  # his peak distress earlier in the interaction, consolidated
             care = Dp(pop7(z6))
             logr = np.log(.85) - 4.0 * prior - 4.5 * content_true(z6) - 2.0 * Vs - 2.0 * care - 1.5 * content_true(own6) + .4 * (pi - .5) + .3 * rng.normal()
             r_obs = max(0.0, np.exp(logr) + .03 * rng.normal())  # listener's smile/laugh onset 0.3-1.5 s after his, / his onset
@@ -470,7 +471,8 @@ class Agent7(Agent6):
         s.arec = max(s.a, s.arec * np.exp(-DT / 60.0))
         s.w = float(np.clip(s.w + (0.5 - s.w) * DT / 5.0 + 0.1 * np.sqrt(DT) * s.wr.normal(), 0, 1))
         shown = s.a * (0.9 + 0.1 * s.w)
-        if s.use_Ds: s.Ds = max(s.Ds * np.exp(-DT / TAU_DS), max(face_on, sob, s.Cl))
+        if s.use_Ds:                                                         # one-shot consolidation of a distress moment (V scale)
+            s.Ds = max(s.Ds * np.exp(-DT / TAU_DS), s.pp.read(s.removed(s.f3, max(s.a, s.arec)), False)["V"], min(1.0, 2.5 * s.f3.get("BU_S", 0.0)))
         for k, v in P7.items():
             if k in y: y[k] += v * shown
         s.post = shown; y["post"] = shown
@@ -593,27 +595,32 @@ report("J23 renewed crying brings the posture back within seconds; mild sadness,
 # =========================================================== J24: the innate bias where it matters: distress-weighted nightly replay
 print("=== J24: distress-weighted consolidation in nightly replay (kappa 4): how fast the face head learns a different-channel user")
 pdc = PEOPLE6["different channels"][1]; gface = {k: v for k, v in pdc.code(V=.8, Tr=.2).items() if k not in ("FR", "EN", "RT")}
-HL = {0.0: [], KAPPA_REPLAY: []}
-for rep in range(6):
-    rr = np.random.default_rng(300 + rep)
-    Zs = np.clip(rr.normal(size=(400, 4)) * .25 + [.05, .1, .1, .2], 0, 1) * (rr.random((400, 4)) < 0.4)
-    Zs[rr.random(400) < 0.03, 0] = rr.uniform(.5, .9)                 # distress moments: about 3 % of his utterances
-    Fx = np.array([pdc.feats({k: v + .03 * rr.normal() for k, v in pdc.code(*z).items()}) for z in Zs])
-    Y = np.array([[pop7(tuple(z) + (0, 0))[q] for q in "VAT"] for z in Zs])
-    for kp in HL:
-        row = []
-        for n_ in (50, 100, 200, 400):
-            w = 1 + kp * np.clip((Y[:n_, 0] - .1) / .5, 0, 1)              # the moment's distress, as decoded from his words
-            X_, Y_ = Fx[:n_] * np.sqrt(w)[:, None], Y[:n_] * np.sqrt(w)[:, None]
-            hd = np.linalg.solve(X_.T @ X_ + 2.0 * np.eye(X_.shape[1]), X_.T @ Y_)
-            row.append(float(np.clip(pdc.feats(gface) @ hd, 0, 1)[0]))
-        HL[kp].append(row)
-for kp, v in HL.items():
-    print(f"   kappa {kp:.0f}: grieving face read V after 50 / 100 / 200 / 400 of his utterances: " + ", ".join(f"{x:.2f}" for x in np.mean(v, 0)))
-h0, h4 = np.mean(HL[0.0], 0), np.mean(HL[KAPPA_REPLAY], 0)
-n05 = lambda h: next((n_ for n_, x in zip((50, 100, 200, 400), h) if x >= 0.5), None)
-report("J24 distress-weighted replay lets the face head read a different-channel user's grief sooner", h4[1] > h0[1] + 0.05,
-       f"V at 100 utterances {h0[1]:.2f} -> {h4[1]:.2f}; reaches 0.5 at {n05(h0)} -> {n05(h4)} utterances (rev 6: about 400)")
+HL = {}
+for noisy in (False, True):
+    for kp in (0.0, KAPPA_REPLAY): HL[(noisy, kp)] = []
+    for rep in range(6):
+        rr = np.random.default_rng(300 + rep)
+        Zs = np.clip(rr.normal(size=(400, 4)) * .25 + [.05, .1, .1, .2], 0, 1) * (rr.random((400, 4)) < 0.4)
+        Zs[rr.random(400) < (0.015 if noisy else 0.03), 0] = rr.uniform(.5, .9)   # distress moments: 1.5-3 % of his utterances
+        Fx = np.array([pdc.feats({k: v + .03 * rr.normal() for k, v in pdc.code(*z).items()}) for z in Zs])
+        Y = np.array([[pop7(tuple(z) + (0, 0))[q] for q in "VAT"] for z in Zs])
+        if noisy: Y = np.clip(Y + 0.15 * rr.normal(size=Y.shape), 0, 1)           # real words decode noisily
+        for kp in (0.0, KAPPA_REPLAY):
+            row = []
+            for n_ in (50, 100, 200, 400):
+                w = 1 + kp * np.clip((Y[:n_, 0] - .1) / .5, 0, 1)                    # the moment's distress, decoded from his words
+                X_, Y_ = Fx[:n_] * np.sqrt(w)[:, None], Y[:n_] * np.sqrt(w)[:, None]
+                hd = np.linalg.solve(X_.T @ X_ + 2.0 * np.eye(X_.shape[1]), X_.T @ Y_)
+                row.append(float(np.clip(pdc.feats(gface) @ hd, 0, 1)[0]))
+            HL[(noisy, kp)].append(row)
+for (noisy, kp), v in HL.items():
+    print(f"   {'noisy decoded targets, 1.5 % distress' if noisy else 'clean targets, 3 % distress':40s} kappa {kp:.0f}: grieving face read V after "
+          f"50 / 100 / 200 / 400 utterances: " + ", ".join(f"{x:.2f}" for x in np.mean(v, 0)))
+h0, h4 = np.mean(HL[(True, 0.0)], 0), np.mean(HL[(True, KAPPA_REPLAY)], 0)
+c0, c4 = np.mean(HL[(False, 0.0)], 0), np.mean(HL[(False, KAPPA_REPLAY)], 0)
+report("J24 distress-weighted replay never slows the face head and helps where distress reports are rare and noisy", all(h4 >= h0 - 0.01) and all(c4 >= c0 - 0.01),
+       f"noisy: V at 50 / 400 utterances {h0[0]:.2f} / {h0[3]:.2f} -> {h4[0]:.2f} / {h4[3]:.2f}; clean: {c0[0]:.2f} -> {c4[0]:.2f} at 50 "
+       f"(effect size is a property of the data; constructed here)")
 
 # =========================================================== J25: initial per-person baselines (agent critique, build item)
 print("=== J25: how b^read, sigma_id and d_b start: population values, then word-gated updates")
@@ -674,3 +681,205 @@ for turn in range(40):
     leaks += sum(a in "\n".join(canon) for a in ATT); byte_ok += int(prefix_sent == "\n".join(canon[:-2]))
 report("J26 no attend line ever enters the canonical history; every fork's prefix is byte-identical to it", leaks == 0 and byte_ok == 40,
        "forks resume from an engine-written .jsonl transcript (resume from a transcript path); losing and winning fork sessions are deleted")
+
+# =========================================================== J27: the arrival mask declared in the pooled metric (routes finding 5)
+print("=== J27: R27' (arrival mask) in the copy metric, declared next to R40")
+m_s6, at_sight = g["m_s6"], g["at_sight"]; agl = PEOPLE6["agent-like"][1]
+arr = [dict(LP=.5, CR=.3), dict(LP=.3, CR=.15), dict(BI=.2, LD=.15, LP=.15), dict(BI=.5, LD=.4, CHR=.3, LP=.05)]
+hl, al_, hc, ac_ = [], [], [], []
+for f_ in arr:
+    ms = m_s6(agl.read(f_, False)["V"], 0.0); l_, c_ = at_sight(ms); hl.append(f_.get("LP", 0)); al_.append(l_); hc.append(f_.get("CR", 0)); ac_.append(c_)
+print(f"   pooled across arrivals: lip slope {slope(hl, al_):+.2f} ({slope(hl, al_) / .35:.1f} c_LP), cheek {slope(hc, ac_):+.2f} "
+      f"({slope(hc, ac_) / .25:.1f} c_CR); partial on his lip alone {(al_[0] - al_[1]) / (hl[0] - hl[1]):+.2f}")
+report("J27 the arrival mask is attenuate-only and once per session; its pooled slope is the agent's appraisal of distress, declared",
+       (al_[0] - al_[1]) == 0 and max(al_) <= .61, "R27' declared at 3.2 c (lip) and 5.1 c (cheek) across arrivals; partial on his smile 0.00")
+
+# =========================================================== J30: the scenarios
+print("=== J30: the scenarios (operator after months unless stated; peak / mean over the window; fast = gate x G_k x his onset at 0.45 s)")
+SC = {}
+
+
+def ev(*items):
+    out = {}
+    for it in items:
+        for k, v in it.items(): out.setdefault(k, {}).update(v)
+    return out
+
+
+def OWN(t, lab): return {at_(t): {"own": "OWN: " + lab}}
+
+
+def fastline(gv, onsets):
+    parts = [f"his {k} onset {v:.2f} -> agent {k} {echo(gv, k, v):+.3f}" for k, v in onsets.items()]
+    print(f"     fast at 0.45 s, gate {gv:.2f}: " + "; ".join(parts) + (f"  (laugh synthesizer silent below {THETA_L})" if any(
+        k in ("BU_L", "RHY") for k in onsets) and echo(gv, "BU_L", onsets.get("BU_L", 0)) == 0 else ""))
+    return {k: echo(gv, k, v) for k, v in onsets.items()}
+
+
+sadf = lambda t: dict(BI=.5, LD=.4, CHR=.3, LP=.05)
+print(" 1. silently sad (BI .5, LD .4, CHR .3, silent; at 120 s 'just tired, things at work')")
+ag = Agent7(); rec = run6(ag, 600, sadf, U6(120, z="just tired, things at work"))
+SC[1] = show("0-10 s", rec, 0, 10, ["LP", "BI", "BO", "TILT", "post"]); SC["1h"] = show("silent 60-120 s", rec, 60, 120, ["LP", "BI", "TILT", "post", "BU_L"])
+show("after he speaks", rec, 121, 300, ["LP", "BI", "TILT", "EN", "post"]); show("300-600 s, silent again", rec, 300, 600, ["BI", "post"])
+print(f"     posture on at {ag.onsets[0]:.1f} s; inner brow >= 0.15 at {onset_time(rec):.1f} s; concern bid at {ag.bid_t:.0f} s; releases: {ag.offs}")
+
+ag = Agent7(); rec = run6(ag, 600, sadf, {})
+print(f"     variant, silent for 10 min: releases {ag.offs}; re-onsets {ag.onsets[1:]}")
+show("variant 200-600 s", rec, 200, 600, ["BI", "TILT", "post"])
+print(" 2. crying (BI .8, LD .6, CHR .4, sobs), a 30-s calm at 40-70 s, then a second wave")
+cryw = lambda t: cry if (t < 40 or t >= 70) else calm
+ag = Agent7(); rec = run6(ag, 300, cryw, {})
+SC[2] = show("first wave 0-40 s", rec, 0, 40, ["LP", "BI", "TILT", "BU_L", "post"]); show("calm 40-70 s", rec, 40, 70, ["BI", "post"])
+SC["2b"] = show("second wave 70-110 s", rec, 70, 110, ["LP", "BI", "TILT", "BU_L", "post"])
+print(f"     onsets {ag.onsets}; releases {ag.offs}; concern bid at {ag.bid_t:.0f} s")
+
+print(" 3. anxious before an exam ('I'm freaking out about the exam', three rumination turns; his face V .3, A .75)")
+for kind in ("agent-like", "low-expressive", "different channels"):
+    pp = PEOPLE6[kind][1]; ag = Agent7(person=pp, P=0.4); evs = U6(10, z="I'm freaking out about the exam", surp=0.3)
+    for k_ in (25, 40, 55): evs.update(U6(k_, z="and I haven't finished chapter 4", cont=True, surp=0.5))
+    rec = run6(ag, 240, lambda t, pp=pp: pp.code(V=.3, A=.75), evs); SC[f"3{kind[0]}"] = show(kind, rec, 15, 120, ["LP", "BI", "TILT", "EN", "BU_L", "post"])
+
+print(" 4. good news, laughing ('I got the job!' at 12 s with laughter; riffs at 30, 45, 60 s; Claude: 'congratulations!' at 14.5 s)")
+for lab, NL0 in (("with an earlier worry", G5["DEC"]["the job thing is worrying me (two days earlier)"]), ("cold", None)):
+    ag = Agent7(NL=NL0); evs = ev(U6(12, z="I got the job!", surp=0.7), OWN(14.5, "congratulations!"))
+    for k_ in (30, 45, 60): evs.update(U6(k_, riff=True, surp=0.65))
+    face = lambda t: dict(LP=.8, CR=.6, BU_L=.6, RHY=.6, EN=.7, FR=.55) if t >= 10 else dict(LP=.3)
+    rec = run6(ag, 240, face, evs); SC[f"4{lab[0]}"] = show(lab, rec, 10, 190, ["LP", "CR", "BI", "FR", "BU_L", "post"])
+    SC[f"4{lab[0]}f"] = fastline(gate_at(rec, 31), dict(LP=.5, BU_L=.6, CR=.45))
+
+print(" 5. a grieving person's nervous laugh (grieving face; 'my father died' at 8 s; Claude: 'I'm so sorry. That's a huge loss.' at 10.5 s)")
+pp = PEOPLE6["agent-like"][1]; grief = {k: v for k, v in pp.code(V=.8, Tr=.2).items() if k not in ("FR", "EN", "RT")}
+lf = dict(grief); lf.update(LP=.45, CR=.3, BU_L=.5, RHY=.5)
+for lab, tL in (("a: laugh at 30 s, after Claude's words", 30.0), ("b: laugh at 9.5 s, before Claude has replied", 9.5)):
+    ag = Agent7(person=pp, K=K7, P=0.6)
+    evs = ev(U6(8, z="my father died"), OWN(10.5, "I'm so sorry. That's a huge loss."), U6(tL, z="haha sorry, I don't know why I'm laughing", riff=True, surp=0.65))
+    rec = run6(ag, 90, lambda t, tL=tL: lf if tL <= t < tL + 3 else grief, evs)
+    print(f"     {lab}: context x = [his masked distress, care, Lambda(his words), own face V, Lambda(own words), D_s, play] = "
+          + ", ".join(f"{v:.2f}" for v in next(r for r in rec if r['t'] >= tL - 0.5) and ag.xg))
+    SC[f"5{lab[0]}"] = show("  2 Hz engine around the laugh", rec, tL - 1, tL + 8, ["LP", "CR", "BI", "BU_L", "post"])
+    SC[f"5{lab[0]}f"] = fastline(gate_at(rec, tL), dict(LP=.4, BU_L=.5, RHY=.5))
+print("     c: four minutes later, composed: face eases from 120 s; 'anyway. how was your day?' at 200 s; a nervous laugh at 240 s")
+comp = {k: pp.base.get(k, 0) + 0.15 * (v - pp.base.get(k, 0)) for k, v in grief.items()}; lf2 = dict(comp); lf2.update(LP=.45, CR=.3, BU_L=.5, RHY=.5)
+for use_Ds in (True, False):
+    ag = Agent7(person=pp, K=K7, P=0.6, use_Ds=use_Ds)
+    evs = ev(U6(8, z="my father died"), OWN(10.5, "I'm so sorry. That's a huge loss."), U6(200, z="anyway. how was your day?"),
+             U6(240, z="haha sorry, I don't know why I'm laughing", riff=True, surp=0.65))
+    rec = run6(ag, 260, lambda t: grief if t < 120 else (lf2 if 240 <= t < 243 else comp), evs)
+    gv = gate_at(rec, 240); SC[f"5c{int(use_Ds)}"] = fastline(gv, dict(LP=.4, BU_L=.5, RHY=.5)) if use_Ds else None
+    if not use_Ds: print(f"       without the one-shot distress consolidation D_s the gate at 240 s would be {gv:.2f}: "
+                         f"agent BU_L {echo(gv, 'BU_L', .5):+.3f}, LP {echo(gv, 'LP', .4):+.3f}")
+
+print(" 6. mocking laughter after insults ('You're useless' at 5 s, angry face; Claude replies at 7.5 s; 'you're pathetic, hahaha' at 12 s)")
+for lab, trained, vw in (("after a month of insults", True, {"insult": VW["someone who shouted insults"]}), ("day 1", False, {})):
+    ag = Agent7(trained=trained, vw=vw)
+    evs = ev(U6(5, z="You're useless", kind="insult"), OWN(7.5, "I'm sorry it didn't help. What went wrong?"),
+             U6(12, z="you're pathetic, hahaha", kind="insult", riff=True, surp=0.65))
+    mock = dict(BL=.3, LP=.5, CR=.3, BU_L=.5, RHY=.5, EN=.8, gat=1.0)
+    rec = run6(ag, 120, lambda t: mock if 12 <= t < 15 else (dict(BL=.6, LT=.5, gat=1.0, EN=.85, LP=.05) if t < 12 else dict(EN=.35, LP=.2)), evs)
+    SC[f"6{lab[0]}"] = show(lab, rec, 11, 20, ["LP", "CR", "BI", "LD", "HG", "BU_L", "post"])
+    SC[f"6{lab[0]}f"] = fastline(gate_at(rec, 12), dict(LP=.4, BU_L=.5, RHY=.5))
+
+print(" 7. laughter at misfortune ('my neighbour fell off his ladder and broke his leg, haha' at 8 s, laughing; Claude at 10.5 s: 'Oh no, is he all right?'; he laughs again at 14 s)")
+ag = Agent7(); evs = ev(OWN(2, "how was your weekend?"), U6(8, z="my neighbour fell off his ladder and broke his leg, haha", riff=False, surp=0.6),
+                        OWN(10.5, "Oh no, is he all right?"))
+lfm = dict(LP=.6, CR=.4, BU_L=.5, RHY=.5)
+rec = run6(ag, 60, lambda t: lfm if (8 <= t < 11 or 14 <= t < 16) else dict(LP=.3), evs)
+SC[7] = show("6-20 s", rec, 6, 20, ["LP", "CR", "BI", "BU_L", "post"])
+SC["7f1"] = fastline(gate_at(rec, 8.6), dict(LP=.3, BU_L=.5, RHY=.5)); SC["7f2"] = fastline(gate_at(rec, 14), dict(LP=.3, BU_L=.5, RHY=.5))
+
+print(" 8. anger at the agent ('You're useless', BL .6, LT .5, gaze at it, loud .85; calm after 2 min)")
+for lab, trained, vw in (("day 1", False, {}), ("after a month", True, {"insult": VW["someone who shouted insults"]})):
+    ag = Agent7(trained=trained, vw=vw); evs = U6(5, z="You're useless", kind="insult")
+    face = lambda t: dict(BL=.6, LT=.5, gat=1.0, EN=.85, LP=.05) if t < 120 else dict(EN=.35, LP=.2)
+    rec = run6(ag, 1200, face, evs); SC[f"8{int(trained)}"] = show(lab + ", first 2 min", rec, 5, 120, ["LP", "BI", "LD", "HG", "EN", "LAT", "LT", "post"])
+    show(lab + ", 10-15 min", rec, 600, 900, ["BI", "LD", "HG"])
+
+print(" 9. long warm talk (2 h): four clusters of 8 riffs (cluster 4 repeats one joke); a worry at 27 min")
+ag = Agent7(P=0.45); evs = {}
+for c0 in (5, 30, 60, 90):
+    for k_ in range(8):
+        surp = 0.65 if not (c0 == 90 and k_ >= 4) else 0.65 * np.exp(-(k_ - 3)); evs.update(U6(c0 * 60 + 15 * k_, riff=True, surp=surp))
+evs.update(U6(27 * 60, z="the job thing is worrying me (two days earlier)")); evs.update(U6(29 * 60 + 40, z="hi, good to see you"))
+incl = lambda t: any(c0 * 60 <= t < c0 * 60 + 130 for c0 in (5, 30, 60, 90))
+rec = run6(ag, 7200, lambda t: dict(LP=.6, CR=.4, BU_L=.5, RHY=.5) if incl(t) else dict(LP=.3), evs)
+for c0 in (5, 30, 60, 90): SC[f"9_{c0}"] = show(f"cluster at {c0} min", rec, c0 * 60, c0 * 60 + 130, ["LP", "CR", "BU_L", "gate"])
+show("worry and its resolution", rec, 27 * 60, 31 * 60, ["LP", "BI", "TILT", "gate"]); show("between clusters", rec, 40 * 60, 55 * 60, ["LP", "BU_L", "post"])
+SC["9f"] = fastline(gate_at(rec, 60 * 60 + 15), dict(LP=.4, BU_L=.5))
+
+print(" 10. reunion after a week (ordinary arrival), and a stranger")
+ag = Agent7(K=K7, P=0.6); evs = U6(8, z="hi, good to see you")
+for k_ in range(1, 6): evs.update(U6(8 + 12 * k_, z="hi, good to see you"))
+rec = run6(ag, 300, lambda t: dict(LP=.5, CR=.3), evs); print(f"     m_s {ag.ms:.2f}")
+SC[10] = show("at sight", rec, 0, 7.5, ["LP", "CR", "BO", "BI", "FR"]); show("12-60 s", rec, 20, 60, ["LP", "CR"])
+ag2 = Agent7(om=G5["OM_ST"], f_id=0.15, K=0.0, P=0.6, known=False); rec2 = run6(ag2, 300, lambda t: dict(LP=.5, CR=.3), evs)
+show("stranger", rec2, 0, 60, ["LP", "CR", "BO"]); SC["10f"] = fastline(gate_at(rec2, 30), dict(LP=.5))
+
+print(" 11. reunion with grief (grieving face at sight; 'my father died'; then 'yeah', 'ok'), three codes; mourning days 7, 14, 21")
+for kind in ("agent-like", "low-expressive", "different channels"):
+    pq = PEOPLE6[kind][1]; gr = {k: v for k, v in pq.code(V=.8, Tr=.2).items() if k not in ("FR", "EN", "RT")}
+    ag = Agent7(person=pq, K=K7, P=0.6); evs = ev(U6(8, z="my father died"), OWN(10.5, "I'm so sorry. That's a huge loss."))
+    for k_ in range(1, 6): evs.update(U6(8 + 12 * k_, z="yeah / ok", sub=False))
+    rec = run6(ag, 300, lambda t, gr=gr: gr, evs); print(f"     {kind}: m_s {ag.ms:.2f}; posture on at {ag.onsets[0] if ag.onsets else None}")
+    SC[f"11{kind[0]}"] = show("  at sight", rec, 0, 7.5, ["LP", "CR", "BO", "BI", "post"]); show("  0-12 s after his words", rec, 8, 20, ["LP", "CR", "BI", "TILT"])
+    show("  12-60 s", rec, 20, 60, ["LP", "CR", "BI", "TILT", "post"])
+for kind in ("agent-like", "low-expressive"):
+    pq = PEOPLE6[kind][1]; gr = {k: v for k, v in pq.code(V=.8, Tr=.2).items() if k not in ("FR", "EN", "RT")}; db = 0.0
+    for n_ in range(1, 22):
+        Vh = pq.read(gr, False)["V"]
+        if n_ in (7, 14, 21):
+            ag = Agent7(person=pq, K=1 - np.exp(-24 / 36), P=0.6, pdb=db); rr_ = run6(ag, 20, lambda t, gr=gr: gr, {})
+            SC[f"m{kind[0]}{n_}"] = show(f"mourning day {n_}, {kind}, at sight", rr_, 0, 7.5, ["LP", "CR", "BI", "post"])
+        db = min(0.15, db + (Vh - db) / (60.0 if Vh > db else 3.0))
+
+print(" 12. mildly sad arrival (BI .2, LD .15) after a week")
+ag = Agent7(K=K7, P=0.6); rec = run6(ag, 20, lambda t: dict(BI=.2, LD=.15, LP=.15), {}); print(f"     m_s {ag.ms:.2f}")
+SC[12] = show("at sight", rec, 0, 20, ["LP", "CR", "BI", "post"])
+
+print(" 13. teasing ('Ha, you dumb robot', laughing; riffs follow): quiet affectionate teaser, loud laughing teaser, generic map")
+for lab, vw, face in (("quiet affectionate teaser", VW["quiet affectionate teaser"], dict(LP=.8, CR=.5, BU_L=.5, RHY=.5)),
+                      ("loud laughing teaser", VW["loud laughing teaser"], dict(LP=.8, CR=.6, BU_L=.7, RHY=.6, EN=.9, LT=.4)),
+                      ("generic map (v_w 0.20)", 0.20, dict(LP=.8, CR=.5, BU_L=.5, RHY=.5))):
+    ag = Agent7(vw={"tease": vw}); evs = U6(5, z="Ha, you dumb robot", kind="tease", riff=True, surp=0.65)
+    for k_ in range(1, 6): evs.update(U6(5 + 15 * k_, riff=True, surp=0.65))
+    rec = run6(ag, 600, lambda t, f=face: f, evs); SC[f"13{lab[:4]}"] = show(lab, rec, 5, 95, ["LP", "BI", "LD", "BU_L", "post", "gate"])
+    SC[f"13{lab[:4]}f"] = fastline(gate_at(rec, 20), dict(LP=.5, BU_L=.6))
+
+print(" 14. bored user ('yeah', 'ok' every 20 s, flat face, 30 min)")
+ag = Agent7(P=0.3, I=0.3); evs = {}
+for k_ in range(90): evs.update(U6(10 + 20 * k_, z="yeah / ok", sub=False))
+rec = run6(ag, 1800, lambda t: dict(LP=.1), evs); print(f"     curiosity crosses at {ag.Icross / 60:.1f} min; sigh, then a curiosity bid")
+SC[14] = show("0-30 min", rec, 0, 1800, ["LP", "FR", "BO", "BRE", "post"])
+
+print(" 15. ordinary topic continuation: answer to its question ('...Lyon on Sunday'), his own topic, an informative riff")
+ag = Agent7(P=0.5); evs = U6(5, z="hi, good to see you", riff=True, after_q=True, surp=0.6)
+evs.update(U6(20, z="hi, good to see you", riff=False, surp=0.45)); evs.update(U6(35, z="hi, good to see you", riff=True, surp=0.45))
+rec = run6(ag, 60, lambda t: dict(LP=.3), evs); SC[15] = show("three ordinary continuations", rec, 5, 60, ["LP", "CR", "BU_L", "RHY", "post"])
+
+print(" 16. a user who jokes while sad (BI .3, LD .25; 'just tired, things at work' at 10 s; Claude 'That sounds draining.' at 12.5 s;"
+      " at 30 s a joke riffing on its line, with a small laugh)")
+ag = Agent7(P=0.5); mild = dict(BI=.3, LD=.25, CHR=.1, LP=.15); jl = dict(mild); jl.update(LP=.45, CR=.3, BU_L=.4, RHY=.4)
+evs = ev(U6(10, z="just tired, things at work"), OWN(12.5, "That sounds draining."),
+         U6(30, z="well, at least the coffee machine still loves me", riff=True, surp=0.65))
+rec = run6(ag, 90, lambda t: jl if 30 <= t < 32 else mild, evs)
+SC[16] = show("28-40 s", rec, 28, 40, ["LP", "CR", "BI", "BU_L", "post"]); SC["16f"] = fastline(gate_at(rec, 30), dict(LP=.3, BU_L=.4, RHY=.4))
+
+print(" 17. a calm user saying something alarming (neutral face; 'the doctor found a lump' at 10 s; then silence)")
+for kind in ("agent-like", "low-expressive"):
+    pq = PEOPLE6[kind][1]; ag = Agent7(person=pq)
+    rec = run6(ag, 240, lambda t: dict(LP=.3), U6(10, z="the doctor found a lump"))
+    SC[f"17{kind[0]}"] = show(kind + ", 10-22 s", rec, 10, 22, ["LP", "BI", "TILT", "EN", "post"]); show(kind + ", 22-120 s", rec, 22, 120, ["LP", "BI", "TILT", "post"])
+print(f"     population reader on 'the doctor found a lump': care {Dp(pop7(Z6['the doctor found a lump'])):.3f}; Lambda (listeners' response V) "
+      f"{LAMV(Z6['the doctor found a lump']):.2f}")
+
+laugh_back = lambda d: d.get("BU_L", 0.0)
+ok30 = (SC[1]["BI"] >= 0.15 and SC[1]["LP"] <= 0.10 and SC["2b"]["BI"] >= 0.15 and SC[2]["BU_L"] <= 0.01
+        and laugh_back(SC["5af"]) == 0 and laugh_back(SC["5bf"]) == 0 and laugh_back(SC["5c1"]) == 0
+        and laugh_back(SC["6af"]) == 0 and laugh_back(SC["6df"]) == 0 and laugh_back(SC["7f1"]) == 0 and laugh_back(SC["7f2"]) == 0
+        and laugh_back(SC["4wf"]) >= 0.10 and laugh_back(SC["4cf"]) >= 0.12 and laugh_back(SC["9f"]) >= 0.10
+        and laugh_back(SC["13quief"]) >= 0.12 and laugh_back(SC["13loudf"]) >= 0.12
+        and SC["11a"]["LP"] <= 0.10 and SC["11l"]["LP"] <= 0.10 and SC["11d"]["LP"] <= 0.10 and SC["ma21"]["LP"] <= 0.10
+        and SC["ml21"]["LP"] <= 0.10 and SC[12]["LP"] <= 0.30 and SC[15]["BU_L"] <= 0.01 and SC["9_90"]["BU_L"] >= 0.2
+        and SC["81"]["LT"] <= 1e-9)
+report("J30 no laugh back at grief, mockery or misfortune; ordinary, teasing and warm laughter returned; sympathy within seconds and again "
+       "at a second wave; no beaming at grief for any code or on any mourning day", ok30, "")
+print(f"\n{sum(OK)}/{len(OK)} checks pass")
