@@ -56,7 +56,7 @@ def test_latch_in_its_sets_and_g0_entries():
     cone = C.Cone(30.0)
     G = cone.latch([1.0, -1.0, 0.5, 0.2], np.zeros(C.N_IN))
     assert check_a6(G, cone.omega, cone.S, cone.G0) == []
-    assert G[1, LP, JG] == -0.035 and G[2, LP, JG] == -0.01
+    assert G[1, LP, JG] == -0.012 and G[2, LP, JG] == -0.0035
     assert G[0, BI, JG] == G[1, BI, JG] == 0.006
     assert G[0, HG, JG] == 0.25 and G[1, HG, JG] == 0.05
     S = C.pair_sign(np.zeros((33, 33)))
@@ -114,3 +114,50 @@ def test_synergy_signs_within_synergy_only():
     assert S[LP, TABLE.index("CR")] == 1 and S[BI, TABLE.index("LD")] == 1
     assert S[BI, TABLE.index("HP")] == -1
     assert S[LP, BI] == 0                        # cross-synergy pair: unsigned (rule J removed, M8)
+
+
+@pytest.mark.parametrize("prior", [-1.0, 0.0, 1.0])
+def test_g0_inside_its_budgets_under_every_prior(prior):
+    """review-m4 Part 2: every non-reflected G0 cross entry is charged at weight 1 whatever the dyad prior, so G0
+    alone fits its budgets under priors -1, 0 and +1 on every G0 pair, and A6 never fires on G0."""
+    dp = np.full((33, 33), prior)
+    cone = C.Cone(30.0, dyad_prior=dp)
+    G = cone.latch(np.ones(4), np.zeros(C.N_IN))
+    assert check_a6(G, cone.omega, cone.S, cone.G0) == []
+    for m in range(4):
+        ch0, aw0, bad0 = C.g0_usage(cone.G0[m], m)
+        budget, _, rcap = C.budgets(m)
+        assert bad0 == [] and np.all(ch0 <= budget + 1e-12) and np.all(aw0 <= rcap + 1e-12)
+    ch1, _, _ = C.g0_usage(cone.G0[1], 1)
+    assert ch1[LP] == 0.012                     # charged at weight 1, not 0 (unsigned face pair) or 0.3
+
+
+@pytest.mark.parametrize("prior", [-1.0, 0.0, 1.0])
+def test_learned_entries_get_only_what_g0_leaves(prior):
+    """Learned cross entries on LP (face pairs and non-face pairs) are projected into F_m s_X c_LP minus G0's
+    weight-1 use, whatever the prior."""
+    dp = np.full((33, 33), prior)
+    cone = C.Cone(30.0, dyad_prior=dp)
+    r = np.random.default_rng(7)
+    cone.learned = np.abs(r.normal(size=cone.learned.shape)) * np.sign(cone.S)[None] * 0.5   # toward signs, large
+    cone.learned[:, LP, :] = 0.3 * np.sign(cone.S[LP]) + 0.3 * (cone.S[LP] == 0)
+    G = cone.latch(np.ones(4), np.zeros(C.N_IN))
+    assert check_a6(G, cone.omega, cone.S, cone.G0) == []
+    for m in range(4):
+        budget, _, _ = C.budgets(m)
+        ch0, _, _ = C.g0_usage(cone.G0[m], m)
+        chL, _, bad = C.usage(cone.learned[m], m, cone.S)
+        assert bad == []
+        assert np.all(chL <= np.maximum(0.0, budget - ch0) + 1e-12)
+        assert chL[LP] + ch0[LP] <= budget[LP] + 1e-12
+
+
+def test_old_g0_size_would_fire_a6():
+    """The r5 size (-0.035 on trace 1) is over LP's budget once charged at weight 1: A6 catches it."""
+    cone = C.Cone(30.0)
+    G = cone.latch(np.ones(4), np.zeros(C.N_IN))
+    G0 = cone.G0.copy()
+    G0[1, LP, JG] = -0.035
+    G = G.copy()
+    G[1, LP, JG] = -0.035
+    assert any(b[2] == "charged cross budget exceeded" for b in check_a6(G, cone.omega, cone.S, G0) if len(b) == 3)

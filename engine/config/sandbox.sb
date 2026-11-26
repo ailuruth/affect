@@ -1,0 +1,10 @@
+;; Deny-network profile for the engine processes (spec §7.5, A16). Everything else as the user may; network only to
+;; loopback and unix sockets. Started with: sandbox-exec -f engine/config/sandbox.sb <command>
+;; Checked at M1 by tools/week0/sandbox_check.py (written without a Mac: confirm the syntax there).
+(version 1)
+(allow default)
+(deny network*)
+(allow network* (local ip "localhost:*"))
+(allow network* (remote ip "localhost:*"))
+(allow network* (local unix-socket))
+(allow network* (remote unix-socket))

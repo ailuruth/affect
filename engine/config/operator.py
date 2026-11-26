@@ -27,6 +27,7 @@ SWITCHES = {
     "pool_size": Switch(3, "D84", True, "as listed"),
     "send_text_to_anthropic": Switch(True, "Q34 item 1", False, "Claude route off"),
     "send_snippets": Switch(True, "Q34 item 1", False, "Claude route off"),
+    "claude_test_calls_m1": Switch(True, "Q34 item 1 (M1 test calls only)", False, "no Claude test call"),
     "claude_daily_cap": Switch(None, "Q34 item 2", False, "Claude route off (he sets the value)"),
     "nonessential_traffic_off": Switch(True, "Q34 item 3", False, "Claude route off"),
     "downloads_approved": Switch({"models": True, "seamless": True}, "Q34 item 4", False, "no download"),

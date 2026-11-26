@@ -1,6 +1,7 @@
 """The innate body and the T state it keeps (spec §1.3; r5 §2.1, §2.8; design §2.1, §2.8). Stepped at 2 Hz.
 
-Loads (named by function; r5 §2.8): E energy; A activation = A_F (F) + A_L (T); V aversive = V_F (F, the threat
+Loads (named by function; r5 §2.8): E energy; A activation = A_L (T) (A_F, "slow loudness and motion", never had a
+formula and is dropped: review-m4 item 4); V aversive = V_F (F, the threat
 reflex) + h_word (T); K contact deficit of the present person; P play deficit; I learning-progress deficit. The drive
 D(b) and D_p(N) are engine/state/drives.py; every change of a drive is recorded against one of its declared update
 terms and checked by A14 (engine/invariants/asserts.py, DriveAccount) at every tick; on an A14 failure the body is
@@ -15,8 +16,9 @@ Dynamics (each from the cited row of the spec's state table):
          rises (1 - K)/36 h (`between_sessions`).
   P      rises (1 - P)/5.05 h; P <- P (1 - 0.15 qhat) at each of his turns (S21).
   I      rises (1 - I)/1 h awake; I <- max(0, I - 0.5 pi_topic) at a partner-initiated utterance (r4 §2.1).
-  N_L    per topic slot (V, A, T) from the population word reader; tau 30 min; evidence only raises it (S39; see the
-         README for the one simplification).
+  N_L    per topic slot (V, A, T) from the population word reader r with its confidence c (S39, `nl_update`):
+         N_L <- max(N_L, r) - c (N_L - r)+; a reading above N_L raises it fully, one below lowers it only in
+         proportion to c (low-information evidence counts only upward); tau 30 min.
 Events (E1, T parts only): R = drops of D_p(N_L), D_K, D_P, D_I; S = rises of D_p(N_L) and of the h part of D_V;
 R' = max(0, R - 3 S) (M5); amplitudes R'/(R' + 0.02), S/(S + 0.02); envelopes (rise 0.4 s, apex to 1.5 s, decay tau
 3 s) summed over the recent events and capped at 1. The own laugh: amplitude 0.40 qhat at each of his turns through
@@ -64,6 +66,13 @@ LAUGH_MAX = ENTRIES["own_laugh_max"].value
 Q_TAU = ENTRIES["q_trace_tau_s"].value
 SIGH = ENTRIES["sigh_rate"].value
 EVENT_KEEP_S = 40.0          # an envelope is below 1e-4 of its apex after 29 s: older events are dropped (engineering)
+
+
+def nl_update(N, r, c):
+    """S39 (a general learning bias): the need estimate moves up to a higher reading in full and down to a lower one
+    only in proportion to the reader's confidence c in [0, 1]: N <- max(N, r) - c (N - r)+. With c = 0 (an untrained
+    reader) evidence only raises N; with c = 1 a confident reading replaces N."""
+    return np.maximum(N, r) - c * np.maximum(0.0, N - r)
 
 
 def envelope(tau):
@@ -135,7 +144,6 @@ class Body(TypedState):
         self.known = self.f_id >= K_KNOWN
         self.E = np.float64(session.E)
         self.A_L = np.float64(0.0)
-        self.A_F = np.float64(0.0)      # the spec gives no formula for A_F (r5: "slow loudness and motion"): held at 0
         self.V_F = np.float64(0.0)
         self.h_word = np.float64(0.0)
         self.K = np.float64(session.K if self.known else 0.0)
@@ -185,7 +193,7 @@ class Body(TypedState):
 
     # ------------------------------------------------------------------------------------------ drives
     def b(self) -> dict:
-        return {"E": float(self.E), "A": float(min(1.0, self.A_F + self.A_L)), "V": float(min(1.0, self.V_F + self.h_word)),
+        return {"E": float(self.E), "A": float(min(1.0, self.A_L)), "V": float(min(1.0, self.V_F + self.h_word)),
                 "K": float(self.K), "P": float(self.P_play), "I": float(self.I_lp)}
 
     def D(self) -> float:
@@ -222,8 +230,9 @@ class Body(TypedState):
         self.surprisal_last = s_lex
         self._set("A_L", "A", "lexical_rise", np.maximum(self.A_L, AL_GAIN * s_lex ** 2))
         self._set("h_word", "V", "h_word_latch", np.maximum(self.h_word, L.word_v(e, tc)))
+        conf = L.pop.confidence(e, tc)
         onehot = (np.arange(TOPIC_DIM) == slot)[:, None]
-        self.N_L = np.where(onehot, np.maximum(self.N_L, r[None, :]), self.N_L)   # (no item writes: tags survive)
+        self.N_L = np.where(onehot, nl_update(self.N_L, r[None, :], conf[None, :]), self.N_L)   # (no item writes)
         agent_before = self.last_speaker * 0.0 + (self.last_speaker == 1.0)
         x = np.stack([self.lam_his_last[0], self.lam_his_prev[0], self.e_agent_turn[0], agent_before * 1.0, s_lex])
         self.q_hat = L.qhat(x)

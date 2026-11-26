@@ -28,10 +28,11 @@ their results say nothing about behaviour.
   `downstream(Pi)` (CI compares it with a fresh trace).
 - `body.py`: the innate body at 2 Hz: E, A_L, h_word, K (in-session drop, between-session rise, none for a person
   never missed), P (lowered by qhat), I, N_L, D_p, the E1 events with opponent masking and their envelopes, the own laugh
-  amplitude 0.40 qhat, q_trace, the sigh (own noise draw), L_d and qhat evaluation; every drive change recorded for
+  amplitude 0.40 qhat, q_trace, the sigh (own noise draw), L_d and qhat evaluation (A = A_L; N_L lowered only by the
+  reader's confidence); every drive change recorded for
   A14, whose fail-safe freezes the body.
 - `readers.py`: untrained stubs with fixed shapes: a hashed bag-of-words placeholder for the MiniLM → 64-d encoder,
-  Lambda, the population word reader, word → V, surprisal, pi_topic, the own-body reader on his masked face and on
+  Lambda, the population word reader (with its confidence head, 0 untrained), word → V, surprisal, pi_topic, the own-body reader on his masked face and on
   the own face, the P_name map.
 
 **Routes** (`routes/`)
@@ -67,17 +68,22 @@ fast gear = `fast` of design-g9 bit for bit at 10 Hz (integer 0.4-s delay, as th
 (slow) delayed copies 10-300 s at 0.83-0.88 c, within 0.02 c of the 10-Hz figures.
 
 **What is not exact, and why** (also in the module docstrings)
-- Own laugh: the spec writes a_laugh = 0.40 qhat g_o and also g_o y_o|smile_laugh at assembly; applying both would
-  give g_o². Here the free display carries 0.40 qhat (T) and g_o multiplies it once at assembly, at render time.
-- A_F has no formula in the spec ("slow loudness and motion"): held at 0.
-- N_L: the spec does not define "low-information"; every utterance can only raise N_L (it decays with tau 30 min).
+- Own laugh: the free display carries a_laugh = 0.40 qhat (T) and g_o multiplies it once at assembly, at render
+  time (spec §1.5.3 now says so; it used to write g_o in both places).
+- A_F ("slow loudness and motion") never had a formula and is dropped from the code path: A = A_L (spec §1.3).
+- N_L (S39): N_L <- max(N_L, r) - c (N_L - r)+, so a higher reading raises it fully and a lower one lowers it in
+  proportion to the population reader's confidence c = 1 - var_pred / var_pop (its own predictive variance over the
+  population variance of the target; `reader_confidence_form`, generic fit definition). Chosen because it is the
+  reader's own posterior relative to its prior, needs no extra model or threshold, is fitted with the reader at M3,
+  and is exactly 0 for an untrained reader (today's behaviour: evidence only raises N_L).
 - "Addressed" utterances (h_word) are all of his; "partner-initiated" (I) means not directly after an agent turn.
 - E1 events are stamped at the 2-Hz tick (≤ 0.5 s after the utterance end).
 - The fast gear's 4-s low-pass starts at 0, as the reference; the shadow's g_at is 0 (b_id has no gaze baseline).
 - Without the own-face tracker (M2), each run's own previous rendered output stands in for its own-face observation.
-- G0's LP ← f_glare (−0.035) uses 86 % of LP's 2-min charged budget as an unsigned pair (weight 0.3); if the M3
-  dyad prior signs LP–BL as a toward pair (weight 1) it is 0.035 > F_1 s_X c_LP = 0.012 and A6 fires (for the spec
-  owner).
+- G0's LP ← f_glare is −0.012 (2-min trace) and −0.0035 (20-min trace), i.e. F_m s_X c_LP (review-m4: r5's
+  −0.035, −0.01 were over budget since r6). Every non-reflected G0 cross entry is charged at weight 1 whatever the
+  dyad prior's sign (`cone.g0_usage`): LP ← f_glare uses 98 % of LP's 2-min budget and all of its 20-min budget
+  under priors −1, 0 and +1 alike, A6 never fires on G0, and learned entries get only what G0 leaves.
 - The type trace follows data flow only; a branch on a T value from a port first hid I_lp from downstream(P5) (the
   F19 test caught it; the update is now branch-free). It runs on synthetic data with small random stub weights.
 - Not built here: 𝓜, mu and slots (z_T = 0), the turn model's inputs, prosody/WORLD (A9's per-phrase part), visemes,
@@ -89,6 +95,8 @@ fast gear = `fast` of design-g9 bit for bit at 10 Hz (integer 0.4-s delay, as th
 `appraisal_return_channels`, `appraisal_orient_basis`, `pi0_rise_voice`, `pi0_drop_row`, `pi0_word_latch_row`,
 `pi0_activation_row`, `pi0_low_energy_row`, `pi0_progress_drop_row`, `pi0_driver_shape`, `appraisal_net_shape`,
 `display_delta_shape`, `embedding_dims`, `listener_display_form`, `qhat_form` (values from r5 §2.5-2.7, spec §1.5).
+After review-m4: `g0_glare_to_LP` resized to [−0.012, −0.0035]; `reader_confidence_form` added; `own_synergies` is
+`newborn`, `face_channels` `generic` (fit definition), `embedding_dims` `generic` (engineering).
 
 ## How to run
 

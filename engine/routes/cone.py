@@ -8,7 +8,10 @@ session start and is not a function of any within-session context.
 G_m, row by row (r5 §2.5 as changed by design §2.5 (9.1) and spec §1.5.1):
   - diagonal omega_g F_m s_C c_k, F_m = (0, 0.7, 0.2, 0.1), inner brow (0.5, 0.5, 0, 0); omega_g of the row's group;
   - G0 keeps only the threat reflex's entries: HG <- f_glare +0.25 (m 0), +0.05 (m 1), by the reflection rule;
-    LP <- f_glare -0.035 (m 1), -0.01 (m 2); BI <- f_glare +0.006 (m 0, m 1);
+    LP <- f_glare -0.012 (m 1), -0.0035 (m 2) (= F_m s_X c_LP; resized from r5's -0.035, -0.01, which r6's cut of
+    s_X(LP) left over budget: review-m4 Part 2); BI <- f_glare +0.006 (m 0, m 1). Every non-reflected G0 cross
+    entry is charged at weight 1 whatever the dyad prior says (the worst case over priors, `g0_usage`), so G0 fits
+    its sets before and after M3 and the learned entries get only what G0 leaves;
   - learned cross entries (UNTRAINED STUB, zeros until replay writes them), projected after every write onto:
       face pairs (both channels facial action units): the dyad sign prior's sign or 0 (prior: an M3 statistic; the
       stub prior is 0 everywhere, so learned face-pair entries are 0); other pairs: the agent's own within-synergy
@@ -157,6 +160,24 @@ def usage(Gm: np.ndarray, m: int, S: np.ndarray):
     return ch, aw, bad
 
 
+def g0_usage(G0m: np.ndarray, m: int):
+    """(charged, away) totals per row of G0's off-diagonal entries: reflected entries are away; every other entry is
+    charged at weight 1 (lambda of a signed pair), independently of the dyad prior's sign (exempt from the prior's
+    sign, never from the budgets). Returns (charged, away, violations of the away entry cap)."""
+    ch, aw, bad = np.zeros(N), np.zeros(N), []
+    w = LAMBDA["signed_pair"]
+    for k, j in zip(*np.nonzero(G0m)):
+        if j == k:
+            continue
+        if is_reflected(k, j):
+            aw[k] += abs(G0m[k, j])
+            if abs(G0m[k, j]) > A_M[m] + 1e-12:
+                bad.append((m, k, j, "away entry above a_m"))
+        else:
+            ch[k] += w * abs(G0m[k, j])
+    return ch, aw, bad
+
+
 def project_learned(Lm: np.ndarray, m: int, S: np.ndarray, G0m: np.ndarray) -> np.ndarray:
     """Project one trace's learned cross entries onto the set left after G0's use of the budgets."""
     L = np.array(Lm, dtype=np.float64)
@@ -169,7 +190,7 @@ def project_learned(Lm: np.ndarray, m: int, S: np.ndarray, G0m: np.ndarray) -> n
             elif kind == "away":
                 L[k, j] = np.clip(L[k, j], -A_M[m], A_M[m])
     budget, _, rcap = budgets(m)
-    ch0, aw0, _ = usage(G0m, m, S)
+    ch0, aw0, _ = g0_usage(G0m, m)
     chL, awL, _ = usage(L, m, S)
     for k in range(N):
         left = max(0.0, budget[k] - ch0[k])

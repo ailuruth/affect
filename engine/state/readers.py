@@ -92,7 +92,8 @@ class Lambda(_Linear):
 
 
 class PopReader:
-    """Population word reader: (e[64], topic[16]) -> 64 -> (V, A, T) in [0, 1]. Untrained: 0 (N_L = 0, spec §1.3)."""
+    """Population word reader: (e[64], topic[16]) -> 64 -> (V, A, T) in [0, 1], with its own confidence per coordinate
+    (`confidence`). Untrained: 0 and confidence 0 (N_L = 0, spec §1.3)."""
     trained = False
 
     def __init__(self):
@@ -101,10 +102,23 @@ class PopReader:
         self.W2 = np.zeros((64, 3))
         self.b2 = np.zeros(3)
 
+        # confidence head (S39; INNATE `reader_confidence_form`): log of the reader's predictive variance over the
+        # population variance of its target, per coordinate, fitted with the reader (Gaussian likelihood) at M3.
+        self.Wv = np.zeros((64, 3))
+        self.bv = np.zeros(3)
+
+    def _hidden(self, e, topic_code):
+        return np.tanh(np.concatenate([e, topic_code]) @ self.W1 + self.b1)
+
     def __call__(self, e, topic_code):
-        x = np.concatenate([e, topic_code])
-        h = np.tanh(x @ self.W1 + self.b1)
-        return np.clip(h @ self.W2 + self.b2, 0.0, 1.0)
+        return np.clip(self._hidden(e, topic_code) @ self.W2 + self.b2, 0.0, 1.0)
+
+    def confidence(self, e, topic_code):
+        """c in [0, 1] per (V, A, T): 1 - var_pred / var_pop. 0 when the reader's predictive variance is the
+        population's (it has learned nothing about this utterance, and an untrained reader: Wv = bv = 0); 1 only for
+        a certain decoding. Lowering of N_L is weighted by c (low-information evidence counts only upward)."""
+        ratio = np.exp(self._hidden(e, topic_code) @ self.Wv + self.bv)
+        return np.clip(1.0 - ratio, 0.0, 1.0)
 
 
 class WordToV(_Linear):

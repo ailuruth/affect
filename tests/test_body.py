@@ -5,7 +5,7 @@ import pytest
 
 from engine.config.innate import ENTRIES
 from engine.routes.learned_t import Learned, randomise_for_trace
-from engine.state.body import Body, Session, SlowInputs, dp_partner, envelope
+from engine.state.body import NL_TAU, Body, Session, SlowInputs, dp_partner, envelope, nl_update
 from engine.state.drives import drive_partner
 from engine.state.types import Utterance, heard_at_playback
 
@@ -100,3 +100,29 @@ def test_t_fields_are_declared_t():
     b = Body(Session(), Learned())
     assert b.t_fields() and all(FIELD_TYPES[k] == "T" for k in b.t_fields())
     assert {"E", "K", "P_play", "I_lp", "h_word", "A_L", "q_trace", "L_d", "env_drop"} <= set(b.t_fields())
+
+
+def test_nl_update_lowers_only_in_proportion_to_confidence():
+    """S39: N <- max(N, r) - c (N - r)+ (INNATE `reader_confidence_form`)."""
+    N = np.array([0.6, 0.6, 0.6])
+    assert np.allclose(nl_update(N, np.array([0.9, 0.9, 0.9]), np.array([0.0, 0.5, 1.0])), 0.9)   # up: in full
+    np.testing.assert_allclose(nl_update(N, np.full(3, 0.2), np.array([0.0, 0.5, 1.0])), [0.6, 0.4, 0.2])
+    assert ENTRIES["reader_confidence_form"].category == "generic"
+    assert ENTRIES["reader_confidence_form"].subtype == "fit definition"
+
+
+@pytest.mark.parametrize("log_ratio, c", [(0.0, 0.0), (np.log(0.5), 0.5)])
+def test_body_n_l_lowered_by_the_readers_confidence(log_ratio, c):
+    L = Learned()
+    L.pop.b2 = np.full(3, 0.8)
+    b = Body(Session(), L)
+    b.tick(SlowInputs(0.5, (_utt(0.4),), (), True, (), 0.0, 1.0))
+    slot = int(np.argmax(b.N_L[:, 0]))
+    assert float(b.N_L[slot, 0]) == pytest.approx(0.8)              # c = 0 (untrained head): raised in full
+    L.pop.b2 = np.full(3, 0.2)
+    L.pop.bv = np.full(3, log_ratio)                                # var_pred / var_pop = exp(bv)
+    assert np.allclose(L.pop.confidence(np.zeros(64), np.zeros(16)), c)
+    b.tick(SlowInputs(1.0, (_utt(0.9),), (), True, (), 0.0, 1.0))
+    before = 0.8 * np.exp(-0.5 / NL_TAU)
+    assert float(b.N_L[slot, 0]) == pytest.approx(before - c * (before - 0.2), rel=1e-9)
+    assert not b.frozen

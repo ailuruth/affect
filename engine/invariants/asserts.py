@@ -313,7 +313,8 @@ def check_a5(factual_t: dict, shadow_t: dict, held: dict | None = None) -> list:
 
 def check_a6(G: np.ndarray, omega, sign_table: np.ndarray, G0: np.ndarray | None = None) -> list:
     """A6 (each write): omega_g in [-1, 1]; every cone entry in its set; face-pair cross entries carry the prior sign
-    or 0 (innate G0 entries are exempt from the prior, not from the budgets). G (4, 33, 36). Returns violations
+    or 0 (innate G0 entries are exempt from the prior's sign, not from the budgets: each non-reflected G0 entry is
+    charged at weight 1 whatever the prior, `cone.g0_usage`). G (4, 33, 36). Returns violations
     (fail-safe: the cone falls back to its last valid latch, or to G0 and the diagonal)."""
     from engine.config.channels import TABLE
     from engine.routes import cone as C
@@ -334,10 +335,11 @@ def check_a6(G: np.ndarray, omega, sign_table: np.ndarray, G0: np.ndarray | None
         off = G[m].copy()
         off[np.arange(C.N), np.arange(C.N)] = 0.0
         learned = off - G0[m]
-        _, _, bad_l = C.usage(learned, m, sign_table)
+        chL, awL, bad_l = C.usage(learned, m, sign_table)
         out += bad_l
-        ch, aw, bad_all = C.usage(off, m, sign_table)
-        out += [b for b in bad_all if b[3] != "face pair against the dyad sign prior"]
+        ch0, aw0, bad_0 = C.g0_usage(G0[m], m)          # G0: weight 1 whatever the prior (worst case over priors)
+        out += bad_0
+        ch, aw = ch0 + chL, aw0 + awL
         budget, _, rcap = C.budgets(m)
         for k in range(C.N):
             if ch[k] > budget[k] + 1e-12:

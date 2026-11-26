@@ -26,7 +26,6 @@ TYPES = frozenset({"T", "F", "O", "K", "latched", "own"})
 FIELD_TYPES = {
     # ---------------------------------------------------------------- body and loads (spec §1.3 table)
     "E": "T",
-    "A_F": "F",
     "A_L": "T",
     "V_F": "F",
     "h_word": "T",

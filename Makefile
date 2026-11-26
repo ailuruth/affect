@@ -1,7 +1,7 @@
 # CI-style targets (spec §7.6). Synthetic arrays only.
 PY ?= python3
 
-.PHONY: ci test lint lock regress-full
+.PHONY: ci test lint lock regress-full week0
 
 ci:            ## data guard, label lint, pytest (fast suite)
 	$(PY) tools/ci.py
@@ -17,3 +17,6 @@ lock:          ## regenerate engine/config/INNATE.lock from engine/config/innate
 
 regress-full:  ## full 2-h ledger regressions against the sims reference (several minutes)
 	$(PY) tools/ci.py --slow
+
+week0:         ## M1 on the operator's Mac: every week-0 check in order, then the summary in research/build/week0.md
+	$(PY) -m tools.week0.run_all

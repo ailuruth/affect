@@ -117,7 +117,7 @@ class Run:
             self.gi.D_tau = self.held_D_tau
         b = self.body
         z_T = np.zeros(64) + 0.0 * b.E                      # mu_T / slots / concepts: not built at M4 (M untrained)
-        b7 = np.stack([b.E * 1.0, b.A_F + b.A_L, self.V_F + b.h_word, b.K * 1.0, b.P_play * 1.0, b.I_lp * 1.0,
+        b7 = np.stack([b.E * 1.0, b.A_L * 1.0, self.V_F + b.h_word, b.K * 1.0, b.P_play * 1.0, b.I_lp * 1.0,
                        b.Dp_word * 1.0])
         self.appr.tick(inp.t, z_T, b7, self.cone.xi[0][:N])
 

@@ -128,6 +128,7 @@ pooled_max
 q_trace_tau_s
 qhat_form
 qhat_target
+reader_confidence_form
 reflex_glare_loud_pos_gain
 replay_need_weight
 ring_buffer_s
