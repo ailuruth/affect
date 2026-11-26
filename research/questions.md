@@ -448,3 +448,14 @@ The latest design passes the strongest checks so far. Its critics raised two thi
 **What it blocks:** nothing now. It only matters at build time.
 
 **Answer (operator), 2026-11-26T08:41:00Z: stay on the subscription.** Ailurini is built on Claude Code, so the engine must work through the subscription.
+
+## Q24. Should the agent's face show sympathy before anyone speaks? (asked 2026-11-26T09:14:27Z; work continues meanwhile)
+
+**Why this comes up.** You chose built-in per-expression limits (Q22), including a sympathetic brow raise up to 0.20 at a sad face. In the current design that limit is a fraction of a copy of your own brow. A silently sad or crying face moves its own brow only a little, so the agent's sympathetic brow comes out about 0.05, which is invisible. For about the first 26 seconds, until words arrive, its face stays near neutral at a silently sad or crying person.
+
+**Options:**
+- **Add a separate concern posture** (my recommendation). This is the agent's own built-in look of concern (inner brows up, softened eyes). It is triggered by its own judgement that you look distressed and capped on its own; it is not a copy of your face. It would show within a few seconds of seeing you sad, and copying stays ruled out, because the posture is the agent's own pattern whatever your face does.
+- **Raise the brow limit toward 0.7 of a copy.** This also makes the brow visible, but it lets the agent mirror your brow much more strongly in general.
+- **Keep it as is:** sympathy shows only once words arrive.
+
+**What it blocks:** nothing. The next revision is written on the recommendation and will change if you choose otherwise.
