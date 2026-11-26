@@ -1,0 +1,25 @@
+K4 non-diagonal quadratic budget: single-channel copy gain <= 0.0452, whole-face g*I <= 0.0084 (ratio 5.4; a diagonal IQC gives ratio 1, Lemma 4)
+K5 l1 radial projection: random max ratio 1.349; constructed ratio 1.9998 (claimed 1)
+K6 incremental gain with per-frame switching: 1.17 vs Lemma 6(4) Schur constant sqrt(W_max tau) = 0.42
+K7 Theorem 3 totals (chi=1, a=1), design constants:
+   T(s)   single(W=.30)  4-ch worst  whole worst  whole frozen
+      4   0.538          0.463       0.256        0.133
+     10   0.549          0.474       0.267        0.144
+     30   0.587          0.512       0.305        0.182
+     60   0.644          0.569       0.362        0.239
+    300   1.101          1.026       0.819        0.696
+    600   1.671          1.596       1.389        1.267
+K8 out-of-dither-band echo g_p=2.0, start +0.02: learned omega -> +0.037 (row cap 0.3); loop gain lam_e*g_p = 0.6
+K8 out-of-dither-band echo g_p=2.0, start -0.02: learned omega -> +0.037 (row cap 0.3); loop gain lam_e*g_p = 0.6
+K8 out-of-dither-band echo g_p=4.0, start +0.02: learned omega -> +0.300 (row cap 0.3); loop gain lam_e*g_p = 1.2
+K8 out-of-dither-band echo g_p=4.0, start -0.02: learned omega -> +0.300 (row cap 0.3); loop gain lam_e*g_p = 1.2
+   s*=0, g_p=4: from +-0.02 -> +0.30 / -0.30 (both caps attracting; 0 unstable)
+K9 best-of-4 by closeness to s_hat: corr(selected draft valence, partner valence) = 0.78
+order 1: sign flip of 3 Hz band changes u^m by 0.242 x its amplitude (eps changes by 0.329 rel.); ||F_f(r - c^f) + c^f||/||c^f|| = 1.143 (0 if F_f idempotent); coherence 2.6-3.4 Hz with router-only agent: 0.21 (surrogate 0.02)
+order 2: sign flip of 3 Hz band changes u^m by 0.168 x its amplitude (eps changes by 0.341 rel.); ||F_f(r - c^f) + c^f||/||c^f|| = 0.923 (0 if F_f idempotent); coherence 2.6-3.4 Hz with router-only agent: 0.13 (surrogate 0.01)
+tracking=True: partner events used 226 (budget 2+T/60 = 362); best lag 6 min; whole-face (16 ch) 1-min uncentred corr 0.833, defect 0.554, pooled gain 0.291
+tracking=False: partner events used 0 (budget 2+T/60 = 362); best lag 2 min; whole-face (16 ch) 1-min uncentred corr 0.007, defect 1.000, pooled gain 0.000
+design Theorem 3 whole-face bound at T=600 s: 1.39 (vacuous); Theorem 4 floor at gain 0.1: 0.83 (needs d, which 1-min means remove)
+tracking=True: partner events used 130 (budget 2+T/60 = 362); best lag 7 min; whole-face (16 ch) 1-min uncentred corr 0.926, defect 0.377, pooled gain 0.359
+tracking=False: partner events used 0 (budget 2+T/60 = 362); best lag 4 min; whole-face (16 ch) 1-min uncentred corr 0.004, defect 1.000, pooled gain 0.000
+design Theorem 3 whole-face bound at T=600 s: 1.39 (vacuous); Theorem 4 floor at gain 0.1: 0.83 (needs d, which 1-min means remove)

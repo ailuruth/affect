@@ -1142,3 +1142,43 @@ All are minimised over free vectors whose every value lies in Θ: the REN by the
 **Against the brief's novelty bar** (D68: a new computational mechanism on the level of attention, not an existing framework with structure added), this does **not** clear the second clause. It is best read as the first design in this project whose D78 claims hold *uniformly over every parameter value and every listed route*, with the route list made complete by typing rules rather than by enumeration. Its novelty is a constraint architecture with three theorems, not a new computation.
 
 **The weakest point:** the price of those guarantees in expressivity (§8.1 item 1). It is unmeasured.
+
+## Critiques 1a and 1b and the answer (recorded 2026-11-26T04:35:54Z)
+
+**Critique 1a, proofs and the dial** (critique-design-fibred-attribution-core-proofs.md; checks in sims/critique-fibred-proofs/): 34 items, 12 valid, 11 with a gap, 11 with an error. **Fails D78 as proved.**
+- **Worst error: the base does not persist under the design's own noise.** The Kramers estimate omits the relaxation rate ε_b, so the exponent is 1.53, not 7.65. With neighbouring centres at d_min, a well holds for about 37 s, not 6–19 h. The body tilt spends no token, yet at its maximum it shifts base-well occupancy about 136×. Theorem 1(c), Theorem 6(b) and Theorem 8 fail.
+- **Theorem 2 (sign-blindness).** The proof needs an idempotent filter, and causal filters are not idempotent. Flipping a partner's 3 Hz motion changes the router input by 0.17–0.24 of its amplitude. A router-only agent shows 3 Hz coherence of 0.13–0.21 against a 0.01–0.02 surrogate.
+- **Lemma 7 (route list) is incomplete.** Uncapped routes: N_own's speech-prosody and text input (Claude into face and voice), startle audio, voice channels with no role cap, and visemes. Best-of-4 draft selection keyed on the partner's inferred state correlates 0.78 with the partner's valence.
+- **The held whole face is copied through the base.** Event proposals see both the partner's level and the displayed base, so they can act as a tracker inside the token budget. On 1-min means: correlation 0.93, defect 0.38, gain 0.36 on 16 channels. That is within the design's own whole-face figures (gain 0.27, defect floor 0.49), so those figures did not count this route. The own-variation floor does not exist outside 0.05–1 Hz.
+- **Other errors:**
+  - Lemma 4 is false for non-diagonal quadratic budgets (separation ratio 5.4).
+  - Theorem 5: under a partner echo outside the instrument's band, learning runs to the row cap and the cap becomes attracting.
+  - Lemma 6(4): the router's incremental constant reaches 1.17, not 0.42, under fast weight switching.
+- **Gaps:**
+  - The constants c_s, c_κ, c_ev, q_max, D_R^max and σ₀^p are never given. An exact own-decoder reading needs c_s ≥ 30.
+  - The single-channel bound is quoted at 30 s and the pooled bounds at 10 s. At 30 s the pooled bounds are 0.51 and 0.31, and beyond about 3 minutes every bound is uninformative.
+- **Expressivity:** the fast 0.5 s match fits the human data. But context and sign flips are possible only about once a minute, and the partner is not learned within a session. The common-cause route is capped near 0.07 against 0.3 for partner matching, the reverse of constraint C8.
+
+**Critique 1b, reduction, novelty and principles** (critique-design-fibred-attribution-core-novelty.md): **recombination on both clauses.**
+- Token bucket = average-dwell-time switching (Hespanha–Morse); Lemma 2 = bifurcation plus rate-induced tipping.
+- "Contraction and persistence coexist only in fibred form" is false: p-dominance and k-contraction give multistability with contraction.
+- The router = constrained softmax with fertility caps; Theorem 4 = the coherence/SNR identity; the typing rules = an information-flow type system.
+- **Principles:**
+  - Principle 2 is strained: the repetition drive is an installed motive.
+  - Principle 3 is not essential: no behaviour needs the inversion of its own expression map.
+  - Principle 6: there is a mild engagement incentive through the information drive.
+  - Principle 10 fails: it is an assembly.
+- **Expressive structure:** the persistent affect is about 6 bits, close to the few-gauges sketch the brief rejects.
+- **Fails to explain:** held-level vocal convergence, partner history within minutes, fast reactions to content, interoception, grounding of Claude's emotion words.
+- **Main lead:** a single information-capacity bound on everything the partner can influence, as a possible real primitive replacing the many caps.
+
+**The answer (maintainer).** Both critiques are accepted.
+- What survives as material:
+  - the diagnosis that fast partner-driven state must be separated from persistent own state;
+  - built-in per-channel ceilings parameterised so learning cannot exceed them;
+  - the fast 0.5 s match;
+  - the explicit typing of routes.
+- The design's own route accounting missed the conceptual route, the voice and the base-tracker. This is the fourth design in a row where an uncounted route carries copying. Per-route caps, however many, keep leaking.
+- That makes the novelty critic's lead the next step: a single capacity bound over everything the partner can influence.
+
+**Status:** critiqued; held.
