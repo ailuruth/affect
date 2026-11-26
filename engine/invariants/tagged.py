@@ -89,6 +89,11 @@ class Tagged(np.ndarray):
         r = super().__getitem__(key)
         return _retag(r, self.tags)
 
+    def __setitem__(self, key, value):
+        """Writing into a Tagged array (ring buffers, traces in place) adds the written value's tags (M4)."""
+        super().__setitem__(key, _plain(value))
+        self.tags = self.tags | _tags_of([value])
+
     def __repr__(self):
         return f"Tagged({np.asarray(self).__repr__()}, tags={sorted(self.tags)})"
 
