@@ -1,0 +1,57 @@
+=== partner code: agent-like (design's H10 code)
+   decoded 'my father died': V 0.94 A 0.21 T 0.28; care 0.639; relief mask 0.00
+   decoded 'I'm freaking out about the exam': V 0.62 A 0.51 T 0.00; care 0.333; relief mask 0.00
+   decoded 'just tired, things at work': V 0.30 A 0.07 T 0.48; care 0.079; relief mask 0.00
+   decoded 'I got the job!': V 0.08 A 0.21 T 0.26; care 0.004; relief mask 0.92
+   Pi~_0 reads his grieving face (V .8): V 0.94; arrival m_s 1.00; his anxious face+voice: V 0.52 A 0.54
+   silent sadness: concern bid at 32 s
+     silent sad [60-600 s] LP +0.08/+0.07, BI +0.04/+0.04, TILT +0.00/+0.00
+   reunion with bad news: m_s 1.00
+     at sight [0-8 s] LP +0.09/+0.09, CR +0.00/+0.00, BO +0.35/+0.02, BI +0.01/+0.00
+     0-12 s after 'my father died' [8-20 s] LP +0.12/+0.11, CR +0.00/+0.00, BI +0.50/+0.26, TILT +0.12/+0.08
+     12-60 s [20-60 s] LP +0.12/+0.12, CR +0.00/+0.00, BI +0.22/+0.20, TILT +0.17/+0.15
+     exam rumination [15-120 s] LP +0.11/+0.11, BI +0.23/+0.15, TILT +0.10/+0.10, EN -0.09/-0.10, UL +0.08/+0.07
+=== partner code: different channels (brow lowerer, lip press, chin raise, flat tight voice)
+   decoded 'my father died': V 0.09 A 0.10 T 0.58; care 0.059; relief mask 0.00
+   decoded 'I'm freaking out about the exam': V 0.03 A 0.12 T 0.21; care 0.000; relief mask 1.00
+   decoded 'just tired, things at work': V 0.04 A 0.02 T 0.65; care 0.082; relief mask 0.00
+   decoded 'I got the job!': V 0.02 A 0.10 T 0.31; care 0.005; relief mask 0.90
+   Pi~_0 reads his grieving face (V .8): V 0.04; arrival m_s 0.00; his anxious face+voice: V 0.01 A 0.13
+   silent sadness: concern bid at None s
+     silent sad [60-600 s] LP +0.09/+0.09, BI -0.00/-0.00, TILT -0.00/-0.00
+   reunion with bad news: m_s 0.00
+     at sight [0-8 s] LP +0.61/+0.35, CR +0.43/+0.21, BO +0.35/+0.02, BI -0.00/-0.00
+     0-12 s after 'my father died' [8-20 s] LP +0.16/+0.11, CR +0.06/+0.02, BI +0.34/+0.13, TILT +0.03/+0.01
+     12-60 s [20-60 s] LP +0.10/+0.10, CR +0.00/+0.00, BI +0.07/+0.06, TILT +0.06/+0.05
+     exam rumination [15-120 s] LP +0.09/+0.09, BI +0.03/+0.00, TILT +0.00/+0.00, EN -0.00/-0.01, UL +0.08/+0.07
+=== partner code: low-expressive (same code as H10 at 0.3 amplitude)
+   decoded 'my father died': V 0.26 A 0.12 T 0.27; care 0.036; relief mask 0.28
+   decoded 'I'm freaking out about the exam': V 0.13 A 0.19 T 0.10; care 0.007; relief mask 0.87
+   decoded 'just tired, things at work': V 0.10 A 0.08 T 0.27; care 0.004; relief mask 0.92
+   decoded 'I got the job!': V 0.05 A 0.13 T 0.21; care 0.000; relief mask 1.00
+   Pi~_0 reads his grieving face (V .8): V 0.25; arrival m_s 0.32; his anxious face+voice: V 0.15 A 0.19
+   silent sadness: concern bid at None s
+     silent sad [60-600 s] LP +0.09/+0.08, BI +0.01/+0.01, TILT +0.00/+0.00
+   reunion with bad news: m_s 0.32
+     at sight [0-8 s] LP +0.60/+0.34, CR +0.41/+0.21, BO +0.35/+0.02, BI +0.00/+0.00
+     0-12 s after 'my father died' [8-20 s] LP +0.16/+0.11, CR +0.06/+0.01, BI +0.29/+0.11, TILT +0.02/+0.01
+     12-60 s [20-60 s] LP +0.10/+0.10, CR +0.00/+0.00, BI +0.05/+0.04, TILT +0.04/+0.03
+     exam rumination [15-120 s] LP +0.14/+0.09, BI +0.04/+0.01, TILT +0.01/+0.01, EN +0.01/-0.01, UL +0.08/+0.07
+=== sympathy brow at a still sad face (BI .5), held, operator after months: what each operator choice gives
+     as designed (omega_sym .75, c_BI .20) [300-600 s] LP +0.07/+0.06, BI +0.05/+0.05, TILT +0.01/+0.01
+     omega_sym 1 [300-600 s] LP +0.07/+0.06, BI +0.07/+0.06, TILT +0.01/+0.01
+     c_BI .40 (operator raises the ceiling) [300-600 s] LP +0.07/+0.06, BI +0.10/+0.10, TILT +0.01/+0.01
+=== arrival mask at partial m_s (agent-like code): (1 - m_s) multiplies R before the saturating amplitude R/(R+0.02)
+   ordinary                         m_s 0.00     at sight [0-8 s] LP +0.61/+0.35, CR +0.43/+0.21
+   mildly sad (BI .2, LD .15)       m_s 0.71     at sight [0-8 s] LP +0.55/+0.32, CR +0.38/+0.19
+   clearly sad (BI .3, LD .25)      m_s 1.00     at sight [0-8 s] LP +0.09/+0.09, CR +0.00/+0.00
+   sad (BI .4, LD .3)               m_s 1.00     at sight [0-8 s] LP +0.09/+0.09, CR +0.00/+0.00
+   grieving (BI .5, LD .4, CHR .3)  m_s 1.00     at sight [0-8 s] LP +0.09/+0.09, CR +0.00/+0.00
+=== mourning: he arrives with a grieving face every day; d_b,id follows his arrival reading (tau 6 sessions)
+   day  1: d_b 0.00, m_s 1.00, at sight LP 0.09 CR 0.00
+   day  3: d_b 0.31, m_s 1.00, at sight LP 0.09 CR 0.00
+   day  5: d_b 0.52, m_s 1.00, at sight LP 0.09 CR 0.00
+   day  7: d_b 0.67, m_s 0.78, at sight LP 0.33 CR 0.19
+   day 10: d_b 0.81, m_s 0.31, at sight LP 0.48 CR 0.32
+   day 14: d_b 0.91, m_s 0.00, at sight LP 0.52 CR 0.35
+   day 21: d_b 0.97, m_s 0.00, at sight LP 0.52 CR 0.35
