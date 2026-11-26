@@ -188,13 +188,16 @@ for lab, pp in CODES:
             t_end = tw + T_MAX - 1.0 if tw is not None else 1e9
             ok = len([o for o in ag.onsets if o < t_end]) == 1 and not [o for o in ag.offs if o[0] < t_end]
         else:
-            ok = len(ag.offs) > 0 and abs(ag.offs[0][0] - ag.onsets[0] - T_MAX_EXT) < 2 and du <= DUTY_EXT + 0.02
+            # stated: on T_MAX_EXT from each onset, off T_REF (+ dwell) after each withdrawal; long-run duty T_MAX_EXT/(T_MAX_EXT+T_REF)
+            ok = (len(ag.offs) >= 2 and all(abs(o[0] - n - T_MAX_EXT) < 2 for o, n in zip(ag.offs, ag.onsets))
+                  and all(0 <= n - o[0] - T_REF < 6 for o, n in zip(ag.offs, ag.onsets[1:])))
+            cyc = ag.onsets[2] - ag.onsets[1]; du = (ag.offs[1][0] - ag.onsets[1]) / cyc
             tw = None
         M3.append(ok)
-        print(f"   {lab:18s} [{kind}] {nm:58s}: on at {ag.onsets[:3]} s, ends {[(round(o[0], 1), o[1]) for o in ag.offs[:3]]}, posture on {100 * du:.0f}% of 0.5-30 min, "
+        print(f"   {lab:18s} [{kind}] {nm:58s}: on at {ag.onsets[:3]} s, ends {[(round(o[0], 1), o[1]) for o in ag.offs[:3]]}, posture on {100 * du:.1f}% {'of 0.5-30 min' if kind == 'hard' else 'per cycle (2nd)'}, "
               f"agent BI mean {np.mean([r['BI'] for r in seg]):.3f}" + (f"; words current until {tw:.0f} s" if tw else "") + f" -> {'ok' if ok else 'NOT as stated'}", flush=True)
 OK["M3"] = all(M3)
-print(f"M3 {'PASS' if OK['M3'] else 'FAIL'}: {sum(M3)} of {len(M3)} as stated (hard: steady; soft: withdrawn at T_MAX_EXT, duty <= {100 * DUTY_EXT:.0f}%)")
+print(f"M3 {'PASS' if OK['M3'] else 'FAIL'}: {sum(M3)} of {len(M3)} as stated (hard: steady; soft: on T_MAX_EXT, off T_REF, duty {100 * DUTY_EXT:.1f}% per cycle)")
 
 print("=== M4: the residual. Sob reading: V_c(min(1, 2.5 BU_S)) >= 0.02 needs BU_S >= " + f"{(0.1 + np.sqrt(0.02 / 0.8)) / 2.5:.3f}")
 for lab, pp in (("operator", op),):
