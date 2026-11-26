@@ -33,3 +33,7 @@ SITUATION_WORDS = (
 )
 SITUATION_MUST_FAIL = ("greeting_flash", "arrivalGain", "bad-news-mask", "mourner_delay", "user_type_prior")
 SITUATION_MUST_PASS = ("ledger_kappa", "drive_terms", "contact_known_min", "nested_tokens")
+
+# Tokeniser cases (spec §7.4): input -> tokens.
+TOKENISER_CASES = (("isHappy", ["is", "happy"]), ("HTTPMoodX2", ["http", "mood", "x", "2"]),
+                   ("roberta-base-go_emotions", ["roberta", "base", "go", "emotions"]), ("a.b/c d", ["a", "b", "c", "d"]))

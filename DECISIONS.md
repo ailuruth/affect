@@ -484,3 +484,8 @@ To change: the operator asks to hold or to build something else.
 - The D82 search continues alongside building, at a slower pace. The operator will allow arxiv.org in this environment's network settings.
 
 To change: the operator asks to pause the search or to search full time.
+
+## D92. Ledger-margin tuning stood down; the small-ceiling gap goes to the operator (recorded 2026-11-26T22:36:46Z)
+- At M0 the engine's ledger matches the reference bit for bit, but a synthetic injected unlisted delayed copy is left at about 1.1–2.0 c on small-ceiling channels (0.83–0.88 c held only at c = 0.35). Third failure of the ledger-margin step, so tuning stops (loop rule). The F22 unit test is kept as expected-to-fail; counted routes stay bounded by construction. Q35 asks the operator.
+
+To change: the operator answers Q35 (e.g. asks for a different safety-net design).

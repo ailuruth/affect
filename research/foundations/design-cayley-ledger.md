@@ -865,6 +865,10 @@ Revision 9 is saved verbatim as `design-cayley-ledger.r9.md`. Check: `sims/desig
 
 **Status:** revision 9.2, the build core; no known concrete failure. Next: the build specification.
 
+## Build finding at M0 (recorded 2026-11-26T22:36:46Z)
+
+The engine's ledger (engine/shadow/ledger.py) reproduces the reference simulations bit for bit at 10 Hz. Its synthetic injected-copy test on all 33 channels shows that the 0.83–0.88 c figure of revision 9.2 was measured only on a channel with ceiling c = 0.35. On small-ceiling channels an unlisted delayed copy is left at about **1.1–2.0 c** (lid droop worst); on the reference partner at c = 0.05 it is 1.04–1.10 c. The counted routes are bounded by construction and unaffected; the gap concerns only the ledger's catch-all promise for routes nobody listed. This is the third failure of the ledger-margin step (9 → 9.1 → 9.2), so under the loop rule the margin tuning is stood down; the test is kept, marked expected-to-fail, and the question goes to the operator (Q35).
+
 ## Build core summary
 
 (Replaces the Build-candidate summary of revisions 8.1–8.3, whose last text is kept verbatim in `design-cayley-ledger.r8.3.md`.)

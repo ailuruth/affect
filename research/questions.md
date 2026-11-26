@@ -673,3 +673,14 @@ The build specification (research/build/spec.md, §6) lists what needs you. Q30�
 9. **How much text each call sends** (added 2026-11-26T21:56:05Z): at most the last few turns plus up to 3 memory snippets, about 2,000–4,000 tokens per call. **Recommended: accept.** Option: a shorter window (Claude sees less context).
 10. **Model hub calls at runtime** (added 2026-11-26T21:56:05Z): the speech and tracking models are downloaded once and then run offline, with no calls to the model hub while the agent is running. **Recommended: offline after the first download.**
 
+## Q35. The safety net does not hold the smallest limits against copies nobody listed (asked 2026-11-26T22:36:46Z; building continues meanwhile)
+
+**What was found.** The first build milestone is done: the engine's safety net matches the design's simulations exactly, and all its other tests pass. One test fails. For expressions with very small limits (for example drooping eyelids), a hypothetical extra route that nobody listed and that copied you with a delay would be left at about 1.1 to 2 times its limit. Every route the design does list is held under its limit by construction; this concerns only the net's promise to catch unlisted ones. Three rounds of tuning the net's margin have not closed it, so I stopped tuning it.
+
+**Options:**
+- **Rely on listing every route, and keep the net as a monitor** (my recommendation): the code checks that every route to the face is a listed, bounded one (a type check already enforces this), the net keeps attenuating, and the failing test stays as a visible warning. Building continues.
+- **Let me design a different safety net:** for example limits on the net that scale with each expression's own limit (a general setting, not a situation rule). It would be designed and checked before day 1; building continues alongside.
+- **Hold building** until the net holds every limit.
+
+**What it blocks:** nothing now; it matters before day 1.
+
