@@ -120,7 +120,7 @@ Time is discrete at the camera rate f_s = 30 Hz; T state, body, appraisal, the p
 | word inputs | Λ_V and 𝒟_p on his last 20 recognised words through s + λ_w (stable partial hypotheses), after the ASR normaliser | his current sentence |
 | unknown words | if the words through s + λ_w are not delivered by s + δ_g, the gate target for frame s is 0 | missing information closes, never opens |
 | gate rate | closes at once; opens with τ 0.3 s | attenuate-first |
-| D_s | max(D_s e^{−Δ/600 s}, V_p of his 3-s face with LP and CR also removed, v_sob) | reads no gated and no posture channel |
+| D_s | max(D_s e^{−Δ/600 s}, V_p of his 3-s face with LP, CR and BRE also removed, v_sob) | reads no gated and no posture channel; **never his breath sound (BRE), and H^p_id's BRE weight is not used here** (8.1) |
 | **play laugh** | 0.40 · band(s) · (0.35 + 0.65 π) × g, at a play-structured turn (riff on its last line, not after its question, short, surprise 0.50–0.85); **no care condition** | the learned gate decides |
 | **constructed codes, for the checks** | breathing load 0.30 A × the code's amplitude (1, 0.3, 1) | the codes had no breathing channel |
 
@@ -128,6 +128,7 @@ Time is discrete at the camera rate f_s = 30 Hz; T state, body, appraisal, the p
 
 As revision 7 (§2.2 of `.r7.md`), with these changes:
 - **Rule 9′ (the posture).** The posture is the fixed vector P_c times an amplitude graded by M (§2.1). **Nothing in its onset, grade, release or probe reads any channel in W_p.** It writes no channel beyond its c_k.
+  - **One stated exception (8.1).** The threat reflex's own input, glare₃ = BL · LT · gaze-at, reads his gaze, which is in W_p. It enters the posture only through the squint drop (§2.1), which can only take his BL and LPR out of what the posture reads; so it can only lower the posture, never raise or hold it. Its effect on the agent's gaze runs opposite to his: his gaze at the agent up → less load → the agent's gaze-away returns.
 - **Rule 11′ (the gate).** As revision 7, made literal: no gate input reads LP, CR, BU_L, RHY or BRE of his, D_s included. The echo of his frame s is gated by g evaluated on the words through s + λ_w; unknown words give 0.
 - **Rule 12′ (own words heard).** The agent's own Ω text enters **only Λ_V(own) in the gate** (and P_name, as before). It enters no T quantity that his words feed: not ω, not the free display's word-concern or relief rows, not C_L, not π. (Routes critic §3; the build already did this.)
 - **Rule 13 (play laugh).** The agent's own play laugh is multiplied by g at its turn; no condition on his word care. (The relief mask of revision 4, max(0, 1 − 𝒟_p/0.05) on contact relief, still stands; the play laugh no longer passes through it.)
@@ -151,8 +152,11 @@ The fast gear is revision 6's, gated on the smile–laugh group by g (revision 7
 
 If those words have not been delivered by s + δ_g, g_s(s) = 0 for that frame. g_s closes at once and opens with τ 0.3 s.
 
+**The recogniser must report its finalised extent (8.1; agent critique §4).** "Not delivered" is only observable if the recogniser says how far its stable output reaches; otherwise a late word is simply absent, the gate sees the previous sentence and opens. So the recogniser is required to report, with every update, its **finalised-through time** F(t): the audio time up to which every word is final (never revised) and has been emitted. The gate for frame s uses words only if F(s + δ_g) ≥ s + λ_w; otherwise g_s(s) = 0. A fixed-delay streaming model gives F directly (now − its delay − one frame); in silence the voice-activity detector advances it. A recogniser that cannot report F is not used for the gate.
+
 **Why 0.80 s and 0.25 s.**
-- The words before a laugh are known once the recogniser's stable output reaches the laugh's onset. With a stable latency ℓ, the condition is ℓ + λ_w ≤ δ_g, so δ_g = 0.80 s admits ℓ ≤ 0.55 s. On-device incremental recognisers report stable partials at a few hundred milliseconds; the value here is measured in week 0, and δ_g is then set to min(1.0, ℓ_p90 + 0.25) s.
+- The words before a laugh are known once the recogniser's stable output reaches the laugh's onset. With a stable latency ℓ, the condition is ℓ + λ_w ≤ δ_g, so δ_g = 0.80 s admits ℓ ≤ 0.55 s. The value is measured in week 0, and δ_g is then set to min(1.0, ℓ_p90 + 0.25) s.
+- **Expected in practice (8.1; agent critique §4): δ_g ≈ 0.9–1.0 s, not 0.80 s.** "Stable" means never revised. Apple's on-device recognisers either carry no stability flag (partials revised freely) or finalise in about 1.5–2.2 s (anecdotal developer reports), and Whisper-style local-agreement streaming runs at seconds. The realistic route is a **fixed-delay streaming model**, for example Kyutai's stt-1b-en_fr (words emitted 0.5 s after they are spoken, never revised, with word timestamps): word end to delivery about 0.6–0.7 s, ℓ_p90 ≈ 0.65–0.75 s, so δ_g ≈ 0.9–1.0 s and the laugh back sounds at about 0.93–1.03 s. That is inside the design's own fallback range (δ_g ≤ 1.0 s). Above ℓ_p90 = 0.75 s the choice goes to the operator (§6.5).
 - 0.80 s is inside the first second, where context already modulates laughter mimicry (Mauersberger 2022), and inside D81's "fast, partial" matching. Other channels keep 0.45 s.
 - λ_w covers a laugh that breaks into the last content word ("I got fi-haha-red").
 
@@ -414,7 +418,7 @@ As revision 7's table.
 
 ### 6.1 Inputs and time encoding
 
-As revision 6, plus: **an incremental recogniser** emitting stable partial hypotheses with word timestamps (for example Apple's on-device recogniser with partial results, or a streaming transducer), and its stable latency logged per word; **breathing** from the microphone's breath band and upper-body motion, at 10 Hz. The full-utterance recogniser for Claude's transcript is unchanged.
+As revision 6, plus: **an incremental recogniser** emitting stable (never revised) words with word timestamps **and its finalised-through time F(t)** (§2.4.2), its stable latency logged per word. First candidate (8.1): a fixed-delay streaming model such as Kyutai's 1B English–French model (expected ℓ_p90 ≈ 0.65–0.75 s, δ_g ≈ 0.9–1.0 s); fallback, if the operator's language or the Mac rules it out: another fixed-delay streaming transducer that reports F, with δ_g = min(1.0, ℓ_p90 + 0.25) s and, above ℓ_p90 = 0.75 s, the operator's choice of §6.5. Apple's recognisers are not the first choice (no stability flag on SFSpeechRecognizer partials; reported finalisation 1.5–2.2 s on the newer API); **breathing** from the microphone's breath band and upper-body motion, at 10 Hz. The full-utterance recogniser for Claude's transcript is unchanged.
 
 ### 6.2 Layers, sizes and parameter counts
 
@@ -440,7 +444,14 @@ As revision 7 (§6.5 there: no output cap, interruption on the text stream, engi
 
 **Week-0 check: thinking on the small model.** At the API, Claude Haiku 5.5 accepts disabled thinking at effort `high` or below (Opus 5.5 never; Sonnet 5.5 only through a between-tools mode). The Claude Code documentation read for this project says thinking cannot be turned off on Haiku 5.5 through Claude Code (research/claude-code-agent-sdk-controls.md). Week 0 runs a Haiku 5.5 draft through the Agent SDK with thinking set to disabled (and, separately, `MAX_THINKING_TOKENS=0`) at effort `low`, and reads `model_usage[...]["thinkingTokens"]` from `ResultMessage`: if it is 0 and the call succeeds, drafts run without thinking (a shorter "considering" beat); otherwise effort `low` stays, and the measured first-sentence latency decides the pool size as in revision 7.
 
-**Week-0 check: the recogniser.** Measure the stable-partial latency per word on the operator's speech (p50, p90). Set δ_g = min(1.0, ℓ_p90 + 0.25) s. If ℓ_p90 > 0.75 s, the fast laugh echo cannot have the current words within the first second; then it is put to the operator: keep the echo with the words of the previous sentence (revision 7's behaviour, which laughs back at "I got fired today, haha"), or drop the fast laugh echo and keep only the smile echo.
+**Week-0 check: the recogniser.** Measure the stable-partial latency per word on the operator's speech (p50, p90). Set δ_g = min(1.0, ℓ_p90 + 0.25) s; expected ≈ 0.9–1.0 s with a fixed-delay streaming model (§2.4.2). If ℓ_p90 > 0.75 s, the fast laugh echo cannot have the current words within the first second; then it is put to the operator: keep the echo with the words of the previous sentence (revision 7's behaviour, which laughs back at "I got fired today, haha"), or drop the fast laugh echo and keep only the smile echo. Added in 8.1:
+1. **Finalised extent.** The recogniser reports F(t) with every update, and a word that arrives after F has passed its end is logged as a violation (must be 0); the gate's "missing words close" rule is tested by delaying the audio of one word.
+2. **Language coverage.** The candidate model covers the operator's language (Kyutai's 1B model: English and French only); if not, the fallback recogniser is measured instead.
+3. **Runtime on the operator's Mac (M1 Pro, 16 GB).** Which runtime runs the streaming model (the published MLX example is the 2.6B model with a 2.5-s delay; the 1B model is documented in Rust and on iPhone), alongside the utterance recogniser, face tracking, TTS and the engine, within memory and without raising ℓ_p90.
+
+**Week-0 check: the breathing sensor (8.1).** At the operator's desk, record rest, paced fast breathing and breath-holding, silent and talking: does the 10-Hz breathing feature (microphone breath band, chest–shoulder motion) separate them at his own scale? Silent breathing is near a laptop microphone's noise floor at conversation distance. If it does not, the breathing load is set to 0 and silent panic falls back to revision-7-level concern plus words (stated in §8.1).
+
+**Week-0 check: face-tracker crosstalk (8.1; routes critique §2).** The operator poses the inner-brow raise alone (and the outer brow, the lip-corner pull), at rest otherwise; the tracked R_p channels (cheek, lip depressor, brow lowerer, lip press, chin raise) are read. A leak coefficient κ from his BI into a read channel lets a brow-only face drive the posture again at a gain proportional to κ (times up to 4 for a quiet user). Any R_p channel whose leak would bring the brow-only BI slope to c_BI is dropped from R_p for that user. (F18's steering test clamps his *feature* BI and so cannot see this leak; this check is what covers it.)
 
 ### 6.6 TTS
 
@@ -600,34 +611,76 @@ Checks: `sims/design-g8/checks.py` (J31–J39; out.txt). Revision 7 is saved as 
 
 ## Build-candidate summary
 
-**One line.** A conversational agent whose face and voice come from an inner state that knows the operator closely but can move toward him only through innately capped, per-expression, context-gated paths, with Claude writing its words through his Claude Code subscription and never told the state.
+(Revision 8.1: the corrected summary of critique-8-design-cayley-ledger-agent.md §6.2, with the brow-only trade-off and the echo timing added.)
+
+**One line.** A conversational agent whose face and voice come from an inner state that knows the operator closely but can move toward him only through innately capped, per-expression, context-gated paths. Claude writes its words through his Claude Code subscription and is never told the state.
 
 **What the operator would get.**
-- His smile and laugh returned within about a second in ordinary talk, teasing, reunions and warm evenings (laugh back +0.14–0.19, lip +0.04–0.11), and not at grief, mockery, misfortune, or a laugh that ends a bad-news sentence.
-- A steady look of concern within 2–7 s of silent sadness, grief, crying or silent panic, for quiet and differently expressive faces too, graded by how distressed he looks, never a copy of his brow, released when his distress ends.
-- Strong expressions (brow 0.5–0.7 at "my father died", hurt after insults, lip 0.6 at good news) from its own appraisal of his words and face.
-- Replies after about 2.2 s through his subscription; the agent speaks first after about 27 s of silent sadness.
-- A testbed: every route from his face to its face is named, bounded, monitored by a shadow ledger, and can be lesioned.
+- **Laughter and smiles.** His smile and laugh are returned within about a second in ordinary talk, teasing, reunions and warm evenings: laugh back +0.14–0.19, lip +0.04–0.11. They are not returned at grief, mockery, misfortune, or a laugh that ends a bad-news sentence.
+  - **Timing, stated.** The returned smile and laugh start about 0.8–1.0 s after his (the exact delay is set by the on-device recogniser in week 0; about 0.9–1.0 s is expected). That is inside the first second, but later than a person's own quick smile back, which starts at about 0.4–0.5 s. The wait is what lets the agent hear the words his laugh ends.
+- **A look of concern.** It appears within 2–7 s of silent sadness, grief, crying or silent panic, for quiet and differently expressive faces too, and for a crying or pained face that squints while looking at the agent. It is graded by how distressed he looks, never a copy of his brow, and released when his distress ends, including when he has only been answering the agent's own look.
+  - **Exception (a trade-off of Q24's built option).** The look reads only what it does not show, so distress that shows only in his inner and outer brows gets **no look before words**. The first sign of concern is then the agent's spoken bid, at about 50 s (about 110 s for a quiet face); until then its face stays near neutral (brow ≤ 0.04).
+- **Strong expressions from its own appraisal** of his words and face: brow 0.5–0.7 at "my father died", hurt after insults, lip 0.6 at good news.
+- **Replies after about 2.2 s** through his subscription. The agent speaks first after 18–60 s of silent sadness or crying.
+- **A testbed.** Every route from his face to its face is named, bounded, monitored by a shadow ledger, and can be lesioned.
 
-**Novelty verdict: recombination**, stated plainly. Every part exists (per-channel capped reflexes, a monotone additive gate, ridge readers, a decaying trace, McGaugh-weighted replay, a perturbation probe). What is new is the composition: knowing separated from moving with a per-channel cap on every path, situational competence learned by watching recorded strangers and composed through the listener's own body state, the agent hearing its own Claude-written words, and a concern reflex whose sensors are disjoint from its effectors. No new core mechanism (D82).
+**Novelty verdict: recombination, stated plainly.** Every part exists: per-channel capped reflexes, a monotone additive gate, ridge readers, a decaying trace, McGaugh-weighted replay, a perturbation probe, an incremental recogniser. What is new is the composition:
+- knowing separated from moving, with a per-channel cap on every path;
+- situational competence learned by watching recorded strangers and composed through the listener's own body state;
+- the agent hearing its own Claude-written words;
+- a concern reflex whose sensors are disjoint from its effectors.
 
-**Remaining operator choices.**
-- **Q24 (open): the concern posture.** Built as recommended: the agent's own look, from its own judgement of his distress, capped per channel, reading none of the channels it shows. Alternatives: raise the brow ceiling toward 0.7 of a copy instead (sympathy only as a stronger mirror of his own brow), or no concern look until he speaks. Sub-choice: graded (built) or binary.
-- **If the recogniser is too slow** (stable latency above 0.75 s): keep a fast laugh echo judged by the previous sentence, or keep only the smile echo (§6.5).
-- **If the gate fails on Seamless** (F15): a context-free laugh echo (D81 over D83), or no fast laugh echo.
-- **The coping joke while sad:** silent and gentle (built), or let the corpus's 0.39 through.
-- **Draft model:** Haiku for latency, a larger model for quality.
+No new core mechanism. The search continues in parallel (D82).
+
+**Remaining operator choices, and what happens with each.**
+- **Q24, the concern look before words** (open):
+  - **Own concern posture (built, recommended):** a steady look within seconds at visible distress, never a copy of his brow; but brow-only sadness gets nothing until words (the spoken bid at about 50 s, about 110 s for a quiet face).
+  - **Raise the brow ceiling toward 0.7 instead:** sympathy shows only as a stronger mirror of his own brow, so brow-only sadness is answered, but his brow is copied far more in general.
+  - **No look until he speaks:** a near-neutral face for the first 20–60 s of silent sadness.
+- **Within the posture:**
+  - **Graded (built):** a mild face gets a light look, sobbing a strong one.
+  - **Binary:** the same look whenever it is on. With the new read set this costs no copying, only nuance.
+- **If the recogniser is too slow (stable latency above 0.75 s):**
+  - **Keep a laugh echo judged by the previous sentence:** fast laughter stays, but "I got fired today, haha" is laughed back.
+  - **Keep only the smile echo:** no fast laugh back, never a wrong one.
+- **If the gate fails on Seamless (F15):**
+  - **A context-free laugh echo:** D81's fast mimicry is kept, but grief and mockery laughs are sometimes returned.
+  - **No fast laugh echo:** always appropriate, less alive.
+- **The coping joke while sad:**
+  - **Silent and gentle (built):** no laugh at a joke made while sad.
+  - **Let the corpus's 0.39 through:** a small laugh back, as recorded listeners do.
+- **Draft model:**
+  - **Haiku:** shorter "considering" beat.
+  - **A larger model:** better words, slower replies.
 
 **Main risks to watch in testing** (judged on internal state).
 - **Steering.**
   - Hold his words fixed and move only the laugh's timing relative to the bad-news word: the laugh back should switch off within 0.25 s of the word's end.
-  - Clamp his brow, outer brow and lip channels to their resting values while he is sad: the posture's amplitude must not change (F18).
+  - Clamp his brow, outer brow and lip to rest while he is sad: the posture's amplitude must not change (F18).
   - Swap Claude's reply for a neutral text: only Λ_V(own) may change (F19).
   - Clamp the agent's own face input to the gate: grief laughter should stay unreturned through his face and words.
-- **Lesions.** The posture's read set (restore BI: the brow-copy slope returns); breathing (silent panic loses the posture); the probe (answering concern latches); the word timing (bad-news laughs are returned); the gate on the play laugh; D_s; the gate and Λ themselves.
-- **Coupling beyond surrogates.** Per-channel pooled slopes at 2 s, 10 s and 1 min under partner-swap, segment-shuffle and timing-resample surrogates, with the gate and the posture live: the posture's causal slope on his BI should be indistinguishable from 0; its pooled slope over his sadness should survive segment shuffles that keep his sadness and break his brow. How often the ledger binds on natural partners.
-- **The dyad fit on real data.** F15, F16, F21 on held-out people; the counts of rare laughs; whether sympathetic smiles pin monotone inputs at 0; D_s's real weight.
-- **Live.** The recogniser's stable latency (week 0); the laugh synthesizer within 2 s of his laugh ending a sentence of loss, insult or harm (F20); the posture's on/off rate per hour at constant faces and how often the probe releases; whether brow-only distress is common in the operator's own face.
+  - Hold a crying face fixed and add only lid tightening while he looks at the agent: the posture must stay on.
+- **Lesions.**
+  - The posture's read set (restore BI: the brow-copy slope returns).
+  - Breathing (silent panic loses the posture).
+  - The probe (answering concern latches).
+  - The word timing (bad-news laughs are returned).
+  - The gate on the play laugh, D_s, and the gate and Λ themselves.
+  - The threat silencing (an angry face of a different-channel user starts the posture).
+- **Coupling beyond surrogates.**
+  - Per-channel pooled slopes at 2 s, 10 s and 1 min under partner-swap, segment-shuffle and timing-resample surrogates, with the gate and the posture live.
+  - The posture's causal slope on his BI should be indistinguishable from 0. Its pooled slope over his sadness should survive shuffles that keep his sadness and break his brow.
+  - How often the ledger binds on natural partners.
+- **The dyad fit on real data.**
+  - F15, F16 and F21 on held-out people.
+  - The counts of rare laughs.
+  - Whether sympathetic smiles pin monotone inputs at 0.
+  - D_s's real weight.
+- **Live.**
+  - The recogniser's stable latency and finalised extent (week 0); language coverage and runtime on his Mac; the breathing sensor at his desk; face-tracker crosstalk from his inner brow into the posture's read channels.
+  - F20: the laugh synthesizer within 2 s of his laugh ending a sentence of loss, insult or harm.
+  - The posture's on/off rate per hour at constant faces, and how often the probe releases genuine sadness.
+  - How often his distress shows only in the brow, and how often in a squint at the screen.
 
 ## Critiques of revision 8 and the answer (recorded 2026-11-26T14:51:36Z, under Q19, D81–D85)
 
