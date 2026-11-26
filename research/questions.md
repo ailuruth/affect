@@ -2,6 +2,24 @@
 
 Decisions that are yours (visual identity, data leaving this Mac, new paid services, changes to existing Ailurini behavior). Work that these block is not built; work they do not block continues.
 
+## Report 11: the engine is being built; what you run next on your Mac (no answer needed beyond the open questions; 2026-11-26T23:58:22Z)
+
+**Built and tested here** (200 automatic checks pass; one expected failure is the safety-net gap in Q35):
+- the skeleton of the engine, every built-in setting in one locked table, and a check that refuses any emotion label in the code;
+- the safety net that stops copying, matching the design's simulations exactly;
+- the agent's inner state, every route from it to its own face and voice (the quick smile and laugh back at 0.45 s, the slow held route, its own appraisal, its own words-driven display), the second "what if your face had stayed neutral" run, and the checks that run while it is live;
+- the review's fixes: one built-in reflex was over its budget and was shrunk to fit; the agent's reading of your words can now fall back after low-information remarks.
+
+**Not built yet:** anything needing your Mac, its camera and microphone, the downloaded models, recorded conversations or Claude.
+
+**What you run next:** research/build/handoff.md gives numbered steps for your Mac: install the tools, run the same checks there (`make ci`), then the first-week measurements (`make week0`), which time the face tracker, the speech recogniser, the agent's update loop, memory use, the network sandbox and the Claude calls. Each check writes its result to research/build/week0.md for you to send back. Some scripts were written from documentation and need a first run on your Mac to confirm them.
+
+**What blocks what:**
+- before the first-week measurements: Q34 items 4 (model downloads), 5 (your language) and 10 (offline after download), and your OK for a few test calls to Claude through your login;
+- before speech: Q1 (the voice);
+- before learning from recorded conversations: Q34 item 4 (the Seamless transfer), and Q30 if you want head, gaze or voice learned;
+- before day 1: Q35 (the safety net's gap), Q31–Q33, and the rest of Q34.
+
 ## Report 10: the build core, and three questions it raises (Q30–Q32 below; 2026-11-26T21:23:14Z)
 
 **What happened.** Following your answers, the main design was stripped of every rule written for a particular situation. The audit found 50 such rules, counting those carried over from earlier versions: 32 removed, 18 kept as allowed innate parts (body, reflexes, newborn expressions, the per-expression copy ceilings, general learning biases) or as learned parts (the laugh gate, now learned from recorded conversations, and Claude's word path). The built-in concern look is gone, as you asked.

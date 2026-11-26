@@ -108,6 +108,8 @@ python -m pytest -q  # tests only
 
 ## What comes at M1, on the Mac
 
-`uv lock` and the pinned environment; `tools/week0/` and research/build/week0.md; the deny-network sandbox and A16;
-`models.lock`; the Plan A `fast` process timed under full load. The M4 done-checks that need recorded partners
+`uv lock` and the pinned environment; research/build/week0.md, written by `tools/week0/` (`make week0`; one script
+per check of the spec §6 M1 table, thresholds applied by `tools/week0/thresholds.py` from INNATE `m1_thresholds`,
+each refusing until its operator answer in `config/operator.py`; research/build/handoff.md step 7); the
+deny-network profile `config/sandbox.sb` and A16; `models.lock`; the Plan A `fast` process timed under full load. The M4 done-checks that need recorded partners
 (F1, F2, F5, F9, F10, F18, F22 on Seamless and his M2 recordings; A1-A9 silent on 20 h) run on the Mac.
