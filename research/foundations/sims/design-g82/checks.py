@@ -192,7 +192,8 @@ for lab, pp in CODES:
     for nm, fn, evs in cases:
         ag = Agent82(person=pp); rec = run6(ag, 1800, fn, evs); seg = [r for r in rec if r["t"] >= 30]
         tw = next((r["t"] for r in rec if r["t"] >= 70 and r["N"] < N_MIN), None)     # his non-face evidence first absent
-        ok = len(ag.onsets) == 1 and all(o[0] >= tw + T_MAX - 1.0 for o in ag.offs) if tw is not None else (len(ag.onsets) == 1 and not ag.offs); L2.append(ok)
+        t_end = tw + T_MAX - 1.0 if tw is not None else 1e9   # after his evidence lapses, the face-only limit applies as in L3
+        ok = len([o for o in ag.onsets if o < t_end]) == 1 and not [o for o in ag.offs if o[0] < t_end]; L2.append(ok)
         print(f"   {lab:18s} {nm:62s}: on at {ag.onsets[:1]} s, ends {ag.offs[:2]}, posture on {100 * duty(rec, 30, 1800):.0f}% of 0.5-30 min, "
               f"agent BI mean {np.mean([r['BI'] for r in seg]):.3f} (min {min(r['BI'] for r in seg):.3f}), N min {min(r['N'] for r in rec if r['t'] >= 70):.3f}" + (f"; non-face evidence (one reply's words) current until {tw:.0f} s" if tw else ""), flush=True)
 OK["L2"] = all(L2)
