@@ -47,3 +47,24 @@ This is Principle 3 (read others through one's own body; infer by inverting one'
   - An untrained, random decoder still raised survival in the grid (1628 steps). The authors leave this unexplained, so the decoder ablation can be confounded by the continuous state.
   - The coupled drive rewards reducing the user's inferred need, not the user's smiles. Keep it that way to avoid training flattery (Principle 6).
 - S1 ablation hook: with `w = 0`, the Bot's response to a returning user should depend only on its own contact deficit. With `w > 0`, it should also track the user's inferred state at return, for example a slow, terse reply pattern.
+
+## Re-read for helping without placation (2026-11-26)
+Both arXiv papers were re-read in full: 2412.12103v1 (main text and discussion) and 2506.12894v1 (main text, Table 1 and appendices A–B). The question was whether "care blind to its effect will not learn to help".
+
+**What the papers show on that question.**
+- **The coupling *is* a path from act to the partner's state to one's own reward.** D = D_self + w·D_partner, with r = β(D_t − D_{t+1}). PASS lowers D_partner, so PASS is rewarded. That is precisely the path the ledger design's action-blind partner head cuts.
+- **Observing without that path does not help.** The "cognitive" condition observes the partner's state but has no coupling. It learns no sharing in any environment: grid survival 356 ± 29 (trained decoder, type A) against 2147–2812 for coupled conditions.
+  - The ledger design is not the cognitive condition, because its drive does contain 𝒟(b̂_p).
+  - But with the partner head action-blind, the planner predicts that no act changes b̂_p. Within rollouts, care therefore behaves as uncoupled. Only R (self-simulated relief) can make an act look good.
+  - So the critic is right: Yoshida & Man's result says that, without a modelled act → partner → own-drive path, helping is not learned from the partner's outcomes.
+- **Coupling without observation over-helps.** "Supplying an excess of food to the Partner"; the partner is "fed indiscriminately ... at various energy values". Selectivity needs both the path and the observation (full condition: more PASS when the partner is Low).
+- **In the decoder experiment the coupled term reads the partner's *expression*.** D̃_partner = ||dec_θ(v_partner)||², with v from a fixed, shared, honest generator. So the act → partner state → **partner face** → decoder → reward path is the learning signal.
+  - This is safe in their world only because the agent cannot change v except by changing s (no contagion, no politeness, no masking).
+  - In a human dyad that assumption fails. Their mechanism transplanted as written is a reward on the partner's display, which Principle 6 forbids.
+- **Unexplained:** an untrained, random decoder still gave 1628 ± 795 steps (affective) in the grid. The authors put this down to the continuous state. It means the "learned reading" credit is partly confounded.
+
+## What it means for the designs (helping without placation)
+1. **Keep a path, but not through the face.** The fix is not to drop the coupling, which kills helping, or to keep it on the decoded face, which brings back placation. Restore the act → need → own-drive path and cut only the act → display edge, per Farquhar et al. 2022's path-specific objective. In rollouts, the partner's *display* is imputed from the action-blind baseline. The partner's *need* is updated by the act and read from channels other than the face: the content of their words about their situation, and the moves they make next.
+2. **The self-decoder idea carries over to those channels.** The agent can learn need-from-words the same way Yoshida & Man learn state-from-face: train on its own (own words, own body) pairs and apply the result to the partner (P3). That is the lexical-body head the design already has. It must then be *frozen and private* in rollouts (Everitt et al. 2021 Claim 9) so the planner cannot gain by eliciting misleading words.
+3. **Keep the full-condition lesson: path plus observation.** A path without observation gives indiscriminate comfort, the conversational form of over-feeding. The observation half is the face as *response* evidence (when to care), which Principle 6 allows.
+4. Verdict unchanged (adopt), with the amendment: the coupled drive's partner term must be computed from a need estimate that has no edge from the partner's post-act display.
