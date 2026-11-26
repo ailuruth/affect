@@ -445,6 +445,7 @@ To change: the operator reopens Q26.
 - **Co-author:** each commit carries exactly one trailer, `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>`.
 - **Nothing else:** no Claude-Session line and no "Generated with Claude Code" line, in commit messages or PR descriptions.
 - **History:** on the operator's instruction (2026-11-26T16:18:05Z), all 114 earlier commits on main were rewritten to this rule (author and committer ailuruth; one Claude co-author trailer; Claude-Session and other trailers removed); file contents unchanged. Commit hashes cited in older notes no longer resolve.
+- **Privacy rewrite (2026-11-26T16:24:31Z, operator instruction):** history rewritten again. Author, committer and all recorded addresses use the GitHub no-reply address 65430552+ailuruth@users.noreply.github.com. The macOS username was removed from every commit's files and messages. The two saved error logs were removed from all history. machine.md was made generic. Each commit keeps one trailer, Claude as co-author.
 - **Numbering:** the Cayley-ledger build-candidate decision will be recorded as D87.
 
 To change: the operator asks for a different attribution.
