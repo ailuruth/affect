@@ -36,6 +36,8 @@ Decisions that are yours (visual identity, data leaving this Mac, new paid servi
 
 **What it blocks:** nothing now. It matters only once a design clears the concrete-failure check.
 
+**Answer (operator), 2026-11-26T08:41:00Z: yes.** A design with no known concrete failure is put to the operator, with its novelty verdict stated plainly.
+
 ## Report 4: two more reading rounds and a sixth design (no answer needed, 2026-11-26T04:48:22Z)
 
 **What was read.** Seven readers, about 45 sources. This session's network first allowed no paper sites. A personal environment for this project now allows the main open-access ones. Some sources were still unreachable: where a reader used a later paper that restates the results, its note says so, and nothing unread is cited.
@@ -416,6 +418,8 @@ What designs can reach is to make the setting learned, per expression, bounded a
 
 **What it blocks:** nothing is blocked. The next revision is written on the recommended reading and will be changed if you choose otherwise.
 
+**Answer (operator), 2026-11-26T08:41:00Z: allow knowing, limit only the expression (as recommended).** Humans do mimic unconsciously, so partial, fast, per-expression matching within the Q22 ceilings must stay. Only whole-face copying and getting stuck in copying are ruled out.
+
 ## Q22. Two choices about how the agent's face responds to yours (asked 2026-11-26T07:36:40Z; work continues on the recommendations)
 
 The latest design passes the strongest checks so far. Its critics raised two things that are your call rather than defects:
@@ -430,6 +434,8 @@ The latest design passes the strongest checks so far. Its critics raised two thi
 
 **What it blocks:** nothing. Revision 4 is written on the recommendations and will change if you choose otherwise.
 
+**Answer (operator), 2026-11-26T08:41:00Z: both recommendations.** Each expression gets its own built-in ceiling. Strong expressions come from both words and face, through the agent's own appraisal.
+
 ## Q23. How the agent reaches Claude: your subscription or a paid API key? (asked 2026-11-26T08:24:59Z; work continues on the recommendation)
 
 **Why this comes up.** The current design has the agent's state choose among several of Claude's drafts per turn. As written, it asks for six drafts in parallel with a set randomness, and that assumes features of Anthropic's paid programming access (an API key) that your subscription does not offer. A paid API key would be a new paid service, so the choice is yours.
@@ -440,3 +446,5 @@ The latest design passes the strongest checks so far. Its critics raised two thi
 - **Something else:** tell me.
 
 **What it blocks:** nothing now. It only matters at build time.
+
+**Answer (operator), 2026-11-26T08:41:00Z: stay on the subscription.** Ailurini is built on Claude Code, so the engine must work through the subscription.

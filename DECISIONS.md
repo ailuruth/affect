@@ -405,3 +405,28 @@ To change: the operator asks for a different name or address, or for the trailer
 - **Candidates:** a design with no known concrete failure is put to the operator as a candidate to build, in research/questions.md.
 
 To change: the operator reopens Q17 or Q19.
+
+## D81. The inner state may know the partner closely; only expression is bounded (operator answer to Q20; recorded 2026-11-26T08:41:00Z)
+- The agent's inner state may model the partner's face and voice as closely as perception allows.
+- The flat-to-copy rule (D78) applies to every path from that state to the agent's own expression.
+- Humans mimic unconsciously, so partial, fast, per-expression matching within the Q22 ceilings must stay.
+- Ruled out: whole-face copying, and getting stuck in copying.
+
+To change: the operator reopens Q20.
+
+## D82. A recombination with no known concrete failure goes to the operator (operator answer to Q21; recorded 2026-11-26T08:41:00Z)
+A design with no known concrete failure is put to the operator as a build candidate, with its novelty verdict stated plainly. The search for a new mechanism continues in parallel.
+
+To change: the operator reopens Q21.
+
+## D83. Per-expression built-in ceilings; strong expressions from words and face through own appraisal (operator answer to Q22; recorded 2026-11-26T08:41:00Z)
+- Each expression channel has its own innate ceiling toward the partner (for example, smile and laughter higher; disgust, contempt and anger 0). Within each ceiling, the strength is learned per relationship and context and can flip sign.
+- The partner's words, face and voice feed the agent's own appraisal of the situation. That appraisal, not a copy, drives its strong expressions.
+
+To change: the operator reopens Q22.
+
+## D84. The engine works through the operator's Claude subscription (operator answer to Q23; recorded 2026-11-26T08:41:00Z)
+- Ailurini is built on Claude Code, so the engine's coupling to Claude must work through the subscription.
+- No paid API key, no temperature parameter, and no API-only features.
+
+To change: the operator reopens Q23.
