@@ -2,6 +2,29 @@
 
 Decisions that are yours (visual identity, data leaving this Mac, new paid services, changes to existing Ailurini behavior). Work that these block is not built; work they do not block continues.
 
+## Report 4: two more reading rounds and a sixth design (no answer needed, 2026-11-26T04:48:22Z)
+
+**What was read.** Seven readers, about 45 sources. This session's network first allowed no paper sites. A personal environment for this project now allows the main open-access ones. Some sources were still unreachable: where a reader used a later paper that restates the results, its note says so, and nothing unread is cited.
+- **How people avoid copying over long conversations.** They don't couple less: on the same channel they are less alike than chance at some timings and more alike at others. Disagreement flips the direction. Pairs actively avoid repeating the pattern they just made together. Shared smiling comes mostly from reacting to the same thing.
+- **How the brain keeps imitation from turning into copying.** It reads the other's face in its own muscle coordinates but keeps it in a separate "theirs" slot. It tags each movement as "mine" or "theirs", and the situation decides how much "theirs" may reach its own face.
+- **Mathematics for limits that hold over all routes at once.** Networks whose stability and per-channel limits are built in, so learning can't break them. Privacy-style budgets that every output draws on together. Limits on how many bits per second the partner can pass to the agent.
+- **What tells copying from its opposite.** No information measure can: copying and doing the opposite carry exactly the same information. Copying is one extreme corner of all the ways two faces can be related, and doing the opposite is the other.
+
+**A sixth design: a fast part you reach and a slow part you can't drive.** Your face reaches only a fast, always-settling part with built-in limits. Moods sit in a slow part that you can change only through a small budget of events.
+- **The critics found:**
+  - its moods last about half a minute under its own noise, not hours;
+  - the slow part can still track your held face, matching it at about 0.9 on one-minute averages;
+  - Claude's draft choice and the voice had no limit;
+  - it is a combination of known parts.
+
+**The pattern, now seen six times.** Every design limits routes one at a time, and copying comes back through a route it didn't count. This round points to a two-part answer that no design has tried yet:
+- **one budget over everything your face can influence**, which closes the counting problem;
+- **a separate one-sided limit against moving in step with you** on each channel, measured over the whole path from your face to the agent's, which closes the direction problem. Responding in the opposite direction stays free.
+
+The open problem is building a network that satisfies the second limit by construction. That is the next design.
+
+**Still no design is ready for you to choose from.**
+
 ## Report 3: the third round of critiques (no answer needed, 2026-11-26T02:08:03Z)
 
 **What was done.** Independent reviewers, none of whom wrote the designs, checked the three newest designs step by step. They checked 144 proof steps in all: 81 hold, 40 have gaps and 23 are wrong. The work moved to a cloud session; a usage limit paused it for about nine hours, and it resumed on its own.
