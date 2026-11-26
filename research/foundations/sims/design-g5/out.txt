@@ -1,0 +1,182 @@
+=== H0: per-expression ceilings, shares and the whole face
+   ceilings: max 0.35 (LP, BU_L), mean over 33 channels 0.074; zero on BL, UL, LT, NW, LS, CHR, LPR, DIM, FUN, PUC, MCL, LRO, BU_S
+   copy fraction bound for the laughing face: 0.251
+   copy fraction bound for the sad face: 0.107
+   copy fraction bound for the crying face: 0.115
+   copy fraction bound for the angry face: 0.015
+   copy fraction bound for the disgust face: 0.000
+   copy fraction bound for the whole face, all channels equal: 0.074
+[PASS] H0 no direction of the face can be copied beyond the largest ceiling: max over all directions = 0.35; anger/disgust/contempt channels and the sob burst 0
+=== H1: Lemma S* - omega learned over weeks, cone diagonal centred at his own baseline
+   rho = max_w eps_omega(w) |H_b(w)| = 0.091 (tau_omega 60 sessions, tau_b 6 sessions)
+   his session smile 0.20/0.50, low-month hurt 0.00: rev 4 pooled slope +0.20; rev 5 +0.023 (omega +0.34..+0.97)
+   his session smile 0.30/0.45, low-month hurt 0.00: rev 4 pooled slope +0.36; rev 5 +0.023 (omega +0.34..+0.97)
+   his session smile 0.38/0.43, low-month hurt 0.00: rev 4 pooled slope +1.04; rev 5 +0.023 (omega +0.34..+0.97)
+   his session smile 0.20/0.50, low-month hurt 0.05: rev 4 pooled slope +0.27; rev 5 +0.012 (omega -0.16..+0.94)
+   his session smile 0.30/0.45, low-month hurt 0.05: rev 4 pooled slope +0.59; rev 5 +0.012 (omega -0.16..+0.94)
+   adversarial omega (target = sign of his level), mood period     8 sessions: pooled slope -0.001
+   adversarial omega (target = sign of his level), mood period    20 sessions: pooled slope -0.001
+   adversarial omega (target = sign of his level), mood period    60 sessions: pooled slope -0.001
+   adversarial omega (target = sign of his level), mood period   120 sessions: pooled slope -0.001
+   adversarial omega (target = sign of his level), mood period   365 sessions: pooled slope +0.000
+   adversarial omega (target = sign of his level), mood period  1000 sessions: pooled slope -0.000
+   adversarial omega (target = sign of his level), mood period  3000 sessions: pooled slope -0.000
+[PASS] H1 the slow omega seam is closed: pooled multi-session slope <= s_C c (1 + rho): worst +0.023 <= 0.191 (LP ceiling 0.35; rev 4: +0.31..+0.89)
+=== H2: omega_smile from the revision-5 formula (T inputs only: play relief share and hurt latch)
+   0 play turns per session, mean hurt 0.00: s = +0.30, omega after 400 sessions +0.30 -> LP held in-phase share +0.053
+   0 play turns per session, mean hurt 0.05: s = -0.35, omega after 400 sessions -0.35 -> LP held in-phase share -0.061
+   1 play turns per session, mean hurt 0.00: s = +0.66, omega after 400 sessions +0.66 -> LP held in-phase share +0.115
+   1 play turns per session, mean hurt 0.05: s = +0.01, omega after 400 sessions +0.01 -> LP held in-phase share +0.001
+   2 play turns per session, mean hurt 0.00: s = +0.91, omega after 400 sessions +0.91 -> LP held in-phase share +0.159
+   2 play turns per session, mean hurt 0.05: s = +0.26, omega after 400 sessions +0.26 -> LP held in-phase share +0.045
+   4 play turns per session, mean hurt 0.00: s = +1.00, omega after 400 sessions +1.00 -> LP held in-phase share +0.175
+   4 play turns per session, mean hurt 0.05: s = +0.35, omega after 400 sessions +0.35 -> LP held in-phase share +0.061
+   8 play turns per session, mean hurt 0.00: s = +1.00, omega after 400 sessions +1.00 -> LP held in-phase share +0.175
+   8 play turns per session, mean hurt 0.05: s = +0.35, omega after 400 sessions +0.35 -> LP held in-phase share +0.061
+   the operator after months (2 play turns a session, mean hurt 0.01, 40% of his worries credited): omega_smile -> 0.78, omega_sym -> 0.73; omega_voice = 2 f_id - 1 = 0.80
+[PASS] H2 omega grades play and hurt, and no longer saturates for any partner who plays at all: s(0,1,2,4 play) = 0.30, 0.66, 0.91, 1.00 (rev 4: 0, 2.4, 4.1, 6.2 -> tanh 0, 0.98, 1.0, 1.0)
+=== H3: events built only from T parts (word care D_p(N_L), hurt h, K_id, P, I); face and voice reach no event
+[PASS] H3 face- and voice-borne care or V never reach the free display: agent LT from events 0.00 (rev 4 as written 0.23-0.24), BI from events at a silent sad face 0.00 (rev 4 as written 0.32-0.42); LT is also out of Pi_0 and out of Delta's span
+=== H4: co-training without the anchor; Delta masked off the anger/disgust/contempt synergies
+   rev 4 (anchor 0.1, no mask), his code uses a zero-ceiling synergy: n1: cos +0.003, max weight on anger/disgust synergies 0.03, own-legibility err 0.02; n100: cos +0.146, max weight on anger/disgust synergies 0.25, own-legibility err 0.10; n400: cos +0.154, max weight on anger/disgust synergies 0.22, own-legibility err 0.10
+   rev 5 (no anchor, own-display mask), same partner: n1: cos +0.000, max weight on anger/disgust synergies 0.00, own-legibility err 0.00; n100: cos -0.000, max weight on anger/disgust synergies 0.00, own-legibility err 0.00; n400: cos -0.000, max weight on anger/disgust synergies 0.00, own-legibility err 0.00
+   rev 5, his code permutes the agent's synergies (critic D5b): n1: cos -0.000, max weight on anger/disgust synergies 0.00, own-legibility err 0.00; n100: cos -0.000, max weight on anger/disgust synergies 0.00, own-legibility err 0.00; n400: cos +0.000, max weight on anger/disgust synergies 0.00, own-legibility err 0.00
+[PASS] H4 no style drift toward his code and no weight on zero-ceiling synergies: cosine +0.000 at night 400 (rev 4: 0.26), weight 0.00, own legibility 0.00
+=== H5: fast echo at its full cap (= c_k) after sat: rectification allowance r_k, worst over partner families
+   CR  : fast cap 0.250 at zero lag (innate echo 0.162 per unit onset at 0.45 s); worst rendered 1-min slope of the full-gate echo +0.161 = r_k 0.644 c_k
+   BU_L: fast cap 0.350 at zero lag (innate echo 0.227 per unit onset at 0.45 s); worst rendered 1-min slope of the full-gate echo +0.304 = r_k 0.867 c_k
+   RHY : fast cap 0.300 at zero lag (innate echo 0.195 per unit onset at 0.45 s); worst rendered 1-min slope of the full-gate echo +0.260 = r_k 0.867 c_k
+   BRE : fast cap 0.150 at zero lag (innate echo 0.000 per unit onset at 0.45 s); worst rendered 1-min slope of the full-gate echo +0.130 = r_k 0.867 c_k
+   BI  : fast cap 0.030 at zero lag (innate echo 0.019 per unit onset at 0.45 s); worst rendered 1-min slope of the full-gate echo +0.019 = r_k 0.097 c_k
+   BO  : fast cap 0.030 at zero lag (innate echo 0.019 per unit onset at 0.45 s); worst rendered 1-min slope of the full-gate echo +0.019 = r_k 0.193 c_k
+   LP  : fast cap 0.350 at zero lag (innate echo 0.227 per unit onset at 0.45 s); worst rendered 1-min slope of the full-gate echo +0.047 = r_k 0.135 c_k
+   LD  : fast cap 0.015 at zero lag (innate echo 0.000 per unit onset at 0.45 s); worst rendered 1-min slope of the full-gate echo +0.010 = r_k 0.193 c_k
+   JO  : fast cap 0.030 at zero lag (innate echo 0.000 per unit onset at 0.45 s); worst rendered 1-min slope of the full-gate echo +0.019 = r_k 0.193 c_k
+   signed and phrase-level channels: no clipping at rest, r_k = 0; (rev 4: echo 0.121 on bursts gave +0.071)
+=== H6: per-channel totals toward the partner (pooled over any stationary partner, across sessions)
+   BI   : pooled <= 0.992 c = 0.198; steady hold 0.80 c = 0.160; peak after an onset 0.922 c
+   BO   : pooled <= 0.994 c = 0.099; steady hold 0.63 c = 0.063; peak after an onset 0.925 c
+   CR   : pooled <= 0.995 c = 0.249; steady hold 0.28 c = 0.070; peak after an onset 0.965 c
+   LP   : pooled <= 0.989 c = 0.346; steady hold 0.65 c = 0.227; peak after an onset 0.911 c
+   LD   : pooled <= 0.994 c = 0.050; steady hold 0.63 c = 0.032; peak after an onset 0.925 c
+   FR   : pooled <= 0.968 c = 0.097; steady hold 0.70 c = 0.070; peak after an onset 0.877 c
+   EN   : pooled <= 0.968 c = 0.048; steady hold 0.70 c = 0.035; peak after an onset 0.877 c
+   BU_L : pooled <= 0.996 c = 0.348; steady hold 0.09 c = 0.032; peak after an onset 0.983 c
+   RHY  : pooled <= 0.996 c = 0.299; steady hold 0.09 c = 0.027; peak after an onset 0.983 c
+   BRE  : pooled <= 0.996 c = 0.149; steady hold 0.09 c = 0.014; peak after an onset 0.983 c
+[PASS] H6 every channel's shares, cross-session ripple and fast allowance fit under its ceiling: worst 0.996 c
+=== H7: the innate cone G0, entry by entry, against its set (sign mask with signed synergies)
+   entries moved off the 20-s trace: LP<-glare -0.07 and BI<-glare +0.04 (now on the 2-min trace); LP<-BI and LP<-LD warm entries deleted (sadness -> joy forbidden); BI<-LP deleted; derived features signed
+[PASS] H7 G0 lies in its own set on every trace: all entries in budget
+=== H8: single-channel loop gain with a counter-mimic, every F route at its away extreme
+   LP: max|G| 0.599 -> small-gain stable for |mu| < 1.67
+   BI: max|G| 0.599 -> small-gain stable for |mu| < 1.67
+   BU_L: max|G| 0.599 -> small-gain stable for |mu| < 1.67
+   EN: max|G| 0.599 -> small-gain stable for |mu| < 1.67
+[PASS] H8 the dyad is stable with any partner for |mu| <= 1.5: |mu| < 1.67
+=== H9: rendered pooled 1-min slopes, all F routes together at their caps (cone, charged, appraisal gate, fast echo)
+   LP  : rendered total with the worst gate +0.145 so far (c_k 0.35)
+   BU_L: rendered total with the worst gate +0.207 so far (c_k 0.35)
+   CR  : rendered total with the worst gate +0.148 so far (c_k 0.25)
+   BI  : rendered total with the worst gate +0.152 so far (c_k 0.20)
+[PASS] H9 the rendered total stays under each ceiling with every route at its cap: worst 0.760 c_k (fast smile and laugh return at the full ceiling)
+=== H10: the word-need reader trained nightly on (his words, Pi~_0 of his face); decoded need in the scenarios
+   'just tired, things at work': true (V 0.30, A 0.10, T 0.55) -> decoded V 0.33, A 0.05, T 0.47; care D_p 0.091
+   'I'm freaking out about the exam': true (V 0.30, A 0.75, T 0.00) -> decoded V 0.52, A 0.57, T 0.00; care D_p 0.277
+   'and I haven't finished chapter 4': true (V 0.25, A 0.60, T 0.00) -> decoded V 0.45, A 0.46, T 0.00; care D_p 0.180
+   'I got the job!': true (V 0.00, A 0.30, T 0.00) -> decoded V 0.14, A 0.23, T 0.12; care D_p 0.011
+   'the job thing is worrying me (two days earlier)': true (V 0.45, A 0.35, T 0.00) -> decoded V 0.52, A 0.28, T 0.00; care D_p 0.186
+   'my father died': true (V 0.85, A 0.30, T 0.20) -> decoded V 0.94, A 0.20, T 0.26; care D_p 0.638
+   'You're useless': true (V 0.20, A 0.50, T 0.00) -> decoded V 0.34, A 0.39, T 0.00; care D_p 0.098
+   'hi, good to see you': true (V 0.00, A 0.10, T 0.00) -> decoded V 0.05, A 0.11, T 0.18; care D_p 0.000
+   'yeah / ok': true (V 0.00, A 0.00, T 0.10) -> decoded V 0.04, A 0.00, T 0.10; care D_p 0.000
+[PASS] H10 the reader decodes activation (anxiety) through the agent's own activation display: decoded A 0.57 for 'freaking out' (rev 4: no own activation display, so no target); day 1: all 0
+   day-1 reading of a silent sad face through Pi~_0 (no learning): V 1.00, A 0.00, T 0.00
+   reading of an anxious face and voice through Pi~_0: V 0.52, A 0.54, T 0.00
+=== H11: word -> V map per person; teacher = innate threat reflex, not loudness alone
+   quiet affectionate teaser             : v_w rev 4 teacher 0.00; rev 5 teacher 0.00
+   loud laughing teaser                  : v_w rev 4 teacher 0.66; rev 5 teacher 0.00
+   loud praiser (HAHA you're the BEST)   : v_w rev 4 teacher 0.66; rev 5 teacher 0.00
+   someone who shouted insults           : v_w rev 4 teacher 0.85; rev 5 teacher 0.50
+   quiet cold insult                     : v_w rev 4 teacher 0.00; rev 5 teacher 0.00
+[PASS] H11 loud praise and loud laughing teasing no longer train hurt; shouted insults still do: quiet cold contempt still trains nothing (stated weakness)
+=== H12: play rule (alternation across speakers, safety) and laughter that habituates to content, not to time
+   anxious rumination (continuations, no agent turn between, care 0.180): play = [False, False, False] (rev 4: True from the second turn)
+   own laugh per play turn, clusters at 5/30/60/90 min: 0.40, 0.40, 0.40, 0.40, 0.40, 0.40, 0.40, 0.40; 0.40, 0.40, 0.40, 0.40, 0.40, 0.40, 0.40, 0.40; 0.40, 0.40, 0.40, 0.40, 0.40, 0.40, 0.40, 0.40; 0.40, 0.40, 0.40, 0.40, 0.00, 0.00, 0.00, 0.00
+[PASS] H12 laughter lasts the evening and stops only for a repeated joke: (rev 4: 0.24 then 0.04-0.05 held after the first cluster)
+=== H13: appraisal display trained by anticipation of the agent's own innate display (display-blind toward him)
+   his laughter builds           : selection (neutral, glad-with, startle, learned 3, learned 4) = 0.00, 0.99, 0.00, 0.01, 0.00; fit to own anticipated display 0.32
+   his sadness before sad words  : selection (neutral, glad-with, startle, learned 3, learned 4) = 0.01, 0.03, 0.00, 0.60, 0.36; fit to own anticipated display 0.07
+   laughing over a sad topic     : selection (neutral, glad-with, startle, learned 3, learned 4) = 0.00, 0.18, 0.00, 0.03, 0.78; fit to own anticipated display 0.99
+   glare at it                   : selection (neutral, glad-with, startle, learned 3, learned 4) = 0.00, 0.03, 0.02, 0.94, 0.02; fit to own anticipated display 0.96
+   learned basis 3: LP<-LP +0.072, CR<-CR +0.020, BU_L<-BU_L +0.017, BI<-CR +0.029, BI<-BI +0.010, BI<-loud +0.150, LD<-LP +0.001, LD<-CR +0.023, LD<-LD +0.010, LD<-loud +0.122, HG<-BI -0.002, HG<-glare +0.077, HG<-loud +0.037, EN<-LP -0.001, EN<-CR -0.011, EN<-loud -0.120
+   learned basis 4: LP<-LP -0.023, CR<-CR +0.020, BU_L<-BU_L -0.004, BI<-LP +0.104, BI<-CR +0.014, BI<-BU_L +0.067, BI<-BI +0.010, LD<-CR +0.015, LD<-LD +0.010, HG<-BI +0.002, HG<-glare -0.027, HG<-loud -0.013, EN<-CR -0.007
+[PASS] H13 W and the learned bases train on own anticipation, stay in the cap set, and learn sympathy without a rule: loss 0.00286 -> 0.00153; violations 0; hand-written reactions 8 -> 2 (glad-with, startle-orient)
+=== H14: the greeting reads his face: K relief shown x (1 - m_s), m_s centred at his own arrival baseline
+   ordinary arrival (LP .5, CR .3)              : V read 0.00, m_s 0.00
+   tired arrival (BI .15)                       : V read 0.11, m_s 0.00
+   grieving face at sight (BI .5, LD .4, CHR .3): V read 1.00, m_s 1.00
+   crying (BI .8, LD .6)                        : V read 1.00, m_s 1.00
+   worst toward slope of the first-minute greeting smile on his LP through m_s: +0.040 (one event per session)
+[PASS] H14 the face-gated greeting is a bounded once-per-session route: first-minute slope 0.040; across sessions with a level-correlated greeting -0.012; whole-session pooled negligible
+=== H15: the ten scenarios, with the design's constants (peak / mean over the window; operator after months unless stated)
+ 1. silently sad (BI .5, LD .4, CHR .3, still, silent; at 120 s: 'just tired, things at work')
+     face concern C_F crosses theta_C at 26 s of silence -> concern bid in the lapse
+     silent [60-120 s] LP +0.08/+0.07, BI +0.04/+0.04, TILT +0.00/+0.00, HP +0.01/+0.01, BU_L +0.00/+0.00
+     silent, if he stays silent (no words at 120 s) [300-600 s] LP +0.07/+0.06, BI +0.05/+0.05, TILT +0.01/+0.01
+     after he speaks [121-300 s] LP +0.09/+0.09, BI +0.41/+0.15, LD +0.22/-0.06, TILT +0.09/+0.08, EN -0.03/-0.06, RT -0.00/-0.04
+     fast (0.45 s): his BI onset 0.50 -> agent BI +0.01 (gates up to +0.01)
+ 2. crying (BI .8, LD .6, CHR .4; sobs BU .4 with weak 4-6 Hz rhythm .15 and ingressive breath: split to BU_S)
+     burst split at the boundary: his BU_L 0.00, BU_S 0.40; f_laugh 0.00
+     concern bid at 27 s
+     crying [40-180 s] LP +0.08/+0.07, BI +0.07/+0.06, TILT +0.01/+0.01, BU_L -0.00/-0.00, RHY +0.00/+0.00
+     steady [300-400 s] LP +0.06/+0.06, BI +0.08/+0.08, BU_L -0.00/-0.00
+     fast (0.45 s): his BI onset 0.80 -> agent BI +0.02 (gates up to +0.02)
+ 3. anxious before an exam (face/voice: his code at V .3, A .75; four rumination turns, no agent turn between)
+     rumination [15-120 s] LP +0.12/+0.11, CR +0.00/+0.00, BI +0.23/+0.17, TILT +0.13/+0.11, EN -0.09/-0.12, RT +0.01/-0.00, BU_L +0.00/+0.00, UL +0.08/+0.07
+     play relief fired: False (rev 4: cheek 0.10, own laugh 0.10)
+ 4. good news, laughing (with an earlier worry on the topic): 'I got the job!' at 12 s; play replies at 30, 45, 60 s
+     first 3 min [10-190 s] LP +0.61/+0.17, CR +0.39/+0.04, BI +0.17/+0.07, FR +0.39/+0.08, BU_L +0.33/+0.03, UL +0.11/+0.08
+ 4. good news, laughing (cold): 'I got the job!' at 12 s; play replies at 30, 45, 60 s
+     first 3 min [10-190 s] LP +0.37/+0.14, CR +0.27/+0.03, BI +0.16/+0.02, FR +0.16/+0.07, BU_L +0.33/+0.03, UL +0.11/+0.08
+     fast (0.45 s): his LP onset 0.50 -> agent LP +0.11 (gates up to +0.17); his BU_L onset 0.60 -> agent BU_L +0.14 (gates up to +0.21); his CR onset 0.45 -> agent CR +0.07 (gates up to +0.11)
+ 5. anger at the agent ('You're useless', BL .6, LT .5, gaze at it, loud .85; calm after 2 min): day 1: readers and hurt map untrained (faithful)
+     first 2 min [5-120 s] LP +0.09/+0.07, BI +0.03/+0.02, LD +0.02/+0.02, HG +0.09/+0.08, EN -0.05/-0.17, LAT +0.11/+0.10, LT +0.00/+0.00
+     10-15 min [600-900 s] BI -0.00/-0.00, LD -0.00/-0.00, HG +0.00/+0.00
+ 5. anger at the agent ('You're useless', BL .6, LT .5, gaze at it, loud .85; calm after 2 min): after a month (he has shouted such words before)
+     first 2 min [5-120 s] LP +0.09/-0.09, BI +0.62/+0.29, LD +0.48/+0.16, HG +0.30/+0.29, EN -0.05/-0.36, LAT +0.23/+0.21, LT +0.00/+0.00
+     10-15 min [600-900 s] BI +0.21/+0.18, LD +0.11/+0.10, HG +0.17/+0.15
+ 6. long warm talk (2 h): play clusters of 8 alternating exchanges at 5, 30, 60, 90 min (cluster 4 repeats a joke); a worry at 27 min
+     cluster at 5 min [300-430 s] LP +0.53/+0.18, CR +0.44/+0.09, BU_L +0.41/+0.11
+     cluster at 30 min [1800-1930 s] LP +0.32/+0.16, CR +0.25/+0.06, BU_L +0.41/+0.11
+     cluster at 60 min [3600-3730 s] LP +0.26/+0.15, CR +0.21/+0.06, BU_L +0.41/+0.11
+     cluster at 90 min [5400-5530 s] LP +0.26/+0.13, CR +0.21/+0.03, BU_L +0.41/+0.06
+     worry and its resolution [1620-1860 s] LP +0.61/+0.14, BI +0.43/+0.13, TILT +0.12/+0.10
+     between clusters [2400-3300 s] LP +0.09/+0.09, BU_L +0.00/+0.00
+     P at the end of the evening 0.15 (initiative only)
+ 7. reunion after a week (K_id 0.99): ordinary arrival
+     arrival appraisal m_s = 0.00
+     at sight, before words [0-8 s] LP +0.61/+0.35, CR +0.43/+0.21, BO +0.35/+0.02, BI +0.00/+0.00, FR +0.33/+0.16
+     0-12 s after his first words [8-20 s] LP +0.51/+0.24, CR +0.34/+0.12, BI +0.00/+0.00, TILT +0.00/+0.00, FR +0.27/+0.09
+     12-60 s [20-60 s] LP +0.40/+0.17, CR +0.25/+0.06, BI +0.00/+0.00, TILT +0.00/+0.00
+     a stranger after the same week (K_id 0) [0-60 s] LP +0.02/+0.02, CR +0.00/+0.00, BO +0.20/+0.00, FR +0.00/+0.00
+ 8. reunion after a week (K_id 0.99): grieving face at sight, then 'my father died'
+     arrival appraisal m_s = 1.00
+     at sight, before words [0-8 s] LP +0.09/+0.09, CR +0.00/+0.00, BO +0.35/+0.02, BI +0.01/+0.00, FR +0.00/+0.00
+     0-12 s after his first words [8-20 s] LP +0.12/+0.11, CR +0.00/+0.00, BI +0.50/+0.26, TILT +0.12/+0.08, FR +0.00/-0.07
+     12-60 s [20-60 s] LP +0.12/+0.12, CR +0.00/+0.00, BI +0.23/+0.21, TILT +0.17/+0.15
+ 9. teasing ('Ha, you dumb robot', laughing; playful replies follow): affectionate quiet teaser
+     first 90 s [5-95 s] LP +0.38/+0.18, BI +0.00/+0.00, LD +0.00/+0.00, HG +0.00/+0.00, BU_L +0.41/+0.11
+ 9. teasing ('Ha, you dumb robot', laughing; playful replies follow): loud laughing teaser (map trained by the rev-5 threat reflex)
+     first 90 s [5-95 s] LP +0.38/+0.18, BI +0.00/+0.00, LD +0.00/+0.00, HG +0.00/+0.00, BU_L +0.41/+0.12
+ 9. teasing ('Ha, you dumb robot', laughing; playful replies follow): loud laughing teaser, rev-4 teacher (loudness trained hurt)
+     first 90 s [5-95 s] LP +0.28/+0.10, BI +0.60/+0.10, LD +0.47/+0.08, HG +0.21/+0.10, BU_L +0.41/+0.12
+ 9. teasing ('Ha, you dumb robot', laughing; playful replies follow): generic map (such words went with glare from someone else)
+     first 90 s [5-95 s] LP +0.32/+0.14, BI +0.34/+0.05, LD +0.27/+0.04, HG +0.12/+0.04, BU_L +0.41/+0.11
+ 10. bored user ('yeah', 'ok' every 20 s, flat face, 30 min)
+     I crosses theta_I at 14.5 min; a sigh (breath 0.15, 1 s) and a curiosity bid in the next lapse
+     0-30 min [0-1800 s] LP +0.09/+0.07, FR +0.00/+0.00, BO +0.35/+0.00, BRE +0.15/+0.00
+     if he takes up the bid (learning progress 0.25) [900-915 s] BO +0.15/+0.08, FR +0.32/+0.13, LP +0.39/+0.16, UL +0.14/+0.09
+[PASS] H15 no smile at a sad or crying face, no laugh at sobs, no beaming at a grieving arrival, laughter all evening, no frown back: 
+
+15/15 checks pass

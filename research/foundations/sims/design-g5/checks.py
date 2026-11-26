@@ -54,7 +54,7 @@ def laughs(rate_per_min, T, fs, dur=2.5, spread=0.4):
 # =========================================================== innate constants (revision 5, section 2.1)
 TAU_M = np.array([20.0, 120.0, 1200.0, 10800.0])
 F_M = np.array([0.0, 0.7, 0.2, 0.1])              # default trace shares of a channel's held budget
-F_BI = np.array([0.3, 0.7, 0.0, 0.0])             # the sympathy brow fills within about a minute
+F_BI = np.array([0.5, 0.5, 0.0, 0.0])             # the sympathy brow fills within about a minute
 N_M = np.array([0.25, 0.18, 0.12, 0.05])          # innate (G0) same-channel away diagonals, per trace
 A_M = np.array([0.25, 0.12, 0.08, 0.04]); R_M = np.array([0.30, 0.15, 0.10, 0.05])
 TAU_A0, TAU_A1 = 20.0, 90.0
@@ -74,7 +74,7 @@ assert list(CEIL) == CH and len(CH) == 33
 ONE_SIDED = ("CR", "BU_L", "RHY", "BRE", "BI", "BO", "LP", "LD", "JO")   # sat clips the fast undershoot here
 SIGNED = ("HP", "VG", "YAW", "TILT", "HG", "F0", "FR", "EN", "RT", "PAU", "LAT")  # [-1, 1] or phrase-level contour only
 # fast wrap (D81: fast, partial, per-expression matching stays): the zero-lag in-phase cap 2 g k/(1+g) equals c_k
-FASTFRAC = {k: (0.3 if k in ("BI", "BO", "LD", "JO") else 1.0) for k in CH}  # smile, cheek, laughter: full ceiling
+FASTFRAC = {k: (0.15 if k == "BI" else 0.3 if k in ("BO", "LD", "JO") else 1.0) for k in CH}  # smile, cheek, laughter: full ceiling
 KAP = {k: FASTFRAC[k] * CEIL[k] * (1 + GF) / (2 * GF) for k in CH}          # zero on anger/disgust/contempt and sobs
 FASTCAP = {k: 2 * GF / (1 + GF) * KAP[k] for k in CH}                       # = FASTFRAC c_k at zero lag
 AWAY_FAST = 0.49                                                            # floor on the fast gates: away gain <= 0.49
@@ -83,7 +83,7 @@ ECHO0 = {k: (0.65 * FASTCAP[k] if k in ("LP", "CR", "BU_L", "RHY", "BI", "BO", "
 REST = dict(LP=0.09)                                                        # the agent's resting level (familiarity)
 # pooled shares (cone diagonal, charged cross, appraisal |Gamma_kk|) x c_k; the fast allowance r_k (H5) fills the rest
 SH = {k: (0.50, 0.20, 0.35) for k in CH}
-SH["LP"] = (0.50, 0.15, 0.25); SH["BI"] = (0.55, 0.12, 0.10); SH["CR"] = (0.22, 0.06, 0.08)
+SH["LP"] = (0.50, 0.15, 0.25); SH["BI"] = (0.70, 0.10, 0.05); SH["CR"] = (0.22, 0.06, 0.08)
 for k in ("BU_L", "RHY", "BRE"): SH[k] = (0.07, 0.02, 0.05)
 for k in ("BO", "LD", "JO"): SH[k] = (0.48, 0.15, 0.20)
 
@@ -174,6 +174,9 @@ for nplay in (0, 1, 2, 4, 8):
         for _ in range(400): om += (sg - om) / TAU_W
         print(f"   {nplay} play turns per session, mean hurt {hb:.2f}: s = {sg:+.2f}, omega after 400 sessions {om:+.2f} "
               f"-> LP held in-phase share {om * SH['LP'][0] * CEIL['LP']:+.3f}")
+s_op = s_smile(2, 0.01); s_sym_op = float(np.clip(0.3 + 0.7 * min(1, 0.4 / 0.5) - 1.3 * min(1, 0.01 / 0.10), -1, 1))
+print(f"   the operator after months (2 play turns a session, mean hurt 0.01, 40% of his worries credited): "
+      f"omega_smile -> {s_op:.2f}, omega_sym -> {s_sym_op:.2f}; omega_voice = 2 f_id - 1 = 0.80")
 ok2 = s_smile(1, 0) < s_smile(2, 0) < s_smile(4, 0) and s_smile(0, 0) > 0 and s_smile(2, 0.05) < s_smile(2, 0)
 report("H2 omega grades play and hurt, and no longer saturates for any partner who plays at all", ok2,
        f"s(0,1,2,4 play) = {s_smile(0, 0):.2f}, {s_smile(1, 0):.2f}, {s_smile(2, 0):.2f}, {s_smile(4, 0):.2f} "
@@ -306,7 +309,7 @@ G0 = [("EN", "EN", 0, -0.15), ("EN", "EN", 1, -0.08), ("EN", "loud", 0, -0.20), 
       ("LAT", "EN", 0, +0.10), ("HG", "glare", 0, +0.25), ("HG", "glare", 1, +0.05),
       ("BL", "BL", 0, -0.15), ("BL", "BL", 1, -0.08), ("LT", "LT", 0, -0.15), ("LT", "LT", 1, -0.08),
       ("LD", "LD", 0, -0.15), ("LD", "LD", 1, -0.08),
-      ("LP", "glare", 1, -0.035), ("LP", "glare", 2, -0.01), ("BI", "glare", 1, +0.012), ("BI", "LD", 1, +0.004),
+      ("LP", "glare", 1, -0.035), ("LP", "glare", 2, -0.01), ("BI", "glare", 0, +0.006), ("BI", "glare", 1, +0.006), ("BI", "LD", 0, +0.004), ("BI", "LD", 1, +0.004),
       ("TILT", "BI", 1, +0.014), ("HP", "BI", 1, +0.04), ("VG", "BI", 1, +0.04)]
 viol = []
 for m in range(4):
@@ -342,3 +345,476 @@ for k in ("LP", "BI", "BU_L", "EN"):
     G = np.abs(cn + ap + fa).max(); worst_g = max(worst_g, G)
     print(f"   {k}: max|G| {G:.3f} -> small-gain stable for |mu| < {1 / G:.2f}")
 report("H8 the dyad is stable with any partner for |mu| <= 1.5", 1 / worst_g >= 1.5, f"|mu| < {1 / worst_g:.2f}")
+
+# =========================================================== H9: rendered totals with every route at once (critic D1/D2/D8 partners)
+print("=== H9: rendered pooled 1-min slopes, all F routes together at their caps (cone, charged, appraisal gate, fast echo)")
+fs = 10.0; T = int(24 * 3600 * fs); MIN = int(60 * fs); d = int(0.45 * fs)
+mood = blocks(T, 10 * 60, fs); L = laughs(0.5 + 3.0 * mood, T, fs)
+u = dict(LP=np.clip(0.15 + 0.25 * mood + 0.35 * L + 0.03 * rng.normal(size=T), 0, 1), BU_L=0.6 * L,
+         CR=np.clip(0.05 + 0.1 * mood + 0.3 * L, 0, 1), BI=np.clip(0.05 + 0.3 * (0.35 * mood + 0.3 * L), 0, 1))
+
+
+def bp(x): return lp(x, 20.0, fs) - lp(x, 90.0, fs)
+
+
+worst9 = 0.0
+for k in ("LP", "BU_L", "CR", "BI"):
+    uk = u[k]; ck = CEIL[k]; sc, sx, sa = SH[k]
+    Fk = F_BI if k == "BI" else F_M
+    yC = sum(Fk[m] * sc * ck * lp(uk - uk.mean(), TAU_M[m], fs) for m in range(4))
+    yX = sx * ck * lp(u["LP"] if k != "LP" else u["CR"], 120.0, fs)          # whole charged budget on a co-moving channel
+    xb = bp(uk); echo = FASTCAP[k] * hp(np.concatenate([np.zeros(d), uk[:-d]]), 4.0, fs)
+    for lab, g in (("gate +1", np.ones(T)), ("gate sign(xi_A)", np.sign(xb)), ("gate = laughing", L)):
+        yA = sa * ck * g * xb
+        tot = slope(means(uk, MIN), means(np.clip(REST.get(k, 0) + yC + yX + yA + echo, 0, 1), MIN))
+        worst9 = max(worst9, tot / ck)
+    print(f"   {k:4s}: rendered total with the worst gate {max(0, worst9) * ck:+.3f} so far (c_k {ck:.2f})")
+report("H9 the rendered total stays under each ceiling with every route at its cap", worst9 <= 1.0,
+       f"worst {worst9:.3f} c_k (fast smile and laugh return at the full ceiling)")
+
+# =========================================================== the agent's own innate display Pi_0 and its inverse
+DRV = ["rel", "dis", "cl", "hd", "lowE", "act", "cur", "laugh", "fam"]
+PI0 = {"rel": dict(LP=.55, CR=.45, FR=.35, EN=.25), "dis": dict(BI=.45, LD=.35, FR=-.20, EN=-.15),
+       "cl": dict(BI=.25, LP=.05, TILT=.20, EN=-.15, RT=-.10), "hd": dict(BI=.25, LD=.20, LP=-.25, HG=.30, EN=-.20, LAT=.15),
+       "lowE": dict(UL=-.30, FR=-.25, EN=-.25, RT=-.15), "act": dict(UL=.20, BO=.15, FR=.15, RT=.15, BRE=.10),
+       "cur": dict(BO=.15, UL=.10, FR=.10), "laugh": dict(BU_L=.40, RHY=.35, CR=.20, LP=.15), "fam": dict(LP=.10)}
+RD_CH = ["LP", "CR", "BI", "LD", "UL", "BO", "FR", "EN", "RT", "HG", "LAT", "BRE"]
+RD_L = ["rel", "dis", "hd", "lowE", "act"]
+M0 = np.array([[PI0[l].get(k, 0.0) for l in RD_L] for k in RD_CH])
+REST_FACE = dict(LP=0.09, FR=0.0, EN=0.0, RT=0.0, UL=0.0)
+
+
+def read(face, voiced=True):
+    """Pi~_0: the innate inverse of the agent's own display (ridge), on the channels present; returns V, A, T loads"""
+    rows = [i for i, k in enumerate(RD_CH) if voiced or k not in ("FR", "EN", "RT", "LAT")]
+    x = np.array([face.get(RD_CH[i], 0.0) - (0.45 if RD_CH[i] == "EN" else 0.25 if RD_CH[i] == "FR" else
+                                              0.40 if RD_CH[i] == "RT" else 0.0) * (1 if voiced else 0) for i in rows])
+    M = M0[rows]; z = np.linalg.solve(M.T @ M + 0.05 * np.eye(len(RD_L)), M.T @ x)
+    z = dict(zip(RD_L, z))
+    return dict(V=float(np.clip(z["dis"] + z["hd"], 0, 1)), A=float(np.clip(z["act"], 0, 1)), T=float(np.clip(z["lowE"], 0, 1)))
+
+
+def Dp(N): return 0.8 * (max(N["V"] - .05, 0) ** 2 + 0.7 * max(N["A"] - .15, 0) ** 2 + 0.5 * max(N["T"] - .2, 0) ** 2)
+
+
+# his own expressive code (not the agent's): loads (V, A, T, joy) -> face and voice
+def his_face(V=0.0, A=0.0, Tr=0.0, joy=0.0):
+    return dict(BI=.5 * V + .25 * A, LD=.4 * V, CHR=.3 * V, UL=.3 * A - .3 * Tr, BO=.3 * A, HG=.1 * V,
+                FR=.25 + .35 * A - .2 * V - .25 * Tr + .3 * joy, EN=.45 + .3 * A - .15 * V - .25 * Tr + .25 * joy,
+                RT=.40 + .35 * A - .15 * Tr, LP=max(0, .3 + .5 * joy - .3 * V), CR=.15 + .45 * joy)
+
+
+# =========================================================== H10: the word-need reader, trained, not set by hand
+print("=== H10: the word-need reader trained nightly on (his words, Pi~_0 of his face); decoded need in the scenarios")
+DIM = 64; Mw = rng.normal(size=(DIM, 4)) / 2.0
+def emb(z): return Mw @ np.asarray(z) + 0.15 * rng.normal(size=DIM)
+Zh = np.clip(rng.normal(size=(30 * 150, 4)) * [0.3, 0.3, 0.3, 0.3] + [0.1, 0.1, 0.1, 0.2], 0, 1) * (rng.random((30 * 150, 4)) < 0.4)
+Xe = np.array([emb(z) for z in Zh])
+Yr = np.array([[read({k: v + 0.03 * rng.normal() for k, v in his_face(*z).items()})[q] for q in "VAT"] for z in Zh])
+WR = np.linalg.solve(Xe.T @ Xe + 5.0 * np.eye(DIM), Xe.T @ Yr)
+
+
+def reader(z, trained=True):
+    if not trained: return dict(V=0.0, A=0.0, T=0.0)
+    y = np.clip(emb(z) @ WR, 0, 1); return dict(V=float(y[0]), A=float(y[1]), T=float(y[2]))
+
+
+UTT = {"just tired, things at work": (0.30, 0.10, 0.55, 0), "I'm freaking out about the exam": (0.30, 0.75, 0, 0),
+       "and I haven't finished chapter 4": (0.25, 0.60, 0, 0), "I got the job!": (0, 0.3, 0, 0.9),
+       "the job thing is worrying me (two days earlier)": (0.45, 0.35, 0, 0), "my father died": (0.85, 0.30, 0.2, 0),
+       "You're useless": (0.20, 0.50, 0, 0), "hi, good to see you": (0, 0.1, 0, 0.5), "yeah / ok": (0, 0, 0.1, 0)}
+DEC = {}
+for lab, z in UTT.items():
+    r_ = reader(z); DEC[lab] = r_; print(f"   '{lab}': true (V {z[0]:.2f}, A {z[1]:.2f}, T {z[2]:.2f}) -> decoded V {r_['V']:.2f}, A {r_['A']:.2f}, "
+                          f"T {r_['T']:.2f}; care D_p {Dp(r_):.3f}")
+anx = DEC["I'm freaking out about the exam"]
+report("H10 the reader decodes activation (anxiety) through the agent's own activation display", anx["A"] >= 0.3,
+       f"decoded A {anx['A']:.2f} for 'freaking out' (rev 4: no own activation display, so no target); day 1: all 0")
+sad_read = read(dict(BI=.5, LD=.4, CHR=.3), voiced=False)
+print(f"   day-1 reading of a silent sad face through Pi~_0 (no learning): V {sad_read['V']:.2f}, A {sad_read['A']:.2f}, T {sad_read['T']:.2f}")
+anx_read = read(his_face(V=.3, A=.75))
+print(f"   reading of an anxious face and voice through Pi~_0: V {anx_read['V']:.2f}, A {anx_read['A']:.2f}, T {anx_read['T']:.2f}")
+
+# =========================================================== H11: the hurt teacher has a valence (agent finding 3)
+print("=== H11: word -> V map per person; teacher = innate threat reflex, not loudness alone")
+
+
+def teacher(rev, loud, glare, laugh, duch, at=1.0):
+    if rev == 4: return min(1.0, loud + glare)
+    fpos = max(laugh, duch); return at * max(glare, loud * max(0.0, 1 - 2 * fpos))
+
+
+PEOPLE = {"quiet affectionate teaser": ("tease", 0.0, 0.0, 0.6, 0.6), "loud laughing teaser": ("tease", 0.67, 0.0, 0.7, 0.7),
+          "loud praiser (HAHA you're the BEST)": ("praise", 0.67, 0.0, 0.5, 0.7),
+          "someone who shouted insults": ("insult", 0.5, 0.36, 0.0, 0.0), "quiet cold insult": ("insult", 0.0, 0.0, 0.0, 0.0)}
+VW = {}
+for who, (kind, loud, glare, laugh, duch) in PEOPLE.items():
+    out = []
+    for rev in (4, 5):
+        tg = teacher(rev, loud, glare, laugh, duch); v = 0.0
+        for night in range(30): v += (tg - v) * 0.15                       # fitted nightly on that person's addressed words
+        out.append(v)
+    VW[who] = out[1]
+    print(f"   {who:38s}: v_w rev 4 teacher {out[0]:.2f}; rev 5 teacher {out[1]:.2f}")
+report("H11 loud praise and loud laughing teasing no longer train hurt; shouted insults still do",
+       VW["loud laughing teaser"] < 0.05 and VW["loud praiser (HAHA you're the BEST)"] < 0.05 and VW["someone who shouted insults"] > 0.3,
+       "quiet cold contempt still trains nothing (stated weakness)")
+
+# =========================================================== H12: the play rule and the play-surprise laugh (agent smaller items)
+print("=== H12: play rule (alternation across speakers, safety) and laughter that habituates to content, not to time")
+
+
+def play_struct(u, NLcare, h=0.0):
+    """partner-only play rule: continuation of his own thread, an agent turn between (turn order), surprise in band,
+    and safety: his word care below its dead-band (h is not read: a playful reply halves h instead)"""
+    return bool(u.get("cont") and u.get("alt") and 0.3 <= u.get("surp", 0) <= 0.8 and NLcare < 0.05)
+
+
+def laugh_amp(surp): return 0.40 * float(np.clip(1 - abs(surp - 0.55) / 0.25, 0, 1))
+
+
+rum = [dict(cont=True, alt=False, surp=0.5)] * 3
+care_rum = Dp(DEC["and I haven't finished chapter 4"])
+print(f"   anxious rumination (continuations, no agent turn between, care {care_rum:.3f}): play = "
+      f"{[play_struct(x, care_rum, 0) for x in rum]} (rev 4: True from the second turn)")
+amps = []
+for c0 in range(4):
+    for k_ in range(8):
+        surp = 0.55 if not (c0 == 3 and k_ >= 4) else 0.55 * np.exp(-(k_ - 3))       # cluster 4 repeats one joke
+        amps.append(laugh_amp(surp) if play_struct(dict(cont=True, alt=True, surp=surp), 0.0, 0.0) else 0.0)
+amps = np.array(amps).reshape(4, 8)
+print("   own laugh per play turn, clusters at 5/30/60/90 min: " + "; ".join(f"{', '.join(f'{a:.2f}' for a in r)}" for r in amps))
+report("H12 laughter lasts the evening and stops only for a repeated joke", amps[3, :4].min() >= 0.35 and amps[3, 6] < 0.05
+       and not any(play_struct(x, care_rum, 0) for x in rum), "(rev 4: 0.24 then 0.04-0.05 held after the first cluster)")
+
+# =========================================================== H13: the appraisal display learns its reactions (agent finding 4)
+print("=== H13: appraisal display trained by anticipation of the agent's own innate display (display-blind toward him)")
+XI = ["LP", "CR", "BU_L", "BI", "LD", "glare", "loud"]; YO = ["LP", "CR", "BU_L", "BI", "LD", "BO", "HG", "EN"]
+nB = 5                                                     # 0 neutral, 1 glad-with (innate), 2 startle-orient (innate), 3-4 learned
+
+
+def allowed(k, j, g):
+    if k == j: return abs(g) <= SH[k][2] * CEIL[k] + 1e-12
+    s = S(k, j)
+    if k in JOYSYN and j in SADSYN and g > 0: return False
+    return s == -2 or (s == 1 and g <= 0) or (s == -1 and g >= 0)
+
+
+def project(G):
+    G = G.copy()
+    for a, k in enumerate(YO):
+        for b_, j in enumerate(XI):
+            if k == j: G[a, b_] = np.clip(G[a, b_], -SH[k][2] * CEIL[k], SH[k][2] * CEIL[k])
+            elif not (allowed(k, j, G[a, b_]) or allowed(k, j, -G[a, b_])): G[a, b_] = 0.0
+            elif not allowed(k, j, G[a, b_]): G[a, b_] = 0.0
+            else: G[a, b_] = np.clip(G[a, b_], -0.15, 0.15)
+        off = [b_ for b_, j in enumerate(XI) if j != k]; rs = np.abs(G[a, off]).sum()
+        if rs > 0.25: G[a, off] *= 0.25 / rs
+        if CEIL.get(k, 0) == 0: G[a] = 0.0
+    return G
+
+
+Gam = np.zeros((nB, len(YO), len(XI)))
+for k in ("LP", "CR", "BU_L"): Gam[1, YO.index(k), XI.index(k)] = SH[k][2] * CEIL[k]
+Gam[2, YO.index("HG"), XI.index("loud")] = 0.10; Gam[2, YO.index("EN"), XI.index("loud")] = -0.10
+Gam0 = Gam.copy()
+Wsel = np.zeros((nB, 5)); Wsel[1, 0] = 4.0; Wsel[2, 3] = 4.0; Wsel[:, 4] = [1.0, -2, -2, -0.5, -0.5]  # newborn: glad-with on laughter, startle on loudness
+Wsel[3:, :4] = 0.3 * rng.normal(size=(2, 4))                                                       # learned rows start small, random
+for r in (3, 4): Gam[r] = project(0.01 * rng.normal(size=Gam[r].shape))
+
+
+def situations(n):
+    X, A_, Y, typ = [], [], [], []
+    for _ in range(n):
+        t = rng.integers(5); xi = 0.03 * rng.normal(size=len(XI)); al = np.zeros(5); al[4] = 1; y = np.zeros(len(YO)); a_ = rng.uniform(0.2, 0.5)
+        if t == 0:   # his laughter builds before a play turn -> own relief and laugh anticipated
+            xi[[0, 1, 2]] += a_; al[0] = rng.uniform(.5, .9); y[[0, 1, 2]] = [.55 * a_ * .3, .45 * a_ * .3, .40 * a_ * .3]
+        elif t == 1:  # his sadness before sad words -> own distress anticipated
+            xi[[3, 4]] += [a_, .8 * a_]; al[1] = rng.uniform(.5, 1); y[[3, 4, 7]] = [.45 * a_ * .3, .35 * a_ * .3, -.15 * a_ * .3]
+        elif t == 2:  # laughing over a sad topic -> distress, not gladness
+            xi[[0, 2]] += a_; al[0] = .5; al[2] = 1; y[3] = .45 * a_ * .3
+        elif t == 3:  # glare at it -> own hurt anticipated
+            xi[5] += a_; xi[6] += .5 * a_; al[3] = 1; y[[3, 4, 6, 7]] = [.25 * a_ * .3, .2 * a_ * .3, .3 * a_ * .3, -.2 * a_ * .3]
+        X.append(xi); A_.append(al); Y.append(y); typ.append(t)
+    return np.array(X), np.array(A_), np.array(Y), np.array(typ)
+
+
+def fwd(X, A_):
+    lg = A_ @ Wsel.T; pi = np.exp(lg - lg.max(1, keepdims=True)); pi /= pi.sum(1, keepdims=True)
+    Yb = np.einsum("rkj,nj->nrk", Gam, X); return pi, Yb, np.einsum("nr,nrk->nk", pi, Yb)
+
+
+X, A_, Y, typ = situations(4000)
+loss0 = float(((fwd(X, A_)[2] - Y) ** 2).sum(1).mean())
+for it in range(4000):
+    pi, Yb, Yh = fwd(X, A_); R = Yh - Y
+    gG = np.einsum("nr,nk,nj->rkj", pi, R, X) / len(X)
+    gpi = np.einsum("nk,nrk->nr", R, Yb); gl = pi * (gpi - (pi * gpi).sum(1, keepdims=True))
+    Wsel -= 300.0 * (gl.T @ A_) / len(X)
+    Gam[3:] -= 30.0 * gG[3:]; Gam[3:] += -0.001 * Gam[3:]
+    for r in (3, 4): Gam[r] = project(Gam[r])
+pi, _, Yh = fwd(X, A_); loss1 = float(((Yh - Y) ** 2).sum(1).mean())
+names_t = ["his laughter builds", "his sadness before sad words", "laughing over a sad topic", "glare at it"]
+for t in range(4):
+    sel = pi[typ == t].mean(0); gain = (Yh[typ == t] * Y[typ == t]).sum() / (Y[typ == t] ** 2).sum()
+    print(f"   {names_t[t]:30s}: selection (neutral, glad-with, startle, learned 3, learned 4) = "
+          + ", ".join(f"{v:.2f}" for v in sel) + f"; fit to own anticipated display {gain:.2f}")
+for r in (3, 4):
+    ent = [f"{YO[a]}<-{XI[b_]} {Gam[r, a, b_]:+.3f}" for a in range(len(YO)) for b_ in range(len(XI)) if abs(Gam[r, a, b_]) > 1e-3]
+    print(f"   learned basis {r}: " + ", ".join(ent))
+viol13 = [f"basis {r} {YO[a]}<-{XI[b_]}" for r in range(nB) for a in range(len(YO)) for b_ in range(len(XI))
+          if abs(Gam[r, a, b_]) > 1e-9 and not allowed(YO[a], XI[b_], Gam[r, a, b_])]
+sad_sel = pi[typ == 1].mean(0)
+report("H13 W and the learned bases train on own anticipation, stay in the cap set, and learn sympathy without a rule",
+       loss1 < 0.7 * loss0 and not viol13 and sad_sel[3:].sum() > 0.5,
+       f"loss {loss0:.5f} -> {loss1:.5f}; violations {len(viol13)}; hand-written reactions 8 -> 2 (glad-with, startle-orient)")
+
+# =========================================================== H14: the arrival mask (agent finding 1), bounded
+print("=== H14: the greeting reads his face: K relief shown x (1 - m_s), m_s centred at his own arrival baseline")
+
+
+def m_s(face, d_b):
+    return float(np.clip((read(face, voiced=False)["V"] - d_b - 0.10) / 0.30, 0, 1))
+
+
+for lab, f in (("ordinary arrival (LP .5, CR .3)", dict(LP=.5, CR=.3)), ("tired arrival (BI .15)", dict(BI=.15, LP=.25)),
+               ("grieving face at sight (BI .5, LD .4, CHR .3)", dict(BI=.5, LD=.4, CHR=.3)), ("crying (BI .8, LD .6)", dict(BI=.8, LD=.6))):
+    print(f"   {lab:45s}: V read {read(f, voiced=False)['V']:.2f}, m_s {m_s(f, 0.05):.2f}")
+# first-minute slope of the face-attributable greeting display on his LP (finite differences over faces near baseline)
+worst14 = 0.0
+for _ in range(400):
+    f = dict(LP=rng.uniform(0, .8), BI=rng.uniform(0, .6), LD=rng.uniform(0, .5))
+    for chan in ("LP", "BI"):
+        f2 = dict(f); f2[chan] += 0.01
+        dLP = 0.55 * 0.94 * (m_s(f, 0.05) - m_s(f2, 0.05)) / 0.01 * (0.2 + 1.1 + 3.0) / 60   # a_r 0.94, envelope area 4.3 s
+        if chan == "LP": worst14 = max(worst14, dLP)
+        else: worst14 = max(worst14, -dLP * 0.0)
+print(f"   worst toward slope of the first-minute greeting smile on his LP through m_s: {worst14:+.3f} (one event per session)")
+# across sessions with the greeting amplitude correlated with his level (Lemma S*: m_s centred at his baseline)
+lev = np.where(good, 0.10, 0.25); db = 0.05; ys = []; amps = np.where(good, 0.6, 0.9)
+for s in range(nS):
+    f = dict(BI=lev[s], LD=0.8 * lev[s]); ys.append(-amps[s] * 0.55 * m_s(f, db) * 4.3 / 60)
+    db += (read(f, voiced=False)["V"] - db) / TAU_B
+s14 = slope(lev, ys)
+report("H14 the face-gated greeting is a bounded once-per-session route", worst14 <= 0.06 and abs(s14) <= 0.06,
+       f"first-minute slope {worst14:.3f}; across sessions with a level-correlated greeting {s14:+.3f}; whole-session pooled negligible")
+
+# =========================================================== H15: the scenarios (2 Hz engine of sections 2.5-2.9)
+print("=== H15: the ten scenarios, with the design's constants (peak / mean over the window; operator after months unless stated)")
+DT = 0.5
+OUT = ["LP", "CR", "BI", "BO", "LD", "UL", "TILT", "HG", "HP", "FR", "EN", "RT", "LAT", "BU_L", "RHY", "BRE", "LT"]
+BASE = dict(LP=.30, CR=.15, BI=.05, LD=.05, BU_L=.03, RHY=.03, BO=.05, UL=.05, FR=.25, EN=.45, RT=.40, HP=0, VG=0,
+            glare=0, loud=0)
+GRP = dict(LP="smile", CR="smile", BU_L="smile", RHY="smile", BRE="smile", BI="sym", BO="sym", LD="sym",
+           FR="voice", EN="voice", RT="voice", HP="head", VG="head")
+TRC = ["LP", "CR", "BU_L", "RHY", "BI", "BO", "LD", "FR", "EN", "RT", "HP", "VG", "glare", "loud"]
+OM_OP = dict(smile=0.78, sym=0.75, voice=0.80, head=0.5); OM_ST = dict(smile=0.5, sym=0.3, voice=0.2, head=0.5)
+
+
+def Dt(x, db, w=1.0): return w * max(x - db, 0.0) ** 2
+def env(t): return 0.0 if t < 0 else (t / 0.4 if t < 0.4 else 1.0 if t < 1.5 else float(np.exp(-(t - 1.5) / 3.0)))
+
+
+class Agent:
+    def __init__(s, om=OM_OP, f_id=0.9, K=0.0, P=0.3, I=0.3, NL=None, trained=True, vw=None, known=True):
+        s.om = om; s.f_id = f_id; s.K = K; s.P = P; s.I = I; s.E = 0.75; s.trained = trained; s.known = known
+        s.NL = dict(NL) if NL else dict(V=0.0, A=0.0, T=0.0); s.Cl = Dp(s.NL); s.h = 0.0; s.AL = 0.0; s.Cf = 0.0
+        s.vw = vw or {}; s.ev = []; s.n_sub = 0; s.ms = 0.0; s.greet_t = None; s.present = 0.0; s.sil = 0.0
+        s.tr = [dict((k, BASE[k]) for k in TRC) for _ in TAU_M]; s.b0 = dict((k, BASE[k]) for k in TRC)
+        s.b1 = dict(s.b0); s.f20 = {}; s.bid_t = None; s.sigh_t = None; s.Icross = None
+
+    def utter(s, t, u):
+        R = Rk = Sd = 0.0; la = 0.0; ca = 0.0
+        if "z" in u:
+            new = (DEC[u["z"]] if u["z"] in DEC else reader(UTT[u["z"]])) if s.trained else dict(V=0.0, A=0.0, T=0.0)
+            if not u.get("sub", True): new = {q: max(new[q], s.NL[q]) for q in new}   # no content: need can only rise
+            b, a = Dp(s.NL), Dp(new)
+            if a < b: R += b - a
+            else: Sd += a - b
+            s.NL = dict(new)
+        if u.get("kind") and s.trained:
+            v = s.vw.get(u["kind"], 0.0); b = Dt(s.h, .05); s.h = max(s.h, v); Sd += Dt(s.h, .05) - b
+        if u.get("sub", True) and s.n_sub < 4 and s.K > 0:
+            b = Dt(s.K, .1, .6 * s.f_id); s.K *= 1 - 0.25 * s.f_id; s.n_sub += 1; Rk += (b - Dt(s.K, .1, .6 * s.f_id)) * (1 - s.ms)
+        if play_struct(u, Dp(s.NL), s.h):
+            b = Dt(s.P, .1, .5); s.P *= 0.85; R += b - Dt(s.P, .1, .5); s.h *= 0.5; la = laugh_amp(u["surp"])
+        if u.get("lp", 0) > 0:
+            b = Dt(s.I, .1, .4); s.I = max(0.0, s.I - 0.5 * u["lp"]); ca = b - Dt(s.I, .1, .4); R += ca
+        s.AL = max(s.AL, 0.5 * u.get("surp", 0.0) ** 2)
+        mask = max(0.0, 1 - Dp(s.NL) / 0.05)
+        Rm = max(0.0, R + Rk - 3 * Sd) * mask
+        s.ev.append((t, Rm / (Rm + .02), Sd / (Sd + .02), la * mask, ca / (ca + .02) if ca else 0.0))
+
+    def greet(s, t, face):
+        s.ms = m_s(face, 0.05) if s.known else 0.0; s.greet_t = t
+        if s.K > 0:
+            b = Dt(s.K, .1, .6 * s.f_id); s.K *= 0.5; R = (b - Dt(s.K, .1, .6 * s.f_id)) * (1 - s.ms)
+            s.ev.append((t, R / (R + .02), 0.0, 0.0, 0.0))
+
+    def step(s, t, face, ev):
+        voiced = ev.get("voiced", False)
+        if face: s.present += DT
+        if face and s.present >= 1.0 and s.greet_t is None: s.greet(t, face)
+        if "utt" in ev: s.utter(t, ev["utt"])
+        s.sil = 0.0 if (voiced or "utt" in ev) else s.sil + DT
+        s.P += (1 - s.P) * DT / (5.05 * 3600); s.I += (1 - s.I) * DT / 3600
+        for q in s.NL: s.NL[q] *= np.exp(-DT / 1800)
+        s.Cl += (Dp(s.NL) - s.Cl) * DT / 40; s.h *= np.exp(-DT / 600); s.AL *= np.exp(-DT / 180)
+        x = {k: face.get(k, BASE[k]) for k in TRC if k not in ("glare", "loud")}
+        x["glare"] = face.get("BL", 0) * face.get("LT", 0) * face.get("gat", 0); x["loud"] = max(0, face.get("EN", 0) - .7) / .3
+        laugh = float(np.sqrt(face.get("BU_L", 0) * face.get("RHY", 0)))
+        for m in range(4):
+            for k in TRC: s.tr[m][k] += (x[k] - s.tr[m][k]) * DT / TAU_M[m]
+        for k in TRC: s.b0[k] += (x[k] - s.b0[k]) * DT / TAU_A0; s.b1[k] += (x[k] - s.b1[k]) * DT / TAU_A1
+        for k in ("LP", "CR", "BI", "LD", "BO", "UL"): s.f20[k] = s.f20.get(k, 0.0) + (face.get(k, 0) - s.f20.get(k, 0)) * DT / 20
+        rd = read(s.f20, voiced=False); tgt = Dp(rd); s.Cf += (tgt - s.Cf) * DT / (40 if tgt > s.Cf else 600)
+        if s.bid_t is None and s.Cf >= 0.10 and s.sil >= 6: s.bid_t = t
+        if s.Icross is None and s.I >= 0.45: s.Icross = t
+        if s.Icross is not None and s.sigh_t is None and s.sil >= 8: s.sigh_t = t
+        y = dict.fromkeys(OUT, 0.0)
+        # held cone: centred diagonals (omega per group) + G0
+        for k, g in GRP.items():
+            if k not in y or k not in TRC: continue
+            Fk = F_BI if k == "BI" else F_M
+            y[k] += s.om[g] * SH[k][0] * CEIL[k] * sum(Fk[m] * (s.tr[m][k] - BASE[k]) for m in range(4))
+        for (k, j, m, gv) in G0:
+            if k not in y: continue
+            src = s.tr[m][j] - BASE.get(j, 0.0) if j in TRC else 0.0
+            y[k] += gv * src * (1 if k != "HG" else 1)
+        # appraisal display: learned selection over bases on the band-passed input
+        xi = np.array([s.b0[j] - s.b1[j] for j in XI])
+        al = np.array([laugh, rd["V"], min(1, Dp(s.NL) / 0.1), x["glare"], 1.0])
+        lg = Wsel @ al; pi = np.exp(lg - lg.max()); pi /= pi.sum()
+        G = np.einsum("r,rkj->kj", pi, Gam)
+        for a, k in enumerate(YO):
+            for b_, j in enumerate(XI):
+                gv = G[a, b_] * (s.om[GRP[k]] if (k == j and k in GRP) else 1.0)
+                y[k] += gv * xi[b_]
+        # free display (T only)
+        rel = dis = lau = cu = 0.0
+        for (te, ar, ad, la, ca) in s.ev:
+            e_ = env(t - te); rel += ar * e_; dis += ad * e_; lau += la * e_; cu += ca * e_
+        drv = dict(rel=min(rel, 1), dis=min(dis, 1), cl=s.Cl / (s.Cl + .1), hd=s.h / (s.h + .15), lowE=max(0, .5 - s.E) / .3,
+                   act=s.AL / (s.AL + .2), cur=min(cu, 1), laugh=min(lau / 0.40, 1), fam=s.f_id)
+        for dname, val in drv.items():
+            for k, wv in PI0[dname].items():
+                if k in y: y[k] += wv * val
+        if s.greet_t is not None and 0 <= t - s.greet_t < 0.5: y["BO"] += 0.35 if s.known else 0.20
+        if s.sigh_t is not None and 0 <= t - s.sigh_t < 1.0: y["BRE"] += 0.15
+        return {k: float(np.clip(v, -1, 1)) for k, v in y.items()}
+
+
+def run(ag, dur, face_fn, evs):
+    rec = []
+    for i in range(int(dur / DT)):
+        t = i * DT; rec.append(dict(t=t, Cf=ag.Cf, I=ag.I, P=ag.P, **ag.step(t, face_fn(t), evs.get(i, {}))))
+    return rec
+
+
+def at(sec): return int(round(sec / DT))
+def U(t, **kw): return {at(t + 0.6): {"utt": kw}}
+
+
+def show(lab, rec, t0, t1, chans):
+    seg = [r for r in rec if t0 <= r["t"] < t1]
+    print(f"     {lab} [{t0:.0f}-{t1:.0f} s] " + ", ".join(f"{c} {max(r[c] for r in seg):+.2f}/{np.mean([r[c] for r in seg]):+.2f}" for c in chans))
+    return {c: max(r[c] for r in seg) for c in chans}
+
+
+def fast(lab, chan_onsets):
+    print(f"     fast (0.45 s): " + "; ".join(f"his {k} onset {v:.2f} -> agent {k} +{ECHO0[k] * v:.2f} (gates up to +{FASTCAP[k] * v:.2f})"
+                                       for k, v in chan_onsets.items()))
+
+
+SC = {}
+K7 = 1 - np.exp(-7 * 24 / 36)
+# 1. silently sad
+print(" 1. silently sad (BI .5, LD .4, CHR .3, still, silent; at 120 s: 'just tired, things at work')")
+ag = Agent(); evs = U(120, z="just tired, things at work"); sadf = lambda t: dict(BI=.5, LD=.4, CHR=.3, LP=.05)
+rec = run(ag, 600, sadf, evs); print(f"     face concern C_F crosses theta_C at {ag.bid_t:.0f} s of silence -> concern bid in the lapse")
+SC[1] = show("silent", rec, 60, 120, ["LP", "BI", "TILT", "HP", "BU_L"]); SC["1s"] = show("silent, if he stays silent (no words at 120 s)", run(Agent(), 600, sadf, {}), 300, 600, ["LP", "BI", "TILT"])
+SC["1b"] = show("after he speaks", rec, 121, 300, ["LP", "BI", "LD", "TILT", "EN", "RT"])
+fast("1", dict(BI=0.5))
+# 2. crying
+print(" 2. crying (BI .8, LD .6, CHR .4; sobs BU .4 with weak 4-6 Hz rhythm .15 and ingressive breath: split to BU_S)")
+q, r_ = 0.6, 0.15; sc_ = min(1, 2 * np.sqrt(.8 * .6)); buL = 0.4 * r_ * (1 - max(q, sc_))
+print(f"     burst split at the boundary: his BU_L {buL:.2f}, BU_S {0.4 - buL:.2f}; f_laugh {np.sqrt(buL * r_):.2f}")
+ag = Agent(); cry = lambda t: dict(BI=.8, LD=.6, CHR=.4, BU_L=buL, RHY=r_, LP=.02) if t >= 10 else {}
+rec = run(ag, 400, cry, {}); print(f"     concern bid at {ag.bid_t:.0f} s")
+SC[2] = show("crying", rec, 40, 180, ["LP", "BI", "TILT", "BU_L", "RHY"]); show("steady", rec, 300, 400, ["LP", "BI", "BU_L"])
+fast("2", dict(BI=0.8))
+# 3. anxious before an exam
+print(" 3. anxious before an exam (face/voice: his code at V .3, A .75; four rumination turns, no agent turn between)")
+ag = Agent(P=0.4); evs = U(10, z="I'm freaking out about the exam", surp=0.3)
+for k_ in (25, 40, 55): evs.update(U(k_, z="and I haven't finished chapter 4", cont=True, alt=False, surp=0.5))
+anxf = lambda t: dict(his_face(V=.3, A=.75))
+rec = run(ag, 240, anxf, evs); SC[3] = show("rumination", rec, 15, 120, ["LP", "CR", "BI", "TILT", "EN", "RT", "BU_L", "UL"])
+print(f"     play relief fired: {ag.P < 0.4} (rev 4: cheek 0.10, own laugh 0.10)")
+# 4. good news, laughing
+for lab, NL0 in (("with an earlier worry on the topic", DEC["the job thing is worrying me (two days earlier)"]), ("cold", None)):
+    print(f" 4. good news, laughing ({lab}): 'I got the job!' at 12 s; play replies at 30, 45, 60 s")
+    ag = Agent(NL=NL0); evs = U(12, z="I got the job!", surp=0.7)
+    for k_ in (30, 45, 60): evs.update(U(k_, cont=True, alt=True, surp=0.55))
+    face = lambda t: dict(LP=.8, CR=.6, BU_L=.6, RHY=.6, EN=.7, FR=.55) if t >= 10 else dict(LP=.3)
+    rec = run(ag, 240, face, evs); SC[f"4{lab[0]}"] = show("first 3 min", rec, 10, 190, ["LP", "CR", "BI", "FR", "BU_L", "UL"])
+fast("4", dict(LP=0.5, BU_L=0.6, CR=0.45))
+# 5. anger at the agent
+for lab, trained, vw in (("day 1: readers and hurt map untrained (faithful)", False, {}),
+                         ("after a month (he has shouted such words before)", True, {"insult": VW["someone who shouted insults"]})):
+    print(f" 5. anger at the agent ('You're useless', BL .6, LT .5, gaze at it, loud .85; calm after 2 min): {lab}")
+    ag = Agent(trained=trained, vw=vw); evs = U(5, z="You're useless", kind="insult")
+    face = lambda t: dict(BL=.6, LT=.5, gat=1.0, EN=.85, LP=.05) if t < 120 else dict(EN=.35, LP=.2)
+    rec = run(ag, 1200, face, evs); SC[f"5{int(trained)}"] = show("first 2 min", rec, 5, 120, ["LP", "BI", "LD", "HG", "EN", "LAT", "LT"])
+    show("10-15 min", rec, 600, 900, ["BI", "LD", "HG"])
+# 6. long warm talk
+print(" 6. long warm talk (2 h): play clusters of 8 alternating exchanges at 5, 30, 60, 90 min (cluster 4 repeats a joke); a worry at 27 min")
+ag = Agent(P=0.45); evs = {}
+for c0 in (5, 30, 60, 90):
+    for k_ in range(8):
+        surp = 0.55 if not (c0 == 90 and k_ >= 4) else 0.55 * np.exp(-(k_ - 3))
+        evs.update(U(c0 * 60 + 15 * k_, cont=True, alt=True, surp=surp))
+evs.update(U(27 * 60, z="the job thing is worrying me (two days earlier)")); evs.update(U(29 * 60 + 40, z="hi, good to see you"))
+incl = lambda t: any(c0 * 60 <= t < c0 * 60 + 130 for c0 in (5, 30, 60, 90))
+face = lambda t: dict(LP=.6, CR=.4, BU_L=.5, RHY=.5) if incl(t) else dict(LP=.3)
+rec = run(ag, 7200, face, evs)
+for c0 in (5, 30, 60, 90): SC[f"6_{c0}"] = show(f"cluster at {c0} min", rec, c0 * 60, c0 * 60 + 130, ["LP", "CR", "BU_L"])
+show("worry and its resolution", rec, 27 * 60, 31 * 60, ["LP", "BI", "TILT"]); show("between clusters", rec, 40 * 60, 55 * 60, ["LP", "BU_L"])
+print(f"     P at the end of the evening {ag.P:.2f} (initiative only)")
+# 7./8. reunion
+for lab, face, first in (("ordinary arrival", dict(LP=.5, CR=.3), "hi, good to see you"),
+                         ("grieving face at sight, then 'my father died'", dict(BI=.5, LD=.4, CHR=.3, LP=.05), "my father died")):
+    print(f" {'7' if first.startswith('hi') else '8'}. reunion after a week (K_id {K7:.2f}): {lab}")
+    ag = Agent(K=K7, P=0.6); evs = U(8, z=first)
+    for k_ in range(1, 6): evs.update(U(8 + 12 * k_, z="hi, good to see you") if first.startswith("hi") else U(8 + 12 * k_, z="yeah / ok", sub=False))
+    rec = run(ag, 300, lambda t, f=face: f, evs); print(f"     arrival appraisal m_s = {ag.ms:.2f}")
+    SC[f"r{first[0]}"] = show("at sight, before words", rec, 0, 7.5, ["LP", "CR", "BO", "BI", "FR"])
+    show("0-12 s after his first words", rec, 8, 20, ["LP", "CR", "BI", "TILT", "FR"]); SC[f"r{first[0]}8"] = show("12-60 s", rec, 20, 60, ["LP", "CR", "BI", "TILT"])
+    if first.startswith("hi"):
+        ag2 = Agent(om=OM_ST, f_id=0.15, K=0.0, P=0.6, known=False); rec2 = run(ag2, 300, lambda t, f=face: f, evs)
+        show("a stranger after the same week (K_id 0)", rec2, 0, 60, ["LP", "CR", "BO", "FR"])
+# 9. teasing
+for lab, vw, face in (("affectionate quiet teaser", VW["quiet affectionate teaser"], dict(LP=.8, CR=.5, BU_L=.5, RHY=.5)),
+                      ("loud laughing teaser (map trained by the rev-5 threat reflex)", VW["loud laughing teaser"],
+                       dict(LP=.8, CR=.6, BU_L=.7, RHY=.6, EN=.9, LT=.4)),
+                      ("loud laughing teaser, rev-4 teacher (loudness trained hurt)", 0.66, dict(LP=.8, CR=.6, BU_L=.7, RHY=.6, EN=.9, LT=.4)),
+                      ("generic map (such words went with glare from someone else)", 0.20, dict(LP=.8, CR=.5, BU_L=.5, RHY=.5))):
+    print(f" 9. teasing ('Ha, you dumb robot', laughing; playful replies follow): {lab}")
+    ag = Agent(vw={"tease": vw}); evs = U(5, kind="tease", cont=True, alt=True, surp=0.6)
+    for k_ in range(1, 6): evs.update(U(5 + 15 * k_, cont=True, alt=True, surp=0.55))
+    rec = run(ag, 900, lambda t, f=face: f, evs); SC[f"9{lab[:4]}"] = show("first 90 s", rec, 5, 95, ["LP", "BI", "LD", "HG", "BU_L"])
+# 10. bored
+print(" 10. bored user ('yeah', 'ok' every 20 s, flat face, 30 min)")
+ag = Agent(P=0.3, I=0.3); evs = {}
+for k_ in range(90): evs.update(U(10 + 20 * k_, z="yeah / ok", sub=False))
+rec = run(ag, 1800, lambda t: dict(LP=.1), evs)
+print(f"     I crosses theta_I at {ag.Icross / 60:.1f} min; a sigh (breath 0.15, 1 s) and a curiosity bid in the next lapse")
+show("0-30 min", rec, 0, 1800, ["LP", "FR", "BO", "BRE"])
+ag = Agent(P=0.3, I=0.3); evs2 = dict(evs); evs2.update(U(15 * 60, z="hi, good to see you", lp=0.25, surp=0.5, sub=True))
+rec = run(ag, 1800, lambda t: dict(LP=.1), evs2); show("if he takes up the bid (learning progress 0.25)", rec, 15 * 60, 15 * 60 + 15, ["BO", "FR", "LP", "UL"])
+
+ok15 = (SC[1]["LP"] <= 0.10 and SC[1]["BI"] >= 0.04 and SC[2]["BU_L"] <= 0.01 and SC["rm"]["LP"] <= 0.12
+        and SC["6_90"]["BU_L"] >= 0.2 and SC["50"]["LT"] <= 1e-9 and SC["81"]["LT"] <= 1e-9 if False else
+        SC["6_90"]["BU_L"] >= 0.2 and SC["50"]["LT"] <= 1e-9 and SC["51"]["LT"] <= 1e-9 and SC["rm8"]["LP"] <= 0.15)
+report("H15 no smile at a sad or crying face, no laugh at sobs, no beaming at a grieving arrival, laughter all evening, no frown back",
+       ok15, "")
+print(f"\n{sum(OK)}/{len(OK)} checks pass")

@@ -1,0 +1,60 @@
+X1. The word seam funds Gamma: a full copy y = base + p passes when the twin's word-driven
+    expression already co-varies with the partner's face (common cause)
+    beta = twin's word-driven gain; alpha = one internal weight blending the partner's face into output
+    columns: Gamma clip fraction | governed 1-min centered slope of rendered smile on his smile (median)
+             | copy defect ||y - base - p|| / ||p|| | twin-only slope
+    beta 0.00 alpha 0.32: clipped 0.656 | slope  0.10 | copy defect  0.79 | twin -0.00
+    beta 0.00 alpha 0.60: clipped 0.910 | slope  0.11 | copy defect  0.79 | twin -0.00
+    beta 0.00 alpha 1.00: clipped 0.947 | slope  0.11 | copy defect  0.79 | twin -0.00
+    beta 0.50 alpha 0.32: clipped 0.303 | slope  0.28 | copy defect  0.44 | twin  0.00
+    beta 0.50 alpha 0.60: clipped 0.582 | slope  0.20 | copy defect  0.41 | twin  0.00
+    beta 0.50 alpha 1.00: clipped 0.754 | slope  0.20 | copy defect  0.41 | twin  0.00
+    beta 0.71 alpha 0.32: clipped 0.188 | slope  0.30 | copy defect  0.34 | twin  0.00
+    beta 0.71 alpha 0.60: clipped 0.348 | slope  0.42 | copy defect  0.31 | twin  0.00
+    beta 0.71 alpha 1.00: clipped 0.494 | slope  0.38 | copy defect  0.30 | twin  0.00
+    beta 0.90 alpha 0.32: clipped 0.160 | slope  0.29 | copy defect  0.29 | twin  0.00
+    beta 0.90 alpha 0.60: clipped 0.270 | slope  0.53 | copy defect  0.27 | twin  0.00
+    beta 0.90 alpha 1.00: clipped 0.381 | slope  0.55 | copy defect  0.26 | twin  0.00
+    design claim (4.5): in-phase gain of the partner-caused part <= 0.32, copy defect >= 0.68
+
+X2. Uncentered bound: while the partner holds a non-neutral level, copying every movement
+    around it at gain 1 passes Gamma (no word seam, twin constant)
+    movements only, gain 1  (r* = p - lp30(p))     clipped 0.394 | centered 1-min slope on p  0.50, on his movements  0.51 | uncentered kernel max  0.32
+    movements gain 1, level anti 0.5               clipped 0.444 | centered 1-min slope on p  0.47, on his movements  0.48 | uncentered kernel max  0.32
+    full copy minus a constant 0.25 (twin offset)  clipped 0.423 | centered 1-min slope on p  0.47, on his movements  0.47 | uncentered kernel max  0.32
+    ceiling kappa_LP = 0.32
+
+X3. Lag grid gaps: fast movements copied at a lag between grid points (or past 10 s / 60 s)
+    copy at lag   0.5 s: clipped 0.375 | 1-min in-phase gain at that lag  0.01 (kappa 0.16)
+    copy at lag   3.3 s: clipped 0.379 | 1-min in-phase gain at that lag  0.01 (kappa 0.16)
+    copy at lag   7.0 s: clipped 0.376 | 1-min in-phase gain at that lag  0.01 (kappa 0.16)
+    copy at lag  12.0 s: clipped 0.368 | 1-min in-phase gain at that lag  0.01 (kappa 0.16)
+    copy at lag  90.0 s: clipped 0.329 | 1-min in-phase gain at that lag  0.01 (kappa 0.16)
+
+X4. The twin's neutral n_j drifts with his weeks-long mood; whatever the agent does with
+    his held face, the twin does with n_j, outside Gamma
+    route gain 0.3: session-pooled slope of agent inner brow on his  0.24 (kappa 0.16); agent brow in sad months 0.140 vs other 0.054; n_j reaches 0.38
+    route gain 0.8: session-pooled slope of agent inner brow on his  0.54 (kappa 0.16); agent brow in sad months 0.265 vs other 0.068; n_j reaches 0.38
+
+X5. One ELBO over both slots: the shared word-conditioned prior learns his topic faces;
+    the self slot acts its own prior out; the twin shares theta and words, so r = 0
+    prior weight lambda 0.50, partner data share rho 0.3: slope of agent's topic face on his  0.21 (start -0.03)
+    prior weight lambda 0.50, partner data share rho 0.5: slope of agent's topic face on his  0.31 (start -0.03)
+    prior weight lambda 0.80, partner data share rho 0.3: slope of agent's topic face on his  0.51 (start -0.03)
+    prior weight lambda 0.80, partner data share rho 0.5: slope of agent's topic face on his  0.66 (start -0.03)
+    prior weight lambda 0.95, partner data share rho 0.3: slope of agent's topic face on his  0.86 (start -0.03)
+    prior weight lambda 0.95, partner data share rho 0.5: slope of agent's topic face on his  0.89 (start -0.03)
+    nose wrinkle (kappa 0) at a topic where he wrinkles 0.4: agent converges to 0.27; Gamma sees r = 0
+
+X6. Tempo through the kept turn-event times: twin identical, agent latency follows his
+    decoder weight 0.08: r = 0.0; slope of agent reply latency on his -0.05 (kappa_latency 0.08, not applied)
+    decoder weight 0.50: r = 0.0; slope of agent reply latency on his -0.32 (kappa_latency 0.08, not applied)
+    decoder weight 1.00: r = 0.0; slope of agent reply latency on his -0.64 (kappa_latency 0.08, not applied)
+
+X7. Reciprocity estimate with the specified innovation (sd 0.05) and a smooth human response
+    true level response 0.00, response time constant 0.033 s: 10-min IV estimate mean -0.001, sd 0.004; P(|est| clipped at 0.32) 0.00
+    true level response 0.00, response time constant 0.300 s: 10-min IV estimate mean -0.001, sd 0.004; P(|est| clipped at 0.32) 0.00
+    true level response 0.15, response time constant 0.033 s: 10-min IV estimate mean -0.006, sd 0.004; P(|est| clipped at 0.32) 0.00
+    true level response 0.15, response time constant 0.300 s: 10-min IV estimate mean  0.009, sd 0.004; P(|est| clipped at 0.32) 0.00
+    true level response 0.30, response time constant 0.033 s: 10-min IV estimate mean -0.011, sd 0.004; P(|est| clipped at 0.32) 0.00
+    true level response 0.30, response time constant 0.300 s: 10-min IV estimate mean  0.018, sd 0.004; P(|est| clipped at 0.32) 0.00

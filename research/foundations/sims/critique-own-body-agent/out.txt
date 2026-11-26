@@ -1,0 +1,16 @@
+A. Reciprocity (L4) against partners who respond to perceptible expressions, not to jitter
+    linear mimicker, gain 0.30 on level                                IV estimate of S_jj = +0.299
+    onset mimicker, gain 0.30, reacts only to rises > 0.10 in 0.5 s    IV estimate of S_jj = +0.024
+    non-mimicking partner                                              IV estimate of S_jj = -0.000
+    (the design's S_j is this estimate clipped to +-kappa: it is the agent's whole fast echo after the newborn prior)
+
+B. The transcript carries face-chosen tone to both selves (Claude route outside r after one turn)
+    pooled slope of the rendered smile on the partner's smile: ungoverned 0.34; governed 0.32; of which the design's twin passes untouched 0.22
+    with a twin that has its own transcript (own Claude drafts): governed 0.16
+
+C. Silently crying partner: what Gamma allows on the in-phase concern channels (kernel bound)
+    inner brow raise                   partner deviation +0.80: agent's face-caused part toward it at most 0.128
+    lip-corner depress                 partner deviation +0.60: agent's face-caused part toward it at most 0.048
+    energy (dB re median, as range)    partner deviation -0.50: agent's face-caused part toward it at most 0.040
+    speech rate                        partner deviation -0.40: agent's face-caused part toward it at most 0.048
+    F0 level                           partner deviation -0.40: agent's face-caused part toward it at most 0.032
