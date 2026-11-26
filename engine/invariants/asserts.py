@@ -1,8 +1,10 @@
-"""Runtime assertions (spec §4.3). M0 holds A0, A3 (static part, plus the per-frame ledger form used by the
-ledger tests), A10, A14 (accounting), A15 and the A17 model-hash stub. The rest arrive with their modules.
+"""Runtime assertions (spec §4.3). M0: A0, A3 (static part and the per-frame ledger form), A4, A10, A14 (accounting),
+A15 and the A17 model-hash stub. M4: A1, A2 (range; provenance in the type trace), A5, A6, A7, A8, A9 (the parts
+before the prosody stage). A11-A13, A16 arrive with their modules (M6, M2, M3, M1).
 
 This module imports nothing from engine.config at import time (channels.py calls check_a0 while importing).
-Each failure raises InvariantError naming the assertion; the caller applies the fail-safe of its row.
+Each failure raises InvariantError, or the check returns what failed; the caller applies the fail-safe of its row
+(engine/shadow/shadow.py, `ShadowPair` and `Safety`; A14 in engine/state/body.py).
 """
 from __future__ import annotations
 

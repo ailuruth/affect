@@ -1,1 +1,1 @@
-"""Shadow run and the attenuate-only ledger (ledger at M0; shadow run at M4)."""
+"""Assembly, the shadow run with its fail-safes, and the attenuate-only ledger (M0 ledger; M4 the rest)."""

@@ -1,1 +1,1 @@
-"""Fast gear, cone, appraisal, free display, gates, learned T parts, turns (M4)."""
+"""Fast gear, held cone, appraisal display, free display, gates, learned T parts (stubs) (M4)."""

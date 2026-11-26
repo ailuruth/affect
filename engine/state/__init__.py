@@ -1,1 +1,1 @@
-"""Typed latent state; M0 has the type declarations and the drive forms, the rest at M4."""
+"""Typed latent state: types and T/Ω objects, ports P1-P5, the body, readers (stubs), drive forms (M0, M4)."""
