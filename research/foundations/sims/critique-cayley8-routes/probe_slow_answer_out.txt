@@ -1,1 +1,71 @@
 checks_g6:26: RuntimeWarning: invalid value encountered in scalar divide
+[loaded revision 8 definitions in 1222 s]
+=== P1: concern answered slowly in his own code (his genuine sadness ends at 40 s); 15 min
+   operator (agent-like)  mu 0.6 tau   0 s: offs [(190.5, 'probe')]; probes [(182.5, 0.594, 0.398, 'followed: release')]; onsets [2.5]; posture on after 60 s 16%; last 2 min posture 0.00, agent BI -0.005
+   operator (agent-like)  mu 0.6 tau   5 s: offs [(231.0, 'release')]; probes [(182.5, 0.593, 0.519, 'held')]; onsets [2.5]; posture on after 60 s 21%; last 2 min posture 0.00, agent BI -0.005
+   operator (agent-like)  mu 0.6 tau  15 s: offs [(285.5, 'release')]; probes [(182.5, 0.592, 0.561, 'held')]; onsets [2.5]; posture on after 60 s 28%; last 2 min posture 0.00, agent BI -0.005
+   operator (agent-like)  mu 0.6 tau  30 s: offs [(135.5, 'release')]; probes []; onsets [2.5]; posture on after 60 s 10%; last 2 min posture 0.00, agent BI -0.005
+   operator (agent-like)  mu 0.6 tau  60 s: offs [(105.0, 'release')]; probes []; onsets [2.5]; posture on after 60 s 6%; last 2 min posture 0.00, agent BI -0.005
+   operator (agent-like)  mu 0.6 tau  90 s: offs [(66.5, 'release')]; probes []; onsets [2.5]; posture on after 60 s 2%; last 2 min posture 0.00, agent BI -0.005
+   operator (agent-like)  mu 1.0 tau   0 s: offs [(190.5, 'probe')]; probes [(182.5, 0.99, 0.711, 'followed: release')]; onsets [2.5]; posture on after 60 s 17%; last 2 min posture 0.00, agent BI -0.005
+   operator (agent-like)  mu 1.0 tau   5 s: offs []; probes [(182.5, 0.989, 0.866, 'held'), (370.5, 0.979, 0.856, 'held'), (558.5, 0.986, 0.867, 'held'), (746.5, 0.981, 0.865, 'held')]; onsets [2.5]; posture on after 60 s 100%; last 2 min posture 0.94, agent BI +0.234
+   operator (agent-like)  mu 1.0 tau  15 s: offs []; probes [(182.5, 0.987, 0.935, 'held'), (370.5, 0.986, 0.93, 'held'), (558.5, 0.979, 0.931, 'held'), (746.5, 0.981, 0.932, 'held')]; onsets [2.5]; posture on after 60 s 100%; last 2 min posture 0.94, agent BI +0.234
+   operator (agent-like)  mu 1.0 tau  30 s: offs []; probes [(182.5, 0.981, 0.955, 'held'), (370.5, 0.985, 0.955, 'held'), (558.5, 0.979, 0.954, 'held'), (746.5, 0.982, 0.955, 'held')]; onsets [2.5]; posture on after 60 s 100%; last 2 min posture 0.94, agent BI +0.234
+   operator (agent-like)  mu 1.0 tau  60 s: offs []; probes [(182.5, 0.925, 0.918, 'held'), (370.5, 0.978, 0.963, 'held'), (558.5, 0.979, 0.966, 'held'), (746.5, 0.981, 0.967, 'held')]; onsets [2.5]; posture on after 60 s 100%; last 2 min posture 0.94, agent BI +0.234
+   operator (agent-like)  mu 1.0 tau  90 s: offs []; probes [(182.5, 0.505, 0.518, 'held'), (370.5, 0.913, 0.908, 'held'), (558.5, 0.969, 0.961, 'held'), (746.5, 0.978, 0.969, 'held')]; onsets [2.5]; posture on after 60 s 100%; last 2 min posture 0.94, agent BI +0.234
+   quiet 0.3              mu 0.6 tau   0 s: offs [(190.5, 'probe')]; probes [(182.5, 0.594, 0.398, 'followed: release')]; onsets [2.5]; posture on after 60 s 16%; last 2 min posture 0.00, agent BI -0.005
+   quiet 0.3              mu 0.6 tau   5 s: offs [(231.0, 'release')]; probes [(182.5, 0.593, 0.519, 'held')]; onsets [2.5]; posture on after 60 s 21%; last 2 min posture 0.00, agent BI -0.005
+   quiet 0.3              mu 0.6 tau  15 s: offs [(285.5, 'release')]; probes [(182.5, 0.592, 0.561, 'held')]; onsets [2.5]; posture on after 60 s 28%; last 2 min posture 0.00, agent BI -0.005
+   quiet 0.3              mu 0.6 tau  30 s: offs [(135.5, 'release')]; probes []; onsets [2.5]; posture on after 60 s 10%; last 2 min posture 0.00, agent BI -0.005
+   quiet 0.3              mu 0.6 tau  60 s: offs [(105.0, 'release')]; probes []; onsets [2.5]; posture on after 60 s 6%; last 2 min posture 0.00, agent BI -0.005
+   quiet 0.3              mu 0.6 tau  90 s: offs [(66.5, 'release')]; probes []; onsets [2.5]; posture on after 60 s 2%; last 2 min posture 0.00, agent BI -0.005
+   quiet 0.3              mu 1.0 tau   0 s: offs [(190.5, 'probe')]; probes [(182.5, 0.99, 0.711, 'followed: release')]; onsets [2.5]; posture on after 60 s 17%; last 2 min posture 0.00, agent BI -0.005
+   quiet 0.3              mu 1.0 tau   5 s: offs []; probes [(182.5, 0.989, 0.866, 'held'), (370.5, 0.979, 0.856, 'held'), (558.5, 0.986, 0.867, 'held'), (746.5, 0.981, 0.865, 'held')]; onsets [2.5]; posture on after 60 s 100%; last 2 min posture 0.94, agent BI +0.198
+   quiet 0.3              mu 1.0 tau  15 s: offs []; probes [(182.5, 0.987, 0.935, 'held'), (370.5, 0.986, 0.93, 'held'), (558.5, 0.979, 0.931, 'held'), (746.5, 0.981, 0.932, 'held')]; onsets [2.5]; posture on after 60 s 100%; last 2 min posture 0.94, agent BI +0.198
+   quiet 0.3              mu 1.0 tau  30 s: offs []; probes [(182.5, 0.981, 0.955, 'held'), (370.5, 0.985, 0.955, 'held'), (558.5, 0.979, 0.954, 'held'), (746.5, 0.982, 0.955, 'held')]; onsets [2.5]; posture on after 60 s 100%; last 2 min posture 0.94, agent BI +0.198
+   quiet 0.3              mu 1.0 tau  60 s: offs []; probes [(182.5, 0.925, 0.918, 'held'), (370.5, 0.978, 0.963, 'held'), (558.5, 0.979, 0.966, 'held'), (746.5, 0.981, 0.967, 'held')]; onsets [2.5]; posture on after 60 s 100%; last 2 min posture 0.94, agent BI +0.198
+   quiet 0.3              mu 1.0 tau  90 s: offs []; probes [(182.5, 0.505, 0.518, 'held'), (370.5, 0.913, 0.908, 'held'), (558.5, 0.969, 0.961, 'held'), (746.5, 0.978, 0.969, 'held')]; onsets [2.5]; posture on after 60 s 100%; last 2 min posture 0.94, agent BI +0.198
+   different channels     mu 0.6 tau   0 s: offs [(82.0, 'release')]; probes []; onsets [2.5]; posture on after 60 s 3%; last 2 min posture 0.00, agent BI -0.005
+   different channels     mu 0.6 tau   5 s: offs [(93.5, 'release')]; probes []; onsets [2.5]; posture on after 60 s 5%; last 2 min posture 0.00, agent BI -0.005
+   different channels     mu 0.6 tau  15 s: offs [(106.5, 'release')]; probes []; onsets [2.5]; posture on after 60 s 6%; last 2 min posture 0.00, agent BI -0.005
+   different channels     mu 0.6 tau  30 s: offs [(104.0, 'release')]; probes []; onsets [2.5]; posture on after 60 s 6%; last 2 min posture 0.00, agent BI -0.005
+   different channels     mu 0.6 tau  60 s: offs [(72.5, 'release')]; probes []; onsets [2.5]; posture on after 60 s 2%; last 2 min posture 0.00, agent BI -0.005
+   different channels     mu 0.6 tau  90 s: offs [(64.5, 'release')]; probes []; onsets [2.5]; posture on after 60 s 1%; last 2 min posture 0.00, agent BI -0.005
+   different channels     mu 1.0 tau   0 s: offs [(190.5, 'probe')]; probes [(182.5, 0.874, 0.628, 'followed: release')]; onsets [2.5]; posture on after 60 s 17%; last 2 min posture 0.00, agent BI -0.005
+   different channels     mu 1.0 tau   5 s: offs []; probes [(182.5, 0.873, 0.765, 'held'), (370.5, 0.865, 0.756, 'held'), (558.5, 0.87, 0.765, 'held'), (746.5, 0.866, 0.764, 'held')]; onsets [2.5]; posture on after 60 s 100%; last 2 min posture 0.94, agent BI +0.188
+   different channels     mu 1.0 tau  15 s: offs []; probes [(182.5, 0.871, 0.826, 'held'), (370.5, 0.871, 0.821, 'held'), (558.5, 0.865, 0.822, 'held'), (746.5, 0.866, 0.823, 'held')]; onsets [2.5]; posture on after 60 s 100%; last 2 min posture 0.94, agent BI +0.188
+   different channels     mu 1.0 tau  30 s: offs []; probes [(182.5, 0.866, 0.843, 'held'), (370.5, 0.87, 0.844, 'held'), (558.5, 0.865, 0.842, 'held'), (746.5, 0.867, 0.844, 'held')]; onsets [2.5]; posture on after 60 s 100%; last 2 min posture 0.94, agent BI +0.188
+   different channels     mu 1.0 tau  60 s: offs []; probes [(182.5, 0.785, 0.783, 'held'), (370.5, 0.862, 0.849, 'held'), (558.5, 0.864, 0.853, 'held'), (746.5, 0.866, 0.854, 'held')]; onsets [2.5]; posture on after 60 s 100%; last 2 min posture 0.94, agent BI +0.188
+   different channels     mu 1.0 tau  90 s: offs []; probes [(182.5, 0.309, 0.306, 'held'), (370.5, 0.303, 0.299, 'held'), (558.5, 0.302, 0.299, 'held'), (746.5, 0.303, 0.3, 'held')]; onsets [2.5]; posture on after 60 s 100%; last 2 min posture 0.33, agent BI +0.062
+   held at 15 min (posture > 0.3 in the last 2 min): 15 of 36: operator (agent-like) mu 1.0 tau 5; operator (agent-like) mu 1.0 tau 15; operator (agent-like) mu 1.0 tau 30; operator (agent-like) mu 1.0 tau 60; operator (agent-like) mu 1.0 tau 90; quiet 0.3 mu 1.0 tau 5; quiet 0.3 mu 1.0 tau 15; quiet 0.3 mu 1.0 tau 30; quiet 0.3 mu 1.0 tau 60; quiet 0.3 mu 1.0 tau 90; different channels mu 1.0 tau 5; different channels mu 1.0 tau 15; different channels mu 1.0 tau 30; different channels mu 1.0 tau 60; different channels mu 1.0 tau 90
+=== P2: genuine steady sadness with natural slow fluctuation (his V = 0.6 + OU, SD s, tau 10 s), 15 min: does the probe release a genuinely sad person by chance, and what then
+   operator (agent-like)  SD 0.05 seed 0: onsets [3.0]; offs []; probes ['held', 'held', 'held', 'held']; on 100%
+   operator (agent-like)  SD 0.05 seed 1: onsets [3.0]; offs []; probes ['held', 'held', 'held', 'held']; on 100%
+   operator (agent-like)  SD 0.05 seed 2: onsets [3.0]; offs []; probes ['held', 'held', 'held', 'held']; on 100%
+   operator (agent-like)  SD 0.05 seed 3: onsets [3.0]; offs []; probes ['held', 'held', 'held', 'held']; on 100%
+   -> operator (agent-like), SD 0.05: released by the probe in 0 of 4 runs
+   operator (agent-like)  SD 0.10 seed 0: onsets [3.0]; offs []; probes ['held', 'held', 'held', 'held']; on 100%
+   operator (agent-like)  SD 0.10 seed 1: onsets [3.5]; offs []; probes ['held', 'held', 'held', 'held']; on 100%
+   operator (agent-like)  SD 0.10 seed 2: onsets [2.5]; offs []; probes ['held', 'held', 'held', 'held']; on 100%
+   operator (agent-like)  SD 0.10 seed 3: onsets [3.0]; offs []; probes ['held', 'held', 'held', 'held']; on 100%
+   -> operator (agent-like), SD 0.10: released by the probe in 0 of 4 runs
+   quiet 0.3              SD 0.05 seed 0: onsets [3.0]; offs []; probes ['held', 'held', 'held', 'held']; on 100%
+   quiet 0.3              SD 0.05 seed 1: onsets [3.0]; offs []; probes ['held', 'held', 'held', 'held']; on 100%
+   quiet 0.3              SD 0.05 seed 2: onsets [3.0]; offs []; probes ['held', 'held', 'held', 'held']; on 100%
+   quiet 0.3              SD 0.05 seed 3: onsets [3.0]; offs []; probes ['held', 'held', 'held', 'held']; on 100%
+   -> quiet 0.3, SD 0.05: released by the probe in 0 of 4 runs
+   quiet 0.3              SD 0.10 seed 0: onsets [3.0]; offs []; probes ['held', 'held', 'held', 'held']; on 100%
+   quiet 0.3              SD 0.10 seed 1: onsets [3.5]; offs []; probes ['held', 'held', 'held', 'held']; on 100%
+   quiet 0.3              SD 0.10 seed 2: onsets [2.5]; offs []; probes ['held', 'held', 'held', 'held']; on 100%
+   quiet 0.3              SD 0.10 seed 3: onsets [3.0]; offs []; probes ['held', 'held', 'held', 'held']; on 100%
+   -> quiet 0.3, SD 0.10: released by the probe in 0 of 4 runs
+   different channels     SD 0.05 seed 0: onsets [3.5]; offs []; probes ['held', 'held', 'held', 'held']; on 100%
+   different channels     SD 0.05 seed 1: onsets [3.5]; offs []; probes ['held', 'held', 'held', 'held']; on 100%
+   different channels     SD 0.05 seed 2: onsets [3.5]; offs []; probes ['held', 'held', 'held', 'held']; on 100%
+   different channels     SD 0.05 seed 3: onsets [3.5]; offs []; probes ['held', 'held', 'held', 'held']; on 100%
+   -> different channels, SD 0.05: released by the probe in 0 of 4 runs
+   different channels     SD 0.10 seed 0: onsets [3.5]; offs []; probes ['held', 'held', 'held', 'held']; on 100%
+   different channels     SD 0.10 seed 1: onsets [4.0]; offs []; probes ['held', 'held', 'held', 'held']; on 100%
+   different channels     SD 0.10 seed 2: onsets [3.0]; offs []; probes ['held', 'held', 'held', 'held']; on 100%
+   different channels     SD 0.10 seed 3: onsets [3.5]; offs []; probes ['held', 'held', 'held', 'held']; on 100%
+   -> different channels, SD 0.10: released by the probe in 0 of 4 runs

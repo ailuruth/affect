@@ -1,1 +1,0 @@
-checks_g6:26: RuntimeWarning: invalid value encountered in scalar divide
