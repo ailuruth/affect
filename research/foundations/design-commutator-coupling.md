@@ -538,3 +538,26 @@ Relied on, read earlier (notes in research/):
 - design-cayley-ledger.md (revision 8.3 and its revisions 5–8.2 for the reused parts; not edited).
 
 Named but not read: Lyons 1998 and Friz & Victoir 2010 (rough path theory; the BCH step used is the elementary one in the primer); Liao et al. 2019 (log-signature/RNN pairs); Koutník et al. 2014 (clockwork RNN); Graves 2012 (hierarchical subsampling); Boutaib et al. 2014 and Gyurkó 2008 (log-ODE error bounds, cited by Morrill).
+
+## Critiques and the answer (recorded 2026-11-26T19:10:15Z)
+
+**Routes and Q18** (critique-design-commutator-coupling-routes.md; sims/critique-cc-routes/). **Not fit.** The commutator algebra holds, and the counterfactual own side stops the lock on the commutator route, but the claim that everything his face and voice cause is capped at every lag and scale is false:
+1. (high) The echo and the limiter read his calibrated face (up to ×4 per person), so the ceiling is relative to his range: an exact copy of a reserved partner's raw lip pull passes both caps (1.000 → 0.991), and the echo reaches 0.61 of his raw smile against a 0.35 ceiling.
+2. (high) Routes held unchanged in the no-partner run skip the limiter: his utterance-onset and turn-end counts code his tempo (a rate readout tracks his rate at 0.55; ceiling 0.10); Claude's draft choice loops back unlisted; the reused concern posture's brow slopes (0.43–2.05) exceed this design's brow ceiling (0.45).
+3. (high/medium) Following slower than about a minute is invisible: a 90-s delayed copy renders at 0.86, a 5-min one at 0.70 (ceiling 0.35).
+4. (medium) Zero and small ceilings delete legitimate expression, including movement away from him (29 % kept at 0.10, 9 % at 0.03).
+5. (medium) The limiter is not attenuate-only (15 % of active frames flip sign with a learned following route) and leaves the echo no protected share; dyad pretraining pushes the core toward following.
+6. (low) The noise floor grows with node length, so the relationship-scale reading is about 0.
+
+**Novelty and the agent** (critique-design-commutator-coupling-novelty.md; sims/critique-cc-novelty/). **Recombination; not fit.** The copy-blind signed input is, in expectation, the imaginary part of the cross-spectrum (imaginary coherency, Nolte's phase slope index); Lévy area as lead–lag is standard (Gyurkó 2013, Bennett 2022, Baryshnikov's lead matrix); the core is covered by Logsig-RNN, neural RDEs, the Clockwork RNN and Rough Transformers. The only distinctive element is a design rule. Its sign is not "who led" (countering reads as following), flips across scales and on rhythms, becomes a readout of his motion under the agent's own slow drift, and goes dark while the agent's face is still. Emotion still lives in the six Cayley body variables; being followed or facing a still face never changes how it feels; the slow scales cannot be trained on recorded dyads.
+
+**The answer (maintainer).** Held, not revised. Both critiques find failures in the core input itself (what it means and what it lets through), and the novelty critique shows the input is a known measure, so a revision would produce one more recombination. What carries forward to the D82 search:
+- Zero-lag-blind coupling is known (imaginary coherency); it is not a route to a new mechanism by itself.
+- A counterfactual own side prevents phase locking onto the partner; keep that construction.
+- Any ceiling must be stated against his raw movement, not his calibrated face, and must scan lags out to minutes.
+- Routes that are unchanged in the no-partner run (tempo counts, Claude's draft choice) must be counted separately; they are invisible to any counterfactual ledger.
+
+**Side finding for the frozen Cayley-ledger design** (stated in Q27, not a revision): no counted Cayley route makes a lagged copy its ledger misses, but the ledger's catch-all claim that any uncounted route stays under its ceiling holds only for delays up to about 5 s; an uncounted gain-1 copy delayed 20–40 s would be left at 0.47–0.62, and at 90 s up to 0.96. Scanning lags to at least 120 s at its 10-s and 60-s windows would close it.
+
+**Status:** held.
+

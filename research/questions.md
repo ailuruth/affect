@@ -2,6 +2,17 @@
 
 Decisions that are yours (visual identity, data leaving this Mac, new paid services, changes to existing Ailurini behavior). Work that these block is not built; work they do not block continues.
 
+## Report 8: a search for a new core, and one more gap in the main design (no answer needed beyond Q27; 2026-11-26T19:10:15Z)
+
+**The main design** is with you in Q27. Its last check passed. A later critic found one gap in its safety net, stated in Q27: a route nobody listed that copied you 20–90 seconds late would not be caught. None of the design's own routes does this, and a one-line change closes it at build time.
+
+**The search for a genuinely new core.** I read 18 more sources, among them work on path signatures, neural rough differential equations, normalisation in the brain, mixture-of-experts routing, and how lead and lag are measured between two people. The most promising idea: your face reaches the agent only through a signed measure of who moved first on each expression, so that copying you at the same moment, or holding an expression, gives nothing. It was written up as a design and critiqued twice.
+- **It is not new.** The measure is a known one from brain-signal analysis, built for the same reason (to ignore simultaneous movement), and the network around it matches published types.
+- **It fails concretely.** Its sign does not really say who led. Slow copying, over a minute or more, passes. Your speaking tempo and the agent's own choice of reply skip its limits. Its limits, set against your calibrated face, let an exact copy of a reserved person through.
+- **It is held**, with four lessons kept for the next attempt: ignoring simultaneous movement alone is not new; comparing you with the face the agent would have made had you held still does stop it locking onto you; any limit must be measured against your raw movement and across delays of minutes; and routes that do not depend on your face at that moment, such as your tempo, need their own count.
+
+**Reading on how people end a shared look of concern:** nobody holds the look; gaze shifts every few seconds; a concerned face is a short episode the comforter ends. This is kept for after your answer to Q27.
+
 ## Report 7: the main design goes to you as a build candidate, with one known failure (Q27 below; 2026-11-26T17:24:15Z)
 
 **What happened since report 6.** The main design went through revisions 7, 8, 8.1 and 8.2. Each round of critics found only narrow problems, and the core limit (the agent may know your face fully, but every path to its own face is capped per expression) has held since revision 6. Revision 8 added:
@@ -544,6 +555,8 @@ Fixes for situational failures are designed through these three sources.
 **Known failure: closed (2026-11-26T17:57:02Z).** Revision 8.2's check found that if you answer the agent's concerned look with your own face and also speak a few slightly soft words every few minutes, or breathe strongly in answer, the look could stay on indefinitely. Revision 8.3 closes this, and its independent check passed with no concrete failure: without distress words or sobs, the look is on at most 10 minutes at a stretch and at most about 82 % of the time, whatever your face, voice and breathing do. Silent faces alone still get at most 3 minutes on, 2 off.
 - **Costs of the fix:** sadness shown only in your voice or breathing gets the look 10 minutes on, 2 minutes off.
 - **What remains, judged acceptable:** if you sob, or name your distress, whenever the look returns, it stays on (93–100 % of the time). That is treated as real distress, not copying, since your words alone never start it. It is listed as a risk to watch in live tests.
+
+**A gap found since, stated plainly (2026-11-26T19:10:15Z).** A later critic checked whether a delayed copy of your face could slip past the design's safety net. None of the design's own routes does. But the net's promise that any route nobody listed also stays under the limits holds only for delays up to about 5 seconds. A route nobody listed that copied you 20–90 seconds later would be left at about half to almost full strength. Making the net check delays up to 2 minutes would close this; that change would be made when building starts if you choose to build.
 
 **Options:**
 - **Build revision 8.3** (my recommendation; its check passed): building starts on the version with no known concrete failure.

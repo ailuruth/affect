@@ -1,0 +1,36 @@
+/usr/local/lib/python3.13/site-packages/numpy/lib/_function_base_impl.py:3036: RuntimeWarning: invalid value encountered in divide
+  c /= stddev[:, None]
+/usr/local/lib/python3.13/site-packages/numpy/lib/_function_base_impl.py:3037: RuntimeWarning: invalid value encountered in divide
+  c /= stddev[None, :]
+A1  reserved partner: raw smile = 0.25 x the C6 partner (sigma_id = 0.25 sigma_ref, the x4 floor); x~ = ref + 4 (x - b)
+     exact raw copy, lag 0.9 s            vs x~: before +0.250 after +0.248 | vs his RAW channel: before +1.000 after +0.991; rms out/in 1.00; peak 0.225 (his raw peak 0.242 above his baseline)
+     exact raw copy, lag 0                vs x~: before +0.250 after +0.248 | vs his RAW channel: before +1.000 after +0.994; rms out/in 0.99; peak 0.225 (his raw peak 0.242 above his baseline)
+     frozen echo on x~ (G 0.224, 0.9 s)   vs x~: before +0.154 after +0.154 | vs his RAW channel: before +0.614 after +0.614; rms out/in 1.00; peak 0.164 (his raw peak 0.242 above his baseline)
+A2  his utterance-onset counts enter u_j (level 1) and are held factual in S0: a route through them
+     delta = factual - S0: max |delta| 0.0e+00; limiter output max 0.0e+00; rendered rate slope on his rate (2-min means) +0.55  (c_tot rate 0.10)
+A3  slow following, 2 h: partner = C6 smile bursts + session-scale drift (OU tau 10 min, SD 0.08); smile ceiling 0.35
+     copy, lag 90 s                         design metric (<=60 s lags, window-centred) before -0.080 after -0.055 | 1-min block means, lags 0-10 min: before +0.976 after +0.859 (lag 90 s); 5-min means after +0.857 (lag 60 s); rms out/in 0.67
+     copy, lag 5 min                        design metric (<=60 s lags, window-centred) before +0.041 after +0.037 | 1-min block means, lags 0-10 min: before +0.898 after +0.702 (lag 300 s); 5-min means after +0.303 (lag 300 s); rms out/in 0.66
+     low-pass follow, tau 5 min (unit DC)   design metric (<=60 s lags, window-centred) before +0.007 after +0.007 | 1-min block means, lags 0-10 min: before +0.111 after +0.112 (lag 30 s); 5-min means after +0.425 (lag 60 s); rms out/in 1.04
+A4  an independent (non-copy) partner-caused route (C6's last row) and an away route, by ceiling
+     c = 0.00: independent route rms out/in 0.00 (corr with input +nan); away route (-0.3 x his, lag 1 s) rms out/in 0.00
+     c = 0.03: independent route rms out/in 0.09 (corr with input +0.74)
+     c = 0.10: independent route rms out/in 0.29 (corr with input +0.74)
+     c = 0.35: independent route rms out/in 0.73 (corr with input +0.89)
+A5  attenuate-only? and the echo's share of the same-channel budget (smile, c 0.35)
+     echo alone                                 frames with |out| > |in|: 0.000, sign flips: 0.000, output where input < 0.01: 0.000; echo part: peak 0.151 -> 0.151, rms x0.99
+     echo + following route 0.5 x his at 1.0 s  frames with |out| > |in|: 0.016, sign flips: 0.150, output where input < 0.01: 0.379; echo part: peak 0.151 -> 0.065, rms x0.45
+     echo + following route 0.3 x his at 1.5 s  frames with |out| > |in|: 0.019, sign flips: 0.001, output where input < 0.01: 0.085; echo part: peak 0.151 -> 0.096, rms x0.71
+A6  rho at the matched scale for a maximal-area pair (quarter-period lead, amplitude 0.1 each, white tracker noise SD 0.005)
+     j  6 (node      0.0 min): mean rho with eps = nu^2 2^j: +0.462; with a white-noise floor 2 nu^2: +0.499
+     j  9 (node      0.3 min): mean rho with eps = nu^2 2^j: +0.307; with a white-noise floor 2 nu^2: +0.499
+     j 12 (node      2.3 min): mean rho with eps = nu^2 2^j: +0.081; with a white-noise floor 2 nu^2: +0.499
+     j 14 (node      9.1 min): mean rho with eps = nu^2 2^j: +0.023; with a white-noise floor 2 nu^2: +0.499
+     j 16 (node     36.4 min): mean rho with eps = nu^2 2^j: +0.006; with a white-noise floor 2 nu^2: +0.499
+     j 18 (node    145.6 min): mean rho with eps = nu^2 2^j: +0.002; with a white-noise floor 2 nu^2: +0.499
+     j 20 (node    582.5 min): mean rho with eps = nu^2 2^j: +0.000; with a white-noise floor 2 nu^2: +0.499
+done in 365 s
+
+real	6m5.618s
+user	5m59.513s
+sys	0m4.394s
