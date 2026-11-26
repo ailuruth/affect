@@ -1,0 +1,44 @@
+O1. Ownership projection: in-phase gain <= kappa at every kernel window and lag grid point;
+    off-grid lags and boxcar windows measured; anti-phase and cross-channel untouched
+    zero-lag copy (gain 1)                   ungoverned max in-phase  3.43 -> governed 0.468
+    amplified copy (gain 2)                  ungoverned max in-phase  5.27 -> governed 0.468
+    delayed copy 0.7 s (off grid)            ungoverned max in-phase  3.38 -> governed 0.468
+    delayed copy 3.3 s (off grid)            ungoverned max in-phase  3.24 -> governed 0.468
+    delayed copy 40 s                        ungoverned max in-phase  3.33 -> governed 0.493
+    held copy (60 s low-pass)                ungoverned max in-phase  2.27 -> governed 0.468
+    lag-switching copy (0-8 s, every 5 s)    ungoverned max in-phase  3.17 -> governed 0.467
+[PASS] O1a: worst governed in-phase over boxcar windows 3 s-15 min and 70 lags (most off grid) = 0.493 (kappa 0.4); exact <= kappa holds on the kernel windows and grid lags by construction
+[PASS] O1b: kernel-window invariant S - kappa*E max = 3.47e-18 (<= 0 means exact)
+[PASS] O1c: mean change by the projection: anti-phase response 0.0340, cross-channel response 0.0258 (it bites only where a response is in phase at some other lag, e.g. across a change of held level)
+[PASS] O1d: the projection only shrinks the partner-caused part toward the counterfactual self (|r| <= |raw|)
+
+O2. Rendering after the bound leaks; the bound on the rendered difference does not
+[PASS] O2: bound before rendering: realised in-phase 0.87; bound on rendered difference: 0.428
+
+O3. Indirect routes: an agent with five partner routes, twin with partner at neutral
+[PASS] O3a: partner-caused in-phase: ungoverned 5.68 -> governed 0.436 (all routes, one projection)
+    pooled slope of the agent's rendered smile on the partner's smile: ungoverned 1.45, governed 0.36, of which the twin (words only) gives 0.71
+[PASS] O3b: the common-cause (word) part passes untouched: the word seam is outside the bound by definition
+
+O4. Precision is not a dial once the partner has its own slot
+    partner-face noise sd  3.00: weight of partner face on own state  single slot 0.022   two slots 0.006
+    partner-face noise sd  1.00: weight of partner face on own state  single slot 0.167   two slots 0.031
+    partner-face noise sd  0.30: weight of partner face on own state  single slot 0.690   two slots 0.059
+    partner-face noise sd  0.10: weight of partner face on own state  single slot 0.952   two slots 0.064
+    partner-face noise sd  0.03: weight of partner face on own state  single slot 0.996   two slots 0.065
+    partner-face noise sd  0.01: weight of partner face on own state  single slot 1.000   two slots 0.065
+[PASS] O4: single slot -> copy as precision grows (1.000); two slots stay <= prior coupling b = 0.3
+
+O5. Reciprocity learned by the agent's own innovation (IV) vs plain regression (OLS)
+[PASS] O5: true partner response 0.15: IV -> 0.150; OLS (self-confirming) -> 0.400 (drifts to the ceiling 0.40)
+
+O6. Closed dyad: the partner echoes the agent at gain mu; the agent's proposal copies at gain 1
+    mu=0.0: bounded (max |y| 0.56); in-phase on the partner's face 0.322, on the partner's own expression 0.322
+    mu=0.5: bounded (max |y| 0.36); in-phase on the partner's face 0.325, on the partner's own expression 0.383
+    mu=1.0: bounded (max |y| 0.45); in-phase on the partner's face 0.324, on the partner's own expression 0.470
+[PASS] O6: stable and in-phase on the partner's face <= kappa for mu up to 1
+
+O7. Valence as rate: total gladness is bounded by the deficit that existed
+[PASS] O7: integral of valence = D(start) - D(end) = -0.014; positive part 31.52 requires the deficit to regrow first
+
+13/13 checks pass
