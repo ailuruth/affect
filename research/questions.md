@@ -459,3 +459,13 @@ The latest design passes the strongest checks so far. Its critics raised two thi
 - **Keep it as is:** sympathy shows only once words arrive.
 
 **What it blocks:** nothing. The next revision is written on the recommendation and will change if you choose otherwise.
+
+## Q25. May Seamless Interaction also be used to fit one part of the agent, not only to test it? (asked 2026-11-26T10:10:29Z; work continues meanwhile)
+
+**Why this comes up.** You approved the Seamless Interaction recordings as a test bed (D70): downloaded to your Mac only, using only face-movement streams and transcripts, with the dataset's emotion scores dropped. The current design has one part, a general starting model of how faces relate to what people say about themselves, that would be fitted on those recordings before it adapts to you from your own words. That use goes beyond testing.
+
+**Options:**
+- **Allow fitting that one starting model on Seamless** (my recommendation). The same restrictions apply: your Mac only, face streams and transcripts only, emotion scores never read. Speakers are split so the parts used for fitting are never used for testing. The model learns no emotion labels; it relates face movement to people's own later words.
+- **Test only.** The starting model is then built by hand or from the agent's own body model alone, and reads you less well at first.
+
+**What it blocks:** nothing until building starts.
