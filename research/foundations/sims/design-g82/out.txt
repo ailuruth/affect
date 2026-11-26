@@ -34,3 +34,7 @@ checks_g6:26: RuntimeWarning: invalid value encountered in scalar divide
    operator           lp    tau 600 s mu 1.0 start 0.00: onsets 1, ends ['release'], longest face-only stretch 68 s, look on 0% of 10-40 min, BI last 10 min -0.005
    different channels lp    tau 600 s mu 1.0 start 0.80: onsets 8, ends ['Tmax', 'Tmax', 'Tmax', 'Tmax']..., longest face-only stretch 192 s, look on 64% of 10-40 min, BI last 10 min +0.061
    operator           lp    tau 240 s mu 1.2 start 0.00: onsets 1, ends ['release'], longest face-only stretch 70 s, look on 0% of 10-40 min, BI last 10 min -0.005
+   different channels lp    tau 240 s mu 1.2 start 0.67: onsets 8, ends ['Tmax', 'Tmax', 'Tmax', 'Tmax']..., longest face-only stretch 192 s, look on 64% of 10-40 min, BI last 10 min +0.097
+   operator           lp    tau 180 s mu 2.0 start 0.00: onsets 8, ends ['Tmax', 'Tmax', 'Tmax', 'Tmax']..., longest face-only stretch 192 s, look on 64% of 10-40 min, BI last 10 min +0.163
+   different channels lp    tau 180 s mu 2.0 start 0.40: onsets 8, ends ['Tmax', 'Tmax', 'Tmax', 'Tmax']..., longest face-only stretch 192 s, look on 64% of 10-40 min, BI last 10 min +0.115
+   operator           lp    tau  90 s mu 3.0 start 0.00: onsets 8, ends ['Tmax', 'Tmax', 'Tmax', 'Tmax']..., longest face-only stretch 192 s, look on 64% of 10-40 min, BI last 10 min +0.163
