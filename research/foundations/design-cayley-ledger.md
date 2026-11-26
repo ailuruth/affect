@@ -628,3 +628,40 @@ Checks: `sims/design-g8/checks.py` (J31–J39; out.txt). Revision 7 is saved as 
 - **Coupling beyond surrogates.** Per-channel pooled slopes at 2 s, 10 s and 1 min under partner-swap, segment-shuffle and timing-resample surrogates, with the gate and the posture live: the posture's causal slope on his BI should be indistinguishable from 0; its pooled slope over his sadness should survive segment shuffles that keep his sadness and break his brow. How often the ledger binds on natural partners.
 - **The dyad fit on real data.** F15, F16, F21 on held-out people; the counts of rare laughs; whether sympathetic smiles pin monotone inputs at 0; D_s's real weight.
 - **Live.** The recogniser's stable latency (week 0); the laugh synthesizer within 2 s of his laugh ending a sentence of loss, insult or harm (F20); the posture's on/off rate per hour at constant faces and how often the probe releases; whether brow-only distress is common in the operator's own face.
+
+## Critiques of revision 8 and the answer (recorded 2026-11-26T14:51:36Z, under Q19, D81–D85)
+
+**Routes** (critique-8-design-cayley-ledger-routes.md; sims/critique-cayley8-routes/). **One medium failure.**
+- **The contingency probe only catches concern answered instantly.** With the author's own answering partner (J33 P4b–d), his sadness ends at 40 s and he then answers the agent's concern look with a 5–90 s lag. The look is then held for the full 15 minutes in every code (posture 0.94; agent inner brow +0.19 to +0.23). All four probes read "held": his evidence drops only 1–12% during the 8-s softening, against a required 20%.
+- This is an attracting mutual state (D78's fourth condition) and contradicts the claimed release at 190 s, which holds only at zero lag. The probe's specificity is fine (0 of 24 false releases).
+- **Proposed fixes:** a longer probe, a cumulative test across probes, or a time cap on face-only hold; then re-run J33 with lagged answers.
+- **No other concrete failure:**
+  - the look never depends on the channels it writes;
+  - the 0.80-s laugh echo adds no copy route;
+  - the gated play laugh can only lower;
+  - totals on lip pull, cheek and laugh stay ≤ 0.53 c.
+- **Text to correct:**
+  - the gated laugh echo reaches 0.53 c, not the declared 0.42 c;
+  - declare the look's correlation as a level, with gaze and blink included;
+  - distress memory must not read breath sound;
+  - the glare silencing reads gaze, so state it as an exception to rule 9′;
+  - add a week-0 check for face-tracker crosstalk.
+- **Note, not a failure:** the smile echo starts at 0.80 s, inside the first second but late against human 0.4–0.5 s.
+
+**Agent and fitness** (critique-8-design-cayley-ledger-agent.md; sims/critique-cayley8-agent/). **One narrow failure away from a build candidate.** All of critique 7's changes are closed (the posture fix is better than asked); D81 holds (laugh back about 0.83 s); D83 holds.
+- **Failure B2:** threat silencing blanks the concern look for a grieving face that squints while looking at the agent (0.00; looking away, 0.99). Sobs rescue it; silence does not. **Fix:** while the glare is up, drop only the brow lowerer and lip press from what the look reads, instead of silencing everything; recheck the anger and squint cases.
+- **Trade-off B1, for Q24:** brow-only sadness gets no look before words. The first sign of concern is the spoken bid, at about 50 s (about 110 s for a quiet face). The summary must state this.
+- **Build:**
+  - ASR is unlikely to finalise words within 0.55 s (Apple's recogniser takes 1.5–2.2 s, anecdotally; Kyutai 1B is about 0.65–0.75 s at p90), so the echo will land at about 0.9–1.0 s, which the design's fallback covers;
+  - the spec must require the recogniser to report its finalised extent, so that missing words close the gate;
+  - week-0 checks: language coverage (Kyutai 1B is English and French only), runtime on the M1 Pro, the breathing sensor.
+- **Novelty:** recombination. A corrected Build-candidate summary is in the critique's §6.2.
+
+**The answer (maintainer).** Both critiques find only narrow, local fixes; the core holds. A short revision 8.1 will apply exactly these:
+- the probe fix with a lagged-answer recheck;
+- the squint fix;
+- the text corrections;
+- the ASR finalised-extent requirement and week-0 checks;
+- the corrected Build-candidate summary, including the brow-only trade-off.
+
+After one quick check of those fixes, the design goes to the operator as a build candidate (D82). Revision 8 saved as design-cayley-ledger.r8.md.
