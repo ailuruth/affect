@@ -1,0 +1,42 @@
+[project]
+name = "affect-engine"
+version = "0.0.0"
+description = "Engine of the Affect project (build core revision 9.2), milestone M0"
+requires-python = ">=3.12,<3.14"
+# Core (M0, any platform). Exact versions are pinned in uv.lock, generated on the Mac at M1 (D90).
+dependencies = [
+    "numpy>=2.0",
+    "scipy>=1.13",
+    "pytest>=8.0",
+]
+
+[project.optional-dependencies]
+# Engine runtime (M2 onward); local model paths only, offline after the first download.
+engine = [
+    "torch",
+    "sentence-transformers",
+    "pyworld",              # needs the Xcode command line tools on macOS
+    "websockets",
+    "claude-agent-sdk",
+]
+# macOS-only (Apple silicon). The TTS package is added when the operator answers Q1.
+mac = [
+    "mlx; sys_platform == 'darwin'",
+    "mlx-whisper; sys_platform == 'darwin'",
+    "moshi-mlx; sys_platform == 'darwin'",   # Kyutai STT MLX runtime
+]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["engine*"]
+
+[tool.setuptools.package-data]
+"engine.config" = ["INNATE.lock", "innate_names.txt", "models.lock"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-m 'not slow'"
+markers = ["slow: full-length reference regressions (minutes; run with -m slow)"]
