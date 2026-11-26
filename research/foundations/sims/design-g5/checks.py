@@ -74,11 +74,11 @@ assert list(CEIL) == CH and len(CH) == 33
 ONE_SIDED = ("CR", "BU_L", "RHY", "BRE")          # at 0 when the agent is at rest: sat clips the fast undershoot
 KAP = {}
 for k in CH:
-    KAP[k] = (0.30 if k in ("LP", "CR", "BI", "BO", "HP") else 0.15 if k in ("BU_L", "RHY") else
-              0.0 if k == "BU_S" else 0.02 if CEIL[k] == 0 else 0.05 if k in ("YAW", "TILT", "HG") else 0.10)
+    KAP[k] = (0.30 if k in ("LP", "BI", "BO", "HP") else 0.10 if k in ("CR", "BU_L", "RHY") else
+              0.0 if k == "BU_S" else 0.02 if CEIL[k] == 0 else 0.05 if k in ("YAW", "TILT", "HG", "BRE") else 0.10)
 SH = {k: (0.50, 0.20, 0.35) for k in CH}          # (cone diagonal, charged cross, appraisal |Gamma_kk|) x c_k
 SH["BI"] = (0.65, 0.15, 0.15)
-for k in ONE_SIDED: SH[k] = (0.45, 0.20, 0.25)
+for k in ONE_SIDED: SH[k] = (0.45, 0.15, 0.20)
 ECHO = {k: 0.65 * 2 * GF / (1 + GF) * KAP[k] for k in CH}   # theta_0 echo amplitude per unit onset
 
 # ----------------------------------------------------------- the cross-session ripple factor rho (Lemma S*)
@@ -270,8 +270,17 @@ GROUPS = {"joy": dict(LP=1, CR=1, LT=1, JO=1, BU_L=1, RHY=1, BRE=1, FR=1, EN=1),
           "disgust": dict(NW=1, UL=1, BL=1), "speech": dict(JO=1, EN=1, RT=1)}
 
 
+LATERAL = ("YAW", "TILT", "HG")
+
+
 def S(k, j):
-    """sign of the population's co-variation of k and j (fallback: the agent's own signed synergies)"""
+    """sign of the population's co-variation of k and j (fallback: the agent's own signed synergies).
+    Derived features carry the sign of their constituents: f_loud ~ +EN, f_glare ~ +BL (anger), f_laugh ~ +BU_L.
+    Lateral rows from a non-lateral input are rendered on the side opposite his own lateral trace (reflection
+    rule), so they are away by construction."""
+    if k in LATERAL and j not in LATERAL and j != k and k != "TILT": return -2   # marker: away by reflection
+    if j == "loud": return 1 if k == "EN" else S(k, "EN")
+    if j == "glare": return S(k, "BL") or S(k, "LT")
     if k == j: return 1
     for g in GROUPS.values():
         if k in g and j in g: return g[k] * g[j]
@@ -285,21 +294,21 @@ def S(k, j):
 SADSYN = [k for k, v in GROUPS["sad"].items() if v > 0]
 JOYSYN = list(GROUPS["joy"])
 # G0 (rows: agent channel; cols: partner channel or derived feature), per trace index m
-G0 = [("EN", "EN", 0, -0.15), ("EN", "EN", 1, -0.08), ("EN", "loud", 1, -0.20), ("LAT", "loud", 1, +0.15),
+G0 = [("EN", "EN", 0, -0.15), ("EN", "EN", 1, -0.08), ("EN", "loud", 0, -0.20), ("LAT", "loud", 0, +0.15),
       ("LAT", "EN", 0, +0.10), ("HG", "glare", 0, +0.25), ("HG", "glare", 1, +0.05),
       ("BL", "BL", 0, -0.15), ("BL", "BL", 1, -0.08), ("LT", "LT", 0, -0.15), ("LT", "LT", 1, -0.08),
       ("LD", "LD", 0, -0.15), ("LD", "LD", 1, -0.08),
-      ("LP", "glare", 1, -0.07), ("BI", "glare", 1, +0.04), ("LP", "BI", 1, -0.025), ("BI", "LP", 1, -0.03),
-      ("TILT", "BI", 1, +0.02), ("BI", "LD", 1, +0.01), ("HP", "BI", 1, +0.04), ("VG", "BI", 1, +0.04)]
+      ("LP", "glare", 1, -0.04), ("LP", "glare", 2, -0.01), ("BI", "glare", 1, +0.012), ("BI", "LD", 1, +0.005),
+      ("TILT", "BI", 1, +0.014), ("HP", "BI", 1, +0.04), ("VG", "BI", 1, +0.04)]
 viol = []
 for m in range(4):
     for k in CH:
         ents = [(j, g) for (kk, j, mm, g) in G0 if kk == k and mm == m and j != k]
         charged = 0.0; away = 0.0
         for j, g in ents:
-            s = S(k, j) if j in CH else 0
+            s = S(k, j)
             if k in JOYSYN and j in SADSYN and g > 0: viol.append(f"{k}<-{j} sadness->joy positive")
-            if (s == 1 and g <= 0) or (s == -1 and g >= 0):
+            if s == -2 or (s == 1 and g <= 0) or (s == -1 and g >= 0):
                 away += abs(g)
                 if abs(g) > A_M[m]: viol.append(f"{k}<-{j} away entry {g} > {A_M[m]}")
             else:
@@ -312,7 +321,7 @@ for (k, j, m, g) in G0:
     if k == j and g > 0 and CEIL[k] == 0: viol.append(f"{k} zero-ceiling diagonal > 0")
     if k == j and -g > N_M[m] + 1e-12: viol.append(f"{k} diagonal {g} beyond away reach {N_M[m]}")
 print("   entries moved off the 20-s trace: LP<-glare -0.07 and BI<-glare +0.04 (now on the 2-min trace); "
-      "LP<-BI and LP<-LD warm entries deleted (sadness -> joy forbidden)")
+      "LP<-BI and LP<-LD warm entries deleted (sadness -> joy forbidden); BI<-LP deleted; derived features signed")
 report("H7 G0 lies in its own set on every trace", not viol, "; ".join(viol) if viol else "all entries in budget")
 
 # =========================================================== H8: dyad stability (critic D7 re-run)
