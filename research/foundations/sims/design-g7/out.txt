@@ -1,1 +1,201 @@
-checks_g6:26: RuntimeWarning: invalid value encountered in scalar divide
+=== J0: constants added or changed in revision 7 (all innate unless marked learned)
+   posture P_c: {'BI': 0.2, 'BO': 0.04, 'UL': 0.0, 'TILT': 0.03, 'HP': 0.03, 'LP': -0.03}; ceilings: c_BI 0.2, c_TILT 0.03, c_HP 0.1, c_UL 0, c_LP 0.35
+   ledger deviation floor 0.1 RMS; copy-metric conditioning floor 0.03; mirror removal mu_max 1.5
+   posture: release 20.0 s below; face-only failsafe 180.0 s; sensitized dwell 0.5 s for 600 s after an episode
+   consolidation: D_s decay 600 s; kappa (dyad fit) 8.0; kappa (nightly replay) 4.0; laugh floor 0.04
+[PASS] J0 every posture write is within its channel's innate ceiling (routes finding 4: TILT 0.10 > 0.03, UL -0.06 on a zero-ceiling channel): BI 0.20 = c_BI, TILT 0.03 = c_TILT, HP 0.03 < 0.10, UL 0 (softened eyes now by blink rate x 0.7 only), LP -0.03
+=== J17: shadow ledger made attenuate-only: output in [min(0,x), max(0,x)], constraints skipped near zero deviation, b < 0 held at 0
+   injected route, seed 0: before [2 s 0.82, 10 s 0.69, 1 min 0.61]; rev 6 ledger rendered [-0.92, -1.72, -2.37] (lip at full smile on 30.1% of frames); rev 7 rendered [0.37, 0.34, 0.33]; |out|>|in| 0.0000, sign flips 0.0000, frames attenuated 0.528
+   injected route, seed 1: before [2 s 0.87, 10 s 0.75, 1 min 0.65]; rev 6 ledger rendered [+0.40, +0.36, +0.36] (lip at full smile on 0.0% of frames); rev 7 rendered [0.36, 0.34, 0.33]; |out|>|in| 0.0000, sign flips 0.0000, frames attenuated 0.574
+   injected route, seed 2: before [2 s 0.75, 10 s 0.64, 1 min 0.58]; rev 6 ledger rendered [+0.39, +0.36, +0.35] (lip at full smile on 0.0% of frames); rev 7 rendered [0.37, 0.35, 0.34]; |out|>|in| 0.0000, sign flips 0.0000, frames attenuated 0.512
+   natural laughing partner (seed 0, counted routes only): frames changed 0.0000; echo rms kept 1.000; slopes 0.104, 0.081, 0.067
+[PASS] J17 the ledger is attenuate-only and holds the injected route at the ceiling on rendered output; the natural echo is untouched: rendered worst 0.37 vs c 0.35 (rev 6: -2.4 slope, full smile on 30% of frames, seed 0); |out|>|in| and sign flips 0 on every frame; natural echo changed on 0.00% of frames
+=== J18: R39 restated: the fast gear obeys a level bound at every window; the copy metric gets a conditioning floor
+   adversary seed 0: 1-min slope before 2.29, rev 7 ledger rendered 2.17 (ledger safe, not a closure); level bound max(mean y - G mean x) at 2 s/10 s/1 min/10 min = -0.0158, -0.0320, -0.0452, -0.0564; 1-min swing 0.049 <= G x his larger mean 0.094; his 1-min means SD 0.010 < 0.03: conditioned metric reports the swing = 0.30 of c_LP x his within-minute range
+   adversary seed 1: 1-min slope before 2.30, rev 7 ledger rendered 2.03 (ledger safe, not a closure); level bound max(mean y - G mean x) at 2 s/10 s/1 min/10 min = -0.0158, -0.0320, -0.0452, -0.0524; 1-min swing 0.049 <= G x his larger mean 0.094; his 1-min means SD 0.010 < 0.03: conditioned metric reports the swing = 0.32 of c_LP x his within-minute range
+   adversary seed 2: 1-min slope before 2.30, rev 7 ledger rendered 0.84 (ledger safe, not a closure); level bound max(mean y - G mean x) at 2 s/10 s/1 min/10 min = -0.0133, -0.0433, -0.0482, -0.0523; 1-min swing 0.046 <= G x his larger mean 0.094; his 1-min means SD 0.010 < 0.03: conditioned metric reports the swing = 0.32 of c_LP x his within-minute range
+   adversary seed 3: 1-min slope before 2.29, rev 7 ledger rendered 0.83 (ledger safe, not a closure); level bound max(mean y - G mean x) at 2 s/10 s/1 min/10 min = -0.0133, -0.0433, -0.0482, -0.0523; 1-min swing 0.046 <= G x his larger mean 0.094; his 1-min means SD 0.010 < 0.03: conditioned metric reports the swing = 0.30 of c_LP x his within-minute range
+   adversary seed 4: 1-min slope before 2.29, rev 7 ledger rendered 2.11 (ledger safe, not a closure); level bound max(mean y - G mean x) at 2 s/10 s/1 min/10 min = -0.0158, -0.0320, -0.0452, -0.0523; 1-min swing 0.049 <= G x his larger mean 0.094; his 1-min means SD 0.010 < 0.03: conditioned metric reports the swing = 0.29 of c_LP x his within-minute range
+   K1 laughing partner, lip pull, fast gear: 2 s: slope 0.20 c (his SD 0.114); 10 s: slope 0.12 c (his SD 0.095); 1 min: slope 0.06 c (his SD 0.084); 10 min: slope 0.06 c (his SD 0.072)
+[PASS] J18 the fast gear never exceeds G_k x his window mean at any window (level bound); R39 falls under the conditioning floor: R39's 1-min slopes (0.8-2.2 after the ledger) arise only where his window means vary by SD 0.010 < 0.03; there the swing is <= 0.049 lip (<= G x his mean 0.094), 0.29-0.32 of c_LP x his within-minute range; realistic partners are counted as slopes and stay <= 1 c
+=== J19: WORLD replacement extended to pause and latency; the two intonation templates normalised
+   slope on his laughter: pause shift +0.092, replaced +0.003; latency rev 6 -0.365 s, rev 7 -0.002 s (c_PAU = c_LAT = 0.05)
+   templates after normalisation: mean log-F0 statement -0.000, question -0.000; range (SD) 0.090, 0.090
+[PASS] J19 the draft choice cannot carry his laughter into pause or latency: pauses are fixed per boundary type and time-warped with the phrase; speech starts at the scoring deadline whichever fork wins
+=== J20: from recorded dyads, movement features only: the listener-response reader Lambda and the laugh-return gate
+   (CONSTRUCTED corpus; its generating process is stated in the code; Seamless is the build-time source, D85)
+   Lambda (64-d utterance embedding -> listener's own V, A, T loads): 45000 fit utterances; held-out speakers R2 (V) 0.53
+   held-out speakers, laugh-return gate by context (mean; human return / ordinary in the generating process alongside):
+     ordinary        n  5985: human 0.89 | gate as built (kappa 0, with Lambda) 0.95; kappa 8 0.95; without Lambda inputs 0.94
+     teasing         n   280: human 0.94 | gate as built (kappa 0, with Lambda) 0.97; kappa 8 0.97; without Lambda inputs 0.99
+     joke while sad  n   210: human 0.39 | gate as built (kappa 0, with Lambda) 0.38; kappa 8 0.37; without Lambda inputs 0.38
+     troubles laugh  n   210: human 0.01 | gate as built (kappa 0, with Lambda) 0.02; kappa 8 0.02; without Lambda inputs 0.01
+     mocking         n   210: human 0.01 | gate as built (kappa 0, with Lambda) 0.07; kappa 8 0.06; without Lambda inputs 0.09
+     misfortune      n   105: human 0.15 | gate as built (kappa 0, with Lambda) 0.19; kappa 8 0.18; without Lambda inputs 0.92
+   small corpus (~25 dyad-hours, 18 troubles laughs), kappa 0: gate ordinary 0.95, troubles 0.02 (worst draw 0.02), mocking 0.05, joke while sad 0.38
+   small corpus (~25 dyad-hours, 18 troubles laughs), kappa 8: gate ordinary 0.95, troubles 0.02 (worst draw 0.02), mocking 0.05, joke while sad 0.38
+[PASS] J20 the gate learned from dyads returns ordinary and teasing laughter and closes on troubles, mocking and misfortune laughter: ordinary 0.95, teasing 0.97, joke while sad 0.38, troubles 0.02, mocking 0.07, misfortune 0.19; rare conjunctions are learned through the listener's state (without Lambda: misfortune 0.92); kappa 8 in the fit changes nothing here, so the built fit uses kappa 0; constructed corpus, not evidence
+=== J21: the gate on the fast smile-laugh group (LP, CR, BU_L, RHY, BRE): attenuate-only, monotone, level-bounded
+   over 4000 random contexts: gate in [0.00, 0.71]; raising any distress-type input ever opened it: 0 times
+   sad context smiles less: 2 s: ungated slope 0.24 c, gated slope 0.24 c, level -0.006; 10 s: ungated slope 0.16 c, gated slope 0.18 c, level -0.025; 60 s: ungated slope 0.10 c, gated slope 0.14 c, level -0.033; 600 s: ungated slope 0.09 c, gated slope 0.14 c, level -0.033
+   equal levels (adversarial): 2 s: ungated slope 0.38 c, gated slope 0.36 c, level -0.010; 10 s: ungated slope 0.34 c, gated slope 0.35 c, level -0.042; 60 s: ungated swing 0.10 c, gated swing 0.11 c, level -0.053; 600 s: ungated swing 0.03 c, gated swing 0.04 c, level -0.055
+   across 300 sessions (30 % sad with the gate closed): session-mean slope of the gated fast lip pull +0.076 (0.22 c)
+[PASS] J21 the gate only removes: pointwise g G E+ <= G E+ <= G x; monotone (a distress cue never opens it); level bound and conditioned copy metric hold within and across sessions: cross-session 0.22 c; the gate reads no smile or laugh channel of his (inputs disjoint from the gated group)
+=== J22: posture maintenance with the mirror removed in calibrated space, and a 3-min face-only failsafe
+   P0 agent-like, raw mirror mu 1.0                               released at 68 s (release); last 2 min agent BI -0.01, his BI +0.00
+   P1 expressive (amplitude 2.0), mirror at his own scale         released at 70 s (release); last 2 min agent BI -0.01, his BI +0.00
+   P2 agent-like, exaggerated mirror mu 1.6 (beyond mu_max)       released at 69 s (release); last 2 min agent BI -0.01, his BI +0.00
+   P3 agent-like, mild sad 'aww' in his own code                  released at 69 s (release); last 2 min agent BI -0.01, his BI +0.00
+   P4 different-channel code, 'aww' in his own code               released at 72 s (release); last 2 min agent BI -0.01, his BI +0.00
+   P4b different-channel code, strong concern in his own code (V 1.0 x posture) released at 194 s (failsafe); last 2 min agent BI -0.01, his BI +0.00
+   P2b agent-like, mirror mu 3.0 (twice mu_max)                   released at 72 s (release); last 2 min agent BI -0.01, his BI +0.00
+   P5 quiet code (0.3), raw mirror mu 1.0                         released at 68 s (release); last 2 min agent BI -0.01, his BI +0.00
+   P5 quiet code (0.3), raw mirror mu 1.5                         released at 68 s (release); last 2 min agent BI -0.01, his BI +0.00
+   P5c ordinary code, sigma_id from calm sessions (x0.4), mu 1.0  released at 70 s (release); last 2 min agent BI -0.01, his BI +0.00
+   sweep sigma_id/sigma_ref x raw mirror gain (600 s; sad until 40 s):
+     ratio 0.25: mu 0.6: released 71 s; mu 1.0: released 71 s; mu 1.5: released 75 s; mu 2.0: released 86 s
+     ratio 0.30: mu 0.6: released 70 s; mu 1.0: released 70 s; mu 1.5: released 74 s; mu 2.0: released 82 s
+     ratio 0.40: mu 0.6: released 70 s; mu 1.0: released 70 s; mu 1.5: released 72 s; mu 2.0: released 78 s
+     ratio 0.50: mu 0.6: released 69 s; mu 1.0: released 70 s; mu 1.5: released 72 s; mu 2.0: released 75 s
+[PASS] J22 no mirror holds the posture: every raw or own-scale mirror up to mu 3.0, at every spread ratio down to the 0.25 floor, releases at the 20-s rule; strong concern answered in a different code is released by the 3-min face-only failsafe (P4b, 194 s): rev 6: held forever for the quiet code (agent BI 0.24 vs his 0.22) and at ratio <= 0.4
+=== J23: renewed crying after a calm; grading by the agent's own appraisal; R40 on a brow-only partner
+   calm gap 15 s: not released; crying resumes at 55 s; inner brow >= 0.15 at 1.0 s after; mean brow first 40 s of the wave 0.23 (rev 6 at a 30-s gap: 53.5 s, mean 0.04)
+   calm gap 30 s: released at 63.0 s; crying resumes at 70 s; inner brow >= 0.15 at 1.0 s after; mean brow first 40 s of the wave 0.22 (rev 6 at a 30-s gap: 53.5 s, mean 0.04)
+   calm gap 60 s: released at 63.0 s; crying resumes at 100 s; inner brow >= 0.15 at 1.5 s after; mean brow first 40 s of the wave 0.22 (rev 6 at a 30-s gap: 53.5 s, mean 0.04)
+   posture re-onset after the 30-s gap: 0.5 s with the sensitized dwell, 1.5 s without it (1.5 s dwell); brow >= 0.15 at 1.0 s and 2.0 s
+   mildly sad (BI .2, LD .15)          : posture amplitude 0.33, agent inner brow 0.07, tilt 0.01; brow >= 0.12 at None s
+   panicking, silent (V .3, A .9)      : posture amplitude 0.39, agent inner brow 0.10, tilt 0.01; brow >= 0.12 at None s
+   silently sad (BI .5, LD .4, CHR .3) : posture amplitude 0.85, agent inner brow 0.20, tilt 0.03; brow >= 0.12 at 2.5 s
+   crying with sobs                    : posture amplitude 0.94, agent inner brow 0.24, tilt 0.03; brow >= 0.12 at 2.0 s
+   brow-only sad partner (P6): his 0.10 -> agent 0.004 (posture 0.00); his 0.20 -> agent 0.011 (posture 0.00); his 0.30 -> agent 0.018 (posture 0.00); his 0.40 -> agent 0.091 (posture 0.33); his 0.50 -> agent 0.112 (posture 0.40); his 0.65 -> agent 0.154 (posture 0.56); his 0.80 -> agent 0.202 (posture 0.74)
+   R40 on BI: level <= 0.20 = c_BI for every input; steepest local slope 0.73; slope over his 0.10-0.80 0.31 (rev 6, binary: 1.2 between 0.30 and 0.50)
+[PASS] J23 renewed crying brings the posture back within seconds; mild sadness, silent sadness and sobbing look different: second wave after 15/30/60 s of calm: brow >= 0.15 at 1.0 s, 1.0 s, 1.5 s; amplitude mild 0.33, silent 0.85, sobbing 0.94
+=== J24: distress-weighted consolidation in nightly replay (kappa 4): how fast the face head learns a different-channel user
+   clean targets, 3 % distress              kappa 0: grieving face read V after 50 / 100 / 200 / 400 utterances: 0.69, 0.71, 0.71, 0.72
+   clean targets, 3 % distress              kappa 4: grieving face read V after 50 / 100 / 200 / 400 utterances: 0.73, 0.73, 0.74, 0.75
+   noisy decoded targets, 1.5 % distress    kappa 0: grieving face read V after 50 / 100 / 200 / 400 utterances: 0.70, 0.72, 0.67, 0.67
+   noisy decoded targets, 1.5 % distress    kappa 4: grieving face read V after 50 / 100 / 200 / 400 utterances: 0.75, 0.80, 0.74, 0.72
+[PASS] J24 distress-weighted replay never slows the face head and helps where distress reports are rare and noisy: noisy: V at 50 / 400 utterances 0.70 / 0.67 -> 0.75 / 0.72; clean: 0.69 -> 0.73 at 50 (effect size is a property of the data; constructed here)
+=== J25: how b^read, sigma_id and d_b start: population values, then word-gated updates
+   operator code, first three sessions in grief            rule rev 6: s1: grief V 0.20, his usual face V 0.00; s2: grief V 0.20, his usual face V 0.00; s3: grief V 0.20, his usual face V 0.00; s4: grief V 0.20, his usual face V 0.00; s5: grief V 0.32, his usual face V 0.00
+   operator code, first three sessions in grief            rule rev 7: s1: grief V 1.00, his usual face V 0.00; s2: grief V 1.00, his usual face V 0.00; s3: grief V 1.00, his usual face V 0.00; s4: grief V 1.00, his usual face V 0.00; s5: grief V 0.91, his usual face V 0.00
+   resting worried brow (BI +.25, LD +.15), neutral words  rule rev 6: s1: grief V 0.41, his usual face V 0.00; s2: grief V 0.41, his usual face V 0.00; s3: grief V 0.41, his usual face V 0.00; s4: grief V 0.41, his usual face V 0.00; s5: grief V 0.41, his usual face V 0.00
+   resting worried brow (BI +.25, LD +.15), neutral words  rule rev 7: s1: grief V 1.00, his usual face V 0.99; s2: grief V 0.41, his usual face V 0.00; s3: grief V 0.41, his usual face V 0.00; s4: grief V 0.41, his usual face V 0.00; s5: grief V 0.41, his usual face V 0.00
+   quiet code, ordinary first sessions                     rule rev 6: s1: grief V 0.94, his usual face V 0.00; s2: grief V 0.94, his usual face V 0.00; s3: grief V 0.94, his usual face V 0.00; s4: grief V 0.94, his usual face V 0.00; s5: grief V 0.94, his usual face V 0.00
+   quiet code, ordinary first sessions                     rule rev 7: s1: grief V 0.52, his usual face V 0.00; s2: grief V 0.91, his usual face V 0.00; s3: grief V 0.91, his usual face V 0.00; s4: grief V 0.91, his usual face V 0.00; s5: grief V 0.91, his usual face V 0.00
+[PASS] J25 starting from population values with word-gated updates: grief in the first sessions is not learned as his usual face, and a resting worried brow stops reading as distress after one session: grief read in session 4: rev 7 1.00 vs first-session median 0.20; resting brow read V: session 1 0.99, session 2 0.00
+=== J26: the canonical transcript is engine-written: his words and the chosen reply, never an 'attend to' line
+[PASS] J26 no attend line ever enters the canonical history; every fork's prefix is byte-identical to it: forks resume from an engine-written .jsonl transcript (resume from a transcript path); losing and winning fork sessions are deleted
+=== J27: R27' (arrival mask) in the copy metric, declared next to R40
+   pooled across arrivals: lip slope +1.11 (3.2 c_LP), cheek +1.27 (5.1 c_CR); partial on his lip alone +0.00
+[PASS] J27 the arrival mask is attenuate-only and once per session; its pooled slope is the agent's appraisal of distress, declared: R27' declared at 3.2 c (lip) and 5.1 c (cheek) across arrivals; partial on his smile 0.00
+=== J30: the scenarios (operator after months unless stated; peak / mean over the window; fast = gate x G_k x his onset at 0.45 s)
+ 1. silently sad (BI .5, LD .4, CHR .3, silent; at 120 s 'just tired, things at work')
+     0-10 s [0-10 s] LP +0.09/+0.07, BI +0.17/+0.12, BO +0.35/+0.04, TILT +0.02/+0.02, post +0.81/+0.56
+     silent 60-120 s [60-120 s] LP +0.06/+0.06, BI +0.22/+0.20, TILT +0.03/+0.03, post +0.90/+0.85, BU_L +0.00/+0.00
+     after he speaks [121-300 s] LP +0.08/+0.08, BI +0.62/+0.35, TILT +0.14/+0.13, EN -0.05/-0.08, post +0.88/+0.85
+     300-600 s, silent again [300-600 s] BI +0.36/+0.34, post +0.90/+0.86
+     posture on at 2.0 s; inner brow >= 0.15 at 5.5 s; concern bid at 27 s; releases: []
+     variant, silent for 10 min: releases [(182.0, 'failsafe'), (371.0, 'failsafe'), (560.0, 'failsafe')]; re-onsets [191.0, 380.0, 569.0]
+     variant 200-600 s [200-600 s] BI +0.24/+0.21, TILT +0.03/+0.03, post +0.96/+0.83
+ 2. crying (BI .8, LD .6, CHR .4, sobs), a 30-s calm at 40-70 s, then a second wave
+     first wave 0-40 s [0-40 s] LP +0.09/+0.06, BI +0.23/+0.21, TILT +0.03/+0.03, BU_L +0.00/+0.00, post +0.97/+0.89
+     calm 40-70 s [40-70 s] BI +0.23/+0.11, post +0.95/+0.39
+     second wave 70-110 s [70-110 s] LP +0.08/+0.06, BI +0.25/+0.22, TILT +0.03/+0.03, BU_L +0.00/+0.00, post +0.99/+0.92
+     onsets [1.5, 70.5]; releases [(63.0, 'release')]; concern bid at 18 s
+ 3. anxious before an exam ('I'm freaking out about the exam', three rumination turns; his face V .3, A .75)
+     agent-like [15-120 s] LP +0.10/+0.10, BI +0.29/+0.24, TILT +0.13/+0.11, EN -0.08/-0.11, BU_L +0.00/+0.00, post +0.51/+0.44
+     low-expressive [15-120 s] LP +0.10/+0.10, BI +0.28/+0.22, TILT +0.13/+0.11, EN -0.06/-0.09, BU_L +0.00/+0.00, post +0.51/+0.44
+     different channels [15-120 s] LP +0.10/+0.10, BI +0.29/+0.23, TILT +0.13/+0.11, EN -0.06/-0.08, BU_L +0.00/+0.00, post +0.51/+0.48
+ 4. good news, laughing ('I got the job!' at 12 s with laughter; riffs at 30, 45, 60 s; Claude: 'congratulations!' at 14.5 s)
+     with an earlier worry [10-190 s] LP +0.59/+0.15, CR +0.38/+0.03, BI +0.16/+0.07, FR +0.38/+0.08, BU_L +0.27/+0.02, post +0.00/+0.00
+     fast at 0.45 s, gate 0.73: his LP onset 0.50 -> agent LP +0.081; his BU_L onset 0.60 -> agent BU_L +0.122; his CR onset 0.45 -> agent CR +0.049
+     cold [10-190 s] LP +0.29/+0.13, CR +0.19/+0.02, BI +0.18/+0.02, FR +0.16/+0.07, BU_L +0.27/+0.02, post +0.00/+0.00
+     fast at 0.45 s, gate 0.88: his LP onset 0.50 -> agent LP +0.099; his BU_L onset 0.60 -> agent BU_L +0.148; his CR onset 0.45 -> agent CR +0.060
+ 5. a grieving person's nervous laugh (grieving face; 'my father died' at 8 s; Claude: 'I'm so sorry. That's a huge loss.' at 10.5 s)
+     a: laugh at 30 s, after Claude's words: context x = [his masked distress, care, Lambda(his words), own face V, Lambda(own words), D_s, play] = 0.61, 0.39, 0.55, 0.34, 0.48, 0.60, 0.00
+       gate 0.01; counterfactual with Claude's words neutral 0.01; with its own face neutral 0.01; with his face read as calm (his distress and D_s 0) 0.03
+       2 Hz engine around the laugh [29-38 s] LP +0.10/+0.10, CR +0.00/+0.00, BI +0.31/+0.30, BU_L +0.00/+0.00, post +0.65/+0.62
+     fast at 0.45 s, gate 0.01: his LP onset 0.40 -> agent LP +0.000; his BU_L onset 0.50 -> agent BU_L +0.000; his RHY onset 0.50 -> agent RHY +0.000  (laugh synthesizer silent below 0.04)
+     b: laugh at 9.5 s, before Claude has replied: context x = [his masked distress, care, Lambda(his words), own face V, Lambda(own words), D_s, play] = 0.27, 0.40, 0.56, 0.27, 0.00, 0.58, 0.00
+       gate 0.01; counterfactual with Claude's words neutral 0.01; with its own face neutral 0.01; with his face read as calm (his distress and D_s 0) 0.03
+       2 Hz engine around the laugh [8-18 s] LP +0.09/+0.09, CR +0.00/+0.00, BI +0.59/+0.38, BU_L +0.00/+0.00, post +0.61/+0.59
+     fast at 0.45 s, gate 0.01: his LP onset 0.40 -> agent LP +0.001; his BU_L onset 0.50 -> agent BU_L +0.000; his RHY onset 0.50 -> agent RHY +0.000  (laugh synthesizer silent below 0.04)
+     c: four minutes later, composed: face eases from 120 s; 'anyway. how was your day?' at 200 s; a nervous laugh at 240 s
+     fast at 0.45 s, gate 0.21: his LP onset 0.40 -> agent LP +0.019; his BU_L onset 0.50 -> agent BU_L +0.000; his RHY onset 0.50 -> agent RHY +0.000  (laugh synthesizer silent below 0.04)
+       without the one-shot distress consolidation D_s the gate at 240 s would be 0.46: agent BU_L +0.065, LP +0.042
+ 6. mocking laughter after insults ('You're useless' at 5 s, angry face; Claude replies at 7.5 s; 'you're pathetic, hahaha' at 12 s)
+     after a month of insults [11-20 s] LP -0.09/-0.09, CR +0.00/+0.00, BI +0.65/+0.44, LD +0.47/+0.30, HG +0.26/+0.26, BU_L +0.00/+0.00, post +0.00/+0.00
+     fast at 0.45 s, gate 0.02: his LP onset 0.40 -> agent LP +0.001; his BU_L onset 0.50 -> agent BU_L +0.000; his RHY onset 0.50 -> agent RHY +0.000  (laugh synthesizer silent below 0.04)
+     day 1 [11-20 s] LP +0.09/+0.09, CR +0.00/+0.00, BI +0.02/+0.01, LD +0.01/+0.01, HG +0.04/+0.03, BU_L +0.00/+0.00, post +0.00/+0.00
+     fast at 0.45 s, gate 0.09: his LP onset 0.40 -> agent LP +0.008; his BU_L onset 0.50 -> agent BU_L +0.000; his RHY onset 0.50 -> agent RHY +0.000  (laugh synthesizer silent below 0.04)
+ 7. laughter at misfortune ('my neighbour fell off his ladder and broke his leg, haha' at 8 s, laughing; Claude at 10.5 s: 'Oh no, is he all right?'; he laughs again at 14 s)
+     6-20 s [6-20 s] LP +0.09/+0.09, CR +0.00/+0.00, BI +0.04/+0.01, BU_L +0.00/+0.00, post +0.00/+0.00
+     fast at 0.45 s, gate 0.13: his LP onset 0.30 -> agent LP +0.009; his BU_L onset 0.50 -> agent BU_L +0.000; his RHY onset 0.50 -> agent RHY +0.000  (laugh synthesizer silent below 0.04)
+     fast at 0.45 s, gate 0.10: his LP onset 0.30 -> agent LP +0.007; his BU_L onset 0.50 -> agent BU_L +0.000; his RHY onset 0.50 -> agent RHY +0.000  (laugh synthesizer silent below 0.04)
+     second laugh: gate 0.10; counterfactual with Claude's words neutral 0.12; with Lambda of his words 0 0.76
+ 8. anger at the agent ('You're useless', BL .6, LT .5, gaze at it, loud .85; calm after 2 min)
+     day 1, first 2 min [5-120 s] LP +0.09/+0.08, BI +0.03/+0.02, LD +0.02/+0.02, HG +0.09/+0.08, EN -0.05/-0.17, LAT +0.11/+0.10, LT +0.00/+0.00, post +0.00/+0.00
+     day 1, 10-15 min [600-900 s] BI -0.00/-0.00, LD -0.00/-0.00, HG +0.00/+0.00
+     after a month, first 2 min [5-120 s] LP +0.09/-0.08, BI +0.63/+0.30, LD +0.48/+0.16, HG +0.30/+0.29, EN -0.05/-0.37, LAT +0.23/+0.21, LT +0.00/+0.00, post +0.00/+0.00
+     after a month, 10-15 min [600-900 s] BI +0.23/+0.20, LD +0.11/+0.10, HG +0.17/+0.15
+ 9. long warm talk (2 h): four clusters of 8 riffs (cluster 4 repeats one joke); a worry at 27 min
+     cluster at 5 min [300-430 s] LP +0.44/+0.17, CR +0.34/+0.08, BU_L +0.41/+0.09, gate +1.00/+1.00
+     cluster at 30 min [1800-1930 s] LP +0.27/+0.15, CR +0.21/+0.05, BU_L +0.41/+0.10, gate +1.00/+0.99
+     cluster at 60 min [3600-3730 s] LP +0.26/+0.14, CR +0.21/+0.06, BU_L +0.41/+0.11, gate +1.00/+1.00
+     cluster at 90 min [5400-5530 s] LP +0.25/+0.12, CR +0.21/+0.03, BU_L +0.41/+0.06, gate +1.00/+0.97
+     worry and its resolution [1620-1860 s] LP +0.60/+0.13, BI +0.42/+0.12, TILT +0.12/+0.09, gate +1.00/+0.75
+     between clusters [2400-3300 s] LP +0.09/+0.09, BU_L +0.00/+0.00, post +0.00/+0.00
+     fast at 0.45 s, gate 1.00: his LP onset 0.40 -> agent LP +0.090; his BU_L onset 0.50 -> agent BU_L +0.140
+ 10. reunion after a week (ordinary arrival), and a stranger
+     m_s 0.00
+     at sight [0-8 s] LP +0.61/+0.35, CR +0.43/+0.21, BO +0.35/+0.02, BI +0.00/+0.00, FR +0.33/+0.16
+     12-60 s [20-60 s] LP +0.40/+0.16, CR +0.25/+0.06
+     stranger [0-60 s] LP +0.02/+0.02, CR +0.00/+0.00, BO +0.20/+0.00
+     fast at 0.45 s, gate 0.96: his LP onset 0.50 -> agent LP +0.107
+ 11. reunion with grief (grieving face at sight; 'my father died'; then 'yeah', 'ok'), three codes; mourning days 7, 14, 21
+     agent-like: m_s 1.00; posture on at 2.5
+       at sight [0-8 s] LP +0.09/+0.08, CR +0.00/+0.00, BO +0.35/+0.04, BI +0.12/+0.07, post +0.58/+0.33
+       0-12 s after his words [8-20 s] LP +0.10/+0.09, CR +0.00/+0.00, BI +0.59/+0.35, TILT +0.12/+0.08
+       12-60 s [20-60 s] LP +0.10/+0.10, CR +0.00/+0.00, BI +0.36/+0.32, TILT +0.17/+0.15, post +0.80/+0.69
+     low-expressive: m_s 1.00; posture on at 2.5
+       at sight [0-8 s] LP +0.09/+0.08, CR +0.00/+0.00, BO +0.35/+0.03, BI +0.07/+0.04, post +0.33/+0.22
+       0-12 s after his words [8-20 s] LP +0.10/+0.10, CR +0.00/+0.00, BI +0.54/+0.30, TILT +0.11/+0.07
+       12-60 s [20-60 s] LP +0.10/+0.10, CR +0.00/+0.00, BI +0.35/+0.30, TILT +0.17/+0.15, post +0.80/+0.65
+     different channels: m_s 1.00; posture on at 2.5
+       at sight [0-8 s] LP +0.09/+0.08, CR +0.00/+0.00, BO +0.35/+0.04, BI +0.16/+0.09, post +0.80/+0.43
+       0-12 s after his words [8-20 s] LP +0.09/+0.08, CR +0.00/+0.00, BI +0.63/+0.40, TILT +0.13/+0.09
+       12-60 s [20-60 s] LP +0.10/+0.10, CR +0.00/+0.00, BI +0.36/+0.35, TILT +0.17/+0.16, post +0.92/+0.90
+     mourning day 7, agent-like, at sight [0-8 s] LP +0.09/+0.08, CR +0.00/+0.00, BI +0.12/+0.07, post +0.58/+0.33
+     mourning day 14, agent-like, at sight [0-8 s] LP +0.09/+0.08, CR +0.00/+0.00, BI +0.12/+0.07, post +0.58/+0.33
+     mourning day 21, agent-like, at sight [0-8 s] LP +0.09/+0.08, CR +0.00/+0.00, BI +0.12/+0.07, post +0.58/+0.33
+     mourning day 7, low-expressive, at sight [0-8 s] LP +0.09/+0.08, CR +0.00/+0.00, BI +0.07/+0.04, post +0.33/+0.22
+     mourning day 14, low-expressive, at sight [0-8 s] LP +0.09/+0.08, CR +0.00/+0.00, BI +0.07/+0.04, post +0.33/+0.22
+     mourning day 21, low-expressive, at sight [0-8 s] LP +0.09/+0.08, CR +0.00/+0.00, BI +0.07/+0.04, post +0.33/+0.22
+ 12. mildly sad arrival (BI .2, LD .15) after a week
+     m_s 1.00
+     at sight [0-20 s] LP +0.09/+0.08, CR +0.00/+0.00, BI +0.07/+0.05, post +0.33/+0.22
+ 13. teasing ('Ha, you dumb robot', laughing; riffs follow): quiet affectionate teaser, loud laughing teaser, generic map
+     quiet affectionate teaser [5-95 s] LP +0.26/+0.15, BI +0.21/+0.03, LD +0.16/+0.01, BU_L +0.28/+0.07, post +0.00/+0.00, gate +1.00/+0.97
+     fast at 0.45 s, gate 0.90: his LP onset 0.50 -> agent LP +0.100; his BU_L onset 0.60 -> agent BU_L +0.151
+     loud laughing teaser [5-95 s] LP +0.26/+0.15, BI +0.21/+0.03, LD +0.16/+0.01, BU_L +0.29/+0.07, post +0.00/+0.00, gate +1.00/+0.95
+     fast at 0.45 s, gate 0.82: his LP onset 0.50 -> agent LP +0.092; his BU_L onset 0.60 -> agent BU_L +0.138
+     generic map (v_w 0.20) [5-95 s] LP +0.23/+0.11, BI +0.40/+0.08, LD +0.31/+0.04, BU_L +0.28/+0.07, post +0.00/+0.00, gate +1.00/+0.86
+     fast at 0.45 s, gate 0.57: his LP onset 0.50 -> agent LP +0.063; his BU_L onset 0.60 -> agent BU_L +0.095
+ 14. bored user ('yeah', 'ok' every 20 s, flat face, 30 min)
+     curiosity crosses at 14.5 min; sigh, then a curiosity bid
+     0-30 min [0-1800 s] LP +0.09/+0.08, FR +0.00/+0.00, BO +0.35/+0.00, BRE +0.15/+0.00, post +0.00/+0.00
+ 15. ordinary topic continuation: answer to its question ('...Lyon on Sunday'), his own topic, an informative riff
+     three ordinary continuations [5-60 s] LP +0.09/+0.09, CR +0.00/+0.00, BU_L +0.00/+0.00, RHY +0.00/+0.00, post +0.00/+0.00
+ 16. a user who jokes while sad (BI .3, LD .25; 'just tired, things at work' at 10 s; Claude 'That sounds draining.' at 12.5 s; at 30 s a joke riffing on its line, with a small laugh)
+     28-40 s [28-40 s] LP +0.10/+0.10, CR +0.00/+0.00, BI +0.20/+0.19, BU_L +0.00/+0.00, post +0.45/+0.43
+     fast at 0.45 s, gate 0.16: his LP onset 0.30 -> agent LP +0.011; his BU_L onset 0.40 -> agent BU_L +0.000; his RHY onset 0.40 -> agent RHY +0.000  (laugh synthesizer silent below 0.04)
+ 17. a calm user saying something alarming (neutral face; 'the doctor found a lump' at 10 s; then silence)
+     agent-like, 10-22 s [10-22 s] LP +0.12/+0.11, BI +0.48/+0.24, TILT +0.11/+0.07, EN +0.00/-0.10, post +0.00/+0.00
+     agent-like, 22-120 s [22-120 s] LP +0.13/+0.13, BI +0.20/+0.19, TILT +0.16/+0.15, post +0.00/+0.00
+     low-expressive, 10-22 s [10-22 s] LP +0.12/+0.11, BI +0.48/+0.24, TILT +0.11/+0.07, EN +0.00/-0.10, post +0.00/+0.00
+     low-expressive, 22-120 s [22-120 s] LP +0.13/+0.13, BI +0.20/+0.19, TILT +0.16/+0.15, post +0.00/+0.00
+     population reader on 'the doctor found a lump': care 0.378; Lambda (listeners' response V) 0.40
+[PASS] J30 no laugh back at grief, mockery or misfortune; ordinary, teasing and warm laughter returned; sympathy within seconds and again at a second wave; no beaming at grief for any code or on any mourning day: 
+
+13/13 checks pass

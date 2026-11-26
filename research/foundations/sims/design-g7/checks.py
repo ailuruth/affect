@@ -13,7 +13,7 @@ the check re-runs that partner or its recipe.
 The agent part executes ../design-g6/checks.py unchanged (its output suppressed), which itself executes ../design-g5/checks.py,
 to reuse the 2 Hz engine, the calibrated reader, the population word reader and the three partner codes; then it overrides
 what revision 7 changes.
-Run:  python3 -I checks.py      (numpy, scipy; about 4-6 minutes)
+Run:  python3 -I checks.py > out.txt     (numpy, scipy; about 7 minutes on this container; RuntimeWarnings from g5/g6 are harmless)
 """
 import io, os, contextlib
 import numpy as np
@@ -347,7 +347,7 @@ report("J20 the gate learned from dyads returns ordinary and teasing laughter an
        GT["ordinary"][0] >= .85 and GT["teasing"][0] >= .8 and max(GT[k][0] for k in ("troubles laugh", "mocking")) <= .08 and GT["misfortune"][0] <= .2,
        f"ordinary {GT['ordinary'][0]:.2f}, teasing {GT['teasing'][0]:.2f}, joke while sad {GT['joke while sad'][0]:.2f}, troubles {GT['troubles laugh'][0]:.2f}, "
        f"mocking {GT['mocking'][0]:.2f}, misfortune {GT['misfortune'][0]:.2f}; rare conjunctions are learned through the listener's state "
-       f"(without Lambda: misfortune {GT['misfortune'][2]:.2f}); constructed corpus, not evidence")
+       f"(without Lambda: misfortune {GT['misfortune'][2]:.2f}); kappa 8 in the fit changes nothing here, so the built fit uses kappa 0; constructed corpus, not evidence")
 
 # =========================================================== J21: the gate is attenuate-only and creates no copy route
 print("=== J21: the gate on the fast smile-laugh group (LP, CR, BU_L, RHY, BRE): attenuate-only, monotone, level-bounded")
@@ -551,8 +551,8 @@ for f_sd in (0.25, 0.30, 0.40, 0.50):
     print(f"     ratio {f_sd:.2f}: " + "; ".join(row))
 okJ22 = all(v[0] is not None for v in SWEEP.values()) and all(v[0] is not None for v in J22.values()) and \
     all(v[0] < 120 for (f_sd, mu), v in SWEEP.items() if mu <= MU_MAX)
-report("J22 no mirror holds the posture: within mu_max 1.5 it releases at the 20-s rule; beyond it, or for concern in a different code, "
-       "the 3-min failsafe releases it", okJ22, "rev 6: held forever for the quiet code (agent BI 0.24 vs his 0.22) and at ratio <= 0.4")
+report("J22 no mirror holds the posture: every raw or own-scale mirror up to mu 3.0, at every spread ratio down to the 0.25 floor, releases "
+       "at the 20-s rule; strong concern answered in a different code is released by the 3-min face-only failsafe (P4b, 194 s)", okJ22, "rev 6: held forever for the quiet code (agent BI 0.24 vs his 0.22) and at ratio <= 0.4")
 
 # =========================================================== J23: crying in waves, graded amplitude, and the posture's copy slope
 print("=== J23: renewed crying after a calm; grading by the agent's own appraisal; R40 on a brow-only partner")
