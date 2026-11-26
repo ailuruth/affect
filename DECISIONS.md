@@ -460,3 +460,27 @@ To change: the operator asks for a different attribution.
 - **Update (2026-11-26T17:57:02Z):** revision 8.3 passed its independent check (check-cayley-ledger-8.3.md) with no concrete failure; Q27 now offers building 8.3, and the 'build now as 8.2' option is dropped.
 
 To change: the operator answers Q27 (build now, build after 8.3, hold, or don't build), or asks for the design to be withheld until it has no known failure.
+
+## D88. No situation-specific rules (operator note Q29; dated 2026-11-27 by the operator, recorded 2026-11-26T20:40:42Z)
+- Critique findings are no longer fixed with rules for particular situations (timers for particular displays, gates for particular events, caps for particular scenes, special heads for particular user types).
+- Innate parts are limited to the body, reflexes, newborn muscle patterns and the per-expression copy ceilings. Situational appropriateness comes from Claude's regulation path, learning from recorded human dyads (movement features only, no emotion labels), and general innate learning biases (D85).
+- Every situation-specific rule in Cayley-ledger revision 8.3 is to be listed and removed, or justified as an allowed innate item.
+
+To change: the operator names an exception or withdraws the note.
+
+## D89. No built-in concern posture (operator answer to Q24; recorded 2026-11-26T20:40:42Z)
+- The concern face is learned, not innate. The built concern posture (and with it the face-only limit and its 180/120/600-s clocks) is removed from the design.
+
+To change: the operator answers Q24 differently.
+
+## D90. Build the core of Cayley-ledger revision 8.3 (operator answer to Q27; recorded 2026-11-26T20:40:42Z)
+- Build: knowing the partner closely; every path to the agent's own face and voice capped per expression; the Claude coupling through the subscription; learning. Without the situation-specific rules (D88).
+- At build time, close the delay gap in the safety net: the ledger scans lags to at least 120 s at its 10-s and 60-s windows, so an unlisted route copying 20–90 s late is caught.
+- Replaces D87's open choice. Building means writing the build specification and code in this repository to run on the operator's Mac; no downloads, datasets or experiments in this cloud session.
+
+To change: the operator asks to hold or to build something else.
+
+## D91. The new-core search continues in the background (operator answer to Q28; recorded 2026-11-26T20:40:42Z)
+- The D82 search continues alongside building, at a slower pace. The operator will allow arxiv.org in this environment's network settings.
+
+To change: the operator asks to pause the search or to search full time.

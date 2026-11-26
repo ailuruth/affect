@@ -537,6 +537,8 @@ The latest design passes the strongest checks so far. Its critics raised two thi
 
 **What it blocks:** nothing. The next revision is written on the recommendation and will change if you choose otherwise.
 
+**Answer (operator; dated 2026-11-27 by the operator, recorded 2026-11-26T20:40:42Z): no built-in concern posture; a concern face is learned.**
+
 ## Q25. May Seamless Interaction also be used to fit one part of the agent, not only to test it? (asked 2026-11-26T10:10:29Z; work continues meanwhile)
 
 **Why this comes up.** You approved the Seamless Interaction recordings as a test bed (D70): downloaded to your Mac only, using only face-movement streams and transcripts, with the dataset's emotion scores dropped. The current design has one part, a general starting model of how faces relate to what people say about themselves, that would be fitted on those recordings before it adapts to you from your own words. That use goes beyond testing.
@@ -580,6 +582,8 @@ Q24 (the concern look before words) is still open and can be answered alongside;
 
 **What it blocks:** the start of building. Research continues either way.
 
+**Answer (operator; dated 2026-11-27 by the operator, recorded 2026-11-26T20:40:42Z): build the core of revision 8.3 without the situation-specific rules** (see Q29): knowing the partner closely, every path to the agent's own face and voice capped per expression, the Claude coupling through the subscription, and learning. Close the 2-minute delay gap in the safety net at build time.
+
 ## Q28. Keep searching for a genuinely new core, or concentrate on building? (asked 2026-11-26T19:52:45Z; work continues on the recommendation meanwhile)
 
 **Why this comes up.** You asked for a genuinely new core mechanism, on the level of attention. Two reading passes and a mathematical derivation since report 7 found none; every candidate reduced to a known method, and one whole direction was shown to be empty. The main design (Q27) is a recombination with no known concrete failure.
@@ -591,4 +595,12 @@ Q24 (the concern look before words) is still open and can be answered alongside;
 - **Widen the reading first:** allow the blocked paper sites (such as arxiv.org) in this environment's network settings, then keep searching; this is a change to what the cloud session can reach.
 
 **What it blocks:** nothing now.
+
+**Answer (operator; dated 2026-11-27 by the operator, recorded 2026-11-26T20:40:42Z): keep searching for a new core in the background, alongside building.** The operator will allow arxiv.org in this environment's network settings.
+
+## Q29. Operator note: no situation-specific rules (dated 2026-11-27 by the operator, recorded 2026-11-26T20:40:42Z; an instruction, not a question)
+Stop fixing critique findings with rules for particular situations, for example the concern-look clocks of 180 s, 120 s and 600 s, the laugh gate that waits for words, the mourning arrival cap, and special heads for particular user types. That is hand-coding behaviour, which the brief forbids.
+- **Innate is allowed only for:** the body, reflexes, the muscle patterns newborns have, and the per-expression copy ceilings.
+- **Situational appropriateness comes only from** the three sources of Q26: (1) Claude's regulation path, which knows social norms and can hold back the emotional route; (2) learning how people respond to each other by observing recorded human dyads such as Seamless Interaction, from movement features only, without emotion labels; (3) general innate learning biases that make rare events learnable fast.
+- **Required:** list every situation-specific rule in revision 8.3, and remove it or justify it as one of the allowed innate items.
 
