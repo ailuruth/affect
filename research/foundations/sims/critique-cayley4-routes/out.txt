@@ -1,0 +1,63 @@
+=== D1/D2: laughing partner, smile/laugh as pulses (variance above 1/min); rendered pooled 1-min slopes
+   fraction of partner variance below 1/min (Lemma S assumption 5 needs ~1): LP 0.41, BU 0.06, CR 0.21
+   LP: fast echo alone, pooled 1-min slope: before sat +0.001, rendered after sat +0.001 (claim <= 0.01)
+      appraisal gate constant +1 (H1's case)           : y_A slope raw +0.029 c, 1-min +0.048 c (claim <= 0.255 c);  rendered total +0.125 (c_k 0.35; claim <= 0.334)
+      appraisal gate innate m_glad = f_laugh           : y_A slope raw +0.014 c, 1-min +0.007 c (claim <= 0.255 c);  rendered total +0.111 (c_k 0.35; claim <= 0.334)
+      appraisal gate afterglow (laughed in last ~40 s) : y_A slope raw +0.020 c, 1-min +0.030 c (claim <= 0.255 c);  rendered total +0.119 (c_k 0.35; claim <= 0.334)
+      appraisal gate full-wave sign(xi_A)              : y_A slope raw +0.008 c, 1-min +0.012 c (claim <= 0.255 c);  rendered total +0.112 (c_k 0.35; claim <= 0.334)
+   BU: fast echo alone, pooled 1-min slope: before sat +0.006, rendered after sat +0.071 (claim <= 0.01)
+      appraisal gate constant +1 (H1's case)           : y_A slope raw +0.022 c, 1-min +0.144 c (claim <= 0.255 c);  rendered total +0.113 (c_k 0.35; claim <= 0.334)
+      appraisal gate innate m_glad = f_laugh           : y_A slope raw +0.020 c, 1-min +0.032 c (claim <= 0.255 c);  rendered total +0.088 (c_k 0.35; claim <= 0.334)
+      appraisal gate afterglow (laughed in last ~40 s) : y_A slope raw +0.017 c, 1-min +0.105 c (claim <= 0.255 c);  rendered total +0.099 (c_k 0.35; claim <= 0.334)
+      appraisal gate full-wave sign(xi_A)              : y_A slope raw +0.009 c, 1-min +0.067 c (claim <= 0.255 c);  rendered total +0.086 (c_k 0.35; claim <= 0.334)
+   CR: fast echo alone, pooled 1-min slope: before sat +0.002, rendered after sat +0.029 (claim <= 0.01)
+      appraisal gate constant +1 (H1's case)           : y_A slope raw +0.025 c, 1-min +0.065 c (claim <= 0.255 c);  rendered total +0.086 (c_k 0.25; claim <= 0.239)
+      appraisal gate innate m_glad = f_laugh           : y_A slope raw +0.019 c, 1-min +0.013 c (claim <= 0.255 c);  rendered total +0.074 (c_k 0.25; claim <= 0.239)
+      appraisal gate afterglow (laughed in last ~40 s) : y_A slope raw +0.019 c, 1-min +0.044 c (claim <= 0.255 c);  rendered total +0.081 (c_k 0.25; claim <= 0.239)
+      appraisal gate full-wave sign(xi_A)              : y_A slope raw +0.010 c, 1-min +0.027 c (claim <= 0.255 c);  rendered total +0.077 (c_k 0.25; claim <= 0.239)
+   BU, 5-min means, full-wave gate: rendered slope +0.145 (c 0.35)
+=== D2b: demodulation: laughs at a constant rate (carrier), held smile level alternates lo/hi, gate = word seam x sign(xi_A)
+   levels 0.20/0.50: y_A 1-min slope +0.03 c; rendered LP total +0.128 (c 0.35); absolute y_A DC at hi 0.0031
+   levels 0.30/0.45: y_A 1-min slope +0.04 c; rendered LP total +0.131 (c 0.35); absolute y_A DC at hi 0.0023
+   levels 0.35/0.40: y_A 1-min slope +0.08 c; rendered LP total +0.105 (c 0.35); absolute y_A DC at hi 0.0019
+=== D3: omega_smile latched per session but learned from his weeks; Lemma S (ii) at the session scale
+   his session smile 0.20/0.50: agent held LP 0.155 (good) / 0.101 (low); session-pooled slope +0.18 (c_LP 0.35; within-session slope <= 0.175)
+   his session smile 0.30/0.45: agent held LP 0.149 (good) / 0.102 (low); session-pooled slope +0.31 (c_LP 0.35; within-session slope <= 0.175)
+   his session smile 0.38/0.43: agent held LP 0.147 (good) / 0.102 (low); session-pooled slope +0.89 (c_LP 0.35; within-session slope <= 0.175)
+=== D4: S_n as written in 2.1 (rises of the care term max(N_F, N_L) and of D_V with V = V_F + h)
+   his LT 0.00 (BL 0.6, gaze 1, loud 0.85): V_F 0.50, a_d 0.91 -> agent LT 0.23 (c_LT = 0), BI 0.41, LD 0.32
+   his LT 0.25 (BL 0.6, gaze 1, loud 0.85): V_F 0.65, a_d 0.95 -> agent LT 0.24 (c_LT = 0), BI 0.43, LD 0.33
+   his LT 0.50 (BL 0.6, gaze 1, loud 0.85): V_F 0.80, a_d 0.97 -> agent LT 0.24 (c_LT = 0), BI 0.43, LD 0.34
+   his LT 0.75 (BL 0.6, gaze 1, loud 0.85): V_F 0.95, a_d 0.98 -> agent LT 0.24 (c_LT = 0), BI 0.44, LD 0.34
+   silent sad face, face-read distress 0.0: care-term rise 0.000, a_d 0.00 -> agent BI 0.00 (c_BI 0.20; design's scenario 1 reports 0.02)
+   silent sad face, face-read distress 0.3: care-term rise 0.050, a_d 0.71 -> agent BI 0.32 (c_BI 0.20; design's scenario 1 reports 0.02)
+   silent sad face, face-read distress 0.6: care-term rise 0.242, a_d 0.92 -> agent BI 0.42 (c_BI 0.20; design's scenario 1 reports 0.02)
+=== D5: co-training: display code under legibility (code-invariant) + 0.1 anchor to his code + 0.1|delta|^2
+   night   1: cosine(own display code, his code) -0.000; |Delta| on his synergies 0.00
+   night  10: cosine(own display code, his code) -0.000; |Delta| on his synergies 0.00
+   night 100: cosine(own display code, his code) -0.000; |Delta| on his synergies 0.00
+   night 400: cosine(own display code, his code) -0.000; |Delta| on his synergies 0.00
+=== D6: omega_smile from the design's own formula s = (play relief - V integral)/0.05, no mimicry benefit (eps = 0)
+   0 play turns per daily session: s = 0.00, omega after 200 sessions 0.000 -> LP held in-phase 0.000
+   1 play turns per daily session: s = 2.42, omega after 200 sessions 0.984 -> LP held in-phase 0.172
+   2 play turns per daily session: s = 4.14, omega after 200 sessions 0.999 -> LP held in-phase 0.175
+   4 play turns per daily session: s = 6.18, omega after 200 sessions 1.000 -> LP held in-phase 0.175
+   8 play turns per daily session: s = 7.63, omega after 200 sessions 1.000 -> LP held in-phase 0.175
+=== D7: single-channel loop gain with a counter-mimic (cone away -N, appraisal -0.4c, fast away -0.49, all at once)
+   partner lag 0.0 s: max|G| 0.599; small-gain stable for |mu| < 1.67; design claims stable to mu = -1.1
+   partner lag 0.5 s: max|G| 0.599; small-gain stable for |mu| < 1.67; design claims stable to mu = -1.1
+   partner lag 1.0 s: max|G| 0.599; small-gain stable for |mu| < 1.67; design claims stable to mu = -1.1
+   partner lag 3.0 s: max|G| 0.599; small-gain stable for |mu| < 1.67; design claims stable to mu = -1.1
+=== D5b: co-training when his code reuses the agent's synergies (his state-0 face = the agent's state-1 face, etc.)
+   anchor weight 0.1: n1: cos +0.009, own-legibility err 0.03, reading-him err 2.23; n10: cos +0.151, own-legibility err 0.14, reading-him err 1.84; n100: cos +0.256, own-legibility err 0.15, reading-him err 1.79; n400: cos +0.256, own-legibility err 0.15, reading-him err 1.79
+   anchor weight 0.3: n1: cos +0.069, own-legibility err 0.14, reading-him err 1.88; n10: cos +0.261, own-legibility err 0.40, reading-him err 1.58; n100: cos +0.274, own-legibility err 0.41, reading-him err 1.57; n400: cos +0.274, own-legibility err 0.41, reading-him err 1.57
+=== D3b: as D3, with low months that carry some loudness/glare (V integral 0.05 per session)
+   0.20/0.50: omega -0.75..+0.98; agent held LP 0.134 / 0.062; session-pooled slope +0.24 (c_LP 0.35)
+   0.30/0.45: omega -0.75..+0.98; agent held LP 0.130 / 0.051; session-pooled slope +0.52 (c_LP 0.35)
+=== D8: partner whose inner brow rises with his smile/laugh (loading beta); LP rendered, all F routes at their caps
+   beta 0.3 (his BI-on-LP 1-min slope 0.30), appraisal glad-with: rendered LP slope +0.168 (c_LP 0.35; claim <= 0.334; design's residual formula 0.175 + 0.16 x loading = 0.223)
+   beta 0.3 (his BI-on-LP 1-min slope 0.30), appraisal sympathy : rendered LP slope +0.157 (c_LP 0.35; claim <= 0.334; design's residual formula 0.175 + 0.16 x loading = 0.223)
+   beta 0.6 (his BI-on-LP 1-min slope 0.60), appraisal glad-with: rendered LP slope +0.213 (c_LP 0.35; claim <= 0.334; design's residual formula 0.175 + 0.16 x loading = 0.271)
+   beta 0.6 (his BI-on-LP 1-min slope 0.60), appraisal sympathy : rendered LP slope +0.207 (c_LP 0.35; claim <= 0.334; design's residual formula 0.175 + 0.16 x loading = 0.271)
+   beta 1.0 (his BI-on-LP 1-min slope 1.00), appraisal glad-with: rendered LP slope +0.273 (c_LP 0.35; claim <= 0.334; design's residual formula 0.175 + 0.16 x loading = 0.335)
+   beta 1.0 (his BI-on-LP 1-min slope 1.00), appraisal sympathy : rendered LP slope +0.274 (c_LP 0.35; claim <= 0.334; design's residual formula 0.175 + 0.16 x loading = 0.335)
