@@ -1300,3 +1300,35 @@ Checks: `sims/design-g5/checks.py` (H0–H15; out.txt, 15/15 pass). Revision 4 i
 - the cry–laugh split as a route.
 
 For the agent critic: sympathy at a silent face against the Q22 ceiling, Π̃ without an anchor (§8.1.1), the learned appraisal reactions, and subscription latency.
+
+## Critiques of revision 5 and the answer (recorded 2026-11-26T09:24:31Z, under Q19 and D81–D84)
+
+**Routes** (critique-5-design-cayley-ledger-routes.md; checks in sims/critique-cayley5-routes/).
+1. **High (D78, Q22): per-channel ceilings broken by the new fast gear.** Claim W caps whole-face directions, not single channels. A cross-channel route inside the fast block lets one agent channel collect from all of the partner's laugh channels. On a laughing partner, pooled over 1 min: breath 2.6× its ceiling, jaw 1.3×. Over 2 s: cheek 1.8×, head pitch 6.6×, F0-range contour 3.6×. The block also has no sign structure, so it can return a small smile to a sad brow. The whole face stays bounded (0.28). Fix: make the fast block per channel.
+2. **Medium (D78, D81): stuck copying through learning.** The fast gain is trained by the likelihood of the agent's own fast dynamics, so a mirroring partner drives the smile gain from 0.227 to the 0.35 cap within 60 nights. The all-evening laugh reflex co-occurring with his punchline laughter does the same (fit 0.45). With a non-mirroring partner, innate mimicry erodes to 0.07–0.14.
+3. **Low–medium: the word-need reader learns his per-topic face.** The concern brow then tracks his per-topic brow at slope 0.74 against a ceiling of 0.20. It converges rather than locking.
+4. **Low–medium:** the rectification allowance covers only the linear echo; a nonlinear fast block reaches 1.04× the laugh-burst ceiling.
+5. **Low:** if the WORLD post-processing only shifts the TTS prosody rather than replacing it, face-dependent draft choice can carry his laughter into F0 range and energy.
+- **No concrete failure found** in: the moving baseline (a held copy of a mood change fades over about 6 sessions, within the held share; lagged slopes ≤ 0.03), the whole face, dyad stability, the word/hurt/contact/play/curiosity events, the masks and style drift, Claude forks and D84.
+
+**Agent and fitness** (critique-5-design-cayley-ledger-agent.md; sims/critique-cayley5-agent/). **Not yet fit; none of the failures touches the copy certificate.** Of critique 4's seven fixes: 3, 4, 5 and 7 are closed, 1 and 6 mostly closed, 2 partly closed.
+- **Four concrete failures:**
+  1. Quiet or differently expressive users bring back the beam at a grieving arrival (lip 0.60), and the agent loses its concern at "my father died", the silence bid and the anxiety reading.
+  2. The arrival mask habituates to mourning (day 7: lip 0.33; day 14: 0.52).
+  3. The play-surprise laugh has no play cue, so ordinary topic continuations earn a 0.40 laugh.
+  4. The arrival mask acts only near saturation, so a mildly sad arrival still gets lip 0.55.
+- **Operator choice raised:** the sympathy brow is invisible (0.05). Put to the operator as Q24.
+- **D84 is feasible and allowed for the operator's own use**, with these needed: setting_sources=[] (so his hooks and CLAUDE.md do not reach drafts), a warm pool, a scoring deadline, and fallback to fewer drafts. First words come at about 1.5–3 s on a fast model.
+- **Novelty:** recombination.
+
+**The answer (maintainer).** All findings are accepted.
+- **Revision 6 will:**
+  - make the fast block strictly per channel, with sign structure;
+  - train the fast gain only from partner-independent evidence, or freeze it at the innate value with a slow, bounded relationship modulation, so mirroring partners cannot drive it to the cap and non-mirroring partners cannot erode it;
+  - keep the word-need reader from learning per-topic faces;
+  - extend the rectification allowance to nonlinear blocks;
+  - fix TTS prosody replacement;
+  - fix the four agent failures, including calibrating its reading to a person's own expressive range so quiet users are read;
+  - add the concern posture recommended in Q24;
+  - add the D84 build details.
+- Revision 5 saved as design-cayley-ledger.r5.md. **Status:** held.
