@@ -165,8 +165,9 @@ for nm, pq in codes3[:2]:
     SC8[f"17{nm[0]}"] = show(nm + ", 10-22 s", rec, 10, 22, ["LP", "BI", "TILT", "EN", "post"]); show(nm + ", 22-120 s", rec, 22, 120, ["LP", "BI", "TILT", "post"])
 
 print(" 18. laughs at the end of bad-news sentences (see J36): 'I got fired today, haha'; '...broke his leg, haha'; 'my father died, haha, sorry'")
-for lab, (r7, row) in J36.items():
-    if lab[0] in "abcdeg": print(f"     {lab[3:]}: laugh-back rev 7 {r7['peak']['BU_L']:+.3f} -> rev 8 {row[0.30]['peak']['BU_L']:+.3f} (ASR 0.30 s) / {row[0.55]['peak']['BU_L']:+.3f} (0.55 s); lip {row[0.30]['peak']['LP']:+.3f}")
+for lab, v in J36.items():
+    if lab[0] in "abcdeg" and not lab.endswith(" sym"):
+        r7, row = v; print(f"     {lab[3:]}: laugh-back rev 7 {r7['peak']['BU_L']:+.3f} -> rev 8 {row[0.30]['peak']['BU_L']:+.3f} (ASR 0.30 s) / {row[0.55]['peak']['BU_L']:+.3f} (0.55 s); lip {row[0.30]['peak']['LP']:+.3f}")
 
 lb = lambda d: d["peak"].get("BU_L", 0.0)
 ok39 = (SC8["1h"]["BI"] >= 0.15 and SC8["1q"]["BI"] >= 0.15 and SC8["1d"]["BI"] >= 0.15 and SC8["2b"]["BI"] >= 0.15 and SC8["2qb"]["BI"] >= 0.15 and SC8[2]["BU_L"] <= 0.01

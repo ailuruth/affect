@@ -15,7 +15,7 @@ def lp30(x, tau, x0):
     return y
 
 
-def echo30(xh, words, tL, amps, base, dur=3.0, ell=0.40, rev=8, latch=None, t_end=None):
+def echo30(xh, words, tL, amps, base, dur=3.0, ell=0.40, rev=8, latch=None, t_end=None, sym=False):
     """the gated fast echo of one laugh onset of his, at 30 Hz.
     xh: the 2 Hz engine's gate inputs (t, x); words: [(t_key, label)] his recognised content (t_key = when its content word ends);
     rev 8: echo delay DELTA_G, words through source + LAMBDA_W required by source + DELTA_G (ASR stable latency ell), else target 0;
@@ -37,7 +37,7 @@ def echo30(xh, words, tL, amps, base, dur=3.0, ell=0.40, rev=8, latch=None, t_en
     for i, s in enumerate(src):
         tgt = GATE(x_src(s)) if (rev == 7 or ell + LAMBDA_W <= dlt) else 0.0
         if gcur is None: gcur = tgt
-        elif rev == 8: gcur = tgt if tgt < gcur else gcur + (tgt - gcur) * (1 - np.exp(-1 / (GATE_TAU * FS30)))
+        elif rev == 8 and not sym: gcur = tgt if tgt < gcur else gcur + (tgt - gcur) * (1 - np.exp(-1 / (GATE_TAU * FS30)))
         else: gcur += (tgt - gcur) * (1 - np.exp(-1 / (GATE_TAU * FS30)))
         gs[i] = gcur
     for k, uk in u.items():
@@ -82,9 +82,12 @@ for lab, pp, ff, evs, words, tL, uend in cases36:
     J36[lab] = (r7, row)
     print(f"   {lab}: rev 7 timing: gate at onset {r7['g_onset']:.2f}, laugh-back {r7['peak']['BU_L']:+.3f}, lip {r7['peak']['LP']:+.3f}; rev 8, ASR latency "
           + "; ".join(f"{ell:.2f} s: gate {r['g_onset']:.2f}, laugh-back {r['peak']['BU_L']:+.3f} (sound at {r['sound']}), lip {r['peak']['LP']:+.3f} (peak at +{r['t_peak']:.2f} s)" for ell, r in row.items()))
-bad = [k for k in J36 if k[0] in "abcdg"]
+    if lab[0] in "abg":
+        rs = echo30(ag.xh, words, tL, LAUGHF, BASEF, ell=0.30, sym=True); J36[lab + " sym"] = rs
+        print(f"      ablation, symmetric gate rate (tau 0.3 s both ways): laugh-back {rs['peak']['BU_L']:+.3f}, lip {rs['peak']['LP']:+.3f}")
+bad = [k for k in J36 if k[0] in "abcdg" and not k.endswith(" sym")]
 okJ36 = all(J36[k][1][ell]["peak"]["BU_L"] == 0.0 for k in bad for ell in (0.30, 0.55)) and \
-    all(J36[k][1][ell]["peak"]["BU_L"] >= 0.10 and J36[k][1][ell]["t_peak"] <= 1.3 for k in J36 if k[0] in "ef" for ell in (0.30, 0.55))
+    all(J36[k][1][ell]["peak"]["BU_L"] >= 0.10 and J36[k][1][ell]["t_peak"] <= 1.3 for k in J36 if k[0] in "ef" and not k.endswith(" sym") for ell in (0.30, 0.55))
 report("J36 a laugh at the end of a bad-news sentence is not laughed back; ordinary end-of-sentence laughter is, within about a second", okJ36,
        f"misfortune {J36[bad[0]][0]['peak']['BU_L']:+.3f} (rev 7) -> {J36[bad[0]][1][0.30]['peak']['BU_L']:+.3f}; fired "
        f"{J36[bad[1]][0]['peak']['BU_L']:+.3f} -> {J36[bad[1]][1][0.30]['peak']['BU_L']:+.3f}; ordinary {J36[[k for k in J36 if k[0]=='e'][0]][1][0.30]['peak']['BU_L']:+.3f}")

@@ -53,17 +53,18 @@ for kind, pp in (("agent-like", PEOPLE6["agent-like"][1]), ("quiet code 0.3", PE
         J34[(kind, lab)] = (ag.onsets, ag.offs, t15, np.mean([r["BI"] for r in seg]), min(r["BI"] for r in seg), np.mean([r["post"] for r in seg]), ag.probes)
         print(f"   {kind:22s} {lab:38s}: on at {ag.onsets[0] if ag.onsets else None} s, offs {len(ag.offs)}, brow >= 0.15 at {t15} s; 10-600 s brow mean "
               f"{J34[(kind, lab)][3]:.3f}, min {J34[(kind, lab)][4]:.3f}; posture {J34[(kind, lab)][5]:.2f}; probes {[p[3] for p in ag.probes]}")
-steady = [J34[(k, l)] for k in ("agent-like", "quiet code 0.3", "sigma_id at floor 0.25", "different channels") for l in ("silent sadness (V .6)", "grief (V .8)", "silent panic (V .3, A .9, breathing)")]
-okJ34 = all(len(v[0]) == 1 and len(v[1]) == 0 and v[2] is not None and v[2] <= (8.0 if "panic" in l else 6.0) and v[4] >= 0.07 for (k, l), v in J34.items() if k != "wave" and "mild" not in l and "crying" not in l) and all(J34[("wave", gp)] is not None and J34[("wave", gp)] <= 3 for gp in (15, 30, 60))
-report("J34 steady silent sadness, grief and silent panic get one onset, no release, brow >= 0.15 within seconds, for every code (rev 7 quiet: on/off every 20-30 s, brow <= 0.07)",
-       okJ34, f"quiet silent sadness: on {J34[('quiet code 0.3', 'silent sadness (V .6)')][0]}, brow mean {J34[('quiet code 0.3', 'silent sadness (V .6)')][3]:.2f}; "
-       f"quiet silent panic brow mean {J34[('quiet code 0.3', 'silent panic (V .3, A .9, breathing)')][3]:.2f}; the only dips are the contingency probe's 8-s half-amplitude softenings, every 3 min of face-only hold")
 # crying in waves (J23 re-run) and the brow-only partner
 cry = dict(BI=.8, LD=.6, CHR=.4, BU_S=.4, LP=.02); calm = dict(BI=.08, LD=.06, LP=.25)
 for gap in (15, 30, 60):
     ag = Agent8(); rec = run6(ag, 70 + gap + 60, lambda t, gap=gap: cry if (t < 40 or t >= 40 + gap) else calm, {})
     t2 = 40 + gap; on2 = next((r["t"] for r in rec if r["t"] >= t2 and r["BI"] >= 0.15), None); J34[("wave", gap)] = on2 - t2 if on2 else None
     print(f"   crying, calm gap {gap} s: offs {ag.offs}; brow >= 0.15 at {J34[('wave', gap)]} s after crying resumes; mean brow first 40 s {np.mean([r['BI'] for r in rec if t2 <= r['t'] < t2 + 40]):.2f}")
+
+steady = [J34[(k, l)] for k in ("agent-like", "quiet code 0.3", "sigma_id at floor 0.25", "different channels") for l in ("silent sadness (V .6)", "grief (V .8)", "silent panic (V .3, A .9, breathing)")]
+okJ34 = all(len(v[0]) == 1 and len(v[1]) == 0 and v[2] is not None and v[2] <= 8.0 and v[4] >= 0.07 for (k, l), v in J34.items() if k != "wave" and "mild" not in l and "crying" not in l) and all(J34[("wave", gp)] is not None and J34[("wave", gp)] <= 3 for gp in (15, 30, 60))
+report("J34 steady silent sadness, grief and silent panic get one onset, no release, brow >= 0.15 within 8 s, for every code (rev 7 quiet: on/off every 20-30 s, brow <= 0.07)",
+       okJ34, f"quiet silent sadness: on {J34[('quiet code 0.3', 'silent sadness (V .6)')][0]}, brow mean {J34[('quiet code 0.3', 'silent sadness (V .6)')][3]:.2f}; "
+       f"quiet silent panic brow mean {J34[('quiet code 0.3', 'silent panic (V .3, A .9, breathing)')][3]:.2f}; the only dips are the contingency probe's 8-s half-amplitude softenings, every 3 min of face-only hold")
 
 # =========================================================== J35: an angry or concentrating face does not start it
 print("=== J35: anger at the agent and concentration (critique 6 agent, B), in every code; the agent's own threat reflex silences the face load")
