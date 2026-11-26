@@ -1,0 +1,27 @@
+S1  exact invariance of the quotient coordinates (linear lagged class)
+    M=22; max|OLS residual change| = 1.87e-14
+    recursive residuals: first defined at t=34 (burn-in = M), max change 3.54e-10
+    RSS(burn-in) + sum w^2 = 743.530113; RSS(full) = 743.530110; |p|^2 = 1067.201  (isometry onto quotient, nonexpansive)
+    NLMS innovations change under the same g, rms by quarter: 0.684 0.260 0.154 0.165
+S2  no-go: nonlinear (Lipschitz) class at horizon 0 shatters a realised path
+    min distance between own samples 2.71e-03 > 0; McShane extension g(x)=min_s(-p_s+L|x-a_s|), L=367
+    max |p_t + g(a_t)| = 0.0e+00 -> (a,p) and (a,0) are in one orbit
+    kernel ridge lambda=1e-06: kept |R p|^2/|p|^2 = 0.750; leak of g |R g|^2/|g|^2 = 0.0000
+    kernel ridge lambda=0.001: kept |R p|^2/|p|^2 = 0.834; leak of g |R g|^2/|g|^2 = 0.0000
+    kernel ridge lambda=0.1: kept |R p|^2/|p|^2 = 0.890; leak of g |R g|^2/|g|^2 = 0.0009
+    kernel ridge lambda=10: kept |R p|^2/|p|^2 = 0.962; leak of g |R g|^2/|g|^2 = 0.1584
+S3  infinite-horizon LTI class: Toeplitz(a) invertible -> every p is h*a
+    det(Toeplitz) = a_0^T = (-0.667)^300 != 0 -> V_T(a) = R^T; but cond = 1.1e+18: the filter that does it is enormous (unstable inverse)
+S4  spurious absorption of the partner's independent slow drift (OLS quotient, 10-min window)
+    slow filters (5.0, 20.0, 60.0): M=44, fraction of independent slow partner variance removed = 0.59 (sd 0.15)
+    slow filters none: M=32, fraction of independent slow partner variance removed = 0.05 (sd 0.10)
+S5  closed loop: agent echoes partner news (gain 0.25, lag 1 s); OLS vs IV representative
+    OLS: corr(rep, partner news) = 0.929; var(rep)/var(news) = 0.868
+    IV : corr(rep, partner news) = 1.000; var(rep)/var(news) = 1.013
+    ||I - P_IV|| = 1/cos(max principal angle) = 1.20  (OLS: 1.00); invariance of IV rep: 1.1e-13
+    weak instrument (own exogenous share ~4% of variance): ||I - P_IV|| = 9.1
+S6  contingency echo normalised by its own estimate: loop gain kappa*K/(K+s) < kappa for every K
+    K=  0.2: loop gain 0.150; std(agent)/std(own) = 1.125; std(agent - own)/std(own) = 0.171 <= small-gain bound g/(1-g) = 0.176
+    K=  1.0: loop gain 0.250; std(agent)/std(own) = 1.234; std(agent - own)/std(own) = 0.309 <= small-gain bound g/(1-g) = 0.333
+    K=  3.0: loop gain 0.281; std(agent)/std(own) = 1.274; std(agent - own)/std(own) = 0.359 <= small-gain bound g/(1-g) = 0.391
+    K= 10.0: loop gain 0.294; std(agent)/std(own) = 1.292; std(agent - own)/std(own) = 0.380 <= small-gain bound g/(1-g) = 0.417

@@ -2,6 +2,19 @@
 
 Decisions that are yours (visual identity, data leaving this Mac, new paid services, changes to existing Ailurini behavior). Work that these block is not built; work they do not block continues.
 
+## Report 9: the search for a genuinely new core, so far (Q28 below; 2026-11-26T19:52:45Z)
+
+Since report 8, the search for a new core mechanism took two more steps, and neither found one.
+- **A second reading pass** (7 sources: how the brain cancels the input its own movements cause, people who feel touch they only see on others, how brain circuits hold a lasting state, and how two known network designs were discovered). It gave three directions. All three reduce to known methods: an adaptive filter, a known kind of recurrent network, and a training goal rather than a mechanism.
+- **A mathematical derivation.** It asked exactly which networks are unaffected by everything you do that the agent's own past predicts.
+  - For any rich (non-linear) notion of "predicts", the only such networks ignore you entirely. That closes this direction for good.
+  - For simple (linear) notions, the answer is a known method: an echo canceller in front of the network.
+  - Either way, the property also erases "you responded to me", which you want the agent to feel.
+  - Restoring that falls back on per-expression limits, which the main design already has.
+- **Kept from it:** a test any design can be put through: replay a partner who only mirrors the agent and compare with no partner at all.
+
+**Where this leaves the search.** Across this conversation every design and direction has turned out to be a recombination. The main design (Q27) is the strongest of them, with no known concrete failure left except the one gap stated in Q27. Some key papers could not be read because their sites are blocked from this environment (arxiv.org among them in the last pass).
+
 ## Report 8: a search for a new core, and one more gap in the main design (no answer needed beyond Q27; 2026-11-26T19:10:15Z)
 
 **The main design** is with you in Q27. Its last check passed. A later critic found one gap in its safety net, stated in Q27: a route nobody listed that copied you 20–90 seconds late would not be caught. None of the design's own routes does this, and a one-line change closes it at build time.
@@ -566,3 +579,16 @@ Fixes for situational failures are designed through these three sources.
 Q24 (the concern look before words) is still open and can be answered alongside; the build follows its recommendation unless you choose otherwise.
 
 **What it blocks:** the start of building. Research continues either way.
+
+## Q28. Keep searching for a genuinely new core, or concentrate on building? (asked 2026-11-26T19:52:45Z; work continues on the recommendation meanwhile)
+
+**Why this comes up.** You asked for a genuinely new core mechanism, on the level of attention. Two reading passes and a mathematical derivation since report 7 found none; every candidate reduced to a known method, and one whole direction was shown to be empty. The main design (Q27) is a recombination with no known concrete failure.
+
+**Options:**
+- **Keep searching in the background, alongside building** (my recommendation): if you answer Q27 with "build", building starts on the main design, and the search continues at a slower pace in new directions; anything it finds comes back to you as a candidate to replace the core later.
+- **Keep searching full time:** every cycle goes to the search; nothing is built until a new core is found or you say otherwise.
+- **Pause the search:** cycles go to finishing the main design for building and to the open questions; the search resumes only when you ask.
+- **Widen the reading first:** allow the blocked paper sites (such as arxiv.org) in this environment's network settings, then keep searching; this is a change to what the cloud session can reach.
+
+**What it blocks:** nothing now.
+
