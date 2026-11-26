@@ -17,3 +17,16 @@ checks_g6:26: RuntimeWarning: invalid value encountered in scalar divide
    operator           lp    tau 150 s mu 1.2 start 0.67: onsets 8, ends ['Tmax', 'Tmax', 'Tmax', 'Tmax']..., longest face-only stretch 192 s, look on 64% of 10-40 min, BI last 10 min +0.129
    operator           lp    tau 300 s mu 1.2 start 0.67: onsets 8, ends ['Tmax', 'Tmax', 'Tmax', 'Tmax']..., longest face-only stretch 192 s, look on 64% of 10-40 min, BI last 10 min +0.148
    operator           lp    tau 600 s mu 1.2 start 0.67: onsets 8, ends ['Tmax', 'Tmax', 'Tmax', 'Tmax']..., longest face-only stretch 192 s, look on 64% of 10-40 min, BI last 10 min +0.148
+   operator           lp    tau  90 s mu 1.5 start 0.53: onsets 8, ends ['Tmax', 'Tmax', 'Tmax', 'Tmax']..., longest face-only stretch 192 s, look on 64% of 10-40 min, BI last 10 min +0.132
+   operator           lp    tau 150 s mu 1.5 start 0.53: onsets 8, ends ['Tmax', 'Tmax', 'Tmax', 'Tmax']..., longest face-only stretch 192 s, look on 64% of 10-40 min, BI last 10 min +0.156
+   operator           lp    tau 300 s mu 1.5 start 0.53: onsets 8, ends ['Tmax', 'Tmax', 'Tmax', 'Tmax']..., longest face-only stretch 192 s, look on 64% of 10-40 min, BI last 10 min +0.157
+   operator           lp    tau 600 s mu 1.5 start 0.53: onsets 8, ends ['Tmax', 'Tmax', 'Tmax', 'Tmax']..., longest face-only stretch 192 s, look on 64% of 10-40 min, BI last 10 min +0.157
+   operator           lp    tau  90 s mu 2.0 start 0.40: onsets 8, ends ['Tmax', 'Tmax', 'Tmax', 'Tmax']..., longest face-only stretch 192 s, look on 64% of 10-40 min, BI last 10 min +0.158
+   operator           lp    tau 150 s mu 2.0 start 0.40: onsets 8, ends ['Tmax', 'Tmax', 'Tmax', 'Tmax']..., longest face-only stretch 192 s, look on 64% of 10-40 min, BI last 10 min +0.162
+   operator           lp    tau 300 s mu 2.0 start 0.40: onsets 8, ends ['Tmax', 'Tmax', 'Tmax', 'Tmax']..., longest face-only stretch 192 s, look on 64% of 10-40 min, BI last 10 min +0.164
+   operator           lp    tau 600 s mu 2.0 start 0.40: onsets 8, ends ['Tmax', 'Tmax', 'Tmax', 'Tmax']..., longest face-only stretch 192 s, look on 64% of 10-40 min, BI last 10 min +0.164
+   operator           lp    tau  90 s mu 3.0 start 0.27: onsets 8, ends ['Tmax', 'Tmax', 'Tmax', 'Tmax']..., longest face-only stretch 192 s, look on 64% of 10-40 min, BI last 10 min +0.163
+   operator           lp    tau 150 s mu 3.0 start 0.27: onsets 8, ends ['Tmax', 'Tmax', 'Tmax', 'Tmax']..., longest face-only stretch 192 s, look on 64% of 10-40 min, BI last 10 min +0.164
+   operator           lp    tau 300 s mu 3.0 start 0.27: onsets 8, ends ['Tmax', 'Tmax', 'Tmax', 'Tmax']..., longest face-only stretch 192 s, look on 64% of 10-40 min, BI last 10 min +0.164
+   operator           lp    tau 600 s mu 3.0 start 0.27: onsets 8, ends ['Tmax', 'Tmax', 'Tmax', 'Tmax']..., longest face-only stretch 192 s, look on 64% of 10-40 min, BI last 10 min +0.164
+   operator           lp    tau 300 s mu 1.0 start 0.00: onsets 1, ends ['release'], longest face-only stretch 68 s, look on 0% of 10-40 min, BI last 10 min -0.005

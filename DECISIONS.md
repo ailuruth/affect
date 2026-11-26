@@ -440,10 +440,11 @@ To change: the operator reopens Q23.
 
 To change: the operator reopens Q26.
 
-## D86. Commit and PR attribution: only the operator's co-author trailer (operator instruction; recorded 2026-11-26, amended 2026-11-26T16:15:32Z; replaces D79)
-- Every commit carries exactly one trailer: `Co-Authored-By: ailuruth <65430552+ailuruth@users.noreply.github.com>`.
-- No Claude Co-Authored-By line, no Claude-Session line, and no "Generated with Claude Code" line, in commit messages or PR descriptions.
-- Commits already on main are not rewritten.
-- The Cayley-ledger build-candidate decision is recorded as D87, not D86.
+## D86. Commit and PR attribution (operator instruction; recorded 2026-11-26, amended 2026-11-26T16:16:14Z; replaces D79)
+- **Author:** commits are authored by the operator (git author ailuruth).
+- **Co-author:** each commit carries exactly one trailer, `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>`.
+- **Nothing else:** no Claude-Session line and no "Generated with Claude Code" line, in commit messages or PR descriptions.
+- **History:** commits already on main are not rewritten.
+- **Numbering:** the Cayley-ledger build-candidate decision will be recorded as D87.
 
-To change: the operator asks for a different trailer set.
+To change: the operator asks for a different attribution.
