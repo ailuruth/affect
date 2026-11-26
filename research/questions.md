@@ -2,6 +2,40 @@
 
 Decisions that are yours (visual identity, data leaving this Mac, new paid services, changes to existing Ailurini behavior). Work that these block is not built; work they do not block continues.
 
+## Report 3: the third round of critiques (no answer needed, 2026-11-26T02:08:03Z)
+
+**What was done.** Independent reviewers, none of whom wrote the designs, checked the three newest designs step by step. They checked 144 proof steps in all: 81 hold, 40 have gaps and 23 are wrong. The work moved to a cloud session; a usage limit paused it for about nine hours, and it resumed on its own.
+
+**The three designs reviewed, and what each found.**
+- **The partner as a learned regulator** (third version).
+  - **What improved:** your face no longer reaches the agent's same expression directly, and every route has a built-in limit.
+  - **What fails:**
+    - the term that comforts you has a limit on its size but not on how fast it changes, so the agent can again fall into one of two stuck states;
+    - the smile limit, once a missing "relief smile" is counted, is above the design's own copy line;
+    - its comfort can't tell your unusual happiness from distress, and it gives up on distress that lasts.
+- **Reading you through the agent's own body** (second version).
+  - **What improved:** much milder than before.
+  - **What fails:**
+    - one learned number still moves a group of channels (social smile, brows, head, pitch) all the way to copying;
+    - if your face follows the agent's after more than about three seconds, the agent learns to follow you.
+
+    It also turns out to be active inference underneath, a framework you excluded as a core.
+- **Persistent states whose existence the agent's own needs decide** (new).
+  - **What improved:** it is the only design so far where your face reaches the agent only as brief built-in events, each with a fixed limit and no single strength setting.
+  - **What fails:**
+    - events your face sets off indirectly, through what the agent makes of the conversation, add enough routes to copy the whole face;
+    - how often you trigger events works as a strength dial;
+    - your held expression levels still leak in.
+
+**All five designs are now critiqued and on hold. All are combinations of existing mechanisms.** None is ready for you to choose from, so there is no choice to put to you yet.
+
+**The pattern.** Each new design closes the direct route from your face to the agent's face, and copying comes back through an indirect one:
+- a comforting loop;
+- a shared learned estimate;
+- the agent's own interpretation of events.
+
+The next reading round goes after this directly. It looks for mathematics that bounds what *all* routes together can carry, not each route one at a time. The candidates are bounds on how much information a whole system can pass, and structures where copying is impossible by symmetry rather than by tuning. It will also read on how people avoid falling into copying over long conversations.
+
 ## Report 2: the second cycle, and a question about the "no single setting" rule (2026-11-25T14:40:05Z)
 
 **What was read.** Five more readers, about 65 sources:
