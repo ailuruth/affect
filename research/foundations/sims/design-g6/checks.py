@@ -63,7 +63,7 @@ GK = {k: PHI[k] * CEIL[k] for k in CEIL}
 # pooled shares x c_k: held cone diagonal s_C, charged cross s_X, appraisal |Gamma_kk| s_A
 SH = {k: (.50, .20, .35) for k in CEIL}
 SH.update(LP=(.22, .05, .12), CR=(.24, .05, .12), BU_L=(.10, .02, .10), RHY=(.10, .02, .10), BRE=(.10, .02, .10),
-          BI=(.70, .10, .05), BO=(.44, .12, .20), LD=(.44, .12, .20), JO=(.44, .12, .20))
+          BI=(.68, .10, .05), BO=(.44, .12, .20), LD=(.44, .12, .20), JO=(.44, .12, .20))
 ONE_SIDED = ("LP", "CR", "BU_L", "RHY", "BRE", "BI", "BO", "LD", "JO")
 REST = dict(LP=.09)
 TAU_M = [20, 120, 1200, 10800]; F_M = [0, .7, .2, .1]; F_BI = [.5, .5, 0, 0]; N_M = [.25, .18, .12, .05]
@@ -494,6 +494,9 @@ report("J10 ordinary topic continuation earns no laugh; a cold borderline turn e
        f"(rev 5: 0.40 on '...Lyon on Sunday'); false-positive rate on a corpus: untested (CANDOR access not obtained)")
 
 # =========================================================== the revision-6 agent: posture, calibrated reading, new greeting and play
+def Vc(V): return 0.8 * max(V - 0.10, 0.0) ** 2        # posture concern: distress load only, dead-band 0.10
+
+
 P_C = dict(BI=.22, BO=.04, UL=-.06, TILT=.10, HP=.03, LP=-.03)     # the concern posture (Q24), innate, per unit
 OUT6 = g["OUT"] + ["VG"]
 G0 = g["G0"]; GRP = g["GRP"]; XI = g["XI"]; YO = g["YO"]; Wsel = g["Wsel"]; Gam = g["Gam"]; PI0 = g["PI0"]; BASE = g["BASE"]
@@ -534,7 +537,7 @@ class Agent6(Agent5):
         for k in ("LP", "CR", "BI", "LD", "UL", "BO", "BL", "LPR", "CHR", "BU_S"):
             s.f3[k] = s.f3.get(k, s.pp.base.get(k, 0.0)) + (face.get(k, s.pp.base.get(k, 0.0)) - s.f3.get(k, s.pp.base.get(k, 0.0))) * DT / 3.0
         sob = min(1.0, 2.5 * s.f3.get("BU_S", 0.0))
-        rd = s.pp.read(s.f3, False); Con = max(Dp(rd), 0.8 * max(sob - .05, 0) ** 2)
+        rd = s.pp.read(s.f3, False); Con = max(Vc(rd['V']), Vc(sob))
         if s.om.get("sym", 0) >= 0 and not s.p_on and t - s.refr >= 60:
             s.dwell = s.dwell + DT if Con >= 0.05 else 0.0
             if s.dwell >= 1.5: s.p_on = True; s.post_t = s.post_t if s.post_t is not None else t; s.on_t = t; s.below = 0.0
@@ -543,7 +546,7 @@ class Agent6(Agent5):
             f_m = dict(s.f3)
             for k, v in P_C.items():
                 if k in f_m: f_m[k] = f_m[k] - sc * v * s.post
-            M = max(Dp(s.pp.read(f_m, False)), s.Cl, 0.8 * max(sob - .05, 0) ** 2)
+            M = max(Vc(s.pp.read(f_m, False)['V']), s.Cl, Vc(sob))
             s.below = s.below + DT if M < 0.02 else 0.0
             if s.below >= 20: s.p_on = False; s.refr = t
         s.post = min(1.0, s.post + DT / 1.5) if s.p_on else s.post * np.exp(-DT / 4.0)

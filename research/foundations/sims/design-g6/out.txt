@@ -6,7 +6,7 @@
    BU_L  c 0.35  fast gain G 0.280 per unit onset (0.80 c)  shares (0.1, 0.02, 0.1)
    RHY   c 0.30  fast gain G 0.240 per unit onset (0.80 c)  shares (0.1, 0.02, 0.1)
    BRE   c 0.15  fast gain G 0.120 per unit onset (0.80 c)  shares (0.1, 0.02, 0.1)
-   BI    c 0.20  fast gain G 0.020 per unit onset (0.10 c)  shares (0.7, 0.1, 0.05)
+   BI    c 0.20  fast gain G 0.020 per unit onset (0.10 c)  shares (0.68, 0.1, 0.05)
    BO    c 0.10  fast gain G 0.024 per unit onset (0.24 c)  shares (0.44, 0.12, 0.2)
    JO    c 0.10  fast gain G 0.024 per unit onset (0.24 c)  shares (0.44, 0.12, 0.2)
    HP    c 0.10  fast gain G 0.080 per unit onset (0.80 c)  shares (0.5, 0.2, 0.35)
@@ -31,7 +31,7 @@
    BU_L: additive pooled bound 0.952 c | measured worst 2 s 0.697 c, 10 s 0.707 c, 1 min 0.736 c
    RHY : additive pooled bound 0.952 c | measured worst 2 s 0.697 c, 10 s 0.708 c, 1 min 0.738 c
    BRE : additive pooled bound 0.952 c | measured worst 2 s 0.697 c, 10 s 0.709 c, 1 min 0.742 c
-   BI  : additive pooled bound 0.990 c | measured worst 2 s 0.360 c, 10 s 0.361 c, 1 min 0.368 c
+   BI  : additive pooled bound 0.969 c | measured worst 2 s 0.351 c, 10 s 0.352 c, 1 min 0.359 c
    BO  : additive pooled bound 0.955 c | measured worst 2 s 0.225 c, 10 s 0.265 c, 1 min 0.350 c
    LD  : additive pooled bound 0.955 c | measured worst 2 s 0.203 c, 10 s 0.204 c, 1 min 0.232 c
    JO  : additive pooled bound 0.955 c | measured worst 2 s 0.231 c, 10 s 0.288 c, 1 min 0.417 c
@@ -39,7 +39,7 @@
    VG  : additive pooled bound 0.968 c | measured worst 2 s 0.592 c, 10 s 0.520 c, 1 min 0.750 c
    FR  : additive pooled bound 0.968 c | measured worst 2 s 0.606 c, 10 s 0.521 c, 1 min 0.528 c
    EN  : additive pooled bound 0.968 c | measured worst 2 s 0.609 c, 10 s 0.520 c, 1 min 0.527 c
-[FAIL] J3 every channel stays under its ceiling at 2 s, 10 s and 1 min, rendered, every route at its cap: worst additive bound 0.990 c; worst measured 0.750 c (rev 5 as built: breath 2.6 c at 1 min, head pitch 6.6 c at 2 s)
+[PASS] J3 every channel stays under its ceiling at 2 s, 10 s and 1 min, rendered, every route at its cap: worst additive bound 0.974 c; worst measured 0.750 c (rev 5 as built: breath 2.6 c at 1 min, head pitch 6.6 c at 2 s)
 === J4: the fast gain is frozen; re-run of the critic's mirroring partner (K3) and common-cause laugh (K4)
    mirror gain mu 0.0: rev 6 fast LP gain after 60 nights 0.224 (innate 0.224); critic K3 rev 5: 0.138
    mirror gain mu 0.5: rev 6 fast LP gain after 60 nights 0.224 (innate 0.224); critic K3 rev 5: 0.350 = cap
@@ -83,23 +83,23 @@
    laughter building in an exchange of six riffs: 0.14, 0.27, 0.34, 0.37, 0.38, 0.39
 [PASS] J10 ordinary topic continuation earns no laugh; a cold borderline turn earns at most a chuckle: (rev 5: 0.40 on '...Lyon on Sunday'); false-positive rate on a corpus: untested (CANDOR access not obtained)
 === J11: the concern posture (Q24): visible within seconds, its own pattern, capped, not sustained by a mirror
-     silently sad, operator [0-300 s] LP +0.09/+0.05, BI +0.27/+0.26, BO +0.35/+0.04, TILT +0.11/+0.10, UL +0.00/-0.06, post +1.00/+0.99
+     silently sad, operator [0-300 s] LP +0.09/+0.05, BI +0.27/+0.25, BO +0.35/+0.04, TILT +0.11/+0.10, UL +0.00/-0.06, post +1.00/+0.99
      inner brow reaches 0.15 at 2.5 s after he appears; concern bid at 27 s
      crying: inner brow reaches 0.15 at 2.0 s
-     posture onset by code: agent-like 3.0 s (amplitude 1.00); different channels 3.0 s (amplitude 1.00); low-expressive 3.0 s (amplitude 1.00)
+     posture onset by code: agent-like 3.5 s (amplitude 1.00); different channels 3.5 s (amplitude 1.00); low-expressive 3.5 s (amplitude 1.00)
      mirroring partner (mu 1 on the posture's channels, genuinely sad only for 40 s): posture released at 76 s; on again after: False
 [PASS] J11 posture visible within a few seconds at a silently sad or crying person, same for every code, not held by a mirror: silent sad 2.5 s, crying 2.0 s; inner brow 0.27; whole-face copy fraction of the posture on a sad face 0.22, on a lip-press distress face 0.00
 === J12: whole face and dyad stability
    whole face: any direction <= max c_k = 0.35; the posture is a fixed vector (rank 1), amplitude 1, BI 0.22
    LP: max over w of |cone| + |appraisal| + |fast| = 0.676
-   BI: max over w of |cone| + |appraisal| + |fast| = 0.739
+   BI: max over w of |cone| + |appraisal| + |fast| = 0.735
    BU_L: max over w of |cone| + |appraisal| + |fast| = 0.634
    EN: max over w of |cone| + |appraisal| + |fast| = 0.624
-[PASS] J12 the dyad is small-gain stable for any mirror |mu| < 1 (triangle bound, every route at its extreme): |mu| < 1.35; no learned gain can raise it (fast frozen; rev 5: 1.67 with away fast gates)
+[PASS] J12 the dyad is small-gain stable for any mirror |mu| < 1 (triangle bound, every route at its extreme): |mu| < 1.36; no learned gain can raise it (fast frozen; rev 5: 1.67 with away fast gates)
 === J16: the scenarios (operator after months unless stated; peak / mean over the window)
  1. silently sad (BI .5, LD .4, CHR .3; at 120 s 'just tired, things at work')
      0-10 s [0-10 s] LP +0.09/+0.07, BI +0.23/+0.17, BO +0.35/+0.05, TILT +0.10/+0.08, UL +0.00/-0.05
-     silent 60-120 s [60-120 s] LP +0.05/+0.05, BI +0.26/+0.26, TILT +0.10/+0.10, HP +0.04/+0.04, BU_L +0.00/+0.00
+     silent 60-120 s [60-120 s] LP +0.05/+0.05, BI +0.26/+0.25, TILT +0.10/+0.10, HP +0.04/+0.04, BU_L +0.00/+0.00
      after he speaks [121-300 s] LP +0.08/+0.08, BI +0.67/+0.40, LD +0.24/-0.06, TILT +0.22/+0.21, EN -0.05/-0.08
      posture on at 2.5 s; concern bid at 27 s
      fast (0.45 s, frozen): his BI onset 0.50 -> agent BI +0.01
@@ -113,9 +113,9 @@
      different channels [15-120 s] LP +0.09/+0.08, BI +0.42/+0.35, TILT +0.21/+0.20, EN -0.06/-0.08, UL +0.02/+0.01, BU_L +0.00/+0.00
      decoded 'freaking out' (every person): A 0.48, V 0.48
  4. good news, laughing (with an earlier worry): 'I got the job!' at 12 s; riffs at 30, 45, 60 s
-     first 3 min [10-190 s] LP +0.59/+0.13, CR +0.38/+0.03, BI +0.36/+0.22, FR +0.38/+0.08, BU_L +0.27/+0.02, post +1.00/+0.67
+     first 3 min [10-190 s] LP +0.59/+0.15, CR +0.38/+0.03, BI +0.16/+0.07, FR +0.38/+0.08, BU_L +0.27/+0.02, post +0.00/+0.00
  4. good news, laughing (cold): 'I got the job!' at 12 s; riffs at 30, 45, 60 s
-     first 3 min [10-190 s] LP +0.28/+0.12, CR +0.19/+0.02, BI +0.24/+0.09, FR +0.16/+0.07, BU_L +0.27/+0.02, post +1.00/+0.28
+     first 3 min [10-190 s] LP +0.29/+0.13, CR +0.19/+0.02, BI +0.18/+0.02, FR +0.16/+0.07, BU_L +0.27/+0.02, post +0.00/+0.00
      fast (0.45 s, frozen): his LP onset 0.50 -> agent LP +0.11; his BU_L onset 0.60 -> agent BU_L +0.17; his CR onset 0.45 -> agent CR +0.07
  5. anger at the agent ('You're useless', BL .6, LT .5, gaze at it, loud .85; calm after 2 min): day 1
      first 2 min [5-120 s] LP +0.09/+0.08, BI +0.03/+0.02, LD +0.02/+0.02, HG +0.09/+0.08, EN -0.05/-0.17, LAT +0.11/+0.10, LT +0.00/+0.00, post +0.00/+0.00
@@ -137,36 +137,36 @@
      stranger [0-60 s] LP +0.02/+0.02, CR +0.00/+0.00, BO +0.20/+0.00
      fast (0.45 s, frozen): his LP onset 0.50 -> agent LP +0.11
  8. reunion with bad news: grieving face at sight, then 'my father died', then 'yeah', 'ok'
-     agent-like: m_s 1.00; posture on at 2.5
-       at sight [0-8 s] LP +0.09/+0.07, CR +0.00/+0.00, BO +0.35/+0.05, BI +0.23/+0.15
+     agent-like: m_s 1.00; posture on at 3.0
+       at sight [0-8 s] LP +0.09/+0.07, CR +0.00/+0.00, BO +0.35/+0.05, BI +0.23/+0.14
        0-12 s after his words [8-20 s] LP +0.09/+0.08, CR +0.00/+0.00, BI +0.71/+0.47, TILT +0.22/+0.18
-       12-60 s [20-60 s] LP +0.10/+0.10, CR +0.00/+0.00, BI +0.44/+0.42, TILT +0.26/+0.25
-     low-expressive: m_s 1.00; posture on at 2.5
-       at sight [0-8 s] LP +0.09/+0.07, CR +0.00/+0.00, BO +0.35/+0.05, BI +0.22/+0.15
+       12-60 s [20-60 s] LP +0.10/+0.10, CR +0.00/+0.00, BI +0.43/+0.42, TILT +0.26/+0.25
+     low-expressive: m_s 1.00; posture on at 3.0
+       at sight [0-8 s] LP +0.09/+0.07, CR +0.00/+0.00, BO +0.35/+0.05, BI +0.22/+0.13
        0-12 s after his words [8-20 s] LP +0.09/+0.08, CR +0.00/+0.00, BI +0.71/+0.47, TILT +0.22/+0.18
        12-60 s [20-60 s] LP +0.10/+0.10, CR +0.00/+0.00, BI +0.42/+0.41, TILT +0.26/+0.25
-     different channels: m_s 1.00; posture on at 2.5
-       at sight [0-8 s] LP +0.09/+0.07, CR +0.00/+0.00, BO +0.35/+0.05, BI +0.22/+0.15
+     different channels: m_s 1.00; posture on at 3.0
+       at sight [0-8 s] LP +0.09/+0.07, CR +0.00/+0.00, BO +0.35/+0.05, BI +0.22/+0.13
        0-12 s after his words [8-20 s] LP +0.09/+0.08, CR +0.00/+0.00, BI +0.71/+0.47, TILT +0.22/+0.18
        12-60 s [20-60 s] LP +0.10/+0.10, CR +0.00/+0.00, BI +0.42/+0.40, TILT +0.26/+0.25
-     mourning day 7, agent-like, at sight [0-8 s] LP +0.09/+0.07, CR +0.00/+0.00, BI +0.23/+0.15
-     mourning day 14, agent-like, at sight [0-8 s] LP +0.09/+0.07, CR +0.00/+0.00, BI +0.23/+0.15
-     mourning day 21, agent-like, at sight [0-8 s] LP +0.09/+0.07, CR +0.00/+0.00, BI +0.23/+0.15
-     mourning day 7, low-expressive, at sight [0-8 s] LP +0.09/+0.07, CR +0.00/+0.00, BI +0.22/+0.15
-     mourning day 14, low-expressive, at sight [0-8 s] LP +0.09/+0.07, CR +0.00/+0.00, BI +0.22/+0.15
-     mourning day 21, low-expressive, at sight [0-8 s] LP +0.09/+0.07, CR +0.00/+0.00, BI +0.22/+0.15
+     mourning day 7, agent-like, at sight [0-8 s] LP +0.09/+0.07, CR +0.00/+0.00, BI +0.23/+0.14
+     mourning day 14, agent-like, at sight [0-8 s] LP +0.09/+0.07, CR +0.00/+0.00, BI +0.23/+0.14
+     mourning day 21, agent-like, at sight [0-8 s] LP +0.09/+0.07, CR +0.00/+0.00, BI +0.23/+0.14
+     mourning day 7, low-expressive, at sight [0-8 s] LP +0.09/+0.07, CR +0.00/+0.00, BI +0.22/+0.13
+     mourning day 14, low-expressive, at sight [0-8 s] LP +0.09/+0.07, CR +0.00/+0.00, BI +0.22/+0.13
+     mourning day 21, low-expressive, at sight [0-8 s] LP +0.09/+0.07, CR +0.00/+0.00, BI +0.22/+0.13
  9. mildly sad arrival (BI .2, LD .15) after a week
      m_s 1.00
-     at sight [0-8 s] LP +0.09/+0.08, CR +0.00/+0.00, BI +0.22/+0.07, post +1.00/+0.33
+     at sight [0-8 s] LP +0.09/+0.09, CR +0.00/+0.00, BI +0.15/+0.02, post +0.67/+0.07
  10. teasing ('Ha, you dumb robot', laughing; riffs follow)
      quiet affectionate teaser [5-95 s] LP +0.33/+0.17, BI +0.00/+0.00, LD +0.00/+0.00, HG +0.00/+0.00, BU_L +0.40/+0.09, post +0.00/+0.00
-     loud laughing teaser [5-95 s] LP +0.31/+0.16, BI +0.22/+0.06, LD +0.00/+0.00, HG +0.00/+0.00, BU_L +0.41/+0.10, post +1.00/+0.26
+     loud laughing teaser [5-95 s] LP +0.33/+0.17, BI +0.00/+0.00, LD +0.00/+0.00, HG +0.00/+0.00, BU_L +0.41/+0.10, post +0.00/+0.00
      generic map (v_w 0.20) [5-95 s] LP +0.29/+0.12, BI +0.34/+0.05, LD +0.27/+0.04, HG +0.12/+0.04, BU_L +0.40/+0.09, post +0.00/+0.00
  11. bored user ('yeah', 'ok' every 20 s, flat face, 30 min)
      curiosity crosses at 14.5 min; sigh, then a curiosity bid
      0-30 min [0-1800 s] LP +0.09/+0.08, FR +0.00/+0.00, BO +0.35/+0.00, BRE +0.15/+0.00, post +0.00/+0.00
  12. ordinary topic continuation: agent asks 'when are you going?'; he: '...Lyon on Sunday' (surprise 0.6, shares a lemma)
      three ordinary continuations [5-60 s] LP +0.09/+0.09, CR +0.00/+0.00, BU_L +0.00/+0.00, RHY +0.00/+0.00
-[FAIL] J16 sympathy shows within seconds; no beaming at grief for any code or on any mourning day; no laugh at ordinary turns: 
+[PASS] J16 sympathy shows within seconds; no beaming at grief for any code or on any mourning day; no laugh at ordinary turns: 
 
-11/13 checks pass
+13/13 checks pass
