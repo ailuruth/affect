@@ -1,0 +1,16 @@
+[PASS] G1 Cayley wrap: one-sided sector and gain cap end to end: b = 0.667. delay: max ratio 0.474, gain/L 0.59; flip2: max ratio 0.605, gain/L 0.29; deep: max ratio 0.018, gain/L 0.02
+[PASS] G1c two sign flips in series, unwrapped, are copy-direction: <y,u>/<u,u> = 0.011 > 0; DC gain +1 at gain-1 stages (the wrap caps it at b)
+[PASS] G2a Cayley image is the disc on diameter [a,b]: a = -0.600, b = 0.200, radius 0.400, max|g| = 0.600 = |a|
+[PASS] G2b naive Re H <= kappa admits lag-copy + lag-0 anti-copy at gain c: c = 3.0: max Re H = 0.300 <= 0.3; max|H| = 5.70
+[PASS] G2c worst broadband lag-0.5 s concordance in the class <= disc radius: white partner: 0.397 <= radius 0.400; smooth (1 s) partner: 0.276; zero-lag cap b = 0.200; any-signal cap |a| = 0.600
+[PASS] G3 diagonal-only sector admits a shared-subspace copy: diag = 0.3, but gain along the mean-face direction = 4.80 (copy); matrix sector He H <= K caps it at 0.3
+[PASS] G4 correlated partner: a cross route copies a channel; matrix sector sees it: cheek gain 0.99 via lip->cheek; lambda_max(He H) = 0.21 > kappa, so this H is outside the matrix sector
+[PASS] G5a level-neighbour cost is finite and window-independent: E_h = 5.85 (two edges), eps_L(2) = 0.116, HCR correlation bound 0.248
+[PASS] G5b held-level tracking through the released stream (any slow state): 1-min corr: no noise 0.99; ledger noise: best leaky tracker 0.07 +- 0.13 (bound 0.25); 6 h, levels in [0,1] changing every ~10 min, transients every 15 s
+[PASS] G6 persistent capacity (linear modes: no wells, so no noise-driven switching): mood ladder bits retained after 1 h / 6 h / 24 h: 327 / 180 / 90; slots after 1 h / 1 d / 1 wk: 30994 / 21511 / 15160
+[PASS] G7 clipped SGD with innate pull stays in the ball for any data: max |phi-phi0| = 2.0000 <= G/lambda = 2.0; innate in-phase gain 0.161; learned <= 0.194 < cap 0.200 < copy 1
+[PASS] G8 viseme route: best-lag (0-3 s) correlation vs phoneme overlap; overlap 0 is the surrogate: surrogate (overlap 0): 0.43; overlap 0.3 (echo-guard limit): 0.47 (excess +0.05); verbatim echo: 1.00
+[PASS] G9 C1 sign of band coupling from an envelope gate (sign-free) plus a 0.5 s slow match: fast band coherence real 0.0026 vs surrogate 0.0072; slow band real 0.0444 vs surrogate 0.0078
+[PASS] G10 held partner level: fast-fibre response decays (zero DC inside S): onset peak 0.299 (first pass, <= 2*gamma*kappa = 0.30; the energy sector is b*kappa = 0.20); after 50 s of holding 3.1e-04
+
+14/14 checks pass

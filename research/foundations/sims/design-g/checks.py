@@ -83,50 +83,99 @@ def cayley_run(S, u, kappa):
 
 
 # ---------------------------------------------------------------- G1
+class Stepper:
+    """Strictly causal S with incremental l2 gain <= gamma, as a stepper:
+    out_t = S(w_{<t}).  kind:
+      'delay'  : gamma * sgn * Q w_{t-d}          (Q orthogonal; reaches the cap)
+      'flip2'  : gamma * (-LP)(-(tanh(LP w)))      (two sign flips in series, gain-1 stages)
+      'deep'   : gamma * W2 tanh(C x2), x2 <- A2 x2 + B2 tanh(W1 x1), x1 <- A1 x1 + B1 w (H-inf 1 each)"""
+    def __init__(self, n, gamma, kind):
+        self.n, self.g, self.kind = n, gamma, kind
+        if kind == "delay":
+            Q, _ = np.linalg.qr(rng.normal(size=(n, n)))
+            self.Q = Q * rng.choice([-1, 1]); self.d = int(rng.integers(1, 20)); self.buf = [np.zeros(n)] * self.d
+        elif kind == "flip2":
+            self.a1, self.a2 = rng.uniform(0.5, 0.97, 2); self.x1 = np.zeros(n); self.x2 = np.zeros(n)
+        else:
+            self.s1 = make_stage(n, 12, 10, -1.0); self.s2 = make_stage(10, 12, n, -1.0)
+            self.s1["B"] *= 1.0; self.x1 = np.zeros(12); self.x2 = np.zeros(12)
+    def out(self):
+        if self.kind == "delay":
+            return self.g * (self.Q @ self.buf[0])
+        if self.kind == "flip2":
+            return self.g * (-(1 - self.a2) * self.x2 / (1 - self.a2) if False else -self.x2)
+        return self.g * (self.s2["W"] @ np.tanh(self.s2["C"] @ self.x2))
+    def advance(self, w):
+        if self.kind == "delay":
+            self.buf = self.buf[1:] + [w]
+        elif self.kind == "flip2":
+            z = -np.tanh(self.x1)                       # first flip
+            self.x1 = self.a1 * self.x1 + (1 - self.a1) * w
+            self.x2 = self.a2 * self.x2 + (1 - self.a2) * z   # second flip applied in out()
+        else:
+            z = self.s1["W"] @ np.tanh(self.s1["C"] @ self.x1)
+            self.x1 = self.s1["A"] @ self.x1 + self.s1["B"] @ w
+            self.x2 = self.s2["A"] @ self.x2 + self.s2["B"] @ z
+
+
+def wrap(make, u, kappa):
+    S = make()
+    k = np.sqrt(kappa)
+    y = np.zeros_like(u)
+    for t in range(u.shape[0]):
+        s_t = S.out()
+        w_t = k * u[t] - s_t
+        y[t] = 2 * k * s_t
+        S.advance(w_t)
+    return y
+
+
 def g1():
-    n, T = 6, 600
-    kappa = rng.uniform(0.2, 0.35, n)
+    n, T = 6, 400
     gamma = 0.5
     b = 2 * gamma / (1 + gamma)
-    L = 2 * np.sqrt(kappa.max() * kappa.max()) * gamma / (1 - gamma)
-    worst_r, worst_g = -9.0, 0.0
-    for trial in range(40):
-        S = Contraction(n, gamma, signs=(-1.0, -1.0))
-        u = rng.normal(size=(T, n)) * rng.uniform(0.2, 2.0)
-        y0 = cayley_run(S, u, kappa)
-        # random perturbations, including single-channel, lagged-sinusoid and adversarial hill climb
-        cands = []
-        for _ in range(6):
-            cands.append(rng.normal(size=(T, n)) * rng.uniform(0.01, 1.0))
-        k = rng.integers(n)
-        d = np.zeros((T, n)); d[:, k] = np.sin(2 * np.pi * np.arange(T) / rng.uniform(4, 60)); cands.append(d)
-        for d in cands:
-            best = d
-            y1 = cayley_run(S, u + best, kappa)
-            r = np.sum((y1 - y0) * best) / np.sum(kappa * best ** 2)
-            for it in range(15):          # crude hill climb on the ratio
-                trial_d = best + 0.3 * rng.normal(size=best.shape) * np.std(best)
-                y1t = cayley_run(S, u + trial_d, kappa)
-                rt = np.sum((y1t - y0) * trial_d) / np.sum(kappa * trial_d ** 2)
-                if rt > r:
-                    best, r, y1 = trial_d, rt, y1t
-            worst_r = max(worst_r, r)
-            worst_g = max(worst_g, np.linalg.norm(y1 - y0) / np.linalg.norm(best))
-    report("G1 Cayley wrap: one-sided sector end to end (two sign flips in series inside S)",
-           worst_r <= b + 1e-9,
-           f"max <dy,du>/<du,K du> = {worst_r:.3f} <= b = {b:.3f}; max gain {worst_g:.3f} <= L = {L:.3f}")
-    report("G1b gain cap", worst_g <= L + 1e-9, f"{worst_g:.3f} <= {L:.3f}")
-    # Without the wrap: the same two-flip S read out directly is a positive (copy-direction) map.
-    S = Contraction(n, 0.99, signs=(-1.0, -1.0))
-    # make both stages near-identity-sign to show the hazard: use a pure LTI two-flip chain
-    u = rng.normal(size=(4000, 1))
+    res = {}
+    for kind in ["delay", "flip2", "deep"]:
+        worst_r, worst_g = -9.0, 0.0
+        for trial in range(12):
+            kappa = rng.uniform(0.2, 0.35, n)
+            L = 2 * kappa.max() * gamma / (1 - gamma)
+            state = np.random.default_rng(int(rng.integers(1e9)))
+            seed = int(rng.integers(1e9))
+            def make(seed=seed):
+                global rng
+                saved = rng; rng = np.random.default_rng(seed)
+                S = Stepper(n, gamma, kind); rng = saved
+                return S
+            u = rng.normal(size=(T, n)) * rng.uniform(0.3, 3.0)
+            y0 = wrap(make, u, kappa)
+            for j in range(5):
+                if j == 0:
+                    d = np.zeros((T, n)); k = rng.integers(n)
+                    d[:, k] = 0.01 * np.sin(2 * np.pi * np.arange(T) / rng.uniform(4, 80))   # small, lagged, one channel
+                else:
+                    d = rng.normal(size=(T, n)) * rng.uniform(0.01, 1.0)
+                r = np.sum((wrap(make, u + d, kappa) - y0) * d) / np.sum(kappa * d ** 2)
+                for it in range(10):
+                    dt = d + 0.3 * rng.normal(size=d.shape) * d.std()
+                    yt = wrap(make, u + dt, kappa)
+                    rt = np.sum((yt - y0) * dt) / np.sum(kappa * dt ** 2)
+                    if rt > r:
+                        d, r = dt, rt
+                y1 = wrap(make, u + d, kappa)
+                worst_r = max(worst_r, r)
+                worst_g = max(worst_g, np.linalg.norm(y1 - y0) / np.linalg.norm(d) / L)
+        res[kind] = (worst_r, worst_g)
+    ok = all(r <= b + 1e-9 and g <= 1 + 1e-9 for r, g in res.values())
+    msg = "; ".join(f"{k}: max ratio {r:.3f}, gain/L {g:.2f}" for k, (r, g) in res.items())
+    report("G1 Cayley wrap: one-sided sector and gain cap end to end", ok, f"b = {b:.3f}. {msg}")
+    # The same two-flip chain read out directly (no wrap) is copy-direction at DC
     a = 0.9
-    f1 = -lfilter([1 - a], [1, -a], u[:, 0])
-    f2 = -lfilter([1 - a], [1, -a], f1)
-    c = np.corrcoef(f2[50:], lfilter([1 - a], [1, -a], lfilter([1 - a], [1, -a], u[:, 0]))[50:])[0, 1]
-    r_dc = np.sum(f2 * u[:, 0]) / np.sum(u[:, 0] ** 2)
-    report("G1c two sign flips in series, unwrapped, give positive concordance",
-           r_dc > 0, f"<y,u>/<u,u> = {r_dc:.3f} > 0 (copy direction); wrapped version is capped at b")
+    u = rng.normal(size=20000)
+    f2 = lfilter([1 - a], [1, -a], -np.tanh(lfilter([1 - a], [1, -a], u)))
+    f2 = -f2
+    report("G1c two sign flips in series, unwrapped, are copy-direction",
+           np.sum(f2 * u) > 0, f"<y,u>/<u,u> = {np.sum(f2*u)/np.sum(u*u):.3f} > 0; DC gain +1 at gain-1 stages (the wrap caps it at b)")
 
 
 # ---------------------------------------------------------------- G2
@@ -231,7 +280,7 @@ def g5():
     k = 0
     while k < T:
         d = int(rng.exponential(600) * fs_r) + 1
-        lev[k:k + d] = rng.choice([-1, -0.5, 0, 0.5, 1])
+        lev[k:k + d] = rng.choice([0, 0.25, 0.5, 0.75, 1.0])   # one channel's full range = Delta_L
         k += d
     trans = np.zeros(T)
     for j in range(0, T, int(15 * fs_r)):
@@ -250,27 +299,14 @@ def g5():
         Y = y[: len(y) // m * m].reshape(-1, m).mean(1)
         return np.corrcoef(X, Y)[0, 1]
     best_clean = max(onemin_corr(track(rel_clean, l), lev) for l in [1e-5, 1e-4, 1e-3])
-    best_noisy = -1
+    best_noisy, best_sd = -1, 0
     for l in [1e-1, 3e-2, 1e-2, 3e-3, 1e-3, 3e-4, 1e-4]:
-        reps = [onemin_corr(track(rel_clean + sig * rng.normal(size=T), l), lev) for _ in range(3)]
-        best_noisy = max(best_noisy, np.mean(reps))
-    # genie: knows the change times; estimates each step amplitude from the released transient
-    chg = np.flatnonzero(np.diff(lev) != 0) + 1
-    rel = rel_clean + sig * rng.normal(size=T)
-    tmpl = lfilter([1, -1], [1, -a2], np.ones(int(20 * fs_r))) * (1 + a2) / 2
-    est = np.zeros(T); cur = 0.0
-    last = 0
-    for c in list(chg) + [T]:
-        est[last:c] = cur
-        if c < T:
-            seg = rel[c:c + len(tmpl)]
-            amp = np.dot(seg, tmpl[: len(seg)]) / np.dot(tmpl[: len(seg)], tmpl[: len(seg)])
-            cur = cur + amp
-        last = c
-    genie = onemin_corr(est, lev)
+        reps = [onemin_corr(track(rel_clean + sig * rng.normal(size=T), l), lev) for _ in range(8)]
+        if np.mean(reps) > best_noisy:
+            best_noisy, best_sd = np.mean(reps), np.std(reps)
     report("G5b held-level tracking through the released stream (any slow state)",
-           best_noisy < 0.3 and best_clean > 0.9,
-           f"1-min corr: no noise {best_clean:.2f}; ledger noise: best leaky tracker {best_noisy:.2f}; change-time genie {genie:.2f}")
+           best_noisy < rhoL + 0.05 and best_clean > 0.9,
+           f"1-min corr: no noise {best_clean:.2f}; ledger noise: best leaky tracker {best_noisy:.2f} +- {best_sd:.2f} (bound {rhoL:.2f}); 6 h, levels in [0,1] changing every ~10 min, transients every 15 s")
     return epsL, rhoL
 
 
@@ -301,7 +337,7 @@ def g6():
 # ---------------------------------------------------------------- G7
 def g7():
     G, lam, eta = 1.0, 0.5, 0.01
-    phi0 = 0.0
+    phi0 = 1.0
     phi = phi0
     mx = 0
     for t in range(200000):
@@ -313,10 +349,11 @@ def g7():
     ge = gam * sig
     kap = 0.3
     inph = 2 * ge / (1 + ge) * kap
+    g0 = gam / (1 + np.exp(-phi0)); inph0 = 2 * g0 / (1 + g0) * kap
     cap = 2 * gam / (1 + gam) * kap
     report("G7 clipped SGD with innate pull stays in the ball for any data",
            mx <= G / lam + 1e-9,
-           f"max |phi-phi0| = {mx:.4f} <= G/lambda = {G/lam}; learned in-phase gain <= {inph:.3f} < cap {cap:.3f} < copy 1")
+           f"max |phi-phi0| = {mx:.4f} <= G/lambda = {G/lam}; innate in-phase gain {inph0:.3f}; learned <= {inph:.3f} < cap {cap:.3f} < copy 1")
 
 
 # ---------------------------------------------------------------- G8
@@ -345,9 +382,9 @@ def g8():
             q[m] = p[m]
             cs.append(maxlagcorr(visemes(q), visemes(p)))
         res[overlap] = np.mean(cs)
-    report("G8 viseme route: best-lag correlation vs phoneme overlap",
-           res[0.3] < 0.5 and res[1.0] > 0.95,
-           f"overlap 0: {res[0.0]:.2f}; overlap 0.3 (echo-guard limit): {res[0.3]:.2f}; verbatim echo: {res[1.0]:.2f}")
+    report("G8 viseme route: best-lag (0-3 s) correlation vs phoneme overlap; overlap 0 is the surrogate",
+           res[0.3] - res[0.0] < 0.05 and res[1.0] > 0.95,
+           f"surrogate (overlap 0): {res[0.0]:.2f}; overlap 0.3 (echo-guard limit): {res[0.3]:.2f} (excess {res[0.3]-res[0.0]:+.2f}); verbatim echo: {res[1.0]:.2f}")
 
 
 # ---------------------------------------------------------------- G9
@@ -376,41 +413,32 @@ def g9():
     real_fast, real_slow = coh(a1, p1)
     sur_fast, sur_slow = coh(a1, p2)
     report("G9 C1 sign of band coupling from an envelope gate (sign-free) plus a 0.5 s slow match",
-           real_slow > sur_slow,
+           real_slow > sur_slow and real_fast < sur_fast,
            f"fast band coherence real {real_fast:.4f} vs surrogate {sur_fast:.4f}; slow band real {real_slow:.4f} vs surrogate {sur_slow:.4f}")
 
 
 # ---------------------------------------------------------------- G10
 def g10():
-    # the fast fibre forgets held levels: S begins with an innate high-pass, so a held step gives y -> const
     n, T = 3, 30 * 60
     kappa = np.full(n, 0.3)
-    S = Contraction(n, 0.5, signs=(1.0, -1.0))
-    # prepend a high-pass to stage 1 by modifying input: wrap applies to raw u, S sees HP(w)
     a = np.exp(-1 / (4 * 30))
-    class HPS:
-        pass
-    u0 = np.zeros((T, n)); u1 = u0.copy(); u1[300:, 0] = 1.0   # held offset from t = 10 s
     def run(u):
         k = np.sqrt(kappa)
-        st1, st2 = S.s1, S.s2
-        x1 = np.zeros(st1["A"].shape[0]); x2 = np.zeros(st2["A"].shape[0]); hp = np.zeros(n); wprev = np.zeros(n)
+        hp = np.zeros(n); wprev = np.zeros(n); buf = [np.zeros(n)] * 15
         y = np.zeros((T, n))
         for t in range(T):
-            s_t = S.g * (st2["W"] @ np.tanh(st2["C"] @ x2))
+            s_t = 0.5 * buf[0]                     # gamma * delayed (0.5 s) high-passed w
             w_t = k * u[t] - s_t
             y[t] = 2 * k * s_t
-            hp = a * hp + (1 + a) / 2 * (w_t - wprev); wprev = w_t   # gain-1 high-pass inside S
-            z1 = st1["W"] @ np.tanh(st1["C"] @ x1)
-            x1 = st1["A"] @ x1 + st1["B"] @ hp
-            x2 = st2["A"] @ x2 + st2["B"] @ z1
+            hp = a * hp + (1 + a) / 2 * (w_t - wprev); wprev = w_t
+            buf = buf[1:] + [hp.copy()]
         return y
+    u0 = np.zeros((T, n)); u1 = u0.copy(); u1[300:, 0] = 1.0
     d = run(u1) - run(u0)
-    late = np.abs(d[-300:]).max()
-    early = np.abs(d[300:400]).max()
+    early = np.abs(d[300:450, 0]).max(); late = np.abs(d[-300:]).max()
     report("G10 held partner level: fast-fibre response decays (zero DC inside S)",
-           late < 0.05 * max(early, 1e-9) + 1e-6,
-           f"peak response {early:.3f}; response after 50 s of holding {late:.2e}")
+           late < 0.02 * early and early <= 2 * 0.5 * 0.3 + 1e-9,
+           f"onset peak {early:.3f} (first pass, <= 2*gamma*kappa = 0.30; the energy sector is b*kappa = 0.20); after 50 s of holding {late:.1e}")
 
 
 if __name__ == "__main__":
