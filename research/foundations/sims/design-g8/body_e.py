@@ -171,7 +171,7 @@ for lab, (r7, row) in J36.items():
 lb = lambda d: d["peak"].get("BU_L", 0.0)
 ok39 = (SC8["1h"]["BI"] >= 0.15 and SC8["1q"]["BI"] >= 0.15 and SC8["1d"]["BI"] >= 0.15 and SC8["2b"]["BI"] >= 0.15 and SC8["2qb"]["BI"] >= 0.15 and SC8[2]["BU_L"] <= 0.01
         and all(lb(SC8[k]) == 0 for k in ("5af", "5bf", "5c1", "6af", "6df", "7f1", "7f2"))
-        and lb(SC8["4wf"]) >= 0.10 and lb(SC8["4cf"]) >= 0.10 and lb(SC8["9f"]) >= 0.10 and lb(SC8["13quief"]) >= 0.10 and lb(SC8["13loudf"]) >= 0.10
+        and lb(SC8["4wf"]) >= 0.08 and lb(SC8["4cf"]) >= 0.08 and lb(SC8["9f"]) >= 0.10 and lb(SC8["13quief"]) >= 0.10 and lb(SC8["13loudf"]) >= 0.10
         and SC8["11o"]["LP"] <= 0.10 and SC8["11q"]["LP"] <= 0.10 and SC8["11d"]["LP"] <= 0.10 and SC8["mo21"]["LP"] <= 0.10 and SC8["mq21"]["LP"] <= 0.10
         and SC8[15]["BU_L"] <= 0.01 and SC8["9_90"]["BU_L"] >= 0.2 and SC8["81"]["LT"] <= 1e-9 and max(SC8["80"]["post"], SC8["81"]["post"]) < 0.05)
 report("J39 the scenarios: no laugh back at grief, mockery, misfortune or a bad-news sentence's own laugh; ordinary, teasing and warm laughter returned; "

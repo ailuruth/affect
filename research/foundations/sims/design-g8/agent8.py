@@ -130,7 +130,8 @@ class Agent8(Agent7):
         s.arec = max(s.a, s.arec * np.exp(-DT / 60.0))
         s.w = float(np.clip(s.w + (0.5 - s.w) * DT / 5.0 + 0.1 * np.sqrt(DT) * s.wr.normal(), 0, 1))
         shown = s.a * (0.9 + 0.1 * s.w)
-        if s.use_Ds: s.Ds = max(s.Ds * np.exp(-DT / TAU_DS), rp["V"], min(1.0, 2.5 * s.f3.get("BU_S", 0.0)))
+        if s.use_Ds:                                                         # D_s reads neither the gated group (LP, CR) nor the posture's channels
+            s.Ds = max(s.Ds * np.exp(-DT / TAU_DS), posture_read(s.pp, {k: v for k, v in s.f3.items() if k not in MASK}, False)["V"], min(1.0, 2.5 * s.f3.get("BU_S", 0.0)))
         for k, v in P7.items():
             if k in y: y[k] += v * shown
         s.post = shown; y["post"] = shown; y["Lp"] = Lf
