@@ -1,0 +1,1 @@
+real 2m13s (python3 -I checks.py, numpy+scipy, one CPU)

@@ -13,7 +13,7 @@ C4  recoverability: the N-1 split commutators plus the own path determine the pa
 C5  the tree's (co, quad) pair: phase invariance of the coherent gain kappa at the matched scale, and its ripple
 C6  the per-octave coherent limiter on adversarial partner-caused routes (copy at lag 0, 0.9 s, a quarter period,
     20 s) and on the frozen fast echo; independent metric = max over lags of pooled windowed regression
-C7  closed-loop vs open-loop own side: a phase oscillator steered by rho locks to the partner (copy) when rho uses
+C7  closed-loop vs open-loop own side (and the rejected null-subtracted limiter): a phase oscillator steered by rho locks to the partner (copy) when rho uses
     its rendered output, and does not when rho uses its autonomous (shadow) path
 C8  rate and amplitude: drive per unit time per scale is bounded by 1 whatever the partner's burst rate or amplitude
 C9  yoked replay vs a live follower: mean rho ~ 0 for an independent partner, signed for a follower
@@ -203,7 +203,7 @@ def ew(x, tau):
     return lfilter([1 - a_], [1, -a_], x)
 
 
-def limiter(delta, part, c, J=11, margin=0.85, Lmax=60.0, lag_complete=True):
+def limiter(delta, part, c, J=11, margin=0.85, Lmax=60.0, lag_complete=True, null=False):
     """Per-octave attenuate-only cap on the coherent gain of delta toward part, at every lag up to Lmax.
     Band j (causal a-trous Haar detail D_j, q = 2^(j-1) frames): for each lag l on the grid {0, q, 2q, ...} <= Lmax,
     quadrature pair of the partner (D_j^p[t-l], D_j^p[t-l-q]) against (D_j^d[t], D_j^d[t-q]); EW estimates
@@ -223,7 +223,7 @@ def limiter(delta, part, c, J=11, margin=0.85, Lmax=60.0, lag_complete=True):
         Pp = [np.maximum(P, Pfloor) for P in Pp]
         k0 = np.zeros(n); off = int(NULL_OFFSET * FS)
         for L in lags:
-            for kk, extra in ((None, 0), ("null", off)):
+            for kk, extra in (((None, 0), ("null", off)) if null else ((None, 0),)):
                 p1 = delay(bp, L + extra); p2 = delay(bp, L + extra + q)
                 for t_, P in zip(taus, Pp):
                     c11 = ew(bd * p1, t_); c22 = ew(bd2 * p2, t_)
@@ -240,7 +240,7 @@ def limiter(delta, part, c, J=11, margin=0.85, Lmax=60.0, lag_complete=True):
     return y
 
 
-def broadband_cap(y, part, c, margin=0.85):
+def broadband_cap(y, part, c, margin=0.85, null=False):
     """Second stage, on the whole partner-caused part after the per-octave caps: for each window W in {2, 10, 60 s},
     high-pass both signals by subtracting their causal W-moving mean, scan lags (0.1 s to 3 s, 0.5 s to 10 s, 2 s to 60 s),
     EW (tau max(30 s, 4W) and max(10 s, 2W)) regression, partner variance floored at 0.25 x its 10-min mean, |cov(y_W(t), p_W(t-l))| / var(p_W); one attenuate-only factor min(1, c'/max)."""
@@ -253,7 +253,7 @@ def broadband_cap(y, part, c, margin=0.85):
         for t_ in [max(30.0, 4 * W), max(10.0, 2 * W)]:
             kk = np.zeros(n); k0 = np.zeros(n)
             for L in lags:
-                for extra in (0.0, NULL_OFFSET):
+                for extra in ((0.0, NULL_OFFSET) if null else (0.0,)):
                     pl = delay(ph, (L + extra) * FS)
                     v = np.abs(ew(yh * pl, t_)) / np.maximum(ew(pl * pl, t_), np.maximum(Pfl, 1e-8))
                     if extra == 0.0:
@@ -265,8 +265,8 @@ def broadband_cap(y, part, c, margin=0.85):
     return a * y
 
 
-def full_limiter(delta, part, c):
-    return broadband_cap(limiter(delta, part, c), part, c)
+def full_limiter(delta, part, c, null=False):
+    return broadband_cap(limiter(delta, part, c, null=null), part, c, null=null)
 
 
 def pooled_regression_max(y, p):
@@ -352,8 +352,11 @@ for k in [-0.6, +0.6]:
         s_sh = 0.4 * np.sin(ws * tt + ws * dt)
         lim = s_sh + full_limiter(s - s_sh, pp, 0.35)
         bl = pooled_regression_max(lim[half] - lim[half].mean(), pp[half])
+        limn = s_sh + full_limiter(s - s_sh, pp, 0.35, null=True)
+        bn = pooled_regression_max(limn[half] - limn[half].mean(), pp[half])
         print(f"     k={k:+.1f} own side={side:8s}: max lagged corr with partner {cr:.3f}; pooled regression {beta[0]:+.3f} "
-              f"(lag {beta[2]:.1f} s); with the limiter (c 0.35) {bl[0]:+.3f} (lag {bl[2]:.1f} s)")
+              f"(lag {beta[2]:.1f} s); with the limiter (c 0.35) {bl[0]:+.3f} (lag {bl[2]:.1f} s); "
+              f"rejected null-subtracted variant {bn[0]:+.3f}")
 
 # ---------------------------------------------------------------- C8
 print("C8  mean |rho| per node and drive per second by scale: partner burst rate x1, x4, x16; amplitude x0.1, x1")
