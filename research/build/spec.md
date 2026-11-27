@@ -599,9 +599,9 @@ Each milestone ends with a done-check. **Ask** marks what goes to the operator; 
 |---|---|---|---|
 | FaceLandmarker, partner instance, per-frame p99 at full load | ≤ 20 ms | 20–30 ms: own instance to 5 Hz | > 30 ms after the branch |
 | capture-to-photon pipeline p99 (§2.2 rig) | ≤ 90 ms | 90–400 ms: pass with warning (the ring buffer still gives 0.45 s) | > 400 ms (0.45 s echo impossible) |
-| `captureTime` present on local stream | yes | no: `expectedDisplayTime` − measured offset (§1.2.1); offset SD ≤ 10 ms | offset SD > 33 ms |
+| `captureTime` present on local stream | yes | no: `expectedDisplayTime` − measured offset (§1.2.1); offset SD ≤ 10 ms | offset SD > 33 ms (10–33 ms: branch, pass with the SD stated) |
 | Kyutai STT 1B: language ∈ {en, fr}; word-end-to-delivery p90; WER on a 5-min scripted reading by him; RTF at full load | p90 ≤ 0.9 s, WER ≤ 15 %, RTF < 0.5 | p90 0.9–1.5 s: use, longer partial echo stated; any of these failing or another language: another fixed-delay streaming model meeting them; else the utterance recogniser alone (longer partial echo, stated) | utterance recogniser also fails its row |
-| Whisper-small (utterance recogniser): RTF at full load; WER on the reading | RTF < 0.3, WER ≤ 12 % | RTF 0.3–0.5: pass, latency stated | RTF ≥ 0.5 or WER > 20 % |
+| Whisper-small (utterance recogniser): RTF at full load; WER on the reading | RTF < 0.3, WER ≤ 12 % | RTF 0.3–0.5: pass, latency stated | RTF ≥ 0.5 or WER > 20 % (WER 12–20 %: branch, pass with the WER stated) |
 | breathing (design §3.17 item 15): paced 6 and 12 /min, hold, rest twice | silent: rate error ≤ 1 /min in ≥ 80 % of 30-s windows, hold detected in ≥ 9/10 holds, test–retest r ≥ 0.7 of rest rate; talking: error ≤ 2 /min in ≥ 60 % of windows | silent passes, talking fails: breathing used in mutual silence only (sensor validity, not a situation) | silent fails: breathing off (no bound depends on it) |
 | fast tick p99 at full load (Plan A, `fast` process) | ≤ 5 ms | > 5 ms: Plan B native extension (§2.1), re-measure | Plan B p99 > 5 ms |
 | slow tick p99 | ≤ 50 ms | 50–200 ms: 𝓜's online state step at 1 Hz | > 200 ms |

@@ -98,7 +98,7 @@ def pipeline(p99_ms: float) -> Verdict:
 # ------------------------------------------------------------------------------------------------ 3 clock
 def clock(capture_time_present: bool, offset_sd_ms: float | None = None) -> Verdict:
     """`captureTime` on the local stream: present -> pass. Absent: expectedDisplayTime minus the measured offset,
-    branch if the offset SD <= 10 ms; fail if > 33 ms; between: gap (the table assigns no row)."""
+    branch if the offset SD <= 10 ms; fail if > 33 ms; between: branch, pass with the SD stated."""
     lo, hi = TH["clock_offset_sd_ms"]
     if capture_time_present:
         return _v("clock", "pass", "captureTime", capture_time_present=True, offset_sd_ms=offset_sd_ms)
@@ -110,8 +110,8 @@ def clock(capture_time_present: bool, offset_sd_ms: float | None = None) -> Verd
                   offset_sd_ms=offset_sd_ms)
     if offset_sd_ms > hi:
         return _v("clock", "fail", "no usable capture clock", capture_time_present=False, offset_sd_ms=offset_sd_ms)
-    return _v("clock", "gap", "offset SD between 10 and 33 ms: not assigned by spec §6", capture_time_present=False,
-              offset_sd_ms=offset_sd_ms)
+    return _v("clock", "branch", "expectedDisplayTime minus offset; pass with the offset SD stated (10-33 ms, one frame or less)",
+              capture_time_present=False, offset_sd_ms=offset_sd_ms)
 
 
 # ------------------------------------------------------------------------------------------------ 4, 5 recognisers
@@ -139,14 +139,14 @@ def stream_asr(language: str | None, p90_s: float, wer: float, rtf: float) -> Ve
 
 def utterance_asr(rtf: float, wer: float) -> Verdict:
     """Whisper-small. Pass RTF < 0.3 and WER <= 12 %; RTF 0.3-0.5 (WER <= 12 %): pass, latency stated; fail RTF >= 0.5
-    or WER > 20 %; WER in (12 %, 20 %] with RTF < 0.5: gap."""
+    or WER > 20 %; WER in (12 %, 20 %] with RTF < 0.5: branch, pass with the WER stated."""
     t = TH["utterance_asr"]
     r_lo, r_hi = t["rtf"]
     w_lo, w_hi = t["wer"]
     if rtf >= r_hi or wer > w_hi:
         return _v("asr_utterance", "fail", "utterance recogniser fails its row", rtf=rtf, wer=wer)
     if wer > w_lo:
-        return _v("asr_utterance", "gap", "WER between 12 % and 20 %: not assigned by spec §6", rtf=rtf, wer=wer)
+        return _v("asr_utterance", "branch", "pass with the WER stated (12-20 %)", rtf=rtf, wer=wer)
     if rtf < r_lo:
         return _v("asr_utterance", "pass", "Plan A: Whisper-small", rtf=rtf, wer=wer)
     return _v("asr_utterance", "branch", "pass, latency stated", rtf=rtf, wer=wer)

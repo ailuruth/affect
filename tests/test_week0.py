@@ -36,8 +36,8 @@ def test_clock():
     assert o(T.clock(True)) == "pass"
     assert o(T.clock(False)) == "remeasure"
     assert o(T.clock(False, 10.0)) == "branch"
-    assert o(T.clock(False, 20.0)) == "gap"            # the table assigns no row between 10 and 33 ms
-    assert o(T.clock(False, 33.0)) == "gap"
+    assert o(T.clock(False, 20.0)) == "branch"         # 10-33 ms: pass with the SD stated (spec owner, 2026-11-27)
+    assert o(T.clock(False, 33.0)) == "branch"
     assert o(T.clock(False, 33.1)) == "fail"
 
 
@@ -56,7 +56,7 @@ def test_utterance_asr():
     assert o(T.utterance_asr(0.49, 0.10)) == "branch"
     assert o(T.utterance_asr(0.50, 0.10)) == "fail"
     assert o(T.utterance_asr(0.10, 0.21)) == "fail"
-    assert o(T.utterance_asr(0.10, 0.15)) == "gap"
+    assert o(T.utterance_asr(0.10, 0.15)) == "branch"
 
 
 def test_asr_plan_fails_only_when_both_fail():
