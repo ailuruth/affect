@@ -65,8 +65,8 @@ def ledger_only(u, c_k: float, fs: float, delays=C.F22_DELAYS_S, r_routes=None, 
 def run_people(people, c_k: float, fs: float, **kw) -> dict:
     """people: list of dicts with u (and optionally r_routes) for one channel. Worst over people."""
     res = [ledger_only(p["u"], c_k, fs, r_routes=p.get("r_routes"), **kw) for p in people]
-    worst = np.nanmax(np.stack([r["worst_c"] for r in res]), 0)
-    return {"worst_c": float(np.nanmax(worst)), "worst_c_by_window_delay": worst.tolist(),
+    worst = np.fmax.reduce(np.stack([r["worst_c"] for r in res]), 0)
+    return {"worst_c": float(np.fmax.reduce(worst, axis=None)), "worst_c_by_window_delay": worst.tolist(),
             "frames_changed_counted": max(r["frames_changed_counted"] for r in res), "people": len(people),
             "delays": res[0]["delays"], "windows": res[0]["windows"]}
 
@@ -86,13 +86,26 @@ def pilot_cost(fs: float = 30.0, seconds: float = 60.0, batches=(12, 48)) -> dic
     return out
 
 
+def metric_cost(fs: float = 30.0, seconds: float = 400.0, series: int = 12) -> float:
+    """Seconds of the block-mean metric (lags 0-300 s in 1-s steps, 3 windows) per frame per series."""
+    r = np.random.default_rng(0)
+    U = r.uniform(0, 1, (int(seconds * fs), series))
+    t0 = time.perf_counter()
+    worst_block_slope(U, 0.1 * U, fs, np.arange(0.0, C.F22_MAX_LAG_S + 1e-9, 1.0), C.WINDOWS_S)
+    return (time.perf_counter() - t0) / (U.shape[0] * series)
+
+
 def plan_full(fs: float = 30.0, seconds: float = 60.0) -> planner.Plan:
+    """The §5.5 plan from two pilots: the batched ledger step (cost per frame at two batch sizes, extrapolated
+    linearly to 50 people x 12 delays) plus the block-mean metric (cost per frame and series)."""
     cost = pilot_cost(fs, seconds)
     (b1, c1), (b2, c2) = sorted(cost.items())
     slope = max(0.0, (c2 - c1) / (b2 - b1))
-    scale = lambda b: (c1 + slope * (b - b1)) / c1
+    m = metric_cost(fs)
+    scale = lambda b: (c1 + slope * (b - b1) + m * b) / c1
     p = planner.f22_plan(c1, fs=fs, batch_scale=scale)
-    p.notes.insert(0, f"pilot: {c1 * 1e3:.3f} ms/frame at batch {b1}, {c2 * 1e3:.3f} ms/frame at batch {b2}")
+    p.notes.insert(0, f"pilot: ledger {c1 * 1e3:.3f} ms/frame at batch {b1}, {c2 * 1e3:.3f} ms/frame at batch {b2}; "
+                      f"metric {m * 1e6:.2f} us per frame and series")
     return p
 
 

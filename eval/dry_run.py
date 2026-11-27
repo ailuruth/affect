@@ -26,8 +26,8 @@ import numpy as np
 
 from engine.config.channels import TABLE
 from eval import config as C
-from eval import drive, flist, planner, synthetic
-from eval.f22_delayed_copy import pilot_cost, run_people
+from eval import drive, flist, synthetic
+from eval.f22_delayed_copy import plan_full, run_people
 from eval.lesions import run_lesion
 from eval.mirror import run_mirror
 from eval.registry import Prediction, Registry
@@ -41,7 +41,7 @@ from eval.switches import LESIONS
 class Config:
     fs: float = 10.0
     lesion_instances: int = 20
-    lesion_seconds: float = 20.0
+    lesion_seconds: float = 12.0
     steer_seconds: float = 30.0
     steer_t: float = 10.0
     surrogate_people: int = 4
@@ -258,11 +258,8 @@ def dry_run(out: Path, cfg: Config) -> dict:
 
     # (3) F-list, run plan, summary
     write_csv(res_dir / "flist.csv", ["fid", "status", "test", "milestone", "machine", "data"], flist.rows(), True)
-    cost = pilot_cost(30.0, 5.0)
-    (b1, c1), (b2, c2) = sorted(cost.items())
-    plan = planner.f22_plan(c1, batch_scale=lambda b: max(1.0, (c1 + max(0.0, (c2 - c1) / (b2 - b1)) * (b - b1)) / c1))
-    write_json(res_dir / "plan_f22.json", {"pilot_s_per_frame": {str(a): b for a, b in cost.items()},
-                                          "plan": plan.as_dict()}, True)
+    plan = plan_full(30.0, 5.0)
+    write_json(res_dir / "plan_f22.json", {"plan": plan.as_dict()}, True)
     tests = [{"test_id": d["test_id"], "passed": bool(d["passed"]), "wall_s": float(d.get("wall_s", 0.0))}
              for d in docs]
     summary = {"tests": tests, "passed": sum(t["passed"] for t in tests), "registered": len(preds),

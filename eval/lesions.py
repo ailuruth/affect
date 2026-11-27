@@ -34,7 +34,7 @@ def _ledger_readouts(ps, lesion_name, channels, delays, max_lag_s):
     for code in channels:
         k = TABLE.index(code)
         r = ledger_only(ps.U[:, k], float(TABLE.c[k]), ps.fs, delays=delays, lesion=lesion_name, max_lag_s=max_lag_s)
-        out["copy_worst_c"] = max(out["copy_worst_c"], float(np.nanmax(r["worst_c"])))
+        out["copy_worst_c"] = max(out["copy_worst_c"], float(np.fmax.reduce(r["worst_c"], axis=None)))
         out["frames_changed_counted"] = max(out["frames_changed_counted"], r["frames_changed_counted"])
     return out
 

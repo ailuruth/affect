@@ -7,7 +7,7 @@ and output do not settle into a copy:
   - `ledger_frames_changed`   fraction of frames the ledger changed the partner-caused part (mirror run);
   - `slope_c_max`             the worst conditioned block-mean slope (the rendered partner-caused part, rendered -
                               ybar = x2, on his channel = the agent's own past output), over capped channels, windows
-                              2 s / 10 s / 1 min and lags 0-5 s, as a fraction of c_k;
+                              2 s / 10 s / 1 min (each with >= 10 blocks) and lags 0-5 s, as a fraction of c_k;
   - `drift_channels`          channels whose mean moves monotonically over 6 blocks (5 min each in 30 min) by more
                               than 0.1 c_k, in the mirror run, beyond the no-partner run's own drift;
   - `t_state_mismatch_ticks`  2-Hz ticks at which the T-state digest differs between the runs (exactly 0 by the type
@@ -52,8 +52,9 @@ def run_mirror(registry: Registry, test_id: str, learned, out_dir, synthetic: bo
     tr_none = drive.run(still, learned, seed=seed, b_id=np.concatenate([base, np.zeros(3)]))
     planner.guard(2 * (time.perf_counter() - t0) / 3600.0, split=split, approved=approved)
     tr_mir = drive.run(mir, learned, seed=seed, mirror=drive.Mirror(base, C.MIRROR_GAIN, C.MIRROR_LAG_S))
-    ws = worst_block_slope(tr_mir.U[:, CAPPED], tr_mir.x2[:, CAPPED], fs, lags_s, C.WINDOWS_S)
-    slope_c = np.nanmax(ws, axis=0) / C_K[CAPPED]
+    ws = worst_block_slope(tr_mir.U[:, CAPPED], tr_mir.x2[:, CAPPED], fs, lags_s, C.WINDOWS_S,
+                           min_blocks=C.MIRROR_MIN_BLOCKS)
+    slope_c = np.fmax.reduce(ws, axis=0) / C_K[CAPPED]          # NaN: no window with enough blocks
     drift = []
     for k in np.nonzero(CAPPED)[0]:
         tol = C.DRIFT_TOL_C * C_K[k]
@@ -65,7 +66,7 @@ def run_mirror(registry: Registry, test_id: str, learned, out_dir, synthetic: bo
     observed = {
         "ledger_frames_changed": drive.frames_changed(tr_mir),
         "ledger_frames_changed_no_partner": drive.frames_changed(tr_none),
-        "slope_c_max": float(np.nanmax(slope_c)), "slope_c_by_channel": dict(zip(
+        "slope_c_max": float(np.fmax.reduce(slope_c)), "slope_c_by_channel": dict(zip(
             [TABLE.codes[k] for k in np.nonzero(CAPPED)[0]], slope_c.tolist())),
         "drift_channels": float(len(drift)), "drift_channel_codes": drift,
         "t_state_mismatch_ticks": float(mism), "ticks": float(len(tr_none.digests)),

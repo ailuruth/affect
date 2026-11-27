@@ -14,8 +14,9 @@ def _cum(x):
     return np.vstack([np.zeros((1,) + x.shape[1:]), np.cumsum(x, 0)])
 
 
-def worst_block_slope(u, y, fs, lags_s=(0.0,), windows=(2.0, 10.0, 60.0), phases: int = 6):
-    """(len(windows), n) worst slopes of y's block means on u's (u, y: (T,) or (T, n)); y lags u by each lag."""
+def worst_block_slope(u, y, fs, lags_s=(0.0,), windows=(2.0, 10.0, 60.0), phases: int = 6, min_blocks: int = 3):
+    """(len(windows), n) worst slopes of y's block means on u's (u, y: (T,) or (T, n)); y lags u by each lag. A
+    (window, lag, phase) with fewer than min_blocks blocks is skipped (NaN if a window has none)."""
     u = np.asarray(u, float)
     y = np.asarray(y, float)
     if u.ndim == 1:
@@ -30,7 +31,7 @@ def worst_block_slope(u, y, fs, lags_s=(0.0,), windows=(2.0, 10.0, 60.0), phases
             lg = int(round(lag_s * fs))
             for ph in range(0, nb, max(1, nb // phases)):
                 m = (T - lg - ph) // nb
-                if m < 3:
+                if m < min_blocks:
                     continue
                 s = ph + nb * np.arange(m + 1)
                 xu = (cu[s[1:]] - cu[s[:-1]]) / nb

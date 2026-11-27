@@ -33,6 +33,7 @@ PRESENT_LAGS_S = (0.0, 0.25, 0.5, 0.75)   # "fast partial coupling at lags < 1 s
 MIRROR_MINUTES = 30.0
 MIRROR_LAG_S = 0.3                # the mirror's own latency
 MIRROR_GAIN = 1.0
+MIRROR_MIN_BLOCKS = 10            # a slope window needs >= 10 blocks in the run (else not scored)
 DRIFT_BLOCKS = 6                  # "no channel's mean drifts monotonically over 30 min": 6 blocks of 5 min
 DRIFT_TOL_C = 0.1                 # a monotone run of block means counts as drift above 0.1 c_k end to end
 LEDGER_FRAMES_MAX = 0.01          # "the ledger changes > 1 % of frames" (F1, F22)
