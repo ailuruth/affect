@@ -163,7 +163,8 @@ class Ledger:
 
 
 # ---------------------------------------------------------------- the new stage: the scaled gain governor
-GOV = dict(kappa_g=0.60, z=3.0, n_min=5.0, sigma0=0.03, tau_s=1800.0, grid={10.0: 2.0, 60.0: 10.0}, max_lag_s=300.0)
+GOV = dict(kappa_g=0.60, z=3.0, n_min=1.0, sigma0=0.01, tau_s=1800.0, grid={2.0: (1.0, 5.0), 10.0: (2.0, 0.0), 60.0: (10.0, 0.0)}, max_lag_s=300.0)
+# grid: window W (s) -> (lag step s, first lag s). The 2-s window starts at 5 s, above the fast reflex's echo band.
 
 
 class Governor:
@@ -176,13 +177,14 @@ class Governor:
     a_k(t) = min(1, kappa_g c_k / max over engaged keys of beta_hat). Output a_k(t) r_k(t).
     Every threshold is a fraction of c_k; the only absolute quantity is sigma0, on HIS signal (the metric's floor)."""
 
-    def __init__(self, c, p=GOV):
-        self.c = np.asarray(c, float); n = len(c); self.n = n; self.p = p
+    def __init__(self, c, u_neutral=None, p=GOV):
+        self.c = np.asarray(c, float); n = len(c); self.n = n; self.p = p; self.u0 = u_neutral
         self.wins = sorted(p["grid"]); fs = FS
         self.aW = np.array([1 - np.exp(-1 / (w * fs)) for w in self.wins]); self.d = np.exp(-1 / (p["tau_s"] * fs))
         self.Wf = np.array([int(w * fs) for w in self.wins])
         self.H = int(p["max_lag_s"] * fs) + int(self.Wf.max()) + 1
-        self.lags = [np.arange(0, int(p["max_lag_s"] * fs) + 1, int(p["grid"][w] * fs)) for w in self.wins]
+        self.lags = [np.arange(int(p["grid"][w][1] * fs), int(p["max_lag_s"] * fs) + 1, int(p["grid"][w][0] * fs))
+                     for w in self.wins]
         self.win_of_key = np.concatenate([np.full(len(l), i) for i, l in enumerate(self.lags)])
         self.infl = np.concatenate([np.full(len(l), 2 * w * fs) for w, l in zip(self.wins, self.lags)])
         self.lagk = np.concatenate(self.lags); self.Wk = self.Wf[self.win_of_key]
@@ -198,7 +200,11 @@ class Governor:
     def step(self, u, r):
         p = self.p
         if self.uW is None:
-            self.uW = np.repeat(u[None, :], len(self.wins), 0); self.rW = np.repeat(r[None, :], len(self.wins), 0)
+            # Before the session his input is the neutral partner's (the shadow's input) and the partner-caused part
+            # is 0: the same convention the shadow run uses. Without u_neutral, start from the first frame.
+            u_init = u if self.u0 is None else np.asarray(self.u0, float)
+            r_init = r if self.u0 is None else np.zeros_like(r)
+            self.uW = np.repeat(u_init[None, :], len(self.wins), 0); self.rW = np.repeat(r_init[None, :], len(self.wins), 0)
             self.ru[:] = self.uW[:, None, :]; self.rr[:] = self.rW[:, None, :]
         self.uW += self.aW[:, None] * (u - self.uW); self.rW += self.aW[:, None] * (r - self.rW)
         self.ptr = (self.ptr + 1) % self.H
@@ -226,9 +232,9 @@ class Governor:
         return self.a * r
 
 
-def run(U, X, c, net="old", record_a=False):
+def run(U, X, c, net="old", record_a=False, u_neutral=None):
     T, n = U.shape
-    led = Ledger(c); gov = Governor(c) if net == "new" else None
+    led = Ledger(c); gov = Governor(c, U.mean(0) if u_neutral is None else u_neutral) if net == "new" else None
     O = np.empty_like(X); A = np.ones((T, n)) if record_a else None
     for t in range(T):
         x = X[t]
@@ -335,7 +341,8 @@ for seed in ((7, 8) if not QUICK else (7,)):
     Un = partners(33, seed, SIGNED)
     Y = np.zeros_like(Un)
     for k in range(33):
-        xd = delay(Un[:, k], 0.45 * FS); e = xd - (xd[0] + lp((xd - xd[0])[:, None], 4.0)[:, 0])  # 4-s onset filter at rest
+        m0 = Un[:, k].mean(); xd = delay(Un[:, k], 0.45 * FS); xd[:5] = m0  # before the session: the neutral partner
+        e = xd - (m0 + lp((xd - m0)[:, None], 4.0)[:, 0])  # 4-s onset filter, at rest at the neutral level
         fast = GAIN[k] * (np.maximum(e, 0) if not SIGNED[k] else e)
         Y[:, k] = fast + 0.22 * CEIL[k] * lp((Un[:, k] - Un[:, k].mean())[:, None], 120.0)[:, 0]
     Oo, ho, _, _ = run(Un, Y, CEIL, "old")
