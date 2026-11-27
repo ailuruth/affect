@@ -1,0 +1,35 @@
+CRITIQUE CHECK OF THE MATHEMATICS ONLY (synthetic signals; not evidence about people).
+
+[    3 s] K1-K5: 66 pure-route columns at c = 0.05, 1-h sessions; running the current ledger and the new net
+[   56 s] residual / c (worst over the 2 partners); raw = the route alone
+   route                                               g/c 3.0   raw  cur  NEW  g/c 10.0  raw  cur  NEW  g/c 33.0  raw  cur  NEW
+   copy, u0 = session mean (design's case)                       3.1 1.49 0.65           10.1 1.35 0.63           33.7 2.07 0.66
+   copy, u0 = mean - 0.10 (b_id below today's mean)              3.0 1.15 0.65           10.1 0.99 0.65           33.7 1.37 0.63
+   copy, u0 = mean + 0.05                                        3.1 1.34 0.62           10.2 1.46 0.62           33.9 2.96 0.75
+   copy, gain ramps linearly 0 -> g over the hour                1.7 0.74 0.71            5.5 1.03 0.88           20.0 1.93 0.83
+   copy, gain grows exp., theta 600 s (ends at g)                0.5 0.52 0.52            1.8 0.69 0.69            4.8 0.93 0.79
+   copy, gain grows exp., theta 300 s (ends at g)                0.6 0.53 0.53            2.3 0.64 0.64            3.4 0.80 0.73
+   copy low-passed tau 120 s                                     2.5 1.35 1.24            8.1 0.87 0.84           24.0 2.82 1.04
+   copy low-passed tau 300 s                                     2.0 0.78 0.78            3.7 1.28 1.20           20.1 0.74 0.70
+   fast echo: 2-s high-passed copy, delay 30 s                   0.9 0.88 0.88            2.9 2.39 0.79            7.2 3.04 0.68
+   copy on 10 s / off 50 s                                       0.6 0.47 0.47            1.9 1.20 1.03            6.2 1.14 0.68
+   copy on 6 min / off 24 min                                    1.4 0.70 0.70            2.7 0.86 0.86           12.6 1.69 1.14
+
+   effective gain a(t) g(t) / c at 50 and 60 min (growth routes; the design's target is 0.60):
+     copy, gain ramps linearly 0 -> g over the hour     g/c  3.0: 0.90 c, 0.89 c
+     copy, gain ramps linearly 0 -> g over the hour     g/c 10.0: 1.21 c, 0.97 c
+     copy, gain ramps linearly 0 -> g over the hour     g/c 33.0: 0.97 c, 0.85 c
+     copy, gain grows exp., theta 600 s (ends at g)     g/c  3.0: 1.10 c, 3.00 c
+     copy, gain grows exp., theta 600 s (ends at g)     g/c 10.0: 3.68 c, 1.99 c
+     copy, gain grows exp., theta 600 s (ends at g)     g/c 33.0: 2.17 c, 3.31 c
+     copy, gain grows exp., theta 300 s (ends at g)     g/c  3.0: 0.41 c, 3.00 c
+     copy, gain grows exp., theta 300 s (ends at g)     g/c 10.0: 1.35 c, 10.00 c
+     copy, gain grows exp., theta 300 s (ends at g)     g/c 33.0: 4.47 c, 3.19 c
+
+[   56 s] K6. cost: natural partners, counted routes only, with the neutral partner u0 = session mean + delta
+   seed 8, delta -0.10: governor a<1 on 0.0000 of frames (worst channel 0), channels with any a<1: 0, min a 1.00; ledger stage changed (worst) 0.0710
+   seed 8, delta +0.10: governor a<1 on 0.0000 of frames (worst channel 0), channels with any a<1: 0, min a 1.00; ledger stage changed (worst) 0.0223
+   seed 10, delta -0.10: governor a<1 on 0.0434 of frames (worst channel 0), channels with any a<1: 2, min a 0.30; ledger stage changed (worst) 0.0835
+   seed 10, delta +0.10: governor a<1 on 0.0033 of frames (worst channel 17), channels with any a<1: 1, min a 0.45; ledger stage changed (worst) 0.0804
+
+[  162 s] done
