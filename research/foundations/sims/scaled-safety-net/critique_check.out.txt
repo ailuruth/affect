@@ -1,7 +1,7 @@
 CRITIQUE CHECK OF THE MATHEMATICS ONLY (synthetic signals; not evidence about people).
 
-[    3 s] K1-K5: 66 pure-route columns at c = 0.05, 1-h sessions; running the current ledger and the new net
-[   56 s] residual / c (worst over the 2 partners); raw = the route alone
+[    2 s] K1-K5: 66 pure-route columns at c = 0.05, 1-h sessions; running the current ledger and the new net
+[   52 s] residual / c (worst over the 2 partners); raw = the route alone
    route                                               g/c 3.0   raw  cur  NEW  g/c 10.0  raw  cur  NEW  g/c 33.0  raw  cur  NEW
    copy, u0 = session mean (design's case)                       3.1 1.49 0.65           10.1 1.35 0.63           33.7 2.07 0.66
    copy, u0 = mean - 0.10 (b_id below today's mean)              3.0 1.15 0.65           10.1 0.99 0.65           33.7 1.37 0.63
@@ -26,10 +26,14 @@ CRITIQUE CHECK OF THE MATHEMATICS ONLY (synthetic signals; not evidence about pe
      copy, gain grows exp., theta 300 s (ends at g)     g/c 10.0: 1.35 c, 10.00 c
      copy, gain grows exp., theta 300 s (ends at g)     g/c 33.0: 4.47 c, 3.19 c
 
-[   56 s] K6. cost: natural partners, counted routes only, with the neutral partner u0 = session mean + delta
+[   52 s] K6. cost: natural partners, counted routes only, with the neutral partner u0 = session mean + delta
    seed 8, delta -0.10: governor a<1 on 0.0000 of frames (worst channel 0), channels with any a<1: 0, min a 1.00; ledger stage changed (worst) 0.0710
    seed 8, delta +0.10: governor a<1 on 0.0000 of frames (worst channel 0), channels with any a<1: 0, min a 1.00; ledger stage changed (worst) 0.0223
    seed 10, delta -0.10: governor a<1 on 0.0434 of frames (worst channel 0), channels with any a<1: 2, min a 0.30; ledger stage changed (worst) 0.0835
    seed 10, delta +0.10: governor a<1 on 0.0033 of frames (worst channel 17), channels with any a<1: 1, min a 0.45; ledger stage changed (worst) 0.0804
 
-[  162 s] done
+[  143 s] K7. ledger stage on the counted routes alone (test_counted_routes_untouched's recipe), worst capped channel
+   30 min: 7: 0.07 % (PAU); 8: 0.07 % (YAW); 9: 16.57 % (YAW); 10: 10.76 % (VG); 11: 6.87 % (RT); 12: 1.40 % (F0); 13: 2.56 % (PAU); 14: 0.09 % (PAU)
+   60 min: 7: 0.00 % (LP); 8: 3.21 % (HP); 9: 0.09 % (LAT); 10: 5.75 % (LAT); 11: 0.17 % (EN); 12: 0.04 % (RHY); 13: 1.06 % (BRE); 14: 0.21 % (TILT)
+
+[  290 s] done

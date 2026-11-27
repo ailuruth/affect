@@ -280,4 +280,88 @@ Each cell is one partner, so cells are noisy; the column means rise with g/c (0.
 
 ## 6. Independent critique
 
-pending
+Written 2026-11-27 by an independent checker who did not write the design. Extra checks in `sims/scaled-safety-net/critique_check.py` (numpy only; it executes check.py's definitions verbatim, so the Governor, Ledger, partner recipe and metric are the design's own; `python3 -I critique_check.py`, about 5 min). Output in `critique_check.out.txt`. **Synthetic signals: a check of the mathematics, not evidence about people.** Pure routes are run at c = 0.05 only, which by Lemma 0 (exact) loses nothing; each cell is the worst of 2 synthetic partners, so cells are noisy.
+
+**Verdict: holds with stated limits, and the limits are wider than §2.6 states.** For the class it was built for (a constant-gain, linear, delayed copy, in ≥ 1-h sessions) it holds: I reproduce 0.62–0.66 c at g/c 3–33, against 0.99–2.96 c for the current ledger. It is a real improvement on F22's mechanism test. It is **not** a catch-all net bounded uniformly in g/c: Theorem 1 is conditional on an assumption (A1) that holds only for that class, and outside it routes reach 1.03–1.24 c in 1-h sessions. It also does not make the net pass F1 or F22's counted-routes clause. Fit to implement as an attenuate-only stage in front of the ledger. It should not close Q35/D98 as "the net holds every limit".
+
+### 6.1 The proof, step by step
+
+- **A1 is the conclusion in disguise.** R is defined as (the metric's worst slope) / (the governor's largest key slope). Assuming R ≤ R̄ amounts to assuming that the governor's keys see what the metric sees, and that is the whole question for an unlisted route. Lemma 1 bounds R only for a pure delayed copy. R̄ = 1.05 is then "measured" on the same runs the theorem is meant to bound. For every other shape R is unbounded a priori; §6.2 measures R ≈ 2 for slow routes. The theorem is correct as a conditional, but it is not a guarantee about unlisted routes in general. The design says this for nonlinear routes with memory. It applies just as much to **linear** routes whose gain sits outside the 10-s/60-s step keys.
+- **"Uniform in g/c" is not what the bound says.** Its last term, (g/c) q_tr, is linear in g/c at fixed T. In 20-min sessions it is the design's own 1.3–1.8 c. So the residual is bounded uniformly in g/c only in the limit of long sessions.
+- **Step 2 (fine as algebra).** It needs every unlatched key to have passed n_min. Keys still short of evidence are unbounded, which is part of the detection span. The numbers in §2.6 then take η ≤ 0.05, while §3.3 measures se up to 0.065 c (VG) and 0.054 c (YAW). With η = 0.065 the first term is 1.05 (0.60 + 0.195)(1.07) = 0.89 c before any detection term, so the stated ≤ 0.9 c is not implied on the G/c = 0.8 channels.
+- **Step 3.** The block mean of δ·r is not δ times the block mean of r, so Cauchy–Schwarz needs the rms of block means of |r|, not of r_b. Both include r's DC part. When the neutral input u⁰ is not his session mean (in the engine u⁰ is b_id, a 6-session baseline, not today's mean), r carries g(ū − u⁰), and Λ is no longer ≈ R. This is a gap in the proof only: numerically the offset costs little (§6.2 K1).
+- **Step 4: q_cl, not √q_cl, needs an unstated assumption.** Cauchy–Schwarz restricted to the ledger-changed blocks Q gives sqrt(Σ_Q x_b²) · sqrt(Σ_Q u_b²) / S. That equals a q_cl factor only if the output's energy in Q is proportional to his energy in Q at the same lag. Without that assumption the factor is √q_cl: at q_cl = 0.05 that is 0.22, and the first term becomes 1.05 · 0.75 · 1.24 ≈ 0.98 c. The value "q_cl ≤ 0.05 (measured)" is also not what check.out.txt shows. In the causal construction the ledger stage changes up to 9.1 % of frames (F0); as written, 60 % (RT) and 36 % (BRE).
+- **Step 5.** It uses his block variance in the span. The output in the span is g(u − u⁰), so with u⁰ ≠ ū the term carries the offset as well (the same correction as step 3).
+- **Lemma 0 and step 1** are correct; I confirmed Lemma 0's exactness from the check's own section I.
+- **The figures 0.44–0.84 c** are correctly reported for the design's runs. They are measured, not implied by the theorem: with the corrections above the theorem's own bound sits at about 0.9–1.0 c for 1-h sessions.
+
+### 6.2 Counterexamples (critique_check.py K1–K5; residual / c, current ledger → new net)
+
+| Route (1 h, c = 0.05) | g/c 3 | g/c 10 | g/c 33 |
+|---|---|---|---|
+| copy, u⁰ = session mean (the design's case) | 1.49 → 0.65 | 1.35 → 0.63 | 2.07 → 0.66 |
+| copy, u⁰ = mean − 0.10 / + 0.05 (b_id ≠ today's mean) | 1.15 → 0.65 / 1.34 → 0.62 | 0.99 → 0.65 / 1.46 → 0.62 | 1.37 → 0.63 / 2.96 → 0.75 |
+| **copy low-passed τ 120 s** | 1.35 → **1.24** | 0.87 → 0.84 | 2.82 → **1.04** |
+| **copy low-passed τ 300 s** | 0.78 → 0.78 | 1.28 → **1.20** | 0.74 → 0.70 |
+| **copy on 6 min / off 24 min** | 0.70 → 0.70 | 0.86 → 0.86 | 1.69 → **1.14** |
+| **copy on 10 s / off 50 s** | 0.47 → 0.47 | 1.20 → **1.03** | 1.14 → 0.68 |
+| copy, gain ramps linearly 0 → g over the hour | 0.74 → 0.71 | 1.03 → 0.88 | 1.93 → 0.83 |
+| copy, gain grows exponentially (θ 300 / 600 s) | ≤ 0.53 | ≤ 0.69 | ≤ 0.79 |
+| fast echo: 2-s high-passed copy, delay 30 s | 0.88 → 0.88 | 2.39 → 0.79 | 3.04 → 0.68 |
+
+- **Slow routes fail F22's 1.0 c** (1.04–1.24 c). The 10-s steps are dominated by his fast movement and the 60-s steps see little of a 2–5-min route, so R ≈ 2 and the governor barely engages. The net reverts to the current ledger's behaviour. The design names "periods ≳ 2 min, seen only by the ledger" but measured only τ = 30 s. *General fix:* add longer windows (e.g. 120 s and 300 s steps) to the same c-scaled test, or regress centred window means started at u⁰. This needs its own false-positive check.
+- **Switched routes.** With long off-periods, β̂ (30-min memory) decays below κ_g c and the key releases. On the next on-period, β̂ climbs back slowly because the off-period's evidence dilutes it, so the route runs at full gain for minutes (1.14 c). A 10-s/50-s duty cycle gives 1.03 c. *General fix:* a ratchet (a_k non-increasing within a session once latched), or a short-memory estimate (e.g. τ = 120 s) whose latches combine with the 30-min ones by max. Both are c-scaled general settings. A ratchet makes false positives last for the rest of the session.
+- **Growing gain: invisible to the session metric, not contained.** At the end of the session the effective gain a(t)g(t) is 0.85–1.21 c for a linear ramp, and 2–10 c for exponential growth (θ 300 s at g/c 10: a is still 1 at 60 min, so the copy renders at full gain 10 c). The session-wide metric reads ≤ 0.79 c only because it averages over an hour in which the route was mostly small. The online monitor (F1 live) on shorter windows would flag it. This is the realistic shape of an unlisted route in a learning engine (a plastic weight that grows). The 30-min memory always lags a gain that grows faster than τ. *General fix:* the multi-memory estimate above. No causal estimator can bound arbitrarily fast growth, and that limit should be stated.
+- **Short sessions:** the design's own 1.3–1.8 c at 20 min stands. There is no general fix within a causal net other than faster detection (the 2-s window, rejected for false positives). The guarantee should be stated as "per ≥ 1-h window", and the F1 live monitor's window chosen to match.
+- **Held:** off-grid delays, u⁰ offsets (≤ 0.75 c), a fast echo at a 30-s lag (0.68–0.88 c; the 10-s keys catch enough), and copies split across lags (both the governor and the metric are marginal per-lag regressions, so they see the same sum).
+- **Not covered, consistent with the metric:** copies split across channels (cross routes). The governor regresses on the same channel, as the metric does (D93's weighted term).
+- **Mirror partner / feedback loop: not simulated.** Argument only: the governor regresses the raw r, so it has no loop through its own output. Once latched, the loop gain is about h · 0.6 c / ψ ≤ 0.25, which is stable. Before detection, a route with g · h > 1 can run unstably (clipped to [0, 1]) for the ~15-s detection span.
+
+### 6.3 Situation-specific rule? Q18? The listed routes?
+
+The governor is a general setting: one rule on every channel, output-side thresholds ∝ c_k, absolute quantities only on his signal or on time, and nothing names a partner, event, channel or time of day. It is categorised "ceiling" like the ledger's own constants in engine/config/innate.py. It names no emotion and rewards nothing; it can only lower output. Q18:
+- **Per channel, sign-preserving (a ≥ 0), under the ceiling:** yes.
+- **Never a settling state:** there is tension. Once a route is caught, the governor holds it at a steady ≈ 0.6 c copy for the rest of the session rather than pushing away from copying. *General fix:* a slope confidently above the listed routes' provable pooled sup (0.974 c_k) can only come from an unlisted route, so a may then be pushed lower than κ_g c / β̂ (to 0 if one accepts losing that channel's fast mimicry).
+- **Listed routes:** a legal but lively partner who drives the counted routes to 0.70–0.974 c (all within their by-construction bound) has that channel's fast mimicry cut by 14–38 % for ~30 min (§4 G: a < 1 on 97–99.6 % of frames). That changes the listed routes' intended behaviour more than the ledger's 0.70 did. *General fix, if assembly is additive per route:* the engine knows each listed route's contribution r_L, so the governor could scale only r − r_L, the unlisted remainder. If assembly is not additive, the trade-off between κ_g and the bound is real.
+
+### 6.4 False-positive cost (F1: ≤ 1 % of frames)
+
+- **The governor's "0 frames" depends on u⁰ = his session mean.** That is non-causal, and check.py, §3.1 and the proposed test fixture all use it. With u⁰ = mean − 0.10 (b_id below today's level), seed 10 latches on LP for **4.3 % of frames with a down to 0.30**, and with + 0.10 on RT for 0.3 % (a down to 0.45). The start-of-session step from u⁰ to his level, with only n_min = 0.25 windows (5 s) of evidence, is enough to pass the 3-σ test. Hysteresis and the 30-min memory then hold the latch. *General fix:* require more evidence (n_min ≥ 1–2 windows), or start the sums with a prior of zero slope worth one window. The cost is slower detection, roughly +10–20 s.
+- **The ledger stage's finding is worse than §3.1 says.** I rebuilt `test_counted_routes_untouched`'s exact recipe over seeds 7–14 (K7; the engine's own Ledger gave the same figures in a separate run). The worst capped channel's frames changed:
+  - 30-min sessions: 0.07, 0.07, **16.6, 10.8, 6.9, 1.4, 2.6**, 0.09 %. Five of 8 partners are above 1 %.
+  - 1-h sessions: 0.00, **3.2**, 0.09, **5.8**, 0.17, 0.04, **1.06**, 0.21 %. Three of 8 are above 1 %.
+  
+  The test passes only on seed 7. Since the proposed net is governor + unchanged ledger, **the net as proposed fails F1's ≤ 1 % and F22's second clause on most synthetic partners**. Raising the ledger's κ to 1.0 (§3.1: 3.3 % and 1.8 %) does not fix it. This is open and must be solved before F22 is claimed. The governor does not cause it, but §5's plan to assert "a_k = 1 on ≥ 99 %" in the seed-7 test would hide it.
+
+### 6.5 F22
+
+- **Would the test pass?** With the governor before the ledger and u_neutral = U.mean(0), yes. check.py reproduces the fixture's partner draws (same RNG call order) and reads 0.76 c with a stricter metric (a 30-s block added), so the test's metric gives at most that.
+- **Is it the right test? Not on its own.**
+  1. It exercises exactly the model class the governor estimates: constant gain, pure delay, linear. Passing it is weak evidence of a catch-all.
+  2. The fixture's u⁰ = session mean is non-causal (the engine uses b_id).
+  3. One seed hides the counted-routes failure in §6.4.
+
+  It should add, as general mechanism cases:
+  - the spec's onset-lobe + 60-s low-pass shape (the design's 0.61–0.96 c);
+  - a 120-s low-passed copy;
+  - a 6-min/24-min switched copy;
+  - u⁰ ≠ session mean;
+  - the counted routes on ≥ 8 seeds.
+
+  With these it would currently fail on the slow and switched copies (1.04–1.24 c) and on the counted routes.
+
+### 6.6 Concrete failures, and whether a general fix exists
+
+| # | Failure | Numbers | General (non-situation-specific) fix? |
+|---|---|---|---|
+| 1 | A1 assumes R ≤ R̄; this holds only for flat-gain delayed copies | R ≈ 2 on slow routes | partly: longer windows in the same c-scaled test |
+| 2 | Slow routes (τ 120–300 s) | 1.04–1.24 c | yes, longer windows (needs a false-positive check) |
+| 3 | Switched routes: release, then slow re-detection | 1.03–1.14 c | yes: a ratchet or a short-memory estimate (c-scaled) |
+| 4 | Growing gain beats the 30-min memory | time-local 2–10 c; session metric ≤ 0.79 c | partly: multiple memories; no causal net bounds arbitrarily fast growth |
+| 5 | Detection term linear in g/c | 1.3–1.8 c in 20-min sessions | no, beyond faster detection; state the bound per ≥ 1-h window |
+| 6 | Proof constants: η up to 0.065; √q_cl; q_cl up to 9 % | stated bound ≈ 0.9–1.0 c, not ≤ 0.85 c | restate the bound |
+| 7 | Governor false positive when u⁰ ≠ his session mean | 4.3 % of frames, a = 0.30 | yes: larger n_min or a zero-slope prior |
+| 8 | Ledger stage binds on counted routes | up to 16.6 % (30 min), 5.8 % (1 h); 5/8 and 3/8 seeds over 1 % | open; not fixed by κ = 1.0 |
+| 9 | Listed routes trimmed above 0.6 c; a caught copy is held at a steady 0.6 c | a 0.62–0.86 for ~30 min | yes, if r_L is separable: govern r − r_L only |
+
+**Fit to implement:** yes, as an attenuate-only stage. It makes nothing worse, and F22's injected-copy test would lose its xfail. But Q35 should stay open on failures 2–4, 7 and 8, with fixes 2, 3 and 7 checked before day 1. §2.6's claims should be restated as "≤ about 0.9–1.0 c for flat-gain delayed copies in ≥ 1-h sessions", not as uniform in g/c.

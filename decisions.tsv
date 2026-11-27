@@ -264,3 +264,4 @@ ts	phase	decision	why	evidence	result
 2026-11-27T15:30:29Z	build	Q31 ban kept; Q32 losses accepted; Q33 own-distress brow kept (D96)	research/questions.md
 2026-11-27T15:30:29Z	build	Q34 items 1-10 answered as recommended; language en; daily cap 450; week-0 test calls allowed (D97)	research/questions.md
 2026-11-27T15:30:29Z	build	Q35 answered: design a new safety net with per-expression-scaled limits; building continues (D98)	research/questions.md
+2026-11-27T16:45:46Z	build	Q35 scaled safety net critiqued: holds with stated limits (slow/switched copies 1.03-1.24 c, growing gain unseen, 4.3% false engagement with non-mean baseline; unchanged ledger binds >1% on 5/8 synthetic partners); one revision with general fixes before implementing	research/foundations/design-scaled-safety-net.md

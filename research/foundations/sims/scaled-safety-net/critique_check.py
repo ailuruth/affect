@@ -9,8 +9,10 @@ from its source up to its first experiment), and probes routes and conventions t
   K4  a fast echo away from lag 0: a 2-s high-passed copy delayed 30 s (no 2-s key at lags > 3 s in either stage)
   K5  on/off routes: 10 s on / 50 s off; and 6 min on / 24 min off (release and re-detection)
   K6  false-positive cost with u0 != session mean (counted routes only, natural partners seeds 8 and 10)
+  K7  the unchanged ledger stage's binding rate (F1: <= 1 % of frames) on the counted routes built exactly as
+      tests/test_ledger_injected.py's test_counted_routes_untouched builds them, seeds 7-14, 30-min and 1-h sessions
 Pure routes are run at c = 0.05 only: by Lemma 0 (exact, checked in check.py section I) residual / c depends on g/c
-and his signal alone. Usage: python3 -I critique_check.py > critique_check.out.txt   (numpy only; about 6-8 min)
+and his signal alone. Usage: python3 -I critique_check.py > critique_check.out.txt   (numpy only; about 5 min)
 """
 import os
 import sys
@@ -116,5 +118,26 @@ for seed in (8, 10):
         print(f"   seed {seed}, delta {dlt:+.2f}: governor a<1 on {en[CAPPED].max():.4f} of frames (worst channel {w}),"
               f" channels with any a<1: {int((en[CAPPED] > 0).sum())}, min a {An[:, CAPPED].min():.2f};"
               f" ledger stage changed (worst) {hn[CAPPED].max():.4f}")
+print()
+
+# ---------------------------------------------------------------- K7: F1 binding rate of the ledger stage, over seeds
+stamp("K7. ledger stage on the counted routes alone (test_counted_routes_untouched's recipe), worst capped channel")
+Ledger, CODES = ns["Ledger"], ns["CODES"]
+for dur in (1800, 3600):
+    n_ = int(dur * FS); row = []
+    for seed in range(7, 15):
+        r = np.random.default_rng(seed); Uk = np.zeros((n_, 33)); Yk = np.zeros((n_, 33))
+        for k in range(33):
+            u = partner(n_, r, 300.0 if k % 2 == 0 else 30.0)
+            if SIGNED[k]:
+                u = u - 0.4
+            Uk[:, k] = u; xd = delay(u, 0.45 * FS); e = xd - lp(xd[:, None], 4.0)[:, 0]
+            Yk[:, k] = GAIN[k] * (np.maximum(e, 0.0) if not SIGNED[k] else e) + 0.22 * CEIL[k] * lp((u - u.mean())[:, None], 120.0)[:, 0]
+        led = Ledger(CEIL)
+        for t in range(n_):
+            led.step(Uk[t], Yk[t])
+        ch = led.hits / n_; w = CAPPED[np.argmax(ch[CAPPED])]
+        row.append(f"{seed}: {100 * ch[CAPPED].max():.2f} % ({CODES[w]})")
+    print(f"   {dur // 60} min: " + "; ".join(row))
 print()
 stamp("done")
