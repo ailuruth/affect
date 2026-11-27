@@ -656,6 +656,8 @@ Q24 (the concern look before words) is still open and can be answered alongside;
 
 **Update (2026-11-27T07:59:14Z):** it is now argued that per-expression limits cannot be avoided by any core, so the search, if it continues, looks for novelty elsewhere (how the inner state is built and learns) and takes the limits as given.
 
+**Update (2026-11-27T11:22:20Z):** a sixth pass read seven sources on how a learned inner state is organised (layered time scales in learned models, how emotion is laid out in brains and image models, learning one's own body state from heart and wearable signals without labels). Every direction reduced to known methods again; what emerges in all seven is set by the training objective, the data and the time-scale layout, so a new core here would have to be a new objective, not a new operator. Three small refinements to the build core's slow state were noted, not adopted (research/new-core-search-6-synthesis.md).
+
 **What it blocks:** nothing now.
 
 **Answer (operator; dated 2026-11-27 by the operator, recorded 2026-11-26T20:40:42Z): keep searching for a new core in the background, alongside building.** The operator will allow arxiv.org in this environment's network settings.
