@@ -259,3 +259,8 @@ ts	phase	decision	why	evidence	result
 2026-11-27T07:59:14Z	S0	Conjecture of five passes argued (conjecture-five-passes.md): per-channel guarantee for every partner path requires per-channel gain bound (Thm 1, no linearity/stationarity); linear case = weighted H-inf (Thm 2, check 0.098 vs 0.098); self-invariance does not avoid it (K2c 54 c); dither escape is noise. Words route outside the ledger by design (neutral run keeps words). D93: search takes ceilings as given. Report 13 and Q28 updated	D82; D91; D93; Q28	conjecture-five-passes.md; questions.md; DECISIONS.md	recorded
 2026-11-27T11:22:20Z	S0	Search pass 6 (latent-state structure): no candidate; all directions reduce; no designs.md line	research/new-core-search-6-synthesis.md
 2026-11-27T14:28:53Z	S0	Search pass 7 (training objectives): 8 sources; no candidate; derived rule: an objective closes the approval route only if it scores nothing the partner can move; own-body predictive objective is the useful product (recombination); no designs.md line	research/new-core-search-7-synthesis.md
+2026-11-27T15:30:29Z	build	Q25 answered: starting model may be fitted on Seamless under D70 restrictions (D94)	research/questions.md
+2026-11-27T15:30:29Z	build	Q30 answered: head pose, gaze and voice features (numbers) from dyads, Mac only, no labels; dyad_streams widened (D95)	research/questions.md
+2026-11-27T15:30:29Z	build	Q31 ban kept; Q32 losses accepted; Q33 own-distress brow kept (D96)	research/questions.md
+2026-11-27T15:30:29Z	build	Q34 items 1-10 answered as recommended; language en; daily cap 450; week-0 test calls allowed (D97)	research/questions.md
+2026-11-27T15:30:29Z	build	Q35 answered: design a new safety net with per-expression-scaled limits; building continues (D98)	research/questions.md

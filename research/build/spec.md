@@ -6,7 +6,7 @@ Written 2026-11-26 under D90 ("building means writing the build specification an
 
 **What is built.** research/foundations/design-cayley-ledger.md at **revision 9.2**: the "Revision 9 (build core): audit" section and §0–§8 as corrected by "Revision 9.1 history" and "Check of revision 9.1 and the answer", plus the "Build core summary". Where the mechanism text still says "lags to 120 s at the 10-s window", "61 constraints" or "≤ 1.02 c at 240 s", 9.2 supersedes it: **the 10-s and the 60-s windows are both scanned to 300 s, 97 constraints per channel, κ = 0.70** (Check of 9.1, "The answer"). Parts the design inherits by reference ("as revision 7/6/5/3") are taken from `design-cayley-ledger.r7.md`, `.r6.md`, `.r5.md`, `.r3.md`, `.r2.md` and cited as r7 §x etc.; "design §x" means the current file.
 
-**Binding.** brief.md Principles 1–10; D70 (Seamless: FAUValue streams and transcripts only, emotion fields never read), D78, D80–D91. Operator notes Q22, Q23, Q26, Q27, Q29. Open questions, built on their recommendations until answered: **Q30** (not widened: D70 as it stands, no head, gaze or audio from dyads), **Q31** (own-display mask kept), **Q32** (losses accepted; nothing hand-written comes back), **Q33** (the newborn own-distress brow at his words of need kept). Each is a switch in `engine/config/operator.py` (§7.3) so an answer changes one value, never the mechanism.
+**Binding.** brief.md Principles 1–10; D70 (Seamless: FAUValue streams and transcripts only, emotion fields never read), D78, D80–D91. Operator notes Q22, Q23, Q26, Q27, Q29. Answered 2026-11-28 (D94–D98): **Q25** (the starting model is fitted on Seamless), **Q30** (widened: head pose, gaze and voice features as numbers from dyads, his Mac only, no labels; D95), **Q31** (own-display mask kept), **Q32** (losses accepted; nothing hand-written comes back), **Q33** (the newborn own-distress brow at his words of need kept), **Q34** items 1–10 as recommended (language English, cap 450 calls a day), **Q35** (a new safety net with per-expression-scaled limits is designed before day 1; D98). Still open: Q1 (voice), the M6 text approval, the M8 nightly schedule. Each is a switch in `engine/config/operator.py` (§7.3) so an answer changes one value, never the mechanism.
 
 **Words used.** "He" is the partner (the operator, or anyone in front of the camera). "Channel k" is one of the 33 counterpart channels (§1.1). "Partner-caused part" is factual output minus shadow output (design §2.13). A "route" is a path from his signals to the agent's outputs (design §3.11). Design names such as "relief", "hurt" or "concern" are used in this prose only to point at design text; the code uses the neutral identifiers of §7.4.
 
@@ -359,7 +359,7 @@ If the week-0 measurement exceeds 6 GB: first a 4-bit incremental model, then a 
 
 The listener is always read through the same functions the agent applies to itself (P3). The dyad-learned parts are self-predictions of the same kind as the readers (design §2.14): they predict recorded listeners' movement and turn timing; nothing is an emotion label, and the dataset's emotion fields are never opened.
 
-**Not learnable under D70 (kept absent or at the innate level until Q30 is answered):** nods, the head tilt, the attentive head, head and voice accommodation, gaze and head turn cues, turn-end pitch, a quieter concerned voice, signs for head, gaze, voice and laugh-sound pairs (design "No allowed source" item 5). The code has `dyad_streams = {"FAUValue", "is_valid", "transcript"}` in `config/operator.py`; widening it (Q30) adds targets to L_d (TILT, HP, VG; and FR, EN with voice) and inputs to the turn-taking model, with no other change.
+**Learnable since Q30 was answered (D95; until the M3 loader and the widened listener display land, these stay absent or at the innate level):** nods, the head tilt, the attentive head, head and voice accommodation, gaze and head turn cues, turn-end pitch, a quieter concerned voice, signs for head, gaze, voice and laugh-sound pairs (design "No allowed source" item 5). The code has `dyad_streams = {"FAUValue", "is_valid", "transcript"}` in `config/operator.py`; widening it (Q30) adds targets to L_d (TILT, HP, VG; and FR, EN with voice) and inputs to the turn-taking model, with no other change.
 
 **Fallbacks fixed before fitting** (r7 §6.7): g (F15) — refit on V00 improvised alone; then keep only passing inputs and put the context-free remainder to the operator. Population reader — target becomes max(speaker's later loads, listeners' response). Any part failing F24 is disabled (set to its context-free constant or 0) and its behaviour then has only Claude's words as its source (design §8.1 item 1). **F23 as a gate before day 1:** this spec makes it one (§5.2); if L_d or q̂ fails it, L_d's target is residualised on the speaker's same channel and refitted (the check of revision 9's suggestion; Build core summary, Risks).
 
@@ -665,7 +665,7 @@ Every switch tied to an open question carries `answered: bool`. **A switch whose
 
 | Switch | Default (recommendation) | Question | Before his answer |
 |---|---|---|---|
-| `dyad_streams` | `{"FAUValue", "is_valid", "transcript"}` | Q30 | D70 as it stands (this is the current approval, not a new one) |
+| `dyad_streams` | `{"FAUValue", "is_valid", "transcript", "head_pose", "gaze", "voice_features"}` (answered, D95) | Q30 | D70 as it stands (this is the current approval, not a new one) |
 | `own_display_mask` | `True` | Q31 | built as recommended (design keeps it until answered) |
 | `own_rise_brow` | `True` (+0.45 newborn row) | Q33 | built as recommended |
 | `restore_lost_behaviours` | `()` (none) | Q32 | none |
@@ -712,6 +712,8 @@ CI (GitHub Actions, if the repository uses it) runs `pytest` and the lints on **
 ---
 
 ## 8. Decisions this specification needs from the operator
+
+**Answered 2026-11-28 (D94–D98):** items 1–4 and 7–16 below (Q30 widened to head, gaze and voice features; Q31, Q32, Q33 as recommended; Q34 items 1–10 as recommended, language English, `claude_daily_cap` 450). Still open: item 5 (Q1 voice), item 6 (Q2 look), the M6 text approval, the M8 nightly schedule, items 17–18 at their milestones.
 
 Items 7–16 are Q34's items 1–10, built on their recommendations; **nothing that depends on them is used until he answers** (§7.3, "Before his answer").
 

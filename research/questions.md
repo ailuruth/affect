@@ -2,6 +2,14 @@
 
 Decisions that are yours (visual identity, data leaving this Mac, new paid services, changes to existing Ailurini behavior). Work that these block is not built; work they do not block continues.
 
+## Report 14: your answers of 2026-11-28 and what they change (recorded 2026-11-27T15:30:29Z)
+
+- **Recorded conversations:** the starting model may be fitted on them (Q25), and head pose, gaze and voice sound (pitch, loudness and timing as numbers) may now be learned from them, on your Mac only, no labels (Q30). Nods, head tilts, gaze for turn-taking and the sound of the voice become learnable instead of staying at reflex level.
+- **Kept as designed:** the ban on the agent's own anger, disgust and contempt displays (Q31), the brief brow rise at your words of need (Q33); the lost behaviours are learned over time (Q32).
+- **Build decisions (Q34):** all ten answered as recommended. Conversation language English (streaming recogniser), 30 days' retention, no overage, offline after the first download, and a daily cap on Claude calls. You will check your account's training setting yourself. A few test calls to Claude through your login are allowed in week 0.
+- **Safety net (Q35):** a new net whose limits scale with each expression's own limit will be designed and checked before day 1; building continues alongside.
+- **Still open:** Q1 (the voice; speech stays off), Q28 (whether to keep the search running), the nightly replay schedule, and your reading and approval of the fixed text the agent sends Claude (needed before the Claude route turns on).
+
 ## Report 13: five searches for a new core, and why they keep ending the same way (one line added to Q28; 2026-11-27T04:49:16Z)
 
 **What was done.** Five reading passes (about 35 primary sources read in full) and one mathematical derivation proposed fifteen candidate cores. Every one reduced to a method that already exists: echo cancellers, normalisation, phase locking, slot attention, known kinds of recurrent network, and others.
@@ -302,6 +310,8 @@ The three designs are held for revision, and new designs will follow from this r
 
 ## Q1. The S2 voice (voice identity) — open, 2026-11-24
 S2 will speak through macOS speech synthesis (`say` / AVSpeechSynthesizer), which is local and takes per-word pitch, pitch range, rate and volume (research/affect/macos-speech-synthesis.md). Which installed voice the Bot uses is its voice identity. Not built until you pick one. Blocks: spoken output in S2. Does not block: S1, perception, the placeholder face.
+
+**Note (operator; dated 2026-11-28 by the operator, recorded 2026-11-27T15:30:29Z):** still open; the operator will pick the voice later. Speech stays off until then.
 
 ## Q2. Upgrading the placeholder face (visual identity) — answered in brief.md on 2026-11-25; recorded, not built
 S2 starts with a deliberately neutral procedural face drawn in three.js, using the 52 ARKit blendshape channel names. The only freely licensed (CC0) realistic rig found is TalkingHead's mpfb.glb (research/affect/talkinghead.md), a realistic human head. Using it, even untextured, sets the Bot's look. Not used unless you approve it or another look.
@@ -607,6 +617,8 @@ The latest design passes the strongest checks so far. Its critics raised two thi
 
 **What it blocks:** nothing until building starts.
 
+**Answer (operator; dated 2026-11-28 by the operator, recorded 2026-11-27T15:30:29Z): allow fitting that starting model on Seamless, under the same restrictions** (your Mac only, face streams and transcripts only, emotion scores never read, fitting speakers never used for testing). D94.
+
 ## Q26. Operator note: where situational appropriateness comes from (2026-11-26T10:12:04Z; an instruction, not a question)
 Learning only from the operator would be too slow for rare situations. Situational appropriateness comes from three sources, none of them hand-written rules:
 1. **Claude's regulation path.** Claude already knows social norms. It can reappraise and hold back the emotional route (brief Principle 4; the learned display rules in the face-pathway reading).
@@ -681,6 +693,8 @@ Stop fixing critique findings with rules for particular situations, for example 
 
 **What it blocks:** the learned parts for head, gaze and voice; the rest of the build goes ahead.
 
+**Answer (operator; dated 2026-11-28 by the operator, recorded 2026-11-27T15:30:29Z): add head pose, gaze and voice features** (pitch, loudness and timing as numbers), on your Mac only, no labels. No recognised words beyond the transcript and no emotion scores. D95.
+
 ## Q31. Should the agent be unable to learn to show anger, disgust or contempt? (asked 2026-11-26T21:23:14Z; work continues on the current design meanwhile)
 
 **Why this comes up.** The design keeps a built-in ban on the agent ever learning to show anger, disgust or contempt on its own face. Copying those from you is already blocked by their zero copy limits. The ban on its own displays is not one of the allowed innate items, so it is your choice.
@@ -690,6 +704,8 @@ Stop fixing critique findings with rules for particular situations, for example 
 - **Remove the ban:** these displays can be learned like any other, still never copied from you.
 
 **What it blocks:** nothing now.
+
+**Answer (operator; dated 2026-11-28 by the operator, recorded 2026-11-27T15:30:29Z): keep the ban.** D96.
 
 ## Q32. Are any of the lost behaviours needed from day 1? (asked 2026-11-26T21:23:14Z; work continues meanwhile)
 
@@ -701,6 +717,8 @@ Stop fixing critique findings with rules for particular situations, for example 
 
 **What it blocks:** nothing now.
 
+**Answer (operator; dated 2026-11-28 by the operator, recorded 2026-11-27T15:30:29Z): accept the losses; they are learned over time.** Nothing hand-written comes back. D96.
+
 ## Q33. Should the agent's own brow rise at your words of need? (asked 2026-11-26T21:36:34Z; work continues on the current design meanwhile)
 
 **Why this comes up.** You removed the built-in concern look (Q24). The design still has a built-in newborn-style reaction of the agent's own distress: when your words tell it you need something, its care rises and its face briefly shows its own distress, an inner-brow raise of up to +0.45 with drooping lids and a lower voice, for a few seconds. The checker judged this an allowed innate reaction (newborns cry at another's cry), not a rule for a situation, but noted it is close to what you removed.
@@ -710,6 +728,8 @@ Stop fixing critique findings with rules for particular situations, for example 
 - **Remove it:** the agent's face does not move at your words of need until it learns to; Claude's words carry its concern until then.
 
 **What it blocks:** nothing now.
+
+**Answer (operator; dated 2026-11-28 by the operator, recorded 2026-11-27T15:30:29Z): keep it.** D96.
 
 ## Q34. Decisions the build needs before it runs on your Mac (asked 2026-11-26T21:47:29Z; coding proceeds meanwhile, nothing below is used until you answer)
 
@@ -726,6 +746,19 @@ The build specification (research/build/spec.md, §6) lists what needs you. Q30�
 9. **How much text each call sends** (added 2026-11-26T21:56:05Z): at most the last few turns plus up to 3 memory snippets, about 2,000–4,000 tokens per call. **Recommended: accept.** Option: a shorter window (Claude sees less context).
 10. **Model hub calls at runtime** (added 2026-11-26T21:56:05Z): the speech and tracking models are downloaded once and then run offline, with no calls to the model hub while the agent is running. **Recommended: offline after the first download.**
 
+**Answer (operator; dated 2026-11-28 by the operator, recorded 2026-11-27T15:30:29Z):** D97.
+1. Allow, with snippets.
+2. Accept, with a daily cap.
+3. Turn non-essential traffic off.
+4. Allow (models and the Seamless recordings).
+5. English, so the streaming recogniser is used.
+6. 30 days.
+7. The operator checks the account setting himself.
+8. No overage.
+9. Accept.
+10. Offline after the first download.
+In addition, a few test calls to Claude through his login are allowed for week 0.
+
 ## Q35. The safety net does not hold the smallest limits against copies nobody listed (asked 2026-11-26T22:36:46Z; building continues meanwhile)
 
 **What was found.** The first build milestone is done: the engine's safety net matches the design's simulations exactly, and all its other tests pass. One test fails. For expressions with very small limits (for example drooping eyelids), a hypothetical extra route that nobody listed and that copied you with a delay would be left at about 1.1 to 2 times its limit. Every route the design does list is held under its limit by construction; this concerns only the net's promise to catch unlisted ones. Three rounds of tuning the net's margin have not closed it, so I stopped tuning it.
@@ -738,4 +771,6 @@ The build specification (research/build/spec.md, §6) lists what needs you. Q30�
 **Checked since:** letting your face only rotate the agent's state (from the latest search) was critiqued independently and does not close the gap: on the smallest limits it still allows following far beyond the limit (research/foundations/critique-isospectral-q35.md). The options above stand.
 
 **What it blocks:** nothing now; it matters before day 1.
+
+**Answer (operator; dated 2026-11-28 by the operator, recorded 2026-11-27T15:30:29Z): design a different safety net whose limits scale with each expression's own limit; building continues alongside.** D98.
 

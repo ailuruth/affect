@@ -496,3 +496,33 @@ To change: the operator answers Q35 (e.g. asks for a different safety-net design
 - The D82/D91 search, if it continues, looks for novelty in how the latent state is structured and learns, with the ceilings taken as given.
 
 To change: the operator asks for a guarantee over modelled partners only, or stops the search (Q28).
+
+## D94. The starting model may be fitted on Seamless (operator answer to Q25; dated 2026-11-28 by the operator, recorded 2026-11-27T15:30:29Z)
+- The general starting model (population reader) is fitted on the Seamless recordings, not only tested on them, under D70's restrictions: the operator's Mac only, no emotion scores read, fitting speakers never used for testing.
+
+To change: the operator answers Q25 "test only".
+
+## D95. Head pose, gaze and voice features from recorded dyads (operator answer to Q30; dated 2026-11-28 by the operator, recorded 2026-11-27T15:30:29Z)
+- Widens D70: besides face-movement streams and transcripts, head pose, gaze and voice features (pitch, loudness and timing as numbers) may be read and learned from, on the operator's Mac only, with no labels, no emotion scores and no recognised words beyond the transcript. Audio is reduced to those numbers file by file and not kept.
+- `dyad_streams` in engine/config/operator.py is widened. Until the M3 loader and the widened listener display land, the TILT, HP, VG, FR and EN rows of L_d stay at 0 (A8); the widening then adds those targets and the head, gaze and pitch inputs to the turn model.
+
+To change: the operator answers Q30 "head pose and gaze only" or "face and words only".
+
+## D96. Own-display ban kept, lost behaviours accepted, own-distress brow kept (operator answers to Q31, Q32, Q33; dated 2026-11-28 by the operator, recorded 2026-11-27T15:30:29Z)
+- Q31: the agent's face never learns to show anger, disgust or contempt (own-display mask kept).
+- Q32: the behaviours lost with the situation-specific rules are learned over time; nothing hand-written comes back.
+- Q33: the newborn own-distress brow (+0.45) at the operator's words of need is kept.
+
+To change: the operator answers Q31, Q32 or Q33 differently.
+
+## D97. Build decisions Q34 answered (operator answer to Q34; dated 2026-11-28 by the operator, recorded 2026-11-27T15:30:29Z)
+- 1: text and up to 3 memory snippets go to Claude through the operator's login. 2: about 450 calls a day, with a daily cap (set to 450; the operator can change it). 3: non-essential Claude Code traffic off. 4: downloads allowed (models and Seamless). 5: conversation language English, so the streaming recogniser. 6: 30 days' retention. 7: the operator checks his account's training setting himself. 8: no overage. 9: up to about 4,000 tokens per call. 10: offline after the first download.
+- A few week-0 (M1) test calls to Claude through the operator's login are allowed.
+- Still needed before the Claude route turns on: the operator's reading and approval of the fixed instruction and the three fork lines (`claude_text_approved`). Q1 (voice) stays open; speech stays off.
+
+To change: the operator changes any item; each is one switch in engine/config/operator.py.
+
+## D98. A new safety net with limits scaled per expression (operator answer to Q35; dated 2026-11-28 by the operator, recorded 2026-11-27T15:30:29Z)
+- Replaces D92's monitor-only fallback: design a different safety net whose limits scale with each expression's own limit (a general setting, not a situation rule), designed and checked before day 1. Building continues alongside.
+
+To change: the operator answers Q35 differently.
