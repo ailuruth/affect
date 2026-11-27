@@ -13,6 +13,8 @@ Decisions that are yours (visual identity, data leaving this Mac, new paid servi
 
 **Kept from the last pass:** three content tests for the battery (being challenged, a stated preference, copying the way something was framed), drawn from studies of companion apps that over-agree with or over-mirror their users.
 
+**Settled since (2026-11-27T07:59:14Z).** The pattern is now argued mathematically (research/foundations/conjecture-five-passes.md): no core can promise, whatever you do, that the agent never follows you on an expression beyond some limit unless it has a limit per expression. This holds whether or not the agent keeps noticing that you responded to it. The only escape found, answering with a fresh random sign each moment, is just noise on a face. So the per-expression limits in the main design are not a workaround; they are necessary. One plain consequence: the safety net checks the agent against a version of itself that saw your face as neutral but heard your words. So expressions driven by your words (strong reactions to what you say, through the agent's own judgement) sit outside the net by design, as you asked in Q22.
+
 **What this means.** The search has not found a candidate in five passes, and the reasons look structural rather than a lack of reading. It continues once every three hours unless you say otherwise (Q28).
 
 ## Report 12: everything that can be built without your Mac is built (no answer needed beyond the open questions; 2026-11-27T02:17:01Z)
@@ -651,6 +653,8 @@ Q24 (the concern look before words) is still open and can be answered alongside;
 - **Widen the reading first:** allow the blocked paper sites (such as arxiv.org) in this environment's network settings, then keep searching; this is a change to what the cloud session can reach.
 
 **Update (2026-11-27T04:49:16Z):** five search passes and a derivation found no candidate (report 13); the reasons look structural. The search now runs once every three hours. Tell me to stop it, keep it, or widen the reading.
+
+**Update (2026-11-27T07:59:14Z):** it is now argued that per-expression limits cannot be avoided by any core, so the search, if it continues, looks for novelty elsewhere (how the inner state is built and learns) and takes the limits as given.
 
 **What it blocks:** nothing now.
 

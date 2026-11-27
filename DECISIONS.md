@@ -489,3 +489,10 @@ To change: the operator asks to pause the search or to search full time.
 - At M0 the engine's ledger matches the reference bit for bit, but a synthetic injected unlisted delayed copy is left at about 1.1–2.0 c on small-ceiling channels (0.83–0.88 c held only at c = 0.35). Third failure of the ledger-margin step, so tuning stops (loop rule). The F22 unit test is kept as expected-to-fail; counted routes stay bounded by construction. Q35 asks the operator.
 
 To change: the operator answers Q35 (e.g. asks for a different safety-net design).
+
+## D93. The new-core search takes per-expression ceilings as given (recorded 2026-11-27T07:59:14Z)
+- research/foundations/conjecture-five-passes.md argues (Q19 standard) that any core guaranteeing a per-channel bound on partner-caused following for every partner path must impose a per-channel gain bound (Theorem 1, no linearity or stationarity assumed); for linear cores it is exactly a weighted H∞ bound (Theorem 2). Self-invariance does not avoid it; the only escape (fresh random sign, dither) fails the ledger's windows and is noise. Open: the gap between necessary and sufficient bounds for nonlinear cores with memory; a guarantee over modelled partners only would be a different promise (operator's choice).
+- Consequence for the build: the ledger's neutral run keeps his words, so word-driven appraisal expressions (D83) are outside the ledger by design.
+- The D82/D91 search, if it continues, looks for novelty in how the latent state is structured and learns, with the ceilings taken as given.
+
+To change: the operator asks for a guarantee over modelled partners only, or stops the search (Q28).

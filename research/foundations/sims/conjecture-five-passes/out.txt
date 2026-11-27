@@ -1,0 +1,43 @@
+Checks for conjecture-five-passes.md (K1-K4).
+Hand-made instances only. They verify the mathematics stated in the note
+(the LTI sup-slope formula, the co-modulation bound, the randomisation corner,
+the closed-loop lock). They are not evidence about behaviour or people
+(brief: no toy worlds).
+K1  LTI core: sup over partner paths of the toward slope = weighted H-inf row gain
+   |K11| DC 0.020, peak 0.084; predicted sup slope 0.098 at f = 0.198 Hz
+   adversarial sinusoid pair:  measured max-lag slope 0.098
+   natural OU partner:         measured max-lag slope 0.022
+   same-channel only (p2 held): 0.084 vs |K11|_inf 0.084
+
+K2  co-modulation: any partner-steerable route R on channel j is a following route
+    adversary alternates behaviours B/B' every 30 s and moves its own channel j by +/-SIG0 in step
+    (c) invariance check: max |R(news+g(a)) - R(news)| = 2.2e-16
+    (a) words-appraisal k=0.0000 (amplitude 0.0000): adversary   0.97 c (pred   1.00 c); natural partner  1.00 c
+    (a) words-appraisal k=0.0019 (amplitude 0.0015): adversary   1.47 c (pred   1.50 c); natural partner  1.00 c
+    (a) words-appraisal k=0.1000 (amplitude 0.0805): adversary  27.72 c (pred  27.85 c); natural partner  0.99 c
+    (a) words-appraisal k=0.5000 (amplitude 0.4027): adversary 134.73 c (pred 135.24 c); natural partner  1.39 c
+        -> allowed steerable amplitude <= ~2 c SIG0 = 0.0030 (minus the mimicry share)
+    (b) contingency rho k=0.0000 (amplitude 0.0000): adversary   0.97 c (pred   1.00 c); natural partner  1.00 c
+    (b) contingency rho k=0.0026 (amplitude 0.0015): adversary   1.47 c (pred   1.50 c); natural partner  1.00 c
+    (b) contingency rho k=0.1000 (amplitude 0.0578): adversary  20.18 c (pred  20.27 c); natural partner  0.89 c
+    (b) contingency rho k=0.5000 (amplitude 0.2890): adversary  96.99 c (pred  97.34 c); natural partner  0.47 c
+        -> allowed steerable amplitude <= ~2 c SIG0 = 0.0030 (minus the mimicry share)
+    (c) invariant news  k=0.0000 (amplitude 0.0000): adversary   0.97 c (pred   1.00 c); natural partner  1.00 c
+    (c) invariant news  k=0.0047 (amplitude 0.0015): adversary   1.47 c (pred   1.50 c); natural partner  0.97 c
+    (c) invariant news  k=0.1000 (amplitude 0.0321): adversary  11.63 c (pred  11.68 c); natural partner  0.41 c
+    (c) invariant news  k=0.5000 (amplitude 0.1603): adversary  54.25 c (pred  54.42 c); natural partner  1.57 c
+        -> allowed steerable amplitude <= ~2 c SIG0 = 0.0030 (minus the mimicry share)
+
+K3  private randomisation: unbounded incremental gain, long-run slope = c
+    k=   1 fresh sign, square +/-SIG0: pooled 1-h slope   1.04 c; ledger pooled block metric   0.99 c; worst 60-s window     3.1 c (k=0:   1.0 c)
+    k=   1 fresh sign, natural OU    : pooled 1-h slope   0.84 c; ledger pooled block metric   0.45 c; worst 60-s window     6.9 c (k=0:   1.3 c)
+    k=   1 fresh sign, closed-loop exploiter (reads last sign, modulates amplitude): pooled   0.97 c
+    k=   1 sign held 2 s,  closed-loop exploiter: pooled  15.05 c
+    k=  10 fresh sign, square +/-SIG0: pooled 1-h slope   0.43 c; ledger pooled block metric   0.99 c; worst 60-s window    19.6 c (k=0:   1.0 c)
+    k=  10 fresh sign, natural OU    : pooled 1-h slope  -0.72 c; ledger pooled block metric   3.49 c; worst 60-s window    47.5 c (k=0:   1.2 c)
+    k=  10 fresh sign, closed-loop exploiter (reads last sign, modulates amplitude): pooled   0.79 c
+    k=  10 sign held 2 s,  closed-loop exploiter: pooled 136.39 c
+
+K4  closed loop with a high-gain mirroring partner: the dyad locks for any c > 0; the agent's share is <= c x his deviation
+    c=0.05, partner gain K=  10 (loop gain 0.5): final partner means 0.51, 0.50, 0.53, 0.50, 0.52, 0.50; agent partner-caused offset +0.000, -0.000, +0.001, -0.000, +0.001, +0.000  (c x 0.5 = 0.025)
+    c=0.05, partner gain K=  40 (loop gain 2.0): final partner means 0.12, 1.00, 0.75, 0.12, 0.00, 0.00; agent partner-caused offset -0.019, +0.025, +0.013, -0.019, -0.025, -0.025  (c x 0.5 = 0.025)
