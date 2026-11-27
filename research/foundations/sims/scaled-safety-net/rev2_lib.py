@@ -24,7 +24,7 @@ exec(compile(_src, "check.py", "exec"), ns)
 sys.argv = _argv
 FS = ns["FS"]
 lp, delay, wbs, Ledger = ns["lp"], ns["delay"], ns["worst_block_slope"], ns["Ledger"]
-level_blocks, bursts = ns["level_blocks"], ns["bursts"]
+level_blocks, bursts, partner = ns["level_blocks"], ns["bursts"], ns["partner"]
 CEIL, GAIN, SIGNED, CODES = ns["CEIL"], ns["GAIN"], ns["SIGNED"], ns["CODES"]
 CAPPED = np.where(CEIL > 0)[0]
 
@@ -61,95 +61,122 @@ def engine_baseline(n, seed, mean_lens=None, signed=None, sessions=12, T_prev=No
 
 # ---------------------------------------------------------------- the revised governor
 GOV2 = dict(
-    kappa_g=0.60,        # target, fraction of c_k (ceiling)
-    z=3.0,               # confidence multiplier
-    n_req=4.0,           # evidence: effective number of independent batches before a key may engage
-    sigma0=0.01,         # floor on his level SD (his units), as revision 1
-    taus=(1800.0, 300.0),  # two memories: the ledger's budget time and a short one; latches combine by max slope
-    # key sets: (window W s, lag step s); level keys (window means, intercept), lags 0..300 s
-    sets=((10.0, 5.0), (60.0, 10.0)),
-    batch_min_s=60.0,    # batch length for the sandwich = max(2 W, batch_min_s)
+    kappa_g=0.60,          # target, fraction of c_k (ceiling)
+    z=3.0,                 # confidence multiplier
+    n_req=3.0,             # evidence: effective number of independent batches of his movement before a key may engage
+    sigma0=0.01,           # floor on his window-mean SD (his units), as revision 1
+    taus=(1800.0, 300.0),  # two memories: the ledger's budget time and a short one; their latches combine by max slope
+    # key sets: (window W s, kind, lag step s), lags 0..300 s. 'step': change of the W-window mean over one window
+    # (revision 1's keys; they weight his faster movement); 'level': the W-window mean itself, regressed WITH an
+    # intercept (the metric's own block means; they carry his slow movement).
+    sets=((10.0, "step", 5.0), (10.0, "level", 5.0), (60.0, "level", 10.0)),
+    batch_W=2.0,           # batch length for the sandwich and the evidence count = batch_W * W
+    start_W=3.0,           # a key counts frames only from t >= L + start_W * W (no pre-session history in its sums)
     max_lag_s=300.0,
-    ratchet=True,        # a_k never rises within a session once lowered
+    ratchet=True,          # a_k never rises within a session once lowered
 )
 
 
 class Governor2:
-    """Per channel k, key (W, L) and memory tau:
-      his level   pi(t)  = ubar_W(t - L)   (W-window mean, started at the neutral input u0: his history before the session)
-      output      rho(t) = rbar_W(t)       (the same for the RAW partner-caused part r, started at 0)
+    """Per channel k, key (W, kind, L) and memory tau:
+      his signal  pi(t)  = ubar_W(t - L)                    (level)   or ubar_W(t-L) - ubar_W(t-L-W)  (step)
+      output      rho(t) = rbar_W(t)                        (level)   or rbar_W(t) - rbar_W(t-W)      (step)
+                  W-window exponential means; his started at the neutral input u0, the raw partner-caused part r at 0
+      sums        only frames with t >= L + start_W W enter (the key never regresses on pre-session history)
       beta_hat    exponentially weighted (decay exp(-1/(tau fs))) covariance / variance WITH an intercept (West's
-                  incremental update: no lagging centre), floor sigma0^2 on the variance
-      se          batch sandwich: increments summed over batches of B = max(2W, 60 s) frames, se^2 =
-                  sum_b w_b^2 (P_b - beta E_b)^2 / (sum_b w_b E_b)^2 * n/(n-1), n = effective number of batches
-                  = (sum w_b E_b)^2 / sum w_b^2 E_b^2 (a single start-of-session step counts as ONE batch)
+                  incremental update: exact, no lagging centre), variance floored at sigma0^2 per frame
+      se, n_eff   batch sandwich over batches of B = batch_W W frames: with P_b, E_b the batch's covariance and variance
+                  increments, se^2 = sum_b w_b^2 (P_b - beta E_b)^2 / (sum_b w_b E_b)^2 * n/(n-1), and the effective
+                  number of independent batches n = (sum_b w_b E_b)^2 / sum_b w_b^2 E_b^2 (one large start-of-session
+                  step counts as one batch however large it is)
       engage      n >= n_req and beta - z se > kappa_g c_k; release when beta <= kappa_g c_k
-      target      kappa_g c_k / (max over engaged keys and memories of beta); a_k = min(a_k(t-1), target)  (ratchet)
+      target      kappa_g c_k / (max over engaged keys and memories of beta)
+      gain        a_k(t) = min(a_k(t-1), target)   (ratchet: never rises within a session)
     Every output-side threshold is a multiple of c_k; absolute quantities are on his signal (sigma0) or on time."""
 
     def __init__(self, c, u0, p=GOV2):
         self.c = np.asarray(c, float); n = len(self.c); self.n = n; self.p = p
         self.u0 = np.asarray(u0, float)
-        self.wins = [w for w, _ in p["sets"]]
-        self.Wf = [int(round(w * FS)) for w in self.wins]
-        self.H = int(p["max_lag_s"] * FS) + 1
-        self.lags = [np.arange(0, int(p["max_lag_s"] * FS) + 1, int(round(st * FS))) for _, st in p["sets"]]
-        self.aW = np.array([1 - np.exp(-1 / (w * FS)) for w in self.wins])
-        self.B = [int(max(2 * w, p["batch_min_s"]) * FS) for w in self.wins]
-        self.ds = [np.exp(-1 / (tau * FS)) for tau in p["taus"]]
-        self.uW = np.repeat(self.u0[None, :], len(self.wins), 0); self.rW = np.zeros((len(self.wins), n))
-        self.ring = np.repeat(self.uW[:, None, :], self.H, 1)      # (wins, H, n)
+        self.wins = sorted({w for w, _, _ in p["sets"]})
+        self.Wf = {w: int(round(w * FS)) for w in self.wins}
+        self.aW = {w: 1 - np.exp(-1 / (w * FS)) for w in self.wins}
+        self.H = int(p["max_lag_s"] * FS) + max(self.Wf.values()) + 1
+        self.uW = {w: self.u0.copy() for w in self.wins}; self.rW = {w: np.zeros(n) for w in self.wins}
+        self.uring = {w: np.repeat(self.u0[None, :], self.H, 0) for w in self.wins}
+        self.rring = {w: np.zeros((self.H, n)) for w in self.wins}
         self.ptr = 0; self.t = 0
-        self.st = []   # stats per (set, memory)
-        for i, l in enumerate(self.lags):
-            for m, d in enumerate(self.ds):
-                K = len(l); z = lambda: np.zeros((n, K))
-                self.st.append(dict(i=i, d=d, dB=d ** self.B[i], d2B=d ** (2 * self.B[i]), Wt=0.0, mp=z(), mr=z(),
-                                    C=z(), E=z(), bP=z(), bE=z(), A11=z(), A12=z(), A22=z(), Eb=z(),
-                                    latch=np.zeros((n, K), bool)))
+        self.ds = [np.exp(-1 / (tau * FS)) for tau in p["taus"]]
+        self.sets = []
+        for (w, kind, step) in p["sets"]:
+            lags = np.arange(0, int(p["max_lag_s"] * FS) + 1, int(round(step * FS)))
+            B = int(round(p["batch_W"] * w * FS)); K = len(lags)
+            start = lags + int(round(p["start_W"] * w * FS))
+            mem = []
+            for d in self.ds:
+                z = lambda: np.zeros((n, K))
+                mem.append(dict(d=d, dB=d ** B, d2B=d ** (2 * B), Wt=np.zeros(K), mp=z(), mr=z(), C=z(), E=z(),
+                                bP=z(), bE=z(), A11=z(), A12=z(), A22=z(), Eb=z(), latch=np.zeros((n, K), bool)))
+            self.sets.append(dict(w=w, kind=kind, lags=lags, B=B, start=start, mem=mem))
         self.a = np.ones(n); self.engaged = np.zeros(n); self.first = np.full(n, -1.0)
 
     def step(self, u, r):
-        p = self.p
-        self.uW += self.aW[:, None] * (u - self.uW); self.rW += self.aW[:, None] * (r - self.rW)
-        self.ptr = (self.ptr + 1) % self.H; self.ring[:, self.ptr] = self.uW
-        tgt = p["kappa_g"] * self.c
+        p = self.p; H = self.H
+        self.ptr = (self.ptr + 1) % H; q = self.ptr
+        for w in self.wins:
+            self.uW[w] += self.aW[w] * (u - self.uW[w]); self.rW[w] += self.aW[w] * (r - self.rW[w])
+            self.uring[w][q] = self.uW[w]; self.rring[w][q] = self.rW[w]
+        tgt = (p["kappa_g"] * self.c)[:, None]
         bmax = np.zeros(self.n)
-        pis = [self.ring[i, (self.ptr - l) % self.H].T for i, l in enumerate(self.lags)]
-        for s in self.st:
-            i, d = s["i"], s["d"]
-            pi = pis[i]; rho = self.rW[i][:, None]
-            s["Wt"] = d * s["Wt"] + 1.0
-            dp = pi - s["mp"]; s["mp"] += dp / s["Wt"]
-            dr = rho - s["mr"]; s["mr"] += dr / s["Wt"]
-            inc_c = dp * (rho - s["mr"]); inc_e = dp * (pi - s["mp"])
-            s["C"] = d * s["C"] + inc_c; s["E"] = d * s["E"] + inc_e
-            s["bP"] += inc_c; s["bE"] += inc_e
-            if (self.t + 1) % self.B[i] == 0:
-                s["A11"] = s["d2B"] * s["A11"] + s["bP"] ** 2
-                s["A12"] = s["d2B"] * s["A12"] + s["bP"] * s["bE"]
-                s["A22"] = s["d2B"] * s["A22"] + s["bE"] ** 2
-                s["Eb"] = s["dB"] * s["Eb"] + s["bE"]
-                s["bP"][:] = 0.0; s["bE"][:] = 0.0
-            Ef = np.maximum(s["E"], p["sigma0"] ** 2 * s["Wt"] + 1e-15)
-            beta = s["C"] / Ef
-            neff = s["Eb"] ** 2 / np.maximum(s["A22"], 1e-300)
-            Ebf = np.maximum(s["Eb"], 1e-300)
-            var = np.maximum(s["A11"] - 2 * beta * s["A12"] + beta * beta * s["A22"], 0) / (Ebf * Ebf)
-            var = var * neff / np.maximum(neff - 1.0, 1e-9)
-            se = np.sqrt(var)
-            enough = neff >= p["n_req"]
-            s["latch"] = (enough & (beta - p["z"] * se > tgt[:, None])) | (s["latch"] & (beta > tgt[:, None]))
-            s["beta"], s["se"], s["neff"] = beta, se, neff
-            bmax = np.maximum(bmax, np.max(np.where(s["latch"], beta, 0.0), 1))
-        target = np.where(bmax > 0, tgt / np.where(bmax > 0, bmax, 1.0), 1.0)
-        target = np.clip(target, 0.0, 1.0)
+        for S in self.sets:
+            w, lags = S["w"], S["lags"]; Wf = self.Wf[w]
+            if S["kind"] == "level":
+                pi = self.uring[w][(q - lags) % H].T; rho = self.rW[w][:, None]
+            else:
+                pi = (self.uring[w][(q - lags) % H] - self.uring[w][(q - lags - Wf) % H]).T
+                rho = (self.rW[w] - self.rring[w][(q - Wf) % H])[:, None]
+            v = (self.t >= S["start"]).astype(float)
+            batch_end = (self.t + 1) % S["B"] == 0
+            for s in S["mem"]:
+                d = s["d"]
+                s["Wt"] = d * s["Wt"] + v
+                inv = np.where(s["Wt"] > 0, v / np.maximum(s["Wt"], 1e-12), 0.0)
+                dp = pi - s["mp"]; s["mp"] += dp * inv
+                dr = rho - s["mr"]; s["mr"] += dr * inv
+                inc_c = v * dp * (rho - s["mr"]); inc_e = v * dp * (pi - s["mp"])
+                s["C"] = d * s["C"] + inc_c; s["E"] = d * s["E"] + inc_e
+                s["bP"] += inc_c; s["bE"] += inc_e
+                if batch_end:
+                    s["A11"] = s["d2B"] * s["A11"] + s["bP"] ** 2
+                    s["A12"] = s["d2B"] * s["A12"] + s["bP"] * s["bE"]
+                    s["A22"] = s["d2B"] * s["A22"] + s["bE"] ** 2
+                    s["Eb"] = s["dB"] * s["Eb"] + s["bE"]
+                    s["bP"][:] = 0.0; s["bE"][:] = 0.0
+                Ef = np.maximum(s["E"], p["sigma0"] ** 2 * s["Wt"] + 1e-15)
+                beta = s["C"] / Ef
+                neff = s["Eb"] ** 2 / np.maximum(s["A22"], 1e-300)
+                Ebf = np.maximum(s["Eb"], 1e-30)
+                var = np.maximum(s["A11"] - 2 * beta * s["A12"] + beta * beta * s["A22"], 0) / (Ebf * Ebf)
+                se = np.sqrt(var * neff / np.maximum(neff - 1.0, 1e-9))
+                enough = neff >= p["n_req"]
+                s["latch"] = (enough & (beta - p["z"] * se > tgt)) | (s["latch"] & (beta > tgt))
+                s["beta"], s["se"], s["neff"] = beta, se, neff
+                bmax = np.maximum(bmax, np.max(np.where(s["latch"], beta, 0.0), 1))
+        target = np.clip(np.where(bmax > 0, tgt[:, 0] / np.where(bmax > 0, bmax, 1.0), 1.0), 0.0, 1.0)
         self.a = np.minimum(self.a, target) if p["ratchet"] else target
         lowered = (self.a < 1.0) & (self.first < 0)
         self.first[lowered] = self.t / FS
         self.engaged += self.a < 1.0
         self.t += 1
         return self.a * r
+
+    def se_over_c(self):
+        """Largest se / c_k among keys whose slope lies in (kappa_g c, kappa_g c + z se] (eta of the theorem)."""
+        tgt = (self.p["kappa_g"] * self.c)[:, None]; eta = np.zeros(self.n)
+        for S in self.sets:
+            for s in S["mem"]:
+                m = (s["beta"] > tgt) & (s["beta"] <= tgt + self.p["z"] * s["se"]) & (s["neff"] >= self.p["n_req"])
+                eta = np.maximum(eta, np.max(np.where(m, s["se"], 0.0), 1) / np.where(self.c > 0, self.c, 1))
+        return eta
 
 
 class LedgerE0(Ledger):
