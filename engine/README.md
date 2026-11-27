@@ -1,4 +1,4 @@
-# engine (milestones M0, and the offline parts of M4, M6 and M8)
+# engine (milestones M0, and the offline parts of M4, M6, M8 and M9)
 
 The engine of research/build/spec.md (build core: research/foundations/design-cayley-ledger.md, revision 9.2).
 Nothing here touches a camera, a microphone, a model, Claude or the network (the M6 tests run a fake Claude CLI). All tests use small synthetic arrays;
@@ -210,11 +210,57 @@ temporary store (`tests/synth_store.py`); the store path is never inside the che
 - No replay step writes the cone's learned cross entries (§1.9 lists none); A6 is checked after replay anyway.
 - A deferred night leaves its sessions unreplayed, so the next night learns the completed steps on them again.
 
+## M9 (scaffolding): the evaluation battery (`eval/`, outside the engine)
+
+Spec §5, §6 M9. `eval/` is never imported by `engine/` (tests/test_imports.py, tests/test_eval_flist.py) and carries
+no affect label (the lint scans it). Every test is judged on internal state (body fields, drive, gates, the
+partner-caused part y - ybar, the ledger's x2 and frames changed, T-state digests, assertion failures), never on how
+closely the agent's face matches a human face. In this session it runs only on synthetic stand-ins, as a harness
+test; those runs are marked `synthetic` and are not evidence.
+- `eval/registry.py`: each prediction is written to `predictions/<test_id>.json` with a UTC timestamp and SHA-256
+  before its run; `start_run` refuses a missing prediction or one not strictly older than the start; `score`
+  refuses one missing, changed after the start (hash against the start record), re-registered with new content, or
+  a hash-chained `log.jsonl` that was edited; a run is scored once. The criterion (eq / lt / ge / abs_le / monotone
+  / gt_quantile / all / ...) is part of the prediction and is applied mechanically.
+- `eval/results.py`: results are JSON / CSV summaries (no arrays, <= 1 MB) with the `affect-eval-*` schema marker; a
+  synthetic result is refused anywhere under research/build/results/. The CI data guard (`tools/ci.py`) now admits
+  there only Markdown and such unmarked-synthetic eval/ summaries (it refused every non-Markdown file before).
+- `eval/drive.py`: one `ShadowPair` session with hooks (lesion, steering step, mirror partner, face transform) and the
+  readouts. `eval/switches.py`: the documented lesion switches of §5.2 (g <- 1, g_o <- 1, L_d <- 0, q-hat <- 0, D_tau
+  removed, ledger lags 0-3 s, kappa 1, P_name removed, G_k <- 0 on smile_laugh) through each part's own `disabled`
+  state or a rebuilt ledger, each with a sham of equal size (an equal-norm change of the turn model's weights, which
+  no route reads at this build; G_k <- 0 on the zero-ceiling channels for the echo gain). Four §5.2 rows are listed
+  as not built (turn model, sign prior, calibration / H_id, partner anchor) and refuse to run.
+- `eval/lesions.py` (E1: intact, lesioned, sham per instance; means and full distributions; >= 20 instances outside
+  a synthetic run), `eval/steering.py` (E2: K, h_word, N-hat's V coordinate, omega_g at +-5 doses with a random
+  direction of equal norm in the same block, applied to both runs, A14 restarted at the step; input clamps with an
+  exact T-state-digest invariance), `eval/surrogates.py` (E3: pooled block-mean slopes of the conditioned output x2
+  at 2 s / 10 s / 1 min against segment-shuffle and data-sliding, both required, plus partner-swap,
+  timing-resample, and month-swap only with >= 30 sessions >= 28 days apart; an engine re-run path keeps words fixed),
+  `eval/mirror.py` (the mirror-only partner against no partner), `eval/f22_delayed_copy.py` (F22 ledger-only, every
+  delay batched in one ledger; `--pilot` prints the §5.5 plan).
+- `eval/flist.py`: every F of the spec's §5.1 table (checked against the table) with its test, data source (Seamless,
+  his M2 recordings, live, replayed, nightly, runtime) and machine / stage. `eval/planner.py`: guard (refuses a
+  sitting predicted above 5 h without split / approved, above 6 h without the operator's recorded answer, above 6 GB),
+  plan (packs resumable chunks into sittings of <= 5 h), and §5.5's F22 recipe (channels over 8 cores, split by
+  channel, subsample to 25 people, else ask).
+- `make eval-dry` (`eval/dry_run.py`, about 4 min): registers 24 predictions, then runs every harness on stand-ins
+  into a temporary directory. On the stand-ins 19 of 24 are met. The five not met are reported, not hidden: N-hat's V
+  direction moves D_p less than a random (V, A, T) direction of equal norm (the negative doses clip at 0); under G_k <-
+  0 on smile_laugh a small 2-s coupling of LP remains above the segment-shuffle 95th percentile (the held cone's
+  diagonal); under the mirror-only partner the ledger changes 33 % of frames and FR, EN drift monotonically over the
+  6-min run (T state bit-identical to no partner, slopes <= 0.48 c); F22 on BI leaves the copy at about 3 c on a 12-min
+  stand-in (the known M0 finding, tests/test_ledger_injected.py xfail). None of this is evidence.
+
+**Not built here:** `eval/events.py` and every driver that needs recorded dyads (F1's `f01_bounds.py`, F2, F9's event
+classes, F15, F16, F24) or live sessions; they plug into these harnesses at M3 / M4 / M7 on the Mac.
+
 ## How to run
 
 ```
 make ci              # data guard, label lint, pytest (about 2 min)
 make regress-full    # also the full 2-h reference regressions, 10 Hz and 30 Hz (several minutes)
+make eval-dry        # every eval/ harness end to end on synthetic stand-ins (about 4 min; not evidence)
 python -m pytest -q  # tests only
 ```
 
