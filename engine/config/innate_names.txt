@@ -28,6 +28,7 @@ channel_s_A
 channel_s_C
 channel_s_X
 channel_signs
+claude_max_processes
 clock_remap
 concepts_dp_lambda
 concepts_max
@@ -138,6 +139,7 @@ sign_prior
 slots_shape
 theta0_pull
 theta_end_default
+token_estimate
 trace_taus_s
 turn_silence_min_s
 voice_onset_after_deadline_s

@@ -1,7 +1,7 @@
-# engine (milestones M0 and the offline part of M4)
+# engine (milestones M0, and the offline parts of M4 and M6)
 
 The engine of research/build/spec.md (build core: research/foundations/design-cayley-ledger.md, revision 9.2).
-Nothing here touches a camera, a microphone, a model, Claude or the network. All tests use small synthetic arrays;
+Nothing here touches a camera, a microphone, a model, Claude or the network (the M6 tests run a fake Claude CLI). All tests use small synthetic arrays;
 their results say nothing about behaviour.
 
 ## M0: configuration, invariants, ledger
@@ -87,7 +87,7 @@ fast gear = `fast` of design-g9 bit for bit at 10 Hz (integer 0.4-s delay, as th
 - The type trace follows data flow only; a branch on a T value from a port first hid I_lp from downstream(P5) (the
   F19 test caught it; the update is now branch-free). It runs on synthetic data with small random stub weights.
 - Not built here: 𝓜, mu and slots (z_T = 0), the turn model's inputs, prosody/WORLD (A9's per-phrase part), visemes,
-  blink, own head micro-motion gating, TranscriptText/Marker/Snippet (M6), the calibration readers (b_read, sigma_id
+  blink, own head micro-motion gating, the calibration readers (b_read, sigma_id
   are carried, unused), online learning, the process split and its entry points.
 
 **INNATE.lock** gained (a reviewed change): `cone_away_caps`, `cone_lateral_rows`, `own_synergies`,
@@ -97,6 +97,53 @@ fast gear = `fast` of design-g9 bit for bit at 10 Hz (integer 0.4-s delay, as th
 `display_delta_shape`, `embedding_dims`, `listener_display_form`, `qhat_form` (values from r5 §2.5-2.7, spec §1.5).
 After review-m4: `g0_glare_to_LP` resized to [−0.012, −0.0035]; `reader_confidence_form` added; `own_synergies` is
 `newborn`, `face_channels` `generic` (fit definition), `embedding_dims` `generic` (engineering).
+
+## M6 (offline part): the Claude coupling (`omega/`)
+
+Spec §1.8. Nothing calls the real `claude`: the tests drive `tests/fake_claude.py`, which mimics the CLI's
+stream-json output and session files under a temporary HOME.
+- `state/types.py` gained the prompt objects: `TranscriptText` (only from his `Utterance` or a `ChosenReply`),
+  `Marker` (only from the INNATE marker template, silence rounded to 5 s), `Snippet` (only from stored
+  `TranscriptText`), and `ChosenReply` (the winning draft, made only in `omega/pool.py`). All are Ω. The state reads
+  none of them; it hears the agent only as `OwnHeard`, made at playback, through the five ports (F19).
+- `omega/instruction.txt`, `omega/lines.py`: the constant instruction, the three fork lines and the snippet
+  template. `text_digest()` must equal the operator switch `claude_text_approved` (he reads and approves the text).
+  Neither holds a state value, a label or a number.
+- `omega/isolation.py`: `OmegaConfig.from_operator` refuses (Unanswered / ValueError) until Q34 items 1, 2, 3, 7,
+  8, 9 and the text approval are answered and `claude_daily_cap` is a positive number. The CLI flags are the CLI
+  equivalents of the spec's `ClaudeAgentOptions`: `--setting-sources ""`, `--tools ""`, `--strict-mcp-config` with
+  no servers, `--permission-mode default`, `--model`/`--effort` from the switches, `--system-prompt` the
+  instruction, stream-json in and out with partial messages, `--resume <canonical> --fork-session`; never `--bare`.
+  Environment: `DISABLE_AUTOUPDATER=1` always, `CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1` per switch; effort,
+  thinking-budget, output-cap and model overrides removed. The working directory must be empty, with no CLAUDE.md in
+  it or above it.
+- `omega/transcript.py`: the window (oldest turns dropped first; instruction + window + snippets + message + fork
+  line <= `context_tokens_max`, tokens estimated conservatively at 3 UTF-8 bytes per token until M1 measures the
+  CLI's count), the canonical `.jsonl` writer, the A11 byte check, and the F14 / F17 / compaction check of a fork's
+  own session file.
+- `omega/pool.py`: the warm pool (forks spawned idle on the canonical transcript), the daily cap (persisted calls
+  per day; silent at the cap), streaming (text deltas only), the scoring deadline (0.5 s after the first draft's
+  first sentence or 3.0 s after his turn end; none by then: silent), losers killed by SIGKILL to the process group
+  and replaced in the background (never more than `claude_max_processes` = 4), the cut at two sentences or 60 words,
+  interruption (`interrupt()`), fallback 1 (line in the system prompt), fallback 2 (pool 3 -> 2 -> 1 on limit
+  signals or slow first sentences, then silence until the limit resets; grows back after 30 min), fallback 3
+  (silence when no process answers). There are no hand-written words anywhere (D88): every fallback is silence. A11
+  failures stop the route for the session; compaction makes the turn silent. Fork session files are deleted at the
+  next idle moment. Telemetry goes to `Pool.log` only.
+- `omega/retrieval.py`: <= 3 snippets, relevance (from `slow`) minus 1/7 per day of age; nothing if `send_snippets`
+  is off. `omega/scorer.py`: the scoring interface; the world model is not built, so every draft scores 0 and the
+  earliest first sentence wins.
+
+INNATE.lock gained (a reviewed change): `claude_max_processes` (4) and `token_estimate` (3 bytes per token, 200
+tokens kept for his next message in the pre-written window). `config/operator.py` gained `claude_text_approved`, and
+`require` takes an optional switch table (tests pass an answered copy; the engine always reads `SWITCHES`).
+
+**Not built yet:** the `omega` process entry point and its unix socket to `slow`; the 𝓜 draft score; `p_name.py`;
+the measured done-checks (p50/p90 latency, calls and tokens per call, F19 on replayed sessions), which need the real
+CLI on the Mac after the operator's answers. Not exact: the spec names the Python Agent SDK; it is not installed in
+this session, so the process speaks the CLI's stream-json protocol with the equivalent flags (the SDK spawns the same
+CLI). The real CLI's event names for a usage limit (`rate_limit_event` with status `rejected`, or an error result
+naming a limit) and for compaction (`system` / `compact_boundary`) are taken from the documentation and checked at M1.
 
 ## How to run
 

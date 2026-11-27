@@ -38,6 +38,9 @@ SWITCHES = {
     "account_training_use_checked": Switch(None, "Q34 item 7", False, "Claude route off"),
     "overage_confirmed_off": Switch(True, "Q34 item 8", False, "Claude route off"),
     "context_tokens_max": Switch(4000, "Q34 item 9", False, "Claude route off"),
+    # SHA-256 of engine/omega/instruction.txt and the three fork lines, as he read and approved them (spec §6 M6 Ask;
+    # engine/omega/lines.py `text_digest`). Any change to that text needs his approval again.
+    "claude_text_approved": Switch(None, "Q34 (constant instruction and fork lines)", False, "Claude route off"),
     "hub_offline_after_download": Switch(True, "Q34 item 10", False, "always on at runtime", True),
     "tts_engine": Switch(None, "Q1", False, "speech off"),
     "voice": Switch(None, "Q1", False, "speech off"),
@@ -49,10 +52,12 @@ class Unanswered(RuntimeError):
     pass
 
 
-def require(*names: str) -> dict:
-    """Values of the named switches, or Unanswered naming every missing answer."""
-    missing = [f"{n} ({SWITCHES[n].question}: {SWITCHES[n].before_answer})" for n in names
-               if not (SWITCHES[n].answered or SWITCHES[n].usable_before_answer)]
+def require(*names: str, switches: dict | None = None) -> dict:
+    """Values of the named switches, or Unanswered naming every missing answer. `switches` defaults to SWITCHES
+    (tests pass an answered copy; the live engine always reads SWITCHES)."""
+    sw = SWITCHES if switches is None else switches
+    missing = [f"{n} ({sw[n].question}: {sw[n].before_answer})" for n in names
+               if not (sw[n].answered or sw[n].usable_before_answer)]
     if missing:
         raise Unanswered("waiting for the operator: " + "; ".join(missing))
-    return {n: SWITCHES[n].value for n in names}
+    return {n: sw[n].value for n in names}

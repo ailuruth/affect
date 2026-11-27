@@ -15,7 +15,14 @@ a field of each type may carry; the trace checks every assignment of a declared 
 The objects: `Word`, `Utterance` and `TurnEvent` are T (made by the boundary from his recognised words and the
 session; M2 builds the recogniser, here they are plain records). `OwnHeard` is the one Ω object that reaches the
 state, made only by `heard_at_playback` (called by the `tts` process at playback, M5); a T computation may read it
-only inside a port of engine/state/ports.py. TranscriptText, Marker and Snippet (the prompt objects) come at M6.
+only inside a port of engine/state/ports.py.
+
+The prompt objects (M6, spec §1.8, A11): `TranscriptText`, `Marker` and `Snippet` are the only things the Claude
+prompt builder (engine/omega/transcript.py) accepts. Each is made only by its factory: `his_text` from his recognised
+`Utterance`, `agent_text` from a `ChosenReply` (the winning draft, made only by engine/omega/pool.py), `marker` from
+the observable silence length and the INNATE marker template, `snippet` from earlier `TranscriptText` entries.
+None carries a body value, latent value, label or any number derived from state. `ChosenReply` and the prompt
+objects are Ω: no T, F or K computation reads them (only `OwnHeard`, made at playback, reaches the state).
 """
 from __future__ import annotations
 
@@ -185,3 +192,91 @@ def heard_at_playback(words, t_word_end, template: str, t_start: float, t_played
         interrupted = True
     t_end = t_word_end[-1] if t_word_end else float(t_start)
     return OwnHeard(words, t_word_end, template, float(t_start), float(t_end), interrupted, _PLAYBACK)
+
+
+# ---------------------------------------------------------------------------------------------------- prompt objects
+_RECOGNISER, _CHOSEN, _TEMPLATE, _STORE = object(), object(), object(), object()
+
+
+@dataclass(frozen=True)
+class ChosenReply:
+    """The winning draft's text, cut at its interruption point, without its fork line (Ω; spec §1.8). Made only by
+    `engine.omega.pool` (`_chosen_reply`); it goes to the `tts` process and to the canonical transcript, never to
+    the state (the state hears only `OwnHeard`, made at playback)."""
+    text: str
+    t: float
+    _origin: object = field(default=None, repr=False, compare=False)
+
+    def __post_init__(self):
+        if self._origin is not _CHOSEN:
+            raise TypeError("ChosenReply is made only by the omega pool")
+
+
+def _chosen_reply(text: str, t: float) -> ChosenReply:
+    return ChosenReply(str(text), float(t), _CHOSEN)
+
+
+@dataclass(frozen=True)
+class TranscriptText:
+    """One turn of the canonical transcript: his normalised words (`his`) or the agent's chosen reply (`agent`)."""
+    speaker: str
+    text: str
+    t: float
+    _origin: object = field(default=None, repr=False, compare=False)
+
+    def __post_init__(self):
+        if self._origin not in (_RECOGNISER, _CHOSEN) or self.speaker not in ("his", "agent"):
+            raise TypeError("TranscriptText is made only by his_text (recogniser) or agent_text (chosen reply)")
+        if (self.speaker == "his") != (self._origin is _RECOGNISER):
+            raise TypeError("speaker does not match the source")
+
+
+def his_text(utt: Utterance) -> TranscriptText:
+    if not isinstance(utt, Utterance):
+        raise TypeError("his_text reads only a recognised Utterance")
+    return TranscriptText("his", utt.text_norm, float(utt.t_end), _RECOGNISER)
+
+
+def agent_text(reply: ChosenReply) -> TranscriptText:
+    if not isinstance(reply, ChosenReply):
+        raise TypeError("agent_text reads only a ChosenReply")
+    return TranscriptText("agent", reply.text, reply.t, _CHOSEN)
+
+
+@dataclass(frozen=True)
+class Marker:
+    """An observable-marker user turn for initiative: the INNATE marker template with the silence rounded to 5 s."""
+    text: str
+    t: float
+    _origin: object = field(default=None, repr=False, compare=False)
+
+    def __post_init__(self):
+        if self._origin is not _TEMPLATE:
+            raise TypeError("Marker is made only by marker()")
+
+
+def marker(silence_s: float, t: float) -> Marker:
+    from engine.config.innate import ENTRIES
+    tpl = ENTRIES["marker_template"].value
+    step = float(tpl["round_s"])
+    n = int(max(step, step * round(float(silence_s) / step)))
+    return Marker(tpl["text"].replace("N", str(n)), float(t), _TEMPLATE)
+
+
+@dataclass(frozen=True)
+class Snippet:
+    """A retrieved raw transcript snippet of an earlier session: consecutive stored `TranscriptText` entries."""
+    entries: tuple
+    t: float
+    _origin: object = field(default=None, repr=False, compare=False)
+
+    def __post_init__(self):
+        if self._origin is not _STORE:
+            raise TypeError("Snippet is made only by snippet()")
+
+
+def snippet(entries) -> Snippet:
+    entries = tuple(entries)
+    if not entries or not all(isinstance(e, TranscriptText) for e in entries):
+        raise TypeError("a Snippet is made only of stored TranscriptText entries")
+    return Snippet(entries, entries[0].t, _STORE)

@@ -220,6 +220,11 @@ _TABLE = (
        "observable silence length for Claude, no state", "engineering"),
     _C("context_window", {"tokens_max": 4000, "snippets": 3, "snippet_tokens": 200}, "tokens", "spec §1.8; Q34 item 9", "generic",
        "transcript window per call", "engineering"),
+    _C("claude_max_processes", 4, "processes", "spec §1.8, §2.1", "generic",
+       "warm pool plus one replacement; the omega process never runs more Claude Code processes", "engineering"),
+    _C("token_estimate", {"bytes_per_token": 3.0, "message_reserve_tokens": 200}, "tokens", "spec §1.8; Q34 item 9",
+       "generic", "conservative token count until the CLI's own count is measured at M1; room kept in the "
+       "pre-written window for his next message", "engineering"),
     _C("loop_rates_hz", {"fast": 30.0, "own_face": 10.0, "slow": 2.0}, "Hz", "spec §1", "generic", "camera, own face, slow clock", "engineering"),
     _C("ring_buffer_s", 0.6, "s", "spec §1.4", "generic", "echo interpolation by capture time", "engineering"),
     _C("watchdog_ms", {"stall": 200, "ease": 300}, "ms", "spec §1.7", "generic", "page eases to rest and mutes on a stall", "engineering"),
