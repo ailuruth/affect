@@ -75,6 +75,8 @@ GOV2 = dict(
     start_W=2.0,           # a key counts frames only from t >= L + start_W * W (no pre-session history in its sums)
     max_lag_s=300.0,
     ratchet=True,          # a_k never rises within a session once lowered
+    prov_n=None,           # provisional gain (not ratcheted, no hysteresis) from keys with >= prov_n batches whose
+                           # plain z lower bound beta - z se exceeds the target: a <= kappa_g c / (beta - z se)
 )
 
 
@@ -139,7 +141,7 @@ class Governor2:
             self.uW[w] += self.aW[w] * (u - self.uW[w]); self.rW[w] += self.aW[w] * (r - self.rW[w])
             self.uring[w][q] = self.uW[w]; self.rring[w][q] = self.rW[w]
         tgt = (p["kappa_g"] * self.c)[:, None]
-        bmax = np.zeros(self.n)
+        bmax = np.zeros(self.n); bprov = np.zeros(self.n)
         for S in self.sets:
             w, lags = S["w"], S["lags"]; Wf = self.Wf[w]
             if S["kind"] == "level":
@@ -175,13 +177,20 @@ class Governor2:
                 s["latch"] = (enough & (beta - zz * se > tgt)) | (s["latch"] & (beta > tgt))
                 s["beta"], s["se"], s["neff"], s["zz"] = beta, se, neff, zz
                 bmax = np.maximum(bmax, np.max(np.where(s["latch"], beta, 0.0), 1))
+                if p.get("prov_n"):
+                    lb = beta - p["z"] * se
+                    bprov = np.maximum(bprov, np.max(np.where((neff >= p["prov_n"]) & (lb > tgt), lb, 0.0), 1))
         target = np.clip(np.where(bmax > 0, tgt[:, 0] / np.where(bmax > 0, bmax, 1.0), 1.0), 0.0, 1.0)
         self.a = np.minimum(self.a, target) if p["ratchet"] else target
-        lowered = (self.a < 1.0) & (self.first < 0)
+        self.a_out = self.a
+        if p.get("prov_n"):
+            tp = np.clip(np.where(bprov > 0, tgt[:, 0] / np.where(bprov > 0, bprov, 1.0), 1.0), 0.0, 1.0)
+            self.a_out = np.minimum(self.a, tp)
+        lowered = (self.a_out < 1.0) & (self.first < 0)
         self.first[lowered] = self.t / FS
-        self.engaged += self.a < 1.0
+        self.engaged += self.a_out < 1.0
         self.t += 1
-        return self.a * r
+        return self.a_out * r
 
     def se_over_c(self):
         """Largest z_n se / (z c_k) among keys with enough evidence whose slope lies in (kappa_g c, kappa_g c + z_n se]
@@ -213,7 +222,7 @@ def run2(U, X, c, u0, net="new", led_E0=None, led_kappa=0.70, record_a=False, go
         if gov is not None:
             x = gov.step(U[t], x)
             if record_a:
-                A[t] = gov.a
+                A[t] = gov.a_out
         O[t] = led.step(U[t], x) if led is not None else x
     hits = led.hits / T if led is not None else np.zeros(n)
     eng = gov.engaged / T if gov is not None else np.zeros(n)

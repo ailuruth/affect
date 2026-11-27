@@ -115,30 +115,41 @@ def job_R2(chunk):
         On, hn, en, A, gov = run2(U, X, c, u0, net="new", record_a=True)
         raw = wbs(U, X) / c; old = wbs(U, Oo) / c; new = wbs(U, On) / c; rm = running_metric(U, On) / c
         Oe, _ = ledger_only(U, A * X, c, E0); ne = wbs(U, Oe) / c
-        # theorem constants (section "Revision 2", Theorem 1')
-        Bs = np.zeros(n)
+        # Theorem 1' constants, on the long-memory (1800 s) keys: B* = their largest slope at T, R = rho*[r] / B*,
+        # eta = a_T z_n se / (z c) over those keys in the unlatched band
+        Bs = np.zeros(n); eta = np.zeros(n); tg = (KG * c)[:, None]
         for S in gov.sets:
-            for s in S["mem"]:
-                Bs = np.maximum(Bs, s["beta"].max(1))
+            s = S["mem"][0]
+            Bs = np.maximum(Bs, s["beta"].max(1))
+            m = (s["beta"] > tg) & (s["beta"] <= tg + s["zz"] * s["se"]) & (s["neff"] >= GOV2["n_req"])
+            eta = np.maximum(eta, np.max(np.where(m, s["zz"] * s["se"] / Z, 0.0), 1) / c)
+        eta = eta * gov.a
         R = raw * c / np.maximum(Bs, 1e-12)
         Lam = np.zeros(n)
         for b in (2.0, 10.0, 30.0, 60.0):
-            nb = int(b * FS); xb = block_means(np.abs(X), nb); ub = block_means(U, nb)
-            Lam = np.maximum(Lam, np.sqrt((xb ** 2).mean(0)) / (ub.std(0) * np.maximum(Bs, 1e-12)))
-        eta = gov.se_over_c() * gov.a          # a_T z_n se / (z c): the unlatched band, at the final gain
+            nb = int(b * FS); xb = block_means(np.abs(X), nb); ub_ = block_means(U, nb)
+            Lam = np.maximum(Lam, np.sqrt((xb ** 2).mean(0)) / (ub_.std(0) * np.maximum(Bs, 1e-12)))
         eps = np.zeros(n); qcl = np.zeros(n); qtr = np.zeros(n); EPS = 0.10
         changed = np.abs(On - A * X) > 1e-9 * np.maximum(np.abs(X), 1e-12)
         ub = block_means(U, 100); cb = block_means(changed.astype(float), 100) > 0
         for j in range(n):
             if gov.first[j] < 0:
                 eps[j] = np.nan; continue
-            # settle time: a within (1 + EPS) of its final value (a is non-increasing, so it stays there)
-            ts = int(np.argmax(A[:, j] <= (1 + EPS) * A[-1, j])); eps[j] = A[ts:, j].max() / A[-1, j] - 1
+            aT = A[-1, j]
+            ts = int(np.argmax(A[:, j] <= (1 + EPS) * aT)); eps[j] = A[ts:, j].max() / aT - 1
             dv = (ub[:, j] - ub[:, j].mean()) ** 2; S0 = dv.sum(); bi = ts // 100
             qcl[j] = dv[bi:][cb[bi:, j]].sum() / S0
-            span = slice(int(onset * FS) // 100, bi + 1)
-            qtr[j] = np.sqrt(((ub[span, j] - u0[j]) ** 2).sum() * dv[span].sum()) / S0
-        bound = (KG + Z * eta) * (R + Lam * (np.nan_to_num(eps) + np.sqrt(qcl) * (1 + np.nan_to_num(eps)))) + g * qtr
+            # transient term: from the onset to the settle time, spans in which a stays above half its value at the
+            # span's start; each contributes a_start * Q_span (Cauchy-Schwarz restricted to the span)
+            t0 = int(onset * FS); tr = 0.0
+            while t0 < ts:
+                a0 = A[t0, j]; idx = np.nonzero(A[t0:ts, j] < a0 / 2)[0]
+                t1 = max(t0 + int(idx[0]) if len(idx) else ts, t0 + 1)
+                sp = slice(t0 // 100, (t1 - 1) // 100 + 1)
+                tr += a0 * np.sqrt(((ub[sp, j] - u0[j]) ** 2).sum() * dv[sp].sum()) / S0
+                t0 = t1
+            qtr[j] = tr
+        bound = (KG + Z * eta) * (R + Lam * (eps + np.sqrt(qcl) * (1 + eps))) + g * qtr
         eff = None
         if si in GROWTH:
             gt = GROWTH[si](); eff = np.array([(A[T // 2:, j] * gt[T // 2:]).max() * g[j] for j in range(n)])

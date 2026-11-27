@@ -1,5 +1,5 @@
 REVISION 2 CHECK OF THE MATHEMATICS ONLY (synthetic signals; not evidence about people).
-1-h sessions at 10 Hz unless stated; metric: worst block-mean slope over 2/10/30/60-s blocks, lags 0-300 s, 6 phases; governor {'kappa_g': 0.6, 'z': 3.0, 't_crit': True, 'n_req': 2.0, 'sigma0': 0.01, 'taus': (1800.0, 300.0, 60.0), 'sets': ((10.0, 'step', 5.0), (10.0, 'level', 5.0), (60.0, 'level', 10.0)), 'batch_W': 2.0, 'start_W': 2.0, 'max_lag_s': 300.0, 'ratchet': True}
+1-h sessions at 10 Hz unless stated; metric: worst block-mean slope over 2/10/30/60-s blocks, lags 0-300 s, 6 phases; governor {'kappa_g': 0.6, 'z': 3.0, 't_crit': True, 'n_req': 2.0, 'sigma0': 0.01, 'taus': (1800.0, 300.0, 60.0), 'sets': ((10.0, 'step', 5.0), (10.0, 'level', 5.0), (60.0, 'level', 10.0)), 'batch_W': 2.0, 'start_W': 2.0, 'max_lag_s': 300.0, 'ratchet': True, 'prov_n': None}
 
 R1. F22 scenario, gain-1 copy, causal, u0 = b_id (engine-like): residual / c_k, CURRENT ledger -> REVISION 2
    LP    c 0.35 delay  10 s g/c   2.9: current 0.91 c -> rev2 0.50 c (running 20-min 0.51 c); a final 0.1396 (kappa_g c/g 0.2100); detected    70 s after the delay; ledger stage changed 0.001; with ledger floor E0 0.50 c
@@ -47,7 +47,7 @@ R1. F22 scenario, gain-1 copy, as tests/test_ledger_injected.py builds it (padde
    LAT   c 0.05 delay 180 s g/c  20.0: current 1.21 c -> rev2 0.46 c (running 20-min 0.51 c); a final 0.0202 (kappa_g c/g 0.0300); detected    80 s after the delay; ledger stage changed 0.088; with ledger floor E0 0.45 c
    worst: current 2.01 c, REV2 0.72 c, running 0.68 c, REV2 with ledger floor E0 0.73 c; zero-ceiling max slope 0.0173; attenuate-only True
 
-[  291 s] R2. worst residual / c per ceiling (worst over g/c (1.5, 3.0, 10.0, 33.0)), u0 = b_id
+[  308 s] R2. worst residual / c per ceiling (worst over g/c (1.5, 3.0, 10.0, 33.0)), u0 = b_id
    scenario                                        current | REV2 session: c 0.03  c 0.05  c 0.1   c 0.35 | running 20-min | worst cell (c, g/c) | eff. gain at end | with E0
    copy, delay 90 s (on grid)                         2.77 |            0.61    0.65    0.65    0.68 |   0.75         | (0.35, 33.0) 0.68   | - | 0.68
    copy, delay 47.35 s (off grid)                     2.16 |            1.06    0.57    0.75    0.64 |   0.66         | (0.03, 33.0) 1.06   | - | 1.06
@@ -144,65 +144,17 @@ R1. F22 scenario, gain-1 copy, as tests/test_ledger_injected.py builds it (padde
     
 
    Theorem 1' constants per scenario (max over engaged cells): R, Lambda, eta, eps_a (settle at 1.10 a_T), q_cl, g Q_tr; first term c(kappa_g + z eta)(R + Lambda(eps_a + sqrt(q_cl)(1 + eps_a))) and the whole bound vs measured
-   copy, delay 90 s (on grid)                     R 1.03  Lam 1.65  eta 27.497  eps_a 0.10  q_cl 0.063  g Q_tr 32.47  | first term max 35.08 c  | bound max 41.24 c, measured max 0.68 c, bound >= measured in 16/16 engaged cells
-   copy, delay 47.35 s (off grid)                 R 1.03  Lam 1.68  eta 7.873  eps_a 0.10  q_cl 0.000  g Q_tr 21.05  | first term max 18.25 c  | bound max 32.75 c, measured max 1.06 c, bound >= measured in 16/16 engaged cells
-   copy, delay 213.7 s (off grid)                 R 1.03  Lam 1.83  eta 13.810  eps_a 0.10  q_cl 0.054  g Q_tr 26.81  | first term max 44.08 c  | bound max 51.69 c, measured max 0.87 c, bound >= measured in 16/16 engaged cells
-   copy low-passed 30 s, delay 120 s              R 1.00  Lam 1.12  eta 8.898  eps_a 0.10  q_cl 0.000  g Q_tr 32.10  | first term max 29.95 c  | bound max 42.89 c, measured max 0.84 c, bound >= measured in 16/16 engaged cells
-   spec F22 shape (onset lobe + 60-s lp), 120 s   R 1.00  Lam 1.39  eta 10.248  eps_a 0.10  q_cl 0.078  g Q_tr 29.03  | first term max 29.64 c  | bound max 40.67 c, measured max 0.81 c, bound >= measured in 16/16 engaged cells
-   copy low-passed 120 s, delay 90 s [K3]         R 0.97  Lam 1.58  eta 11.328  eps_a 0.10  q_cl 0.083  g Q_tr 19.74  | first term max 32.85 c  | bound max 35.03 c, measured max 0.95 c, bound >= measured in 16/16 engaged cells
-   copy low-passed 300 s, delay 90 s [K3]         R 0.99  Lam 1.93  eta 6.744  eps_a 0.10  q_cl 0.014  g Q_tr 22.17  | first term max 17.43 c  | bound max 28.82 c, measured max 0.90 c, bound >= measured in 14/14 engaged cells
-   fast echo: 2-s high-passed, delay 30 s [K4]    R 1.20  Lam 3.00  eta 4.388  eps_a 0.10  q_cl 0.058  g Q_tr 11.72  | first term max 16.01 c  | bound max 23.99 c, measured max 0.80 c, bound >= measured in 10/10 engaged cells
-   on 10 s / off 50 s [K5]                        R 1.08  Lam 2.65  eta 3.501  eps_a 0.10  q_cl 0.000  g Q_tr 24.79  | first term max 11.26 c  | bound max 34.63 c, measured max 0.94 c, bound >= measured in 8/8 engaged cells
-   on 6 min / off 24 min [K5]                     R 1.10  Lam 2.56  eta 12.472  eps_a 0.10  q_cl 0.066  g Q_tr 19.01  | first term max 30.75 c  | bound max 32.30 c, measured max 1.26 c, bound >= measured in 16/16 engaged cells
-   gain ramps 0 -> g over the hour [K2]           R 0.67  Lam 0.99  eta 11.949  eps_a 0.10  q_cl 0.000  g Q_tr 32.56  | first term max 20.14 c  | bound max 45.23 c, measured max 0.67 c, bound >= measured in 16/16 engaged cells
-   gain grows exp., theta 600 s [K2]              R 0.33  Lam 0.70  eta 13.199  eps_a 0.10  q_cl 0.000  g Q_tr 32.09  | first term max 8.96 c  | bound max 36.29 c, measured max 0.64 c, bound >= measured in 16/16 engaged cells
-   gain grows exp., theta 300 s [K2]              R 0.31  Lam 0.39  eta 11.191  eps_a 0.10  q_cl 0.000  g Q_tr 34.18  | first term max 10.08 c  | bound max 35.01 c, measured max 0.45 c, bound >= measured in 13/13 engaged cells
-
-[  291 s]
-R3. copies near the target ON TOP OF the counted routes (seed 8, delay 60 s, u0 = b_id): residual / c_k
-   copy g/c 0.8: raw (copy + counted) worst 1.01 c -> rev2 worst 0.72 c (channel LP); by ceiling c 0.03: 0.59, c 0.05: 0.64, c 0.1: 0.60, c 0.15: 0.59, c 0.2: 0.59, c 0.25: 0.59, c 0.3: 0.49, c 0.35: 0.72
-   copy g/c 1.2: raw (copy + counted) worst 1.41 c -> rev2 worst 0.73 c (channel LP); by ceiling c 0.03: 0.57, c 0.05: 0.63, c 0.1: 0.62, c 0.15: 0.61, c 0.2: 0.46, c 0.25: 0.57, c 0.3: 0.49, c 0.35: 0.73
-   copy g/c 2.0: raw (copy + counted) worst 2.21 c -> rev2 worst 0.67 c (channel LP); by ceiling c 0.03: 0.55, c 0.05: 0.63, c 0.1: 0.61, c 0.15: 0.59, c 0.2: 0.41, c 0.25: 0.46, c 0.3: 0.50, c 0.35: 0.67
-   copy g/c 5.0: raw (copy + counted) worst 5.28 c -> rev2 worst 0.90 c (channel JO); by ceiling c 0.03: 0.53, c 0.05: 0.58, c 0.1: 0.90, c 0.15: 0.54, c 0.2: 0.41, c 0.25: 0.41, c 0.3: 0.54, c 0.35: 0.54
-
-R4. counted routes running high (a counted total of slope s c_k at 0.45 s; no unlisted route; u0 = b_id)
-   c 0.03 counted slope 0.50 c -> 0.50 c (a<1 on 0.000 of frames, final a 1.00; ledger stage changed 0.000)
-   c 0.03 counted slope 0.72 c -> 0.61 c (a<1 on 0.961 of frames, final a 0.84; ledger stage changed 0.000)
-   c 0.03 counted slope 0.86 c -> 0.58 c (a<1 on 0.972 of frames, final a 0.46; ledger stage changed 0.000)
-   c 0.03 counted slope 0.98 c -> 0.56 c (a<1 on 0.972 of frames, final a 0.51; ledger stage changed 0.000)
-   c 0.05 counted slope 0.50 c -> 0.50 c (a<1 on 0.000 of frames, final a 1.00; ledger stage changed 0.000)
-   c 0.05 counted slope 0.70 c -> 0.59 c (a<1 on 0.972 of frames, final a 0.85; ledger stage changed 0.020)
-   c 0.05 counted slope 0.86 c -> 0.60 c (a<1 on 0.972 of frames, final a 0.68; ledger stage changed 0.007)
-   c 0.05 counted slope 0.98 c -> 0.55 c (a<1 on 0.978 of frames, final a 0.46; ledger stage changed 0.000)
-   c 0.10 counted slope 0.50 c -> 0.50 c (a<1 on 0.000 of frames, final a 1.00; ledger stage changed 0.000)
-   c 0.10 counted slope 0.72 c -> 0.61 c (a<1 on 0.967 of frames, final a 0.84; ledger stage changed 0.000)
-   c 0.10 counted slope 0.86 c -> 0.58 c (a<1 on 0.933 of frames, final a 0.68; ledger stage changed 0.049)
-   c 0.10 counted slope 0.99 c -> 0.52 c (a<1 on 0.950 of frames, final a 0.51; ledger stage changed 0.000)
-   c 0.35 counted slope 0.51 c -> 0.51 c (a<1 on 0.000 of frames, final a 1.00; ledger stage changed 0.000)
-   c 0.35 counted slope 0.71 c -> 0.59 c (a<1 on 0.967 of frames, final a 0.83; ledger stage changed 0.020)
-   c 0.35 counted slope 0.85 c -> 0.58 c (a<1 on 0.961 of frames, final a 0.61; ledger stage changed 0.030)
-   c 0.35 counted slope 0.99 c -> 0.57 c (a<1 on 0.972 of frames, final a 0.51; ledger stage changed 0.000)
-
-R7. Lemma 0 for revision 2: scale ceilings and the partner-caused part by lambda = 8
-   max |out(8)/8 - out(1)| = 0; max |a(8) - a(1)| = 0
-
-R5. false engagement, counted routes only, u0 = b_id, 60-min sessions, seeds [7, 8, 9, 10, 11, 12, 13, 14]
-   seed 7: governor a<1 on 0.00 % of frames (worst channel), min a 1.00; ledger stage changed 0.00 % (LP), with floor E0 0.00 %; counted-route slope max 0.38 c; |mean - b_id| max 0.053
-   seed 8: governor a<1 on 0.00 % of frames (worst channel), min a 1.00; ledger stage changed 4.81 % (HP), with floor E0 0.00 %; counted-route slope max 0.42 c; |mean - b_id| max 0.065
-   seed 9: governor a<1 on 0.00 % of frames (worst channel), min a 1.00; ledger stage changed 0.23 % (LAT), with floor E0 0.00 %; counted-route slope max 0.40 c; |mean - b_id| max 0.032
-   seed 10: governor a<1 on 0.00 % of frames (worst channel), min a 1.00; ledger stage changed 8.39 % (TILT), with floor E0 0.00 %; counted-route slope max 0.36 c; |mean - b_id| max 0.079
-   seed 11: governor a<1 on 0.00 % of frames (worst channel), min a 1.00; ledger stage changed 1.12 % (EN), with floor E0 0.00 %; counted-route slope max 0.36 c; |mean - b_id| max 0.063
-   seed 12: governor a<1 on 0.00 % of frames (worst channel), min a 1.00; ledger stage changed 0.06 % (F0), with floor E0 0.00 %; counted-route slope max 0.36 c; |mean - b_id| max 0.067
-   seed 13: governor a<1 on 0.00 % of frames (worst channel), min a 1.00; ledger stage changed 3.11 % (PAU), with floor E0 0.00 %; counted-route slope max 0.39 c; |mean - b_id| max 0.051
-   seed 14: governor a<1 on 0.00 % of frames (worst channel), min a 1.00; ledger stage changed 2.86 % (TILT), with floor E0 0.00 %; counted-route slope max 0.36 c; |mean - b_id| max 0.052
-
-R5. false engagement, counted routes only, u0 = b_id, 30-min sessions, seeds [7, 8, 9, 10, 11, 12, 13, 14]
-   seed 7: governor a<1 on 0.00 % of frames (worst channel), min a 1.00; ledger stage changed 0.11 % (PAU), with floor E0 0.00 %; counted-route slope max 0.48 c; |mean - b_id| max 0.119
-   seed 8: governor a<1 on 0.00 % of frames (worst channel), min a 1.00; ledger stage changed 0.09 % (LAT), with floor E0 0.00 %; counted-route slope max 0.50 c; |mean - b_id| max 0.087
-   seed 9: governor a<1 on 0.00 % of frames (worst channel), min a 1.00; ledger stage changed 16.91 % (YAW), with floor E0 0.00 %; counted-route slope max 0.50 c; |mean - b_id| max 0.088
-   seed 10: governor a<1 on 0.00 % of frames (worst channel), min a 1.00; ledger stage changed 10.42 % (VG), with floor E0 0.97 %; counted-route slope max 0.51 c; |mean - b_id| max 0.098
-   seed 11: governor a<1 on 0.00 % of frames (worst channel), min a 1.00; ledger stage changed 7.12 % (RT), with floor E0 0.00 %; counted-route slope max 0.41 c; |mean - b_id| max 0.080
-   seed 12: governor a<1 on 0.00 % of frames (worst channel), min a 1.00; ledger stage changed 1.50 % (F0), with floor E0 0.00 %; counted-route slope max 0.44 c; |mean - b_id| max 0.084
-   seed 13: governor a<1 on 0.00 % of frames (worst channel), min a 1.00; ledger stage changed 15.78 % (PAU), with floor E0 4.61 %; counted-route slope max 0.44 c; |mean - b_id| max 0.141
-   seed 14: governor a<1 on 0.00 % of frames (worst channel), min a 1.00; ledger stage changed 1.70 % (PAU), with floor E0 0.00 %; counted-route slope max 0.40 c; |mean - b_id| max 0.064
+   copy, delay 90 s (on grid)                     R 1.04  Lam 1.65  eta 0.210  eps_a 0.10  q_cl 0.063  g Q_tr 1.39  | first term max 1.44 c  | bound max 2.37 c, measured max 0.68 c, bound >= measured in 16/16 engaged cells
+   copy, delay 47.35 s (off grid)                 R 1.03  Lam 1.68  eta 0.128  eps_a 0.10  q_cl 0.000  g Q_tr 3.69  | first term max 1.16 c  | bound max 4.74 c, measured max 1.06 c, bound >= measured in 16/16 engaged cells
+   copy, delay 213.7 s (off grid)                 R 1.06  Lam 1.83  eta 0.141  eps_a 0.10  q_cl 0.054  g Q_tr 2.52  | first term max 1.15 c  | bound max 3.56 c, measured max 0.87 c, bound >= measured in 16/16 engaged cells
+   copy low-passed 30 s, delay 120 s              R 1.00  Lam 1.43  eta 0.208  eps_a 0.10  q_cl 0.000  g Q_tr 2.42  | first term max 1.27 c  | bound max 3.69 c, measured max 0.84 c, bound >= measured in 16/16 engaged cells
+   spec F22 shape (onset lobe + 60-s lp), 120 s   R 1.02  Lam 1.43  eta 0.152  eps_a 0.10  q_cl 0.078  g Q_tr 3.29  | first term max 1.34 c  | bound max 4.34 c, measured max 0.81 c, bound >= measured in 16/16 engaged cells
+   copy low-passed 120 s, delay 90 s [K3]         R 0.97  Lam 1.58  eta 0.434  eps_a 0.10  q_cl 0.083  g Q_tr 4.45  | first term max 2.02 c  | bound max 5.34 c, measured max 0.95 c, bound >= measured in 16/16 engaged cells
+   copy low-passed 300 s, delay 90 s [K3]         R 0.99  Lam 1.93  eta 0.188  eps_a 0.10  q_cl 0.014  g Q_tr 7.69  | first term max 1.45 c  | bound max 8.55 c, measured max 0.90 c, bound >= measured in 14/14 engaged cells
+   fast echo: 2-s high-passed, delay 30 s [K4]    R 1.23  Lam 3.51  eta 0.036  eps_a 0.10  q_cl 0.058  g Q_tr 6.87  | first term max 1.60 c  | bound max 8.47 c, measured max 0.80 c, bound >= measured in 10/10 engaged cells
+   on 10 s / off 50 s [K5]                        R 1.16  Lam 2.75  eta 0.116  eps_a 0.10  q_cl 0.000  g Q_tr 12.68  | first term max 1.20 c  | bound max 13.88 c, measured max 0.94 c, bound >= measured in 8/8 engaged cells
+   on 6 min / off 24 min [K5]                     R 1.12  Lam 2.60  eta 0.116  eps_a 0.10  q_cl 0.066  g Q_tr 1.29  | first term max 1.43 c  | bound max 2.13 c, measured max 1.26 c, bound >= measured in 16/16 engaged cells
+   gain ramps 0 -> g over the hour [K2]           R 0.85  Lam 1.34  eta 0.176  eps_a 0.10  q_cl 0.000  g Q_tr 4.22  | first term max 1.04 c  | bound max 4.96 c, measured max 0.67 c, bound >= measured in 16/16 engaged cells
+   gain grows exp., theta 600 s [K2]              R 0.79  Lam 1.53  eta 0.246  eps_a 0.10  q_cl 0.000  g Q_tr 20.29  | first term max 0.89 c  | bound max 20.81 c, measured max 0.64 c, bound >= measured in 16/16 engaged cells
+   gain grows exp., theta 300 s [K2]              R 0.73  Lam 2.70  eta 3.303  eps_a 0.10  q_cl 0.000  g Q_tr 28.35  | first term max 8.59 c  | bound max 28.75 c, measured max 0.45 c, bound >= measured in 13/13 engaged cells
 
