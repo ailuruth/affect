@@ -371,18 +371,22 @@ def check_a12(root) -> list:
     return scan(root)
 
 
-def check_a8(L_d: np.ndarray, W: np.ndarray | None = None) -> list:
-    """A8 (load, 2 Hz): |L_d,k| <= 0.45; TILT, HP, VG, FR, EN rows of L_d are 0 under D70. Returns violations
-    (fail-safe: L_d <- 0)."""
+def check_a8(L_d: np.ndarray, W: np.ndarray | None = None, streams=None) -> list:
+    """A8 (load, 2 Hz): |L_d,k| <= 0.45; every L_d row whose dyad stream is not in `dyad_streams` is 0 (D70 widened
+    by D95: TILT, HP with head_pose, VG with gaze, FR, EN with voice_features; innate `listener_display_stream_rows`).
+    `streams` defaults to the operator switch. Returns violations (fail-safe: L_d <- 0)."""
     from engine.config.channels import TABLE
     from engine.config.innate import ENTRIES
+    from engine.routes.learned_t import listener_display_rows
     bound = ENTRIES["listener_display_max"].value
-    zero = [TABLE.index(c) for c in ENTRIES["listener_display_zero_rows"].value]
+    out_rows, zero = listener_display_rows(streams)
     v = np.asarray(L_d, dtype=np.float64)
     out = [(TABLE.codes[k], "above 0.45") for k in range(v.shape[0]) if abs(v[k]) > bound + 1e-12]
-    out += [(TABLE.codes[k], "row without a D70 target is not 0") for k in zero if v[k] != 0.0]
+    out += [(TABLE.codes[k], "row without an approved dyad stream is not 0") for k in zero if v[k] != 0.0]
     if W is not None and not np.all(np.isfinite(W)):
         out.append(("W", "non-finite weights"))
+    if W is not None and np.shape(W)[0] != len(out_rows):
+        out.append(("W", "rows do not match the approved dyad streams"))
     return out
 
 

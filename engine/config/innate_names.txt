@@ -98,7 +98,7 @@ ledger_tau_budget_s
 ledger_tau_centre_s
 listener_display_form
 listener_display_max
-listener_display_zero_rows
+listener_display_stream_rows
 loop_rates_hz
 loud_threshold
 lr_gate_coeff
@@ -149,6 +149,7 @@ theta0_pull
 theta_end_default
 token_estimate
 trace_taus_s
+turn_model_form
 turn_silence_min_s
 voice_onset_after_deadline_s
 voice_pause_s

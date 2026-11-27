@@ -158,7 +158,7 @@ def test_a8_failsafe_sets_l_d_to_zero():
     def bad(inp):
         orig(inp)
         v = np.zeros(33)
-        v[TABLE.index("TILT")] = 0.1                                # a row with no D70 target
+        v[TABLE.index("TILT")] = 0.6                                # above the 0.45 bound (TILT has a target, D95)
         object.__setattr__(pair.factual.body, "L_d", v)
     pair.factual.body._tick = bad
     _drive(pair, U, words=False)

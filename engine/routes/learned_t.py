@@ -2,13 +2,18 @@
 model (p_end, hazard, theta_end) and omega. Frozen after the offline fit; **T inputs only** (rule 14).
 
 UNTRAINED STUBS with their fixed shapes (`trained = False`); M3 (dyad fit) and M8 (replay, omega) write the weights:
-  - ListenerDisplay: ridge W (6 outputs x 140), the outputs BI, BO, LD, LP, CR, RT; features (1, V, A, T, Lambda(3)) of
-    his last utterance times a one-hot 2-s time-since bin over 0-20 s, for each of the turn events his_utterance_end
-    and session_start (2 x 10 x 7 = 140). TILT, HP, VG, FR, EN rows are never written (no target under D70; A8).
+  - ListenerDisplay: ridge W (outputs x 140), the outputs BI, BO, LD, LP, CR, RT plus the rows each approved dyad
+    stream unlocks (D95; innate `listener_display_stream_rows`: head_pose -> HP, TILT; gaze -> VG; voice_features ->
+    FR, EN), never a row of the own-display mask; features (1, V, A, T, Lambda(3)) of his last utterance times a
+    one-hot 2-s time-since bin over 0-20 s, for each of the turn events his_utterance_end and session_start
+    (2 x 10 x 7 = 140). A row whose stream is not in `dyad_streams` is never written (held at 0; A8).
     Untrained: W = 0, so L_d = 0 (its disabled state).
   - QHat: monotone additive logistic model (the gate form) on (Lambda_V of his last two turns, Lambda_V of the agent's
     last turn through port P2, turn order, surprisal). Untrained: its base rate, here 0 (no own laugh).
-  - TurnModel: logistic p_end and hazard (~100 weights each); theta_end = 0.5 until the val fit. Untrained: weights 0.
+  - TurnModel: logistic p_end and hazard (50 to 64 inputs each, plus a bias); inputs from innate `turn_model_form`: the
+    base inputs, both people's 23 AU columns, and both people's head (HP, YAW, TILT), gaze (VG, HG) and pitch (F0, FR)
+    channels when head_pose, gaze, voice_features are in `dyad_streams` (D95). theta_end = 0.5 until the val fit.
+    Untrained: weights 0.
   - Omega: per-group omega in [-1, 1]; prior of a new person; the one omega_rule (S37), applied per session
     in replay (M8) from inputs replay computes (rho_rel, h_bar).
 """
@@ -18,19 +23,48 @@ import numpy as np
 
 from engine.config.channels import TABLE
 from engine.config.innate import ENTRIES
+from engine.config.operator import require
 from engine.routes.gates import MonotoneAdditive
 
 _LDF = ENTRIES["listener_display_form"].value
-LD_OUT = tuple(TABLE.index(c) for c in _LDF["outputs"])
-LD_ZERO_ROWS = tuple(TABLE.index(c) for c in ENTRIES["listener_display_zero_rows"].value)
+_STREAM_ROWS = ENTRIES["listener_display_stream_rows"].value
+_MASK = ENTRIES["own_display_mask"].value
+_MASKED = frozenset(_MASK["zero"]) | frozenset(_MASK["own_rise_only"])
 LD_MAX = ENTRIES["listener_display_max"].value
 N_FEAT, N_BINS, BIN_S = _LDF["features"], _LDF["bins"], _LDF["bin_s"]
 N_EVENTS = len(_LDF["turn_events"])
+TABLE_N = len(TABLE.codes)
+
+
+def dyad_streams() -> frozenset:
+    """The approved dyad streams (operator switch `dyad_streams`, Q30; D70 widened by D95)."""
+    return frozenset(require("dyad_streams")["dyad_streams"])
+
+
+def listener_display_rows(streams=None) -> tuple:
+    """(output rows, zero rows) of L_d as channel indices. Outputs: the fixed outputs of `listener_display_form`, then
+    the rows the approved streams unlock, in channel order, none on the own-display mask. Zero rows: every
+    stream-unlocked row whose stream is not approved (A8)."""
+    s = dyad_streams() if streams is None else frozenset(streams)
+    gated = {c for rows in _STREAM_ROWS.values() for c in rows}
+    unlocked = {c for st, rows in _STREAM_ROWS.items() if st in s for c in rows}
+    codes = list(_LDF["outputs"]) + [c for c in TABLE.codes if c in unlocked and c not in _LDF["outputs"]]
+    out = tuple(TABLE.index(c) for c in codes if c not in _MASKED)
+    zero = tuple(TABLE.index(c) for c in TABLE.codes if c in gated - unlocked)
+    assert not set(out) & set(zero)
+    return out, zero
+
+
+LD_OUT, LD_ZERO_ROWS = listener_display_rows()
 
 
 class ListenerDisplay:
-    def __init__(self):
-        self.W = np.zeros((len(LD_OUT), N_EVENTS * N_BINS * N_FEAT))
+    def __init__(self, streams=None):
+        self.out, self.zero_rows = listener_display_rows(streams)
+        self.W = np.zeros((len(self.out), N_EVENTS * N_BINS * N_FEAT))
+        self._place = np.zeros((TABLE_N, len(self.out)))
+        for i, k in enumerate(self.out):
+            self._place[k, i] = 1.0
         self.trained = False
         self.disabled = False
 
@@ -46,17 +80,12 @@ class ListenerDisplay:
         return np.concatenate(blocks)
 
     def __call__(self, phi):
-        """L_d in R^33: the 6 outputs at their channels, |L_d,k| <= 0.45, every other row 0."""
+        """L_d in R^33: the outputs at their channels, |L_d,k| <= 0.45, every other row 0."""
         if self.disabled:
             return np.zeros(TABLE_N)
-        return _PLACE @ np.clip(self.W @ phi, -LD_MAX, LD_MAX)
+        return self._place @ np.clip(self.W @ phi, -LD_MAX, LD_MAX)
 
 
-TABLE_N = len(TABLE.codes)
-_PLACE = np.zeros((TABLE_N, len(LD_OUT)))
-for _i, _k in enumerate(LD_OUT):
-    _PLACE[_k, _i] = 1.0
-assert not set(LD_OUT) & set(LD_ZERO_ROWS)
 QHAT_INPUTS = tuple(ENTRIES["qhat_form"].value["inputs"])
 
 
@@ -65,13 +94,30 @@ class QHat(MonotoneAdditive):
         super().__init__(QHAT_INPUTS, "logistic", 0.0)
 
 
+_TMF = ENTRIES["turn_model_form"].value
+
+
+def turn_model_inputs(streams=None) -> tuple:
+    """Names of the turn model's inputs: the base inputs, both people's AU columns, then both people's channels of
+    each approved stream (head_pose, gaze, voice_features: head, gaze and pitch; D95), in the innate order."""
+    s = dyad_streams() if streams is None else frozenset(streams)
+    names = list(_TMF["base"])
+    people = [f"p{i}" for i in range(_TMF["people"])]
+    names += [f"{p}_au{j}" for p in people for j in range(_TMF["au_columns"])]
+    for st, chans in _TMF["stream_inputs"].items():
+        if st in s:
+            names += [f"{p}_{c}" for p in people for c in chans]
+    return tuple(names)
+
+
 class TurnModel:
     """p_end and hazard h(t): logistic models (inputs: silence length, syntactic completion, the question bit of the
-    last turn and whose, both people's AU channels). theta_end default before the val fit."""
+    last turn and whose, both people's AU channels, and both people's head, gaze and pitch channels when those
+    streams are approved; D95). theta_end default before the val fit."""
 
-    N_IN = 4 + 2 * 23
-
-    def __init__(self):
+    def __init__(self, streams=None):
+        self.inputs = turn_model_inputs(streams)
+        self.N_IN = len(self.inputs)
         self.w_end = np.zeros(self.N_IN + 1)
         self.w_haz = np.zeros(self.N_IN + 1)
         self.theta_end = ENTRIES["theta_end_default"].value

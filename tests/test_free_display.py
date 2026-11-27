@@ -65,19 +65,79 @@ def test_delta_respects_the_own_display_mask():
     assert dl.mask_violations()                                   # the raw synergy matrix itself writes them: A7
 
 
+FACE_ONLY = {"FAUValue", "is_valid", "transcript"}
+ALL_STREAMS = FACE_ONLY | {"head_pose", "gaze", "voice_features"}
+
+
 def test_listener_display_form_bound_and_zero_rows():
+    """D95: every stream approved, so L_d has 11 output rows (BI, BO, LD, LP, CR, RT, HP, VG, TILT, FR, EN)."""
     ld = LT.ListenerDisplay()
-    assert ld.W.shape == (6, 140)
+    assert ld.W.shape == (11, 140) and LT.LD_ZERO_ROWS == ()
+    assert [TABLE.codes[k] for k in ld.out] == ["BI", "BO", "LD", "LP", "CR", "RT", "HP", "VG", "TILT", "FR", "EN"]
+    assert np.all(ld(ld.features(np.array([0.5, 0.2, 0.1]), np.zeros(3), 3.1, 30.0)) == 0)    # untrained: L_d = 0
     ld.W = 5.0 * np.random.default_rng(1).normal(size=ld.W.shape)
     phi = ld.features(np.array([0.5, 0.2, 0.1]), np.array([0.3, 0.0, 0.1]), 3.1, 30.0)
     assert phi.shape == (140,) and phi.sum() > 0
     v = ld(phi)
-    assert np.abs(v).max() <= 0.45 and check_a8(v) == []
-    assert np.all(v[list(LT.LD_ZERO_ROWS)] == 0)
+    assert np.abs(v).max() <= 0.45 and check_a8(v, ld.W) == []
+    assert np.all(v[[C[c] for c in ("TILT", "HP", "VG", "FR", "EN")]] != 0)
+    others = [k for k in range(33) if k not in ld.out]
+    assert np.all(v[others] == 0)
     assert np.all(ld(ld.features(np.zeros(3), np.zeros(3), None, 25.0)) == 0)    # no event in the last 20 s
-    bad = v.copy()
-    bad[C["HP"]] = 0.01
-    assert check_a8(bad) and check_a8(np.full(33, 0.5))
+    assert check_a8(np.full(33, 0.5))
+
+
+@pytest.mark.parametrize("removed, zero", [
+    ({"head_pose", "gaze", "voice_features"}, ["HP", "VG", "TILT", "FR", "EN"]),
+    ({"head_pose"}, ["HP", "TILT"]),
+    ({"gaze"}, ["VG"]),
+    ({"voice_features"}, ["FR", "EN"]),
+    (set(), []),
+])
+def test_listener_display_zero_rows_follow_dyad_streams(removed, zero):
+    streams = ALL_STREAMS - removed
+    out, zr = LT.listener_display_rows(streams)
+    assert [TABLE.codes[k] for k in zr] == zero
+    assert not set(out) & set(zr) and len(out) == 11 - len(zero)
+    ld = LT.ListenerDisplay(streams)
+    assert ld.W.shape == (11 - len(zero), 140)
+    ld.W = 5.0 * np.random.default_rng(2).normal(size=ld.W.shape)
+    v = ld(ld.features(np.array([0.5, 0.2, 0.1]), np.array([0.3, 0.0, 0.1]), 3.1, 30.0))
+    assert np.all(v[list(zr)] == 0) and check_a8(v, ld.W, streams) == []
+    for c in zero:                                                  # a written row without its stream: A8
+        bad = v.copy()
+        bad[C[c]] = 0.01
+        assert (c, "row without an approved dyad stream is not 0") in check_a8(bad, streams=streams)
+    if zero:                                                        # weights fitted for a wider scope: A8
+        assert ("W", "rows do not match the approved dyad streams") in check_a8(v, LT.ListenerDisplay().W, streams)
+
+
+def test_listener_display_never_writes_the_own_display_mask():
+    mask = FD._MASK["zero"] + FD._MASK["own_rise_only"]
+    for streams in (FACE_ONLY, ALL_STREAMS):
+        out, _ = LT.listener_display_rows(streams)
+        assert not {TABLE.codes[k] for k in out} & set(mask)
+
+
+@pytest.mark.parametrize("streams, n_in", [
+    (FACE_ONLY, 4 + 2 * 23),
+    (FACE_ONLY | {"head_pose"}, 4 + 2 * 23 + 2 * 3),
+    (FACE_ONLY | {"gaze"}, 4 + 2 * 23 + 2 * 2),
+    (FACE_ONLY | {"voice_features"}, 4 + 2 * 23 + 2 * 2),
+    (ALL_STREAMS, 4 + 2 * 23 + 2 * 7),
+])
+def test_turn_model_input_shape(streams, n_in):
+    tm = LT.TurnModel(streams)
+    assert tm.N_IN == n_in == len(tm.inputs) == len(set(tm.inputs))
+    assert tm.w_end.shape == tm.w_haz.shape == (n_in + 1,)
+    assert np.all(tm.w_end == 0) and np.all(tm.w_haz == 0) and not tm.trained
+    assert tm.p_end(np.ones(n_in)) == 0.5                          # untrained: weights 0
+    assert tm.hazard(np.ones(n_in)) == LT.ENTRIES["hazard_without_fit_per_s"].value
+    if "head_pose" in streams:
+        assert {"p0_HP", "p1_YAW", "p1_TILT"} <= set(tm.inputs)
+    if "voice_features" in streams:
+        assert {"p0_F0", "p1_FR"} <= set(tm.inputs)
+    assert LT.TurnModel().N_IN == 4 + 2 * 23 + 2 * 7               # the operator's current scope (D95)
 
 
 def test_omega_rule():
