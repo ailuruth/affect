@@ -62,8 +62,9 @@ def engine_baseline(n, seed, mean_lens=None, signed=None, sessions=12, T_prev=No
 # ---------------------------------------------------------------- the revised governor
 GOV2 = dict(
     kappa_g=0.60,          # target, fraction of c_k (ceiling)
-    z=3.0,                 # confidence multiplier
-    n_req=3.0,             # evidence: effective number of independent batches of his movement before a key may engage
+    z=3.0,                 # confidence level, as a normal multiplier (one-sided p = 0.00135)
+    t_crit=True,           # small-sample: the multiplier is Student's t at that level with n_eff - 1 degrees of freedom
+    n_req=4.0,             # evidence: effective number of independent batches of his movement before a key may engage
     sigma0=0.01,           # floor on his window-mean SD (his units), as revision 1
     taus=(1800.0, 300.0),  # two memories: the ledger's budget time and a short one; their latches combine by max slope
     # key sets: (window W s, kind, lag step s), lags 0..300 s. 'step': change of the W-window mean over one window
@@ -75,6 +76,17 @@ GOV2 = dict(
     max_lag_s=300.0,
     ratchet=True,          # a_k never rises within a session once lowered
 )
+
+
+def t_mult(z, df):
+    """Student-t quantile at the one-sided level of the normal multiplier z, df degrees of freedom (Cornish-Fisher
+    expansion, Abramowitz-Stegun 26.7.5; within a few % of the exact quantile for df >= 3, below it for df < 3, so the
+    n_req floor of 2 batches stays the binding guard there)."""
+    df = np.maximum(df, 1.0)
+    g1 = (z ** 3 + z) / 4; g2 = (5 * z ** 5 + 16 * z ** 3 + 3 * z) / 96
+    g3 = (3 * z ** 7 + 19 * z ** 5 + 17 * z ** 3 - 15 * z) / 384
+    g4 = (79 * z ** 9 + 776 * z ** 7 + 1482 * z ** 5 - 1920 * z ** 3 - 945 * z) / 92160
+    return z + g1 / df + g2 / df ** 2 + g3 / df ** 3 + g4 / df ** 4
 
 
 class Governor2:
@@ -89,7 +101,8 @@ class Governor2:
                   increments, se^2 = sum_b w_b^2 (P_b - beta E_b)^2 / (sum_b w_b E_b)^2 * n/(n-1), and the effective
                   number of independent batches n = (sum_b w_b E_b)^2 / sum_b w_b^2 E_b^2 (one large start-of-session
                   step counts as one batch however large it is)
-      engage      n >= n_req and beta - z se > kappa_g c_k; release when beta <= kappa_g c_k
+      engage      n >= n_req and beta - z_n se > kappa_g c_k, z_n = Student's t multiplier at z's level with n - 1
+                  degrees of freedom (z itself without t_crit); release when beta <= kappa_g c_k
       target      kappa_g c_k / (max over engaged keys and memories of beta)
       gain        a_k(t) = min(a_k(t-1), target)   (ratchet: never rises within a session)
     Every output-side threshold is a multiple of c_k; absolute quantities are on his signal (sigma0) or on time."""
@@ -158,7 +171,8 @@ class Governor2:
                 var = np.maximum(s["A11"] - 2 * beta * s["A12"] + beta * beta * s["A22"], 0) / (Ebf * Ebf)
                 se = np.sqrt(var * neff / np.maximum(neff - 1.0, 1e-9))
                 enough = neff >= p["n_req"]
-                s["latch"] = (enough & (beta - p["z"] * se > tgt)) | (s["latch"] & (beta > tgt))
+                zz = t_mult(p["z"], neff - 1.0) if p.get("t_crit") else p["z"]
+                s["latch"] = (enough & (beta - zz * se > tgt)) | (s["latch"] & (beta > tgt))
                 s["beta"], s["se"], s["neff"] = beta, se, neff
                 bmax = np.maximum(bmax, np.max(np.where(s["latch"], beta, 0.0), 1))
         target = np.clip(np.where(bmax > 0, tgt[:, 0] / np.where(bmax > 0, bmax, 1.0), 1.0), 0.0, 1.0)
@@ -192,7 +206,7 @@ def run2(U, X, c, u0, net="new", led_E0=None, led_kappa=0.70, record_a=False, go
     T, n = U.shape
     led = (LedgerE0(c, led_E0, led_kappa) if led_E0 is not None else Ledger(c, kappa=led_kappa)) if ledger else None
     gov = Governor2(c, u0, gov_p) if net == "new" else None
-    O = np.empty_like(X); A = np.ones((T, n), np.float32) if record_a else None
+    O = np.empty_like(X); A = np.ones((T, n)) if record_a else None
     for t in range(T):
         x = X[t]
         if gov is not None:
@@ -203,6 +217,15 @@ def run2(U, X, c, u0, net="new", led_E0=None, led_kappa=0.70, record_a=False, go
     hits = led.hits / T if led is not None else np.zeros(n)
     eng = gov.engaged / T if gov is not None else np.zeros(n)
     return O, hits, eng, A, gov
+
+
+def ledger_only(U, X, c, E0=None):
+    """The ledger stage alone on a given input (e.g. the governor's output A * X), optionally with the floor E0."""
+    led = LedgerE0(c, E0) if E0 else Ledger(c)
+    O = np.empty_like(X)
+    for t in range(U.shape[0]):
+        O[t] = led.step(U[t], X[t])
+    return O, led.hits / U.shape[0]
 
 
 def causal_copy(u, D_s, u0):
