@@ -3,7 +3,7 @@
 Synthetic signals only (the recipe of tests/synth.py, rewritten here in numpy). These runs check the arithmetic of
 the design; they are not evidence about people or behaviour.
 
-Usage: python3 -I check.py [quick]      (numpy only; about 3-5 min in full, under 1 min with 'quick')
+Usage: python3 -I check.py [quick] > check.out.txt   (numpy only; about 9 min in full, about 1.5 min with quick)
 Sections:
   A  the gap reproduced: the current ledger (engine/shadow/ledger.py, re-implemented verbatim) on F22's scenario
   B  the diagnosis: the current ledger's residual / c is a function of g / c (copy gain over ceiling), not of c
@@ -11,6 +11,8 @@ Sections:
   D  the new net over the (c, g/c) grid of B, with on-grid and off-grid delays and a low-passed copy
   E  the cost: natural partners with the counted routes only (frames the governor or the ledger change)
   F  sensitivity: an absolute (not c-scaled) noise floor in the partner-caused part
+  G  the cost when the counted routes themselves run above kappa_g c (an extreme partner)
+  H  copies near the target, on top of the counted routes (where estimation noise matters most)
 """
 import sys
 import time
@@ -163,8 +165,11 @@ class Ledger:
 
 
 # ---------------------------------------------------------------- the new stage: the scaled gain governor
-GOV = dict(kappa_g=0.60, z=3.0, n_min=1.0, sigma0=0.01, tau_s=1800.0, grid={2.0: (1.0, 5.0), 10.0: (2.0, 0.0), 60.0: (10.0, 0.0)}, max_lag_s=300.0)
-# grid: window W (s) -> (lag step s, first lag s). The 2-s window starts at 5 s, above the fast reflex's echo band.
+GOV = dict(kappa_g=0.60, z=3.0, n_min=0.25, sigma0=0.01, tau_s=1800.0,
+           grid={10.0: (2.0, 0.0), 60.0: (10.0, 0.0)}, max_lag_s=300.0)
+# grid: window W (s) -> (lag step s, first lag s). n_min: evidence per key before it may engage, in units of 2 W f_s
+# frames (5 s at the 10-s window, 30 s at the 60-s window). A 2-s window was tried and dropped: on the natural partners
+# it engaged on 6-21 % of frames from keys holding a few seconds of evidence (see the design, section 4).
 
 
 class Governor:
@@ -308,7 +313,11 @@ def grid_run(delay_s, net, lowpass=None):
     Xg = np.zeros((T, ng))
     for j, (cc, gg) in enumerate(grid):
         d = copy_route(Ug[:, j], delay_s, 1.0, True)
-        if lowpass:
+        if lowpass == "lobe":    # spec F22's shape: onset lobe (rectified 4-s high-pass) + 60-s low-pass, then delayed
+            m0 = Ug[:, j].mean(); v = Ug[:, j] - m0
+            e = v - lp(v[:, None], 4.0)[:, 0]
+            d = copy_route(np.maximum(e, 0) + lp(v[:, None], 60.0)[:, 0] + m0, delay_s, 1.0, True)
+        elif lowpass:
             d = lp(d[:, None], lowpass)[:, 0]
         Xg[:, j] = gg * cc * d
     O, h, e, _ = run(Ug, Xg, cg, net)
@@ -329,7 +338,8 @@ show_grid("B. CURRENT ledger, causal copy delayed 90 s: residual / c by ceiling 
 # ---------------------------------------------------------------- D: the new net over the grid
 for dl, lpz, title in ((90.0, None, "delay 90 s (on the key grid)"), (47.35, None, "delay 47.35 s (off every grid)"),
                        (213.7, None, "delay 213.7 s (off every grid)"),
-                       (120.0, 30.0, "delay 120 s, copy low-passed tau 30 s")):
+                       (120.0, 30.0, "delay 120 s, copy low-passed tau 30 s"),
+                       (120.0, "lobe", "delay 120 s, spec F22 shape (onset lobe + 60-s low-pass)")):
     if QUICK and dl not in (90.0, 47.35):
         continue
     rD, rawD, eD = grid_run(dl, "new", lpz)
@@ -337,8 +347,10 @@ for dl, lpz, title in ((90.0, None, "delay 90 s (on the key grid)"), (47.35, Non
 
 # ---------------------------------------------------------------- E: the cost on natural partners
 stamp("E. cost: natural partners, counted routes only (fast gear 0.45 s + held 2-min route 0.22 c_k), no unlisted route")
-for seed in ((7, 8) if not QUICK else (7,)):
+for seed in ((7, 8, 9, 10) if not QUICK else (7,)):
     Un = partners(33, seed, SIGNED)
+    if seed == 10:  # livelier: every channel with 30-s mood blocks
+        r10 = np.random.default_rng(10); Un = np.stack([partner(T, r10, 30.0) - (0.4 if SIGNED[k] else 0) for k in range(33)], 1)
     Y = np.zeros_like(Un)
     for k in range(33):
         m0 = Un[:, k].mean(); xd = delay(Un[:, k], 0.45 * FS); xd[:5] = m0  # before the session: the neutral partner
@@ -353,6 +365,20 @@ for seed in ((7, 8) if not QUICK else (7,)):
           f"{en[CAPPED].max():.4f} of frames (worst channel), mean {en[CAPPED].mean():.4f}")
 print()
 
+# ---------------------------------------------------------------- G: the cost on an extreme partner (counted routes high)
+stamp("G. cost when the COUNTED routes themselves run high (a counted total of slope s c_k at 0.45 s, no unlisted route)")
+Ux = partners(4 * len(CS), 77, [False] * (4 * len(CS)))
+SS = (0.50, 0.70, 0.85, 0.974)
+cx = np.array([cc for cc in CS for _ in SS]); sx = np.array([ss for _ in CS for ss in SS])
+Xx = np.stack([sx[j] * cx[j] * (delay(Ux[:, j], 4.5) - Ux[:, j].mean()) for j in range(len(cx))], 1)
+Xx[:5] = 0.0
+Ox, hx, ex, Ax = run(Ux, Xx, cx, "new", record_a=True)
+rx = worst_block_slope(Ux, Ox) / cx
+for j in range(len(cx)):
+    print(f"   c {cx[j]:.2f}  counted slope {sx[j]:.3f} c -> after {rx[j]:.2f} c  (governor a<1 on {ex[j]:.3f} of frames, final a {Ax[-1, j]:.2f};"
+          f" ledger stage changed {hx[j]:.3f})")
+print()
+
 # ---------------------------------------------------------------- F: absolute noise floor sensitivity
 stamp("F. sensitivity: gain-1.5 c copy (90 s) plus ABSOLUTE white noise sigma_abs in the partner-caused part")
 for sab in ((0.0, 0.005, 0.02) if not QUICK else (0.02,)):
@@ -363,5 +389,25 @@ for sab in ((0.0, 0.005, 0.02) if not QUICK else (0.02,)):
     O, h, e, _ = run(Ug, Xg, cg, "new")
     res = worst_block_slope(Ug, O) / cg
     show_grid(f"F. NEW net, sigma_abs {sab}: residual / c (governor engaged on natural noise is the cost)", res)
+
+# ---------------------------------------------------------------- H: near the threshold, on top of the counted routes
+stamp("H. copies near and above the target ON TOP OF the counted routes (natural partner seed 8, delay 60 s): residual / c_k")
+Uh = partners(33, 8, SIGNED)
+Yh = np.zeros_like(Uh)
+for k in range(33):
+    m0 = Uh[:, k].mean(); xd = delay(Uh[:, k], 0.45 * FS); xd[:5] = m0
+    e = xd - (m0 + lp((xd - m0)[:, None], 4.0)[:, 0])
+    Yh[:, k] = GAIN[k] * (np.maximum(e, 0) if not SIGNED[k] else e) + 0.22 * CEIL[k] * lp((Uh[:, k] - m0)[:, None], 120.0)[:, 0]
+GH = (0.5, 0.8, 1.0, 1.2, 2.0, 5.0) if not QUICK else (1.0, 2.0)
+rows = {}
+for gh in GH:
+    Xh = Yh + np.stack([copy_route(Uh[:, k], 60.0, gh * CEIL[k], True) for k in range(33)], 1)
+    Oh, hh, eh, Ah = run(Uh, Xh, CEIL, "new", record_a=True)
+    rows[gh] = (worst_block_slope(Uh, Xh), worst_block_slope(Uh, Oh), Ah[-1])
+print("   chan   c    " + "".join(f"  g/c {gh:<4} raw->new" for gh in GH))
+for k in CAPPED:
+    print(f"   {CODES[k]:<5} {CEIL[k]:.2f} " + "".join(f"   {rows[gh][0][k] / CEIL[k]:5.2f}->{rows[gh][1][k] / CEIL[k]:4.2f}" for gh in GH))
+print("   worst new: " + "  ".join(f"g/c {gh}: {max(rows[gh][1][k] / CEIL[k] for k in CAPPED):.2f} c" for gh in GH))
+print()
 
 stamp("done")

@@ -1,112 +1,93 @@
 CHECK OF THE MATHEMATICS ONLY (synthetic signals; not evidence about people).
 session 3600 s at 10 Hz; metric: worst block-mean slope over blocks 2/10/30/60 s, lags 0-300 s, 6 phases
 
-[   31 s] A/C. F22 scenario, gain-1 copy, F22 construction as written (padded, minus session mean): residual / c_k, CURRENT ledger vs NEW net
-   LP    c 0.35  delay  10 s  g/c   2.9  before    2.9 c  current 1.07 c  NEW 0.61 c  [a final 0.210 vs kappa_g c/g 0.210; detected 30.1 s after the delay; ledger stage changed 0.000]
-   CR    c 0.25  delay  20 s  g/c   4.0  before    4.0 c  current 0.97 c  NEW 0.61 c  [a final 0.150 vs kappa_g c/g 0.150; detected 45.4 s after the delay; ledger stage changed 0.009]
-   BU_L  c 0.35  delay  40 s  g/c   2.9  before    2.9 c  current 0.94 c  NEW 0.57 c  [a final 0.210 vs kappa_g c/g 0.210; detected 30.1 s after the delay; ledger stage changed 0.054]
-   RHY   c 0.30  delay  60 s  g/c   3.3  before    3.4 c  current 1.31 c  NEW 0.72 c  [a final 0.180 vs kappa_g c/g 0.180; detected 54.2 s after the delay; ledger stage changed 0.014]
-   BRE   c 0.15  delay  90 s  g/c   6.7  before    6.7 c  current 0.86 c  NEW 0.44 c  [a final 0.090 vs kappa_g c/g 0.090; detected 30.1 s after the delay; ledger stage changed 0.360]
-   BI    c 0.20  delay 120 s  g/c   5.0  before    5.1 c  current 1.06 c  NEW 0.62 c  [a final 0.120 vs kappa_g c/g 0.120; detected 28.1 s after the delay; ledger stage changed 0.000]
-   BO    c 0.10  delay 150 s  g/c  10.0  before   10.1 c  current 1.03 c  NEW 0.75 c  [a final 0.060 vs kappa_g c/g 0.060; detected 89.9 s after the delay; ledger stage changed 0.159]
-   LD    c 0.05  delay 180 s  g/c  20.0  before   20.9 c  current 2.01 c  NEW 0.61 c  [a final 0.030 vs kappa_g c/g 0.030; detected 28.1 s after the delay; ledger stage changed 0.096]
-   JO    c 0.10  delay 210 s  g/c  10.0  before   10.2 c  current 0.85 c  NEW 0.44 c  [a final 0.060 vs kappa_g c/g 0.060; detected 16.6 s after the delay; ledger stage changed 0.282]
-   HP    c 0.10  delay 240 s  g/c  10.0  before   10.2 c  current 1.03 c  NEW 0.60 c  [a final 0.060 vs kappa_g c/g 0.060; detected 28.1 s after the delay; ledger stage changed 0.085]
-   VG    c 0.05  delay 270 s  g/c  20.0  before   20.1 c  current 1.25 c  NEW 0.60 c  [a final 0.030 vs kappa_g c/g 0.030; detected 62.8 s after the delay; ledger stage changed 0.095]
-   YAW   c 0.03  delay 300 s  g/c  33.3  before   34.0 c  current 1.06 c  NEW 0.60 c  [a final 0.018 vs kappa_g c/g 0.018; detected 30.1 s after the delay; ledger stage changed 0.097]
-   TILT  c 0.03  delay  10 s  g/c  33.3  before   33.5 c  current 1.48 c  NEW 0.61 c  [a final 0.018 vs kappa_g c/g 0.018; detected 28.1 s after the delay; ledger stage changed 0.060]
-   HG    c 0.03  delay  20 s  g/c  33.3  before   33.7 c  current 1.23 c  NEW 0.60 c  [a final 0.018 vs kappa_g c/g 0.018; detected 28.1 s after the delay; ledger stage changed 0.018]
-   F0    c 0.05  delay  40 s  g/c  20.0  before   20.1 c  current 1.21 c  NEW 0.51 c  [a final 0.030 vs kappa_g c/g 0.030; detected 30.1 s after the delay; ledger stage changed 0.095]
-   FR    c 0.10  delay  60 s  g/c  10.0  before   10.4 c  current 1.58 c  NEW 0.76 c  [a final 0.060 vs kappa_g c/g 0.060; detected 10.6 s after the delay; ledger stage changed 0.000]
-   EN    c 0.05  delay  90 s  g/c  20.0  before   20.1 c  current 0.84 c  NEW 0.59 c  [a final 0.030 vs kappa_g c/g 0.030; detected 30.1 s after the delay; ledger stage changed 0.052]
-   RT    c 0.05  delay 120 s  g/c  20.0  before   20.3 c  current 1.22 c  NEW 0.75 c  [a final 0.030 vs kappa_g c/g 0.030; detected 30.1 s after the delay; ledger stage changed 0.268]
-   PAU   c 0.05  delay 150 s  g/c  20.0  before   20.2 c  current 1.55 c  NEW 0.49 c  [a final 0.030 vs kappa_g c/g 0.030; detected 30.1 s after the delay; ledger stage changed 0.127]
-   LAT   c 0.05  delay 180 s  g/c  20.0  before   20.3 c  current 1.21 c  NEW 0.60 c  [a final 0.030 vs kappa_g c/g 0.030; detected 30.1 s after the delay; ledger stage changed 0.088]
-   worst: current 2.01 c, NEW 0.76 c (F22 <= 1.0 c: PASS); zero-ceiling max slope current 0.017, NEW 0.017; NEW attenuate-only True
+[   32 s] A/C. F22 scenario, gain-1 copy, F22 construction as written (padded, minus session mean): residual / c_k, CURRENT ledger vs NEW net
+   LP    c 0.35  delay  10 s  g/c   2.9  before    2.9 c  current 1.07 c  NEW 0.61 c  [a final 0.210 vs kappa_g c/g 0.210; detected  5.0 s after the delay; ledger stage changed 0.000]
+   CR    c 0.25  delay  20 s  g/c   4.0  before    4.0 c  current 0.97 c  NEW 0.62 c  [a final 0.150 vs kappa_g c/g 0.150; detected  0.0 s after the delay; ledger stage changed 0.010]
+   BU_L  c 0.35  delay  40 s  g/c   2.9  before    2.9 c  current 0.94 c  NEW 0.58 c  [a final 0.210 vs kappa_g c/g 0.210; detected 103.4 s after the delay; ledger stage changed 0.070]
+   RHY   c 0.30  delay  60 s  g/c   3.3  before    3.4 c  current 1.31 c  NEW 0.62 c  [a final 0.180 vs kappa_g c/g 0.180; detected  0.0 s after the delay; ledger stage changed 0.014]
+   BRE   c 0.15  delay  90 s  g/c   6.7  before    6.7 c  current 0.86 c  NEW 0.44 c  [a final 0.090 vs kappa_g c/g 0.090; detected 29.8 s after the delay; ledger stage changed 0.358]
+   BI    c 0.20  delay 120 s  g/c   5.0  before    5.1 c  current 1.06 c  NEW 0.61 c  [a final 0.120 vs kappa_g c/g 0.120; detected 25.9 s after the delay; ledger stage changed 0.000]
+   BO    c 0.10  delay 150 s  g/c  10.0  before   10.1 c  current 1.03 c  NEW 0.76 c  [a final 0.060 vs kappa_g c/g 0.060; detected  0.0 s after the delay; ledger stage changed 0.025]
+   LD    c 0.05  delay 180 s  g/c  20.0  before   20.9 c  current 2.01 c  NEW 0.59 c  [a final 0.030 vs kappa_g c/g 0.030; detected  0.0 s after the delay; ledger stage changed 0.096]
+   JO    c 0.10  delay 210 s  g/c  10.0  before   10.2 c  current 0.85 c  NEW 0.62 c  [a final 0.060 vs kappa_g c/g 0.060; detected  0.0 s after the delay; ledger stage changed 0.007]
+   HP    c 0.10  delay 240 s  g/c  10.0  before   10.2 c  current 1.03 c  NEW 0.59 c  [a final 0.060 vs kappa_g c/g 0.060; detected 13.0 s after the delay; ledger stage changed 0.085]
+   VG    c 0.05  delay 270 s  g/c  20.0  before   20.1 c  current 1.25 c  NEW 0.59 c  [a final 0.030 vs kappa_g c/g 0.030; detected 64.9 s after the delay; ledger stage changed 0.121]
+   YAW   c 0.03  delay 300 s  g/c  33.3  before   34.0 c  current 1.06 c  NEW 0.60 c  [a final 0.018 vs kappa_g c/g 0.018; detected 21.6 s after the delay; ledger stage changed 0.097]
+   TILT  c 0.03  delay  10 s  g/c  33.3  before   33.5 c  current 1.48 c  NEW 0.61 c  [a final 0.018 vs kappa_g c/g 0.018; detected  5.0 s after the delay; ledger stage changed 0.060]
+   HG    c 0.03  delay  20 s  g/c  33.3  before   33.7 c  current 1.23 c  NEW 0.60 c  [a final 0.018 vs kappa_g c/g 0.018; detected 20.7 s after the delay; ledger stage changed 0.018]
+   F0    c 0.05  delay  40 s  g/c  20.0  before   20.1 c  current 1.21 c  NEW 0.52 c  [a final 0.030 vs kappa_g c/g 0.030; detected 50.2 s after the delay; ledger stage changed 0.095]
+   FR    c 0.10  delay  60 s  g/c  10.0  before   10.4 c  current 1.58 c  NEW 0.65 c  [a final 0.060 vs kappa_g c/g 0.060; detected  0.0 s after the delay; ledger stage changed 0.006]
+   EN    c 0.05  delay  90 s  g/c  20.0  before   20.1 c  current 0.84 c  NEW 0.59 c  [a final 0.030 vs kappa_g c/g 0.030; detected  0.0 s after the delay; ledger stage changed 0.047]
+   RT    c 0.05  delay 120 s  g/c  20.0  before   20.3 c  current 1.22 c  NEW 0.75 c  [a final 0.030 vs kappa_g c/g 0.030; detected 67.3 s after the delay; ledger stage changed 0.602]
+   PAU   c 0.05  delay 150 s  g/c  20.0  before   20.2 c  current 1.55 c  NEW 0.54 c  [a final 0.030 vs kappa_g c/g 0.030; detected  0.0 s after the delay; ledger stage changed 0.115]
+   LAT   c 0.05  delay 180 s  g/c  20.0  before   20.3 c  current 1.21 c  NEW 0.60 c  [a final 0.030 vs kappa_g c/g 0.030; detected  0.0 s after the delay; ledger stage changed 0.088]
+   worst: current 2.01 c, NEW 0.76 c (F22 <= 1.0 c: PASS); zero-ceiling max slope current 0.017, NEW 0.007; NEW attenuate-only True
 
-[   63 s] A/C. F22 scenario, gain-1 copy, causal route (0 until its delay): residual / c_k, CURRENT ledger vs NEW net
-   LP    c 0.35  delay  10 s  g/c   2.9  before    2.9 c  current 1.07 c  NEW 0.61 c  [a final 0.210 vs kappa_g c/g 0.210; detected 30.1 s after the delay; ledger stage changed 0.000]
-   CR    c 0.25  delay  20 s  g/c   4.0  before    4.0 c  current 1.00 c  NEW 0.63 c  [a final 0.150 vs kappa_g c/g 0.150; detected 56.6 s after the delay; ledger stage changed 0.000]
-   BU_L  c 0.35  delay  40 s  g/c   2.9  before    2.9 c  current 1.02 c  NEW 0.61 c  [a final 0.210 vs kappa_g c/g 0.210; detected 108.1 s after the delay; ledger stage changed 0.011]
-   RHY   c 0.30  delay  60 s  g/c   3.3  before    3.4 c  current 1.32 c  NEW 0.77 c  [a final 0.180 vs kappa_g c/g 0.180; detected 108.6 s after the delay; ledger stage changed 0.000]
-   BRE   c 0.15  delay  90 s  g/c   6.7  before    6.7 c  current 1.60 c  NEW 0.66 c  [a final 0.090 vs kappa_g c/g 0.090; detected 30.1 s after the delay; ledger stage changed 0.122]
-   BI    c 0.20  delay 120 s  g/c   5.0  before    5.1 c  current 0.95 c  NEW 0.63 c  [a final 0.120 vs kappa_g c/g 0.120; detected 30.1 s after the delay; ledger stage changed 0.000]
-   BO    c 0.10  delay 150 s  g/c  10.0  before   10.1 c  current 2.12 c  NEW 1.20 c  [a final 0.060 vs kappa_g c/g 0.060; detected 89.9 s after the delay; ledger stage changed 0.005]
-   LD    c 0.05  delay 180 s  g/c  20.0  before   20.9 c  current 3.06 c  NEW 0.78 c  [a final 0.030 vs kappa_g c/g 0.030; detected 96.7 s after the delay; ledger stage changed 0.016]
-   JO    c 0.10  delay 210 s  g/c  10.0  before   10.2 c  current 1.27 c  NEW 0.86 c  [a final 0.060 vs kappa_g c/g 0.060; detected 89.3 s after the delay; ledger stage changed 0.064]
-   HP    c 0.10  delay 240 s  g/c  10.0  before   10.2 c  current 0.84 c  NEW 0.62 c  [a final 0.060 vs kappa_g c/g 0.060; detected 30.1 s after the delay; ledger stage changed 0.010]
-   VG    c 0.05  delay 270 s  g/c  20.0  before   20.1 c  current 1.05 c  NEW 0.58 c  [a final 0.030 vs kappa_g c/g 0.030; detected  5.3 s after the delay; ledger stage changed 0.042]
-   YAW   c 0.03  delay 300 s  g/c  33.3  before   34.0 c  current 1.10 c  NEW 0.60 c  [a final 0.018 vs kappa_g c/g 0.018; detected 30.1 s after the delay; ledger stage changed 0.007]
-   TILT  c 0.03  delay  10 s  g/c  33.3  before   33.5 c  current 1.41 c  NEW 0.55 c  [a final 0.018 vs kappa_g c/g 0.018; detected 28.1 s after the delay; ledger stage changed 0.058]
-   HG    c 0.03  delay  20 s  g/c  33.3  before   33.7 c  current 1.02 c  NEW 0.60 c  [a final 0.018 vs kappa_g c/g 0.018; detected 28.3 s after the delay; ledger stage changed 0.006]
-   F0    c 0.05  delay  40 s  g/c  20.0  before   20.1 c  current 1.89 c  NEW 0.51 c  [a final 0.030 vs kappa_g c/g 0.030; detected 53.6 s after the delay; ledger stage changed 0.091]
-   FR    c 0.10  delay  60 s  g/c  10.0  before   10.4 c  current 2.37 c  NEW 0.82 c  [a final 0.060 vs kappa_g c/g 0.060; detected 46.1 s after the delay; ledger stage changed 0.000]
-   EN    c 0.05  delay  90 s  g/c  20.0  before   20.1 c  current 0.72 c  NEW 0.59 c  [a final 0.030 vs kappa_g c/g 0.030; detected 30.1 s after the delay; ledger stage changed 0.070]
-   RT    c 0.05  delay 120 s  g/c  20.0  before   20.3 c  current 1.70 c  NEW 1.04 c  [a final 0.030 vs kappa_g c/g 0.030; detected 68.6 s after the delay; ledger stage changed 0.114]
-   PAU   c 0.05  delay 150 s  g/c  20.0  before   20.2 c  current 1.60 c  NEW 0.49 c  [a final 0.030 vs kappa_g c/g 0.030; detected 164.1 s after the delay; ledger stage changed 0.047]
-   LAT   c 0.05  delay 180 s  g/c  20.0  before   20.3 c  current 1.41 c  NEW 0.60 c  [a final 0.030 vs kappa_g c/g 0.030; detected 30.1 s after the delay; ledger stage changed 0.018]
-   worst: current 3.06 c, NEW 1.20 c (F22 <= 1.0 c: FAIL); zero-ceiling max slope current 0.004, NEW 0.004; NEW attenuate-only True
-   NEW, metric read from 600 s on (after every detection): worst 0.64 c
+[   65 s] A/C. F22 scenario, gain-1 copy, causal route (0 until its delay): residual / c_k, CURRENT ledger vs NEW net
+   LP    c 0.35  delay  10 s  g/c   2.9  before    2.9 c  current 1.07 c  NEW 0.61 c  [a final 0.210 vs kappa_g c/g 0.210; detected 15.0 s after the delay; ledger stage changed 0.000]
+   CR    c 0.25  delay  20 s  g/c   4.0  before    4.0 c  current 1.00 c  NEW 0.61 c  [a final 0.150 vs kappa_g c/g 0.150; detected 13.0 s after the delay; ledger stage changed 0.000]
+   BU_L  c 0.35  delay  40 s  g/c   2.9  before    2.9 c  current 1.02 c  NEW 0.59 c  [a final 0.210 vs kappa_g c/g 0.210; detected 15.0 s after the delay; ledger stage changed 0.009]
+   RHY   c 0.30  delay  60 s  g/c   3.3  before    3.4 c  current 1.32 c  NEW 0.63 c  [a final 0.180 vs kappa_g c/g 0.180; detected 13.9 s after the delay; ledger stage changed 0.000]
+   BRE   c 0.15  delay  90 s  g/c   6.7  before    6.7 c  current 1.60 c  NEW 0.62 c  [a final 0.090 vs kappa_g c/g 0.090; detected 13.0 s after the delay; ledger stage changed 0.000]
+   BI    c 0.20  delay 120 s  g/c   5.0  before    5.1 c  current 0.95 c  NEW 0.61 c  [a final 0.120 vs kappa_g c/g 0.120; detected 15.0 s after the delay; ledger stage changed 0.000]
+   BO    c 0.10  delay 150 s  g/c  10.0  before   10.1 c  current 2.12 c  NEW 0.70 c  [a final 0.060 vs kappa_g c/g 0.060; detected 13.0 s after the delay; ledger stage changed 0.000]
+   LD    c 0.05  delay 180 s  g/c  20.0  before   20.9 c  current 3.06 c  NEW 0.74 c  [a final 0.030 vs kappa_g c/g 0.030; detected 15.0 s after the delay; ledger stage changed 0.000]
+   JO    c 0.10  delay 210 s  g/c  10.0  before   10.2 c  current 1.27 c  NEW 0.66 c  [a final 0.060 vs kappa_g c/g 0.060; detected 13.0 s after the delay; ledger stage changed 0.000]
+   HP    c 0.10  delay 240 s  g/c  10.0  before   10.2 c  current 0.84 c  NEW 0.61 c  [a final 0.060 vs kappa_g c/g 0.060; detected 15.0 s after the delay; ledger stage changed 0.010]
+   VG    c 0.05  delay 270 s  g/c  20.0  before   20.1 c  current 1.05 c  NEW 0.60 c  [a final 0.030 vs kappa_g c/g 0.030; detected  5.5 s after the delay; ledger stage changed 0.024]
+   YAW   c 0.03  delay 300 s  g/c  33.3  before   34.0 c  current 1.10 c  NEW 0.60 c  [a final 0.018 vs kappa_g c/g 0.018; detected 20.9 s after the delay; ledger stage changed 0.004]
+   TILT  c 0.03  delay  10 s  g/c  33.3  before   33.5 c  current 1.41 c  NEW 0.56 c  [a final 0.018 vs kappa_g c/g 0.018; detected 13.0 s after the delay; ledger stage changed 0.058]
+   HG    c 0.03  delay  20 s  g/c  33.3  before   33.7 c  current 1.02 c  NEW 0.60 c  [a final 0.018 vs kappa_g c/g 0.018; detected 17.1 s after the delay; ledger stage changed 0.003]
+   F0    c 0.05  delay  40 s  g/c  20.0  before   20.1 c  current 1.89 c  NEW 0.51 c  [a final 0.030 vs kappa_g c/g 0.030; detected 11.0 s after the delay; ledger stage changed 0.091]
+   FR    c 0.10  delay  60 s  g/c  10.0  before   10.4 c  current 2.37 c  NEW 0.71 c  [a final 0.060 vs kappa_g c/g 0.060; detected 13.0 s after the delay; ledger stage changed 0.000]
+   EN    c 0.05  delay  90 s  g/c  20.0  before   20.1 c  current 0.72 c  NEW 0.59 c  [a final 0.030 vs kappa_g c/g 0.030; detected 10.8 s after the delay; ledger stage changed 0.058]
+   RT    c 0.05  delay 120 s  g/c  20.0  before   20.3 c  current 1.70 c  NEW 0.71 c  [a final 0.030 vs kappa_g c/g 0.030; detected 15.0 s after the delay; ledger stage changed 0.000]
+   PAU   c 0.05  delay 150 s  g/c  20.0  before   20.2 c  current 1.60 c  NEW 0.53 c  [a final 0.030 vs kappa_g c/g 0.030; detected 15.0 s after the delay; ledger stage changed 0.078]
+   LAT   c 0.05  delay 180 s  g/c  20.0  before   20.3 c  current 1.41 c  NEW 0.60 c  [a final 0.030 vs kappa_g c/g 0.030; detected  7.0 s after the delay; ledger stage changed 0.018]
+   worst: current 3.06 c, NEW 0.74 c (F22 <= 1.0 c: PASS); zero-ceiling max slope current 0.004, NEW 0.003; NEW attenuate-only True
+   NEW, metric read from 600 s on (after every detection): worst 0.63 c
 
-[   76 s] B. CURRENT ledger, causal copy delayed 90 s: residual / c by ceiling (rows) and copy gain g/c (columns)
+[   78 s] B. CURRENT ledger, causal copy delayed 90 s: residual / c by ceiling (rows) and copy gain g/c (columns)
    c \ g/c     1.2    1.5    2.0    3.0    5.0   10.0   33.0
    0.03       0.89   0.85   1.04   1.25   0.97   1.92   0.94
    0.05       1.08   1.00   1.17   0.76   1.53   1.08   1.85
    0.10       0.80   0.79   0.94   1.28   1.02   1.38   1.10
    0.35       1.07   0.79   0.87   0.85   1.40   1.02   2.45
 
-[   95 s] D. NEW net, delay 90 s (on the key grid): residual / c
+[  100 s] D. NEW net, delay 90 s (on the key grid): residual / c
    c \ g/c     1.2    1.5    2.0    3.0    5.0   10.0   33.0
-   0.03       0.63   0.61   0.66   0.64   0.58   0.83   0.60
-   0.05       0.62   0.63   0.65   0.49   0.72   0.61   0.76
-   0.10       0.60   0.62   0.62   0.66   0.63   0.70   0.60
-   0.35       0.66   0.60   0.62   0.59   0.71   0.62   1.01
+   0.03       0.60   0.61   0.61   0.61   0.59   0.84   0.61
+   0.05       0.60   0.61   0.63   0.51   0.71   0.62   0.76
+   0.10       0.61   0.61   0.61   0.62   0.62   0.65   0.61
+   0.35       0.61   0.60   0.63   0.62   0.62   0.61   0.71
 
-[  115 s] D. NEW net, delay 47.35 s (off every grid): residual / c
+[  120 s] D. NEW net, delay 47.35 s (off every grid): residual / c
    c \ g/c     1.2    1.5    2.0    3.0    5.0   10.0   33.0
-   0.03       0.63   0.62   0.68   0.65   0.58   0.83   0.59
-   0.05       0.63   0.64   0.68   0.52   0.73   0.63   0.80
-   0.10       0.62   0.63   0.63   0.67   0.64   0.71   0.60
-   0.35       0.66   0.61   0.63   0.60   0.72   0.62   0.69
+   0.03       0.61   0.61   0.61   0.61   0.60   0.83   0.60
+   0.05       0.61   0.61   0.63   0.52   0.71   0.64   0.80
+   0.10       0.62   0.63   0.61   0.63   0.63   0.65   0.61
+   0.35       0.62   0.60   0.63   0.62   0.63   0.62   0.66
 
-[  135 s] D. NEW net, delay 213.7 s (off every grid): residual / c
+[  141 s] D. NEW net, delay 213.7 s (off every grid): residual / c
    c \ g/c     1.2    1.5    2.0    3.0    5.0   10.0   33.0
-   0.03       0.63   0.61   0.68   0.65   0.58   0.83   0.58
-   0.05       0.62   0.63   0.65   0.51   0.72   0.61   0.81
-   0.10       0.60   0.63   0.62   0.67   0.64   0.72   0.61
-   0.35       0.66   0.61   0.62   0.60   0.71   0.62   1.05
+   0.03       0.61   0.61   0.61   0.61   0.59   0.83   0.59
+   0.05       0.61   0.61   0.64   0.52   0.71   0.61   0.79
+   0.10       0.61   0.62   0.62   0.62   0.62   0.65   0.61
+   0.35       0.61   0.61   0.63   0.62   0.62   0.61   0.72
 
-[  159 s] D. NEW net, delay 120 s, copy low-passed tau 30 s: residual / c
+[  163 s] D. NEW net, delay 120 s, copy low-passed tau 30 s: residual / c
    c \ g/c     1.2    1.5    2.0    3.0    5.0   10.0   33.0
-   0.03       0.82   0.78   0.92   1.02   0.63   1.25   0.68
-   0.05       0.92   0.84   0.79   0.59   0.91   0.73   1.30
-   0.10       0.69   0.80   0.87   1.06   0.81   0.76   0.69
-   0.35       0.97   0.73   0.77   0.63   0.92   0.75   0.80
+   0.03       0.78   0.73   0.73   0.72   0.65   0.74   0.68
+   0.05       0.76   0.78   0.72   0.57   0.79   0.76   1.28
+   0.10       0.69   0.79   0.73   0.85   0.77   0.69   0.69
+   0.35       0.79   0.75   0.76   0.67   0.75   0.76   0.69
 
-[  159 s] E. cost: natural partners, counted routes only (fast gear 0.45 s + held 2-min route 0.22 c_k), no unlisted route
-   seed 7: counted-route slope max 0.38 c | ledger frames changed old 0.0000, new 0.0000 | governor engaged (a<1) on 0.0000 of frames (worst channel), mean 0.0000
-   seed 8: counted-route slope max 0.42 c | ledger frames changed old 0.0336, new 0.0336 | governor engaged (a<1) on 0.0000 of frames (worst channel), mean 0.0000
-
-[  223 s] F. sensitivity: gain-1.5 c copy (90 s) plus ABSOLUTE white noise sigma_abs in the partner-caused part
-[  240 s] F. NEW net, sigma_abs 0.0: residual / c (governor engaged on natural noise is the cost)
+[  188 s] D. NEW net, delay 120 s, spec F22 shape (onset lobe + 60-s low-pass): residual / c
    c \ g/c     1.2    1.5    2.0    3.0    5.0   10.0   33.0
-   0.03       0.63   0.61   0.66   0.64   0.58   0.83   0.60
-   0.05       0.62   0.63   0.65   0.49   0.72   0.61   0.76
-   0.10       0.60   0.62   0.62   0.66   0.63   0.70   0.60
-   0.35       0.66   0.60   0.62   0.59   0.71   0.62   1.01
+   0.03       0.84   0.89   0.90   0.96   0.73   0.92   0.73
+   0.05       0.84   0.82   0.85   0.61   0.89   0.75   0.80
+   0.10       0.82   0.90   0.77   0.93   0.77   0.76   0.72
+   0.35       0.86   0.78   0.89   0.74   0.89   0.77   0.82
 
-[  258 s] F. NEW net, sigma_abs 0.005: residual / c (governor engaged on natural noise is the cost)
-   c \ g/c     1.2    1.5    2.0    3.0    5.0   10.0   33.0
-   0.03       0.61   0.62   0.67   0.64   0.57   0.83   0.60
-   0.05       0.62   0.63   0.65   0.49   0.72   0.61   0.76
-   0.10       0.60   0.62   0.62   0.66   0.63   0.70   0.60
-   0.35       0.66   0.60   0.62   0.60   0.71   0.62   1.01
-
-[  275 s] F. NEW net, sigma_abs 0.02: residual / c (governor engaged on natural noise is the cost)
-   c \ g/c     1.2    1.5    2.0    3.0    5.0   10.0   33.0
-   0.03       0.64   0.71   0.72   0.67   0.56   0.84   0.59
-   0.05       0.66   0.67   0.70   0.48   0.71   0.61   0.76
-   0.10       0.59   0.62   0.61   0.66   0.63   0.71   0.59
-   0.35       0.66   0.60   0.62   0.60   0.71   0.62   1.01
-
-[  275 s] done
+[  188 s] E. cost: natural partners, counted routes only (fast gear 0.45 s + held 2-min route 0.22 c_k), no unlisted route
