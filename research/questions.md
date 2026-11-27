@@ -658,6 +658,8 @@ Q24 (the concern look before words) is still open and can be answered alongside;
 
 **Update (2026-11-27T11:22:20Z):** a sixth pass read seven sources on how a learned inner state is organised (layered time scales in learned models, how emotion is laid out in brains and image models, learning one's own body state from heart and wearable signals without labels). Every direction reduced to known methods again; what emerges in all seven is set by the training objective, the data and the time-scale layout, so a new core here would have to be a new objective, not a new operator. Three small refinements to the build core's slow state were noted, not adopted (research/new-core-search-6-synthesis.md).
 
+**Update (2026-11-27T14:28:53Z):** a seventh pass read eight sources on training goals (predicting one's own senses, curiosity, keeping options open, learning progress). A short rule came out of it: a training goal keeps your reactions out of how the agent learns its expressions only if it scores nothing you can move. Goals that only shape the inner state pass; every curiosity, options or learning-progress goal fails once a partner is present, and the fix for that is the shadow run the build core already has. Nothing new enough to count; the most useful product is a typed own-body prediction goal for the build core's inner state (research/new-core-search-7-synthesis.md).
+
 **What it blocks:** nothing now.
 
 **Answer (operator; dated 2026-11-27 by the operator, recorded 2026-11-26T20:40:42Z): keep searching for a new core in the background, alongside building.** The operator will allow arxiv.org in this environment's network settings.
