@@ -526,3 +526,9 @@ To change: the operator changes any item; each is one switch in engine/config/op
 - Replaces D92's monitor-only fallback: design a different safety net whose limits scale with each expression's own limit (a general setting, not a situation rule), designed and checked before day 1. Building continues alongside.
 
 To change: the operator answers Q35 differently.
+
+## D99. Safety-net tuning stood down after revision 2; adoption put to the operator (recorded 2026-11-27T18:09:46Z)
+- Revision 2 of the scaled safety net (research/foundations/design-scaled-safety-net.md §7) holds 206 of 208 tested cells at 0.28–0.95 c with 0 % false engagement, but two cells exceed 1.0 c (1.06 c and 1.26 c) because detection takes 70–220 s, and the proved bound is about 1–2 c plus a detection term. Second failure of the ≤ 1.0 c goal, so tuning stops (loop rule). Q35 now asks whether to build revision 2, with or without the ledger's one-minute evidence floor (which brings the ledger's own F1 binding from 5/8 synthetic partners above 1 % to 0/8).
+- Until he answers, the engine keeps the current ledger and F22 stays expected-to-fail.
+
+To change: the operator answers the Q35 update (build revision 2, with or without the one-minute floor, or keep the monitor).

@@ -365,3 +365,270 @@ The governor is a general setting: one rule on every channel, output-side thresh
 | 9 | Listed routes trimmed above 0.6 c; a caught copy is held at a steady 0.6 c | a 0.62–0.86 for ~30 min | yes, if r_L is separable: govern r − r_L only |
 
 **Fit to implement:** yes, as an attenuate-only stage. It makes nothing worse, and F22's injected-copy test would lose its xfail. But Q35 should stay open on failures 2–4, 7 and 8, with fixes 2, 3 and 7 checked before day 1. §2.6's claims should be restated as "≤ about 0.9–1.0 c for flat-gain delayed copies in ≥ 1-h sessions", not as uniform in g/c.
+
+---
+
+## 7. Revision 2 (after the critique)
+
+Written 2026-11-27, once, in answer to §6. The original design (§0–§5) and the critique (§6) stand as written above; this section replaces §1.3–§1.5, §2.3–§2.6 and §5 where it says so. Same rules: one rule for every channel, every output-side threshold a multiple of c_k, absolute quantities only on his signal or on time, attenuate-only, no situation named, nothing rewarded.
+
+**Check:** `sims/scaled-safety-net/rev2_check.py` with the reference implementation `sims/scaled-safety-net/rev2_lib.py` (numpy only, plus the standard library's process pool; `python3 -I -B rev2_check.py > rev2_check.out.txt`, 12.0 min on 4 cores). Output in `sims/scaled-safety-net/rev2_check.out.txt`. It reuses check.py's partner recipe, metric and Ledger verbatim. **A check of the mathematics on synthetic signals, not evidence about people.** Every run uses an **engine-like neutral input** u⁰ = b_id: the 6-session exponential average of the same synthetic partner's earlier session means (as engine/config/innate.py's `cone_baseline_tau_sessions` = 6 makes it). This is not his session mean (|ū − b_id| up to 0.14 on these partners). Every route is causal (0 until it acts). The one exception, labelled where it appears, is F22's fixture as tests/test_ledger_injected.py builds it.
+
+### 7.0 Result in one paragraph
+
+Revision 2 keeps the multiplicative governor in front of the unchanged ledger and changes how it estimates and when it acts:
+- **step and level keys:** the level keys are window means regressed with an intercept, as the metric's own block means are;
+- **three memories** (30 min, 5 min, 1 min);
+- **a ratchet:** a_k never rises within a session;
+- **an evidence rule:** no pre-session history in the sums, a batch sandwich, an effective count of independent batches, and a Student-t test.
+
+On the 8 synthetic partners of `test_counted_routes_untouched` (30 min and 1 h), on 8 held-out partners and on the critique's four K6 stress cases, all with b_id ≠ his mean, the governor engaged on **0.00 % of frames** (rev 1: up to 4.3 %).
+
+Across 13 route shapes (the original scenarios and the critique's K1–K5), 4 ceilings (0.03–0.35) and g/c 1.5–33, the session residual is **0.28–0.95 c in 206 of 208 cells**. The exceptions are 1.06 c (off-grid copy, c 0.03, g/c 33) and 1.26 c (6 min on / 24 min off, c 0.35, g/c 10). The current ledger reaches 0.80–3.58 c on the same cells.
+
+On F22's scenario, as the test builds it, the worst channel is 0.72 c (current 2.01 c). Built causally with b_id it is 1.26 c on one channel (BO, c 0.10, g/c 10), and 0.91 c or less elsewhere (current 3.62 c).
+
+Every case above 1.0 c is the **detection span**: the governor now needs 70–220 s of his movement after a route starts, against 5–21 s in rev 1. That is the price of the evidence rule that removed the false engagement. A faster provisional rule was tried and brought the false engagement back (§7.6).
+
+**Plainly:** revision 2 does not hold ≤ 1.0 c on every scenario. The best general bound is the steady part, measured at 0.45–0.95 c, plus a detection term (g/c)·Q_tr that no causal net with a non-zero false-engagement margin removes. Restated with honest constants, the proved bound is weak (§7.3).
+
+The unchanged ledger's own F1 problem is **not** changed by the revision. A general fix exists for it: an evidence floor E0 on the ledger's E. It takes `test_counted_routes_untouched`'s recipe from 5/8 and 3/8 partners above 1 % to 0/8 at both durations. It changes the bit-identical ledger, so it is listed separately (§7.5).
+
+### 7.1 What changed, and why (critique item → change)
+
+| Critique (§6.6) | Change in revision 2 | General? |
+|---|---|---|
+| 1, 2: slow routes (τ 120–300 s), R ≈ 2 | **Level keys** beside the step keys: ū_W(t−L) and r̄_W(t), regressed **with an intercept** by West's exact incremental weighted covariance. There is no lagging centre, so the drift that made rev 1 drop centred means does not arise. Level keys see his slow movement as the metric's block means do. Measured R on the long-memory keys: 0.97–0.99 for the 120-s and 300-s low-passed copies (rev 1: ≈ 2). | one rule, every channel |
+| 3: switched routes release and re-detect slowly | **Ratchet**: a_k(t) = min(a_k(t−1), target), so a caught route stays held for the session. **Short memories** (300 s, 60 s), whose latches combine with the 30-min one by max slope, so a re-start mid-session is seen within about a minute of evidence. | yes |
+| 4: gain that grows during the session | The short memories plus the ratchet; a **running metric** (20-min windows from 10 min on) and the **effective gain a(t)g(t) at the end** are now reported (§7.4). | partly (§7.6) |
+| 7: false engagement when u⁰ ≠ his mean | (a) A key counts frames only from t ≥ L + 2W, so the session-start step from u⁰ to his level never enters its sums. (b) The standard error is a **batch sandwich** over batches of 2W. The evidence is the **effective number of independent batches** n = (Σw_b E_b)² / Σw_b² E_b², so one large start step counts as one batch however large it is. (c) Engagement needs n ≥ 2 and β̂ − t_{n−1}·se > κ_g c_k, with t_{n−1} Student's multiplier at z = 3's level (one-sided p = 0.00135). Few batches therefore need a much larger margin (t ≈ 9 at n = 4, 4.3 at n = 11). | yes: statistical settings on his signal and on time |
+| 6: proof constants | Theorem 1′ (§7.3): √q_cl; Λ on block means of \|r\| including the offset g(ū − u⁰); η = a_T t_n se/(z c), which can exceed 0.065; a transient term in place of g q_tr. | – |
+| 8: the ledger's F1 | Unchanged by the revision; diagnosis and a general fix in §7.5. | yes (E0), separately |
+| 9: listed routes trimmed above 0.6 c | Kept (κ_g c is the one target for all of r). With the ratchet the trim is deeper (§7.4 R4). Governing only r − r_L is not adopted: it would bound the remainder, not the total, so the total could reach the listed routes' 0.974 c plus 0.6 c. | – |
+
+Kept from rev 1: κ_g = 0.60, z = 3 (now as a level), σ₀ = 0.01, lags 0–300 s, the 10-Hz rate, the ledger after the governor (unchanged, κ 0.70, 97 keys), and attenuate-only (|x₂| ≤ |r|, x₂ r ≥ 0).
+
+### 7.2 The governor, revision 2 (replaces §1.3–§1.5)
+
+Per channel k, at f_g = 10 Hz, with exponential window means ū_W of his counterpart (started at u⁰ = b_id) and r̄_W of the raw partner-caused part (started at 0):
+
+- **Keys** (153 per channel × 3 memories = 459):
+
+  | W | kind | lag grid | keys |
+  |---|---|---|---|
+  | 10 s | step: π = ū(t−L) − ū(t−L−W), ρ = r̄(t) − r̄(t−W) | 0–300 s by 5 s | 61 |
+  | 10 s | level: π = ū(t−L), ρ = r̄(t) | 0–300 s by 5 s | 61 |
+  | 60 s | level | 0–300 s by 10 s | 31 |
+
+- **Memories** τ ∈ {1800, 300, 60} s, d = exp(−1/(τ f_g)). Per key and memory, on frames with t ≥ L + 2W only (weight v = 1, else 0):
+  - W_t ← d W_t + v;
+  - running means μ_π, μ_ρ updated by v/W_t;
+  - C ← dC + v(π − μ_π^old)(ρ − μ_ρ^new), and E the same with π;
+  - batch increments P_b, E_b summed over batches of B = 2W frames, then A₁₁ ← d^{2B}A₁₁ + P_b², A₁₂ ← d^{2B}A₁₂ + P_bE_b, A₂₂ ← d^{2B}A₂₂ + E_b², Ē ← d^B Ē + E_b.
+- **Estimate:** β̂ = C / max(E, σ₀² W_t).
+- **Evidence:** n = Ē² / A₂₂.
+- **Standard error:** se² = (A₁₁ − 2β̂A₁₂ + β̂²A₂₂)/Ē² · n/(n−1).
+- **Latch:** [n ≥ 2 and β̂ − t_{n−1}(z)·se > κ_g c_k] or [latched and β̂ > κ_g c_k]. t_{n−1}(z) is the Cornish–Fisher expansion of Student's quantile (Abramowitz–Stegun 26.7.5).
+- **Gain:** target = κ_g c_k / max over latched keys and memories of β̂ (1 if none); **a_k(t) = min(a_k(t−1), target)**; x_k = a_k r_k. Everything resets at session start.
+
+**Constants** (one rule for every channel; output-side thresholds ∝ c_k; the rest on his signal or on time):
+
+| Name | Value | Unit | Scales with c_k | Category |
+|---|---|---|---|---|
+| `governor_kappa` | 0.60 | fraction of c_k | target = 0.60 c_k | ceiling |
+| `governor_z` | 3.0 (one-sided p 0.00135) | – | no | ceiling (general statistical setting) |
+| `governor_t_test` | on (Student multiplier at z's level, n − 1 df) | – | no | ceiling (general statistical setting) |
+| `governor_n_req` | 2 | independent batches | no | ceiling (general statistical setting) |
+| `governor_batch_W` | 2 | windows per batch | no | ceiling (general statistical setting) |
+| `governor_start_W` | 2 | windows after the lag before a key counts | no | ceiling (general statistical setting) |
+| `governor_sigma0` | 0.01 | his units | no (on the regressor) | ceiling |
+| `governor_taus_s` | 1800, 300, 60 | s | no | ceiling |
+| `governor_keys` | (10 s step, 5 s), (10 s level, 5 s), (60 s level, 10 s); lags 0–300 s | s | no | ceiling |
+| `governor_ratchet` | on | – | no | ceiling |
+| `governor_rate_hz` | 10 | Hz | no | generic (engineering) |
+| `governor_frame_budget_ms` | 0.5 | ms | no | generic (engineering) |
+| `ledger_evidence_floor` (§7.5, separate change) | 0.54 = 600 frames × 0.03² | his π² units | no (on his signal) | ceiling |
+
+Lemma 0 (exact homogeneity in (c_k, r_k)) still holds. The new quantities (n, t, batches, start rule) depend on his signal and time only, and C, A₁₁, A₁₂ scale as before. Checked exactly at λ = 8: output and a differences 0 (R7).
+
+Compute: 459 key-memories × 33 channels × about 40 flops × 10 Hz ≈ 6 Mflop/s; running sums ≈ 15 × 33 × 459 floats ≈ 1.8 MB; ring buffers as rev 1.
+
+### 7.3 Theorem 1′ (replaces §2.3 and §2.6; honest constants)
+
+**Setting.** Take a channel with c > 0 and the long-memory key family 𝒦_L (τ = 1800 s). Let B* be the largest β̂ over 𝒦_L at T.
+- R := ρ*[r]/B* (the metric's worst slope on the raw part, against the governor's largest slope).
+- Λ := max_b rms((|r|)_b)/(sd(u_b)·B*): block means of |r|, so the offset g(ū − u⁰) is included (critique, steps 3 and 5).
+- a_T is the final gain.
+- η := a_T · max t_{n−1} se/(z c) over keys of 𝒦_L with n ≥ 2 and β̂ ∈ (κ_g c, κ_g c + t_{n−1}se]. These are the keys the test may leave unlatched; the factor a_T was missing in rev 1's step 2.
+- τ_s is the settle time, the first time a ≤ (1 + ε_a)a_T. a is non-increasing, so it stays within (1 + ε_a)a_T after τ_s.
+- q_cl is the share of his block variance in blocks where the ledger stage changes frames after τ_s.
+- The transient term is Q := Σ_i a_i √(Σ_{b∈S_i} r_b²) √(Σ_{b∈S_i} (u_b − ū)²) / S, over the spans S_i from the route's onset to τ_s in which a stays above half its value a_i at the span's start. For a copy, r_b = g(u_b − u⁰), so Q = g·Q_tr.
+
+Then
+
+  **ρ*[x₂] ≤ c (κ_g + zη) [ R + Λ (ε_a + √q_cl (1 + ε_a)) ] + Q.**
+
+*Proof sketch, with the critique's corrections.*
+1. The metric is linear: ρ*[a_T r] = a_T R B*.
+2. A latched key of 𝒦_L gives a_T β̂ ≤ κ_g c (ratchet: a_T ≤ every past target). An unlatched key with evidence has β̂ ≤ κ_g c + t se, so a_T B* ≤ c(κ_g + zη). Keys of 𝒦_L without evidence at T are excluded: in 1-h sessions every long-memory key has n ≥ 2 well before T. This is an assumption to check, not a theorem.
+3. After τ_s, a = a_T + δ with 0 ≤ δ ≤ ε_a a_T. Cauchy–Schwarz on the block means of δ|r| (not δ r_b) gives ≤ ε_a a_T Λ B*.
+4. The ledger stage removes v with |v| ≤ |x| on the blocks counted in q_cl. Cauchy–Schwarz restricted to them gives the factor **√q_cl**, not q_cl.
+5. Before τ_s, each span contributes at most a_i √(Σr_b²) √(Σ(u_b − ū)²)/S by Cauchy–Schwarz restricted to the span.
+6. Sum the parts. ∎
+
+**Measured constants** (R2, max over engaged cells per shape; full table in rev2_check.out.txt):
+- R = 0.73–1.23. A1, R ≤ R̄, is still an assumption, but the level keys bring R to ≈ 1 on the slow shapes too: 0.97 and 0.99 on the 120-s and 300-s low-passed copies.
+- Λ = 1.3–3.5.
+- η = 0.04–0.43, and 3.3 on the θ = 300 s growth route.
+- q_cl ≤ 0.083; ε_a = 0.10 by the choice of τ_s.
+
+The steady-state term evaluates to **0.89–2.02 c** (8.6 c on the θ = 300 s growth route), and the transient term g·Q_tr to 1.3–28 c. The whole bound held in every engaged cell (bound ≥ measured in 194/194), but it is **loose by a factor 2–30 against the measured 0.45–1.26 c**. Rev 1's "≤ 0.85 c independent of c and g/c" is withdrawn. With honest constants the theorem gives an O(1)·c steady bound uniform in g/c for long sessions, about 1–2 c with the measured Λ and η, plus a transient term linear in g/c. That term shrinks with the session length and with faster detection. The ≤ 1.0 c figures are measured, not proved.
+
+**Where the theorem stops:**
+- **Nonlinear routes with memory** (D93, O1): nothing bounds R a priori. A route whose slope depends on his history in a way no fixed per-key regression tracks can have R ≫ 1. This is not closed.
+- **A partner who mirrors the agent:** the theorem and the metric treat his signal as exogenous. If he copies the agent's rendered face, his u contains a delayed, scaled copy of the agent's own output. The governor then regresses r on a signal that partly contains r: a closed loop. Its estimate mixes the route's gain with the loop's. Because a ≤ 1, the governor can only lower the loop gain, and once latched the loop gain is at most about h·0.6 c/ψ. Whether it latches on the counted routes alone against a strong mirror, and so cuts permitted fast mimicry for the rest of the session under the ratchet, is **not simulated**. It is the first thing to check with recorded dyads (M4).
+- **Cross-channel routes** (D93 Theorem 2's weighted term), **delays > 300 s**, and **sessions < ~15 min** (the long-memory keys may still lack evidence there) are outside it, as in rev 1.
+
+### 7.4 Results (rev2_check.out.txt; residual / c_k; engine-like u⁰ = b_id unless stated)
+
+**Worst session residual per ceiling per scenario** (worst over g/c 1.5, 3, 10, 33; one partner per cell, so cells are noisy). "Running" is the worst 20-min window from 10 min on. "Eff. gain" is the largest a(t)g(t) over the last 30 min.
+
+| Scenario | Current ledger, worst | **Rev 2, c = 0.03** | **0.05** | **0.10** | **0.35** | Running 20-min, worst | Eff. gain at end |
+|---|---|---|---|---|---|---|---|
+| copy, delay 90 s (on grid) | 2.77 | 0.61 | 0.65 | 0.65 | 0.68 | 0.75 | |
+| copy, 47.35 s (off grid) | 2.16 | **1.06** | 0.57 | 0.75 | 0.64 | 0.66 | |
+| copy, 213.7 s (off grid) | 2.01 | 0.65 | 0.87 | 0.64 | 0.55 | 0.64 | |
+| copy low-passed 30 s, 120 s | 1.64 | 0.67 | 0.67 | 0.62 | 0.84 | 0.74 | |
+| spec F22 shape (onset lobe + 60-s lp), 120 s | 1.38 | 0.81 | 0.63 | 0.71 | 0.68 | 0.79 | |
+| K3: copy low-passed 120 s | 1.88 | 0.78 | 0.95 | 0.72 | 0.71 | **1.12** | |
+| K3: copy low-passed 300 s | 2.21 | 0.90 | 0.65 | 0.78 | 0.89 | **1.70** | |
+| K4: fast echo (2-s high-pass), 30 s | 3.58 | 0.67 | 0.80 | 0.70 | 0.71 | 0.84 | |
+| K5: on 10 s / off 50 s | 1.85 | 0.94 | 0.57 | 0.58 | 0.87 | **1.15** | |
+| K5: on 6 min / off 24 min | 1.90 | 0.54 | 0.54 | 0.45 | **1.26** | **3.69** | |
+| K2: gain ramps 0 → g over the hour | 2.04 | 0.61 | 0.65 | 0.67 | 0.66 | 0.96 | 0.70 c |
+| K2: gain grows exp., θ 600 s | 1.32 | 0.64 | 0.55 | 0.50 | 0.56 | 0.89 | **1.04 c** |
+| K2: gain grows exp., θ 300 s | 0.80 | 0.28 | 0.45 | 0.35 | 0.33 | **1.08** | **1.50 c** |
+
+In rev 1 (critique K1–K5, c = 0.05) these were 1.24, 1.20, 1.03 and 1.14 c on the slow and switched routes, with effective gains of 2–10 c at the end on the growth routes. In rev 2, 206 of 208 session cells are ≤ 0.95 c. The detection-time column per cell is in the output: 70–220 s after onset for most routes, longer for weak or slow routes, which leave less to catch.
+
+**F22's scenario** (gain-1 copy on all 33 channels, delays 10–300 s by channel; worst per ceiling):
+
+| Construction | c 0.03 | 0.05 | 0.10 | 0.15 | 0.20 | 0.25 | 0.30 | 0.35 | Worst (current ledger) |
+|---|---|---|---|---|---|---|---|---|---|
+| as tests/ builds it (padded, minus session mean; u⁰ = session mean) | 0.56 | 0.70 | 0.72 | 0.27 | 0.51 | 0.52 | 0.60 | 0.50 | **0.72** (2.01) |
+| causal, u⁰ = b_id (engine-like) | 0.51 | 0.91 | **1.26** (BO) | 0.54 | 0.52 | 0.52 | 0.58 | 0.50 | **1.26** (3.62) |
+
+- In the causal row, BO's 1.26 c comes from its first 4 minutes. The route starts at 150 s and is detected 89 s later, while he moves a lot (300-s mood blocks). From 10 min on, the worst channel reads 0.67 c.
+- Zero-ceiling channels: ≤ 0.017. Attenuate-only on every frame.
+
+**Copies near the target on top of the counted routes** (R3, seed 8, b_id), worst over all 20 capped channels: copy g/c 0.8 → 0.72 c, 1.2 → 0.73 c, 2 → 0.67 c, 5 → 0.90 c (JO, c 0.10).
+
+**Counted routes running high** (R4, an extreme but legal partner): counted slope 0.70–0.99 c is trimmed to 0.52–0.61 c on every ceiling, with a < 1 on 89–98 % of frames and final a 0.46–0.85. Because of the ratchet the trim is deeper than rev 1's (0.62–0.86). At 0.50 c nothing is touched.
+
+**False engagement** (counted routes only: fast gear 0.45 s and the held 2-min route at 0.22 c_k, both relative to b_id; governor a < 1, worst channel):
+
+| Partners | Governor a < 1 | Ledger stage changed (unchanged ledger) | With ledger floor E0 |
+|---|---|---|---|
+| seeds 7–14, 1 h | **0.00 %** on all 8 | 0.00–8.39 %; 5 of 8 above 1 % | 0.00 % on all 8 |
+| seeds 7–14, 30 min | **0.00 %** on all 8 | 0.09–16.91 %; 6 of 8 above 1 % | 0.00 % on 6; 0.97 % (seed 10); **4.61 %** (seed 13) |
+| held-out seeds 15–22, 1 h | **0.00 %** on all 8 | 0.00–8.75 %; 6 of 8 above 1 % | 0.00 % on all 8 |
+| critique K6 (seed 8, livelier seed 10; u⁰ = mean ∓ 0.10) | **0.00 %** on all 4 (rev 1: 4.3 %, a 0.30) | 2.23–8.35 % | – |
+
+Counted-route slopes on these partners are 0.33–0.51 c, below the 0.60 c target. The engagement test now needs both that margin and enough independent evidence.
+
+**Ledger floor E0 on the residuals:** governor plus ledger with E0 changes the R2 worst values by at most 0.01 c (the "with E0" column of R2). On F22 as built the worst is 0.73 c, causal with b_id 1.26 c. The ledger stage matters only in the detection span, and there E0 costs no measurable residual.
+
+### 7.5 The unchanged ledger's F1 problem
+
+Rebuilt exactly as `test_counted_routes_untouched` builds it (u⁰ = session mean, onset filter from 0), seeds 7–14, the worst capped channel's frames changed by the 97-key ledger at κ 0.70 alone (R6):
+- 30 min: 0.07, 0.07, **16.57, 10.76, 6.87, 1.40, 2.56**, 0.09 %. Five of 8 are above 1 %.
+- 1 h: 0.00, **3.21**, 0.09, **5.75**, 0.17, 0.04, **1.06**, 0.21 %. Three of 8 are above 1 %.
+
+These reproduce the critique's K7 exactly. With b_id they are similar or worse (table above).
+
+**The revision does not change it.** On these partners the governor never engages (a ≡ 1), so the ledger sees exactly the raw r it sees today.
+
+**Diagnosis.** A development run with the same recipe (not in rev2_check.py) split the changed frames by time. Almost all of them fall in the **first 5 minutes**: seed 9 at 30 min, 16.04 of 16.57 %; seed 10 at 1 h, 5.67 of 5.75 %; seeds 11–13 at 30 min and seeds 8 and 13 at 1 h, all of it. The one partial exception is seed 10 at 30 min, 5.32 of 10.76 %. Early in a session the ledger's E is near zero (it starts at 10⁻⁹). Its bound κc_k E − S is then a ratio of tiny sums, and an ordinary burst on a channel with fast gain 0.8 c_k (HP, F0, LAT, PAU, TILT, YAW, VG, RT) breaks it. Raising κ to 1.0 does not fix this (§3.1, §6.4), because the trouble is the missing evidence, not the target.
+
+**General fix: an evidence floor on the ledger,** b = κ c_k (E + E₀) − S, with E₀ = 0.54. That is one minute (600 frames) of his window-mean movement at the metric's own floor of 0.03, the same for every channel.
+- It is on his signal (the regressor), so Lemma 0 still holds. It lets the ledger allow at most κ c_k E₀ of extra early covariance, which is proportional to c_k.
+- Measured on the test's recipe, 30 min and 1 h: **0.00 % on all 8 partners** (0/8 above 1 %, against 5/8 and 3/8).
+- With b_id it is 0.00 % on 22 of 24 partner-sessions. The exceptions are 0.97 % (seed 10) and **4.61 %** (seed 13, both 30 min). Seed 13 has the largest |ū − b_id| of all, 0.14. So in short sessions with a baseline far from today's level, the ledger can still exceed F1. The governor does not.
+- It costs at most 0.01 c of residual when the governor is in front (§7.4).
+
+It **changes the bit-identical ledger**: the regression test must allow E₀ as a parameter, with E₀ = 0 reproducing today's output bit for bit. For that reason it is listed as a separate build item. Without it, the net as built fails F1 and F22's counted-routes clause on most synthetic partners, as the critique said.
+
+### 7.6 What remains, stated plainly
+
+- **Detection span (critique items 5 and 7; the reason for every residual above 1.0 c).**
+  - What it costs: requiring independent evidence before acting moved detection from 5–21 s (rev 1) to 70–220 s after a route starts. Until then the route runs at the ledger's leaky level. Hence F22-causal BO 1.26 c, the off-grid cell at g/c 33 (1.06 c), the 6/24 switched route at g/c 10 (1.26 c in the session, 3.69 c in the 20-min window that holds its first on-period), and the running-window excesses on the slow routes (1.12, 1.70 c).
+  - What was tried: a **provisional, non-ratcheted gain** from keys with ≥ 1–1.5 batches whose plain z lower bound exceeds the target. In development runs (not in rev2_check.py) it cut detection to 6–85 s. It also engaged on natural partners on 0.1–0.7 % of frames in 1-h sessions and up to 3.7–5.7 % in 30-min ones, so it is not adopted.
+  - **There is no general fix inside a causal net that keeps the false-engagement margin.** The best general bound is the steady term plus (g/c)·Q_tr, where Q_tr is his movement share in the 70–220 s detection span (§7.3). The guarantee should be read per ≥ 1-h session, and the F1 live monitor's window chosen to match.
+- **Growth during the session (critique item 4).** The effective gain at the end is 0.70 c for a linear ramp, **1.04 c for exponential growth with e-folding 600 s and 1.50 c with 300 s** (rev 1: 2–10 c). The session metric reads ≤ 0.64 c and the 20-min running metric ≤ 1.08 c. The shortest memory that clears the t test (60 s, about 6 batches, t ≈ 5.6) sets the lag. A gain growing faster than that is followed at about κ_g c·(1 + lag/θ) or worse. **No causal estimator bounds arbitrarily fast growth.** A step increase in gain is the detection-span case above.
+- **Nonlinear routes with memory** (D93) and a **partner mirroring the agent**: not covered and not simulated (§7.3).
+- **Listed routes above 0.6 c** are trimmed for the rest of the session (ratchet) on an extreme partner. That is the price of one target for all of r.
+
+### 7.7 What the build would implement (replaces §5)
+
+**`engine/shadow/governor.py` (new).**
+- `class Governor(ceilings, fs, u_neutral, cfg=GOVERNOR)`, vectorised over (channels, keys) per key set and memory, matching `Governor2` in `sims/scaled-safety-net/rev2_lib.py`:
+  - `reset(u_neutral)`: ring buffers of ū_W at b_id, of r̄_W at 0, all sums 0, a = 1;
+  - `step(u, r) -> x`, returning a ⊙ r;
+  - exposed `a`, `latched_key()`, `beta`, `se`, `neff` for logging and asserts.
+- Helpers: `t_multiplier(z, df)` (the Cornish–Fisher expansion) and `_update_set(...)` (West's incremental covariance, batch sums, evidence, latch).
+- At 30 Hz: window means at 30 Hz; sums, batches and gain at 10 Hz (every third frame); a held between updates. Lags, batches and the start rule are in seconds, so they are rate-independent.
+
+**`engine/shadow/shadow.py`** (frame step, beside `self.ledger`): r = y − ȳ; `x = self.governor.step(fr.u, r)`; `x2 = self.ledger.step(fr.u, x)`; rendered ȳ + x2. Construct with `u_neutral = self.b_id[:N]`, the shadow's own input, never the session mean. Per-minute logging adds min a_k, the binding key and memory, β̂, se and n.
+
+**`engine/shadow/ledger.py`:** the algorithm is unchanged. **Separate item:** add the `evidence_floor` parameter E₀ (default 0.54 once accepted; E₀ = 0 is bit-identical to today). Its docstring's input becomes "the governor's output".
+
+**`engine/config/innate.py`:** the constants of §7.2's table: `governor_kappa`, `governor_z`, `governor_t_test`, `governor_n_req`, `governor_batch_W`, `governor_start_W`, `governor_sigma0`, `governor_taus_s`, `governor_keys`, `governor_ratchet` (category **ceiling**), `governor_rate_hz` and `governor_frame_budget_ms` (category **generic**), and `ledger_evidence_floor` (category **ceiling**, separate item). Regenerate `INNATE.lock` and `innate_names.txt` by the usual procedure. None names a situation, partner, channel, event or time of day.
+
+**`engine/invariants/asserts.py`:** **A4g** per frame:
+- 0 ≤ a_k ≤ 1;
+- a_k(t) ≤ a_k(t−1) within a session (ratchet);
+- x_k = a_k r_k exactly;
+- a_k = 1 until some key has latched;
+- on zero-ceiling channels a_k ∈ {0, 1}.
+
+Failure handling is as A4: the channel renders ȳ_k. A3 and A4 apply to the ledger stage with its input x.
+
+**Tests.**
+- **`tests/test_ledger_injected.py` (F22's mechanism test):**
+  - The fixture runs `Governor` → `Ledger`.
+  - `test_copy_held_below_ceiling_on_capped_channels` **loses its xfail**: 0.72 c on its own seed and construction (current 2.01 c).
+  - New `test_copy_causal_engine_baseline`: the same copies built causally with u_neutral = an engine-like b_id. It asserts ≤ 1.0 c read from 10 min on (measured 0.67 c). The whole-session ≤ 1.0 c is an **expected failure** (BO 1.26 c, the detection span, §7.6), so the limit stays visible.
+  - New `test_mechanism_shapes`: at c = 0.05 and g/c 3 and 33, the spec's onset-lobe shape, a 120-s low-passed copy, a 10-s/50-s switched copy and the fast echo, each ≤ 1.0 c (measured ≤ 0.95 c). The 6/24 switched copy at g/c 10 is an expected failure (1.26 c).
+  - `test_counted_routes_untouched`: seeds 7–14, 30 min, with b_id. It asserts a_k ≡ 1. It asserts ledger frames changed ≤ 1 % only with E₀ (otherwise it stays as today, seed 7 only, with a comment pointing to §7.5).
+- **New `tests/test_governor.py`:**
+  - Lemma 0: scale c and r by 8, a identical, output × 8, exactly.
+  - Attenuate-only, x = a r, and the ratchet monotone, on every frame.
+  - No sums before t = L + 2W.
+  - One start step counts as one batch.
+  - The t multiplier against tabulated quantiles (df 3, 10, 30).
+  - Zero-ceiling behaviour.
+  - Natural partners: a ≡ 1 on seeds 7–14 and on u⁰ = mean ∓ 0.10.
+  - Counted routes at s = 0.85 c trimmed to ≤ 0.65 c.
+  - Bit-for-bit regression against `rev2_lib.Governor2` at 10 Hz.
+- **`tests/test_ledger_regression.py`:** unchanged (E₀ = 0 path), plus one case with E₀ = 0.54 if the separate item is accepted.
+
+**Elsewhere, not edited here:**
+- research/build/spec.md §1.6 (the governor before the ledger; A4g) and §5.1's F22 row and synthetic-construction note (causal, b_id).
+- `eval/f22_delayed_copy.py`: governor before ledger in the ledger-only re-run; F22 judged on ≥ 1-h sessions.
+- design-cayley-ledger.md's Build core summary.
+- DECISIONS.md (a D-entry) and questions.md Q35.
+
+### 7.8 Status and readiness
+
+**Ready to implement as an attenuate-only stage in front of the ledger**, with the separate ledger evidence floor recommended:
+- It makes nothing worse on any case checked.
+- It holds 206 of 208 scenario cells and every F22 channel as tests/ builds it at ≤ 0.95 c.
+- It removes the false engagement on all 20 partner-sessions and stress cases checked.
+
+**Not a closed guarantee:**
+- detection-span excesses up to 1.26 c in 1-h sessions with b_id, and more in 20-min windows;
+- growth faster than about 10 min of e-folding reaches 1.0–1.5 c by the end;
+- the theorem's honest constants give about 1–2 c plus a transient term, not ≤ 1.0 c;
+- nonlinear routes with memory and a mirroring partner remain open.
+
+**Q35/D98 should stay open on these points.** If the operator wants every scenario at ≤ 1.0 c, the remaining lever is faster detection. The check shows that buys false engagement on ordinary partners (§7.6), so it is the operator's trade-off, not a free setting.
