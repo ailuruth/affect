@@ -2,6 +2,18 @@
 
 Decisions that are yours (visual identity, data leaving this Mac, new paid services, changes to existing Ailurini behavior). Work that these block is not built; work they do not block continues.
 
+## Report 12: everything that can be built without your Mac is built (no answer needed beyond the open questions; 2026-11-27T02:17:01Z)
+
+**Built and tested here** (308 automatic checks pass; the one expected failure is the safety-net gap in Q35):
+- the engine's core: the agent's inner state, every route to its own face and voice with its per-expression limits, the second "what if your face had stayed neutral" run and the safety net;
+- the connection to Claude through your subscription, tested only against a fake Claude; it refuses real calls until you answer Q34;
+- memory: a store that keeps only movement features and words (never raw audio or video), the retention job (waits for Q34 item 6), nightly replay within 1 hour and 2 GB (waits for your approval of a nightly schedule), and learning that never uses your smiles, attention or time as a reward;
+- the test battery: predictions are written and sealed before each test runs; switching parts off, steering the inner state, shuffled comparisons, and a partner who only mirrors the agent; everything judged on the agent's inside, never on how its face looks.
+
+**Two results worth knowing.** A trial run on made-up data (not evidence) flagged two things to watch once real recordings exist: a partner who only mirrors the agent makes the safety net intervene often, and with the quick echo switched off a small lip-pull link remains. And the idea from the last search, letting your face only rotate the agent's state, was checked independently and does not close the Q35 gap; Q35's options stand as written.
+
+**What happens next depends on you.** The next steps run on your Mac (research/build/handoff.md). Before they can start: Q34 items 4, 5 and 10 and your OK for a few test calls to Claude. Speech waits for Q1. Day 1 waits for Q35, Q31–Q33 and the rest of Q34. Until then the loop checks for your answers every 15 minutes and continues the background search for a new core about once an hour.
+
 ## Report 11: the engine is being built; what you run next on your Mac (no answer needed beyond the open questions; 2026-11-26T23:58:22Z)
 
 **Built and tested here** (200 automatic checks pass; one expected failure is the safety-net gap in Q35):
@@ -699,6 +711,8 @@ The build specification (research/build/spec.md, §6) lists what needs you. Q30�
 - **Rely on listing every route, and keep the net as a monitor** (my recommendation): the code checks that every route to the face is a listed, bounded one (a type check already enforces this), the net keeps attenuating, and the failing test stays as a visible warning. Building continues.
 - **Let me design a different safety net:** for example limits on the net that scale with each expression's own limit (a general setting, not a situation rule). It would be designed and checked before day 1; building continues alongside.
 - **Hold building** until the net holds every limit.
+
+**Checked since:** letting your face only rotate the agent's state (from the latest search) was critiqued independently and does not close the gap: on the smallest limits it still allows following far beyond the limit (research/foundations/critique-isospectral-q35.md). The options above stand.
 
 **What it blocks:** nothing now; it matters before day 1.
 

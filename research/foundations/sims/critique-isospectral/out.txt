@@ -1,0 +1,20 @@
+(sign of w is free by design; w = -c gives the toward sign at theta0 = pi/8)
+F0 listed port only, |w| = c, innate kappa: within the ceiling
+  listed port w=c, kappa 0.5                                     lag   0s:   0.71 c  lag  60s:   0.30 c   eig range 1.0000-1.0000
+F1 listed port only, kappa learned smaller (Omega is learned): same |w|, larger slope
+  listed port w=c, kappa 0.1                                     lag   0s:   3.42 c  lag  60s:   1.59 c   eig range 1.0000-1.0000
+  listed port w=c, kappa 0.02                                    lag   0s:  13.17 c  lag  60s:  10.32 c   eig range 1.0000-1.0000
+F2 own rotation reading own delayed state (typed 'own'), listed port unchanged |w| = c
+  own feedback a=0.8 x 2kappa at lag 0s                          lag   0s:   3.43 c  lag  60s:   1.59 c   eig range 1.0000-1.0000
+  own feedback a=0.9 x 2kappa at lag 60s                         lag   0s:   0.89 c  lag  60s:   1.08 c   eig range 1.0000-1.0000
+  own feedback a=0.98 x 2kappa at lag 60s                        lag   0s:   0.77 c  lag  60s:   1.00 c   eig range 1.0000-1.0000
+F3 unlisted partner feature in Omega, delayed 60 s (the route the net must catch)
+  unlisted rate 0.05 on p(t-60s)                                 lag   0s:   0.99 c  lag  60s:   1.00 c   eig range 1.0000-1.0000
+  unlisted rate 0.5 on p(t-60s)                                  lag   0s:   3.52 c  lag  60s:   7.34 c   eig range 1.0000-1.0000
+F4 body follows own expression; spectrum now carries the partner (T1 broken)
+  body loop eta 1                                                lag   0s:   1.16 c  lag  60s:   1.21 c   eig range 1.0000-1.0396
+    corr(top eigenvalue, partner) on 30-s blocks: 0.21
+F5 what the spectral budget allows on this channel vs the ceiling
+    Schur-Horn admits y_LD anywhere in [0.0, 1.0]; partner block-mean sd 0.067; full-range following = slope 74 c (range/4 sd)
+F6 fast mimicry from internal rest (theta0 = 0): first-order leverage 0 (D81 needs it)
+    lag 0 slope at rest angle 0: -0.000 c
