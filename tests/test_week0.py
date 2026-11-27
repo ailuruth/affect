@@ -193,7 +193,9 @@ def test_record_complete_status(tmp_path):
     for v in passing.values():
         record.append(v, path, when="2026-12-01T10:00:00Z")
     assert record.summary(record.parse(path))["status"] == "complete"
-    record.append(T.clock(False, 20.0), path, when="2026-12-01T11:00:00Z")
+    record.append(T.clock(False, 20.0), path, when="2026-12-01T11:00:00Z")   # 10-33 ms is now a branch
+    assert record.summary(record.parse(path))["status"] == "complete"
+    record.append(T.clock(False, None), path, when="2026-12-01T12:00:00Z")   # remeasure keeps it open
     s = record.summary(record.parse(path))
     assert s["status"] == "open" and s["open"] == ["clock"]
 
