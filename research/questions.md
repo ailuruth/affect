@@ -2,6 +2,19 @@
 
 Decisions that are yours (visual identity, data leaving this Mac, new paid services, changes to existing Ailurini behavior). Work that these block is not built; work they do not block continues.
 
+## Report 13: five searches for a new core, and why they keep ending the same way (one line added to Q28; 2026-11-27T04:49:16Z)
+
+**What was done.** Five reading passes (about 35 primary sources read in full) and one mathematical derivation proposed fifteen candidate cores. Every one reduced to a method that already exists: echo cancellers, normalisation, phase locking, slot attention, known kinds of recurrent network, and others.
+
+**Why, in plain terms.** The search kept finding the same wall:
+- The things the agent must guarantee (never settle into copying you, a limit per expression, still notice that you responded to it) are properties, and asking "what has this property?" leads back to known classes of methods.
+- A guarantee that holds whatever you do can only come from two places: making the agent blind to how you respond to it (which loses "you responded to me", something you want), or a built-in limit on how strongly each expression can follow you. The main design already uses the second.
+- Anything you are allowed to influence becomes a route by which you could be copied, so a new core either closes those routes (and becomes one of the known methods) or reopens copying.
+
+**Kept from the last pass:** three content tests for the battery (being challenged, a stated preference, copying the way something was framed), drawn from studies of companion apps that over-agree with or over-mirror their users.
+
+**What this means.** The search has not found a candidate in five passes, and the reasons look structural rather than a lack of reading. It continues once every three hours unless you say otherwise (Q28).
+
 ## Report 12: everything that can be built without your Mac is built (no answer needed beyond the open questions; 2026-11-27T02:17:01Z)
 
 **Built and tested here** (308 automatic checks pass; the one expected failure is the safety-net gap in Q35):
@@ -636,6 +649,8 @@ Q24 (the concern look before words) is still open and can be answered alongside;
 - **Keep searching full time:** every cycle goes to the search; nothing is built until a new core is found or you say otherwise.
 - **Pause the search:** cycles go to finishing the main design for building and to the open questions; the search resumes only when you ask.
 - **Widen the reading first:** allow the blocked paper sites (such as arxiv.org) in this environment's network settings, then keep searching; this is a change to what the cloud session can reach.
+
+**Update (2026-11-27T04:49:16Z):** five search passes and a derivation found no candidate (report 13); the reasons look structural. The search now runs once every three hours. Tell me to stop it, keep it, or widen the reading.
 
 **What it blocks:** nothing now.
 

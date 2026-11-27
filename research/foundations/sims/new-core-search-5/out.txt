@@ -1,0 +1,6 @@
+C1 occupancy, no partner covariate: [0.501 0.499]
+C1 occupancy, covariate in mode 0 : [0.621 0.379]  ratio 1.636  predicted 1.649
+C2 occupancy, covariate 0 everywhere: [0.527 0.473]
+C2 occupancy, covariate 1 everywhere: [0.609 0.391]
+C2 analytic, c=0: [0.528 0.472]
+C2 analytic, c=1: [0.61 0.39]
