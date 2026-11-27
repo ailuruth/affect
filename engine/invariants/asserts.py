@@ -364,6 +364,13 @@ def check_a7(bases: np.ndarray, omega, sign_table: np.ndarray, delta=None) -> li
     return out
 
 
+def check_a12(root) -> list:
+    """A12 (nightly, start): the store holds only the registered feature schemas (engine/memory/store.py
+    `check_a12`; fail-safe `enforce_a12`: stop, quarantine the file, tell the operator)."""
+    from engine.memory.store import check_a12 as scan
+    return scan(root)
+
+
 def check_a8(L_d: np.ndarray, W: np.ndarray | None = None) -> list:
     """A8 (load, 2 Hz): |L_d,k| <= 0.45; TILT, HP, VG, FR, EN rows of L_d are 0 under D70. Returns violations
     (fail-safe: L_d <- 0)."""

@@ -1,4 +1,4 @@
-# engine (milestones M0, and the offline parts of M4 and M6)
+# engine (milestones M0, and the offline parts of M4, M6 and M8)
 
 The engine of research/build/spec.md (build core: research/foundations/design-cayley-ledger.md, revision 9.2).
 Nothing here touches a camera, a microphone, a model, Claude or the network (the M6 tests run a fake Claude CLI). All tests use small synthetic arrays;
@@ -144,6 +144,71 @@ CLI on the Mac after the operator's answers. Not exact: the spec names the Pytho
 this session, so the process speaks the CLI's stream-json protocol with the equivalent flags (the SDK spawns the same
 CLI). The real CLI's event names for a usage limit (`rate_limit_event` with status `rejected`, or an error result
 naming a limit) and for compaction (`system` / `compact_boundary`) are taken from the documentation and checked at M1.
+
+## M8 (offline part): store, retention, replay and nightly learning (`memory/`, `learn/`)
+
+Spec §1.9, §1.10. Nothing here has seen a recorded session: the tests write small synthetic sessions into a
+temporary store (`tests/synth_store.py`); the store path is never inside the checkout (the CI data guard).
+- `memory/store.py`: the feature and transcript store. `Store.open_session` refuses until the operator answered Q34
+  item 6 (`feature_retention_days`, `keep_slot_snippets`: no live session before). `SessionWriter.append` takes only
+  floating-point arrays of a registered stream (INNATE `store_schemas`: u, f_der, breath, y, y_bar, rendered,
+  own_face, voice phrase features, the 2-Hz body snapshot, own loads, display drivers, xi_A, his 20-s lateral trace,
+  z_T, state_T/F/K), written float16 and read back as memory maps; int16 PCM, uint8 pixels, bytes, 3-D blocks, wrong
+  widths and files above a schema's session size (4 h) are refused before anything is written. There is no audio or
+  image method or schema. Text enters only as `TranscriptText` (with word timestamps), events and Ω records with
+  fixed keys and value types. `check_a12` / `enforce_a12` (A12, `invariants/asserts.check_a12`): only registered
+  file names, no media magic number in a file's first 16 bytes, no file above its schema size; a hit is quarantined
+  and stops the night with a message for the operator. `live.lock` and `replay.lock` exclude each other.
+- `memory/retention.py`: the window comes from `feature_retention_days` (7, 30, or None = until he deletes them).
+  **Before his answer it deletes nothing** and reports every session older than the default 30 days (a deletion
+  cannot be undone, a keep can; and no new session can open meanwhile). After it: a session past the window loses its
+  arrays, snapshots, Ω records and transcript; the lines episode slots reference (`reference_snippets`, <= 3 per
+  slot) are kept in `consolidated/snippets.jsonl` if `keep_slot_snippets`, else dropped.
+- `memory/retrieval_index.py`: the snippet index (identity x the encoder's e[64] x time; <= 3 consecutive lines per
+  snippet, from retained transcripts and kept slot lines) and `RetrievalQuery` ([grad D 6; N-hat 3; concept
+  posterior 64] -> 64, untrained 0, so relevance is 0 and `omega/retrieval.retrieve`'s recency decides).
+- `memory/replay.py`: `Replay.may_start` needs the new operator switch `nightly_schedule` (M8 Ask: hours and idle
+  time; unanswered, no replay), no live session, the Mac idle for the approved time, the hour inside the window
+  (midnight wrap allowed) and the disk above the 10 % floor; `run` then checks A12, takes the replay lock, runs
+  retention, loads the closed, unflagged, unreplayed sessions at their 2-Hz ticks (his 30-Hz face is read from the
+  memory map at the ticks only) and runs the steps. `Budget` (INNATE `replay_budget`: 3600 s, 2 GB) is checked before
+  every step with a 4x working estimate of the night's data and inside every gradient loop; a step that reaches a
+  budget is undone and every later step deferred (the sessions stay unreplayed). Sessions flagged by A5 or A14 are
+  skipped.
+- `learn/weights.py`: the general learning biases: sample weight 1 + 3 min(1, D_p/0.05) (S48), learning rate x
+  exp(-0.5 r_bar) with r_bar the night's mean own drop-event amplitude, gradient clip 1, pull 0.1 to theta_0.
+  `ALLOWED_WEIGHT_SIGNALS` = the body snapshot's D_p and the own drop amplitudes; `TARGET_SOURCES` lists what each
+  objective's target is computed from, none of it his face, gaze, presence or a duration.
+- `learn/objectives.py`, `learn/nightly.py`, `learn/projections.py`: the steps of §1.9 on the stubs' fixed shapes:
+  (2) Pi-tilde on the agent's own face -> own loads (reader_own; reader_his is the same own inverse on his read
+  channels), (3) calibration (b_read from low-need moments, tau 1 for three sessions, then 6, or 60 above V-hat 0.20;
+  sigma_id from the MAD of the last 6 sessions, floored at 0.25 sigma_ref; sigma_ref from the agent's own rendered
+  output), H_id (ridge 2 on the population reader's decoding, after 400 utterances; `readers.HeadId`), the adapter
+  (separated reports only, |.| <= 0.15; `readers.Adapter`), word -> V (threat-reflex teacher over 3 s), (4) W and
+  Gamma(3,4) by L_A, projected after every step under the smallest |omega_g| of every known person and the new-person
+  prior, (5) Delta by L_display (own legibility through Pi-tilde, 0.1 |delta|^2, own-display mask after every step),
+  (8) omega by omega_rule, then E raised to its set point. After every step `check_all` runs A6 (cone latch for
+  every omega), A7 (every basis and Delta), A8 and the carried-level ranges; a violating step is undone and logged.
+  The weights, theta_0 and the last valid copy go to `consolidated/learned*.npz`, the latches to `persons.json`.
+- INNATE.lock gained (a reviewed change): `store_schemas`, `store_limits` (generic engineering), `replay_budget`,
+  `replay_sgd` (engineering: step size 0.05, 200 steps, first-night initial scale 0.01), `replay_windows_s` (fit
+  definition: 3-s teacher, 20-s H_id, 2-s anticipation), `appraisal_objective_l2`, `display_objective`,
+  `calib_initial` (bias; r5 §2.6-2.7, r6 §2.1). `config/operator.py` gained `nightly_schedule`.
+
+**What is not exact, and why**
+- Not built, so skipped and reported: step 1 (the world model), step 6 (L_w), step 7 (the scorer and the retrieval
+  query by J, which needs the world model's rollout), 𝒜's own likelihood in step 4 (unspecified beyond "by
+  likelihood" and reading z_T, which is 0 until the world model exists), and L_display's 0.3-weighted anticipation
+  term (it needs the anticipation head). These stubs keep their shapes.
+- Delta's open synergies (18 x 33) start at 0 in the M4 stub, a stationary point where no gradient flows; the first night
+  initialises W1, W2 and the synergy matrix at scale 0.01 (seeded, masked) and that becomes its theta_0.
+- Pi-tilde's pull target is the stub's start (0), not a ridge inverse of Pi_0 (which maps drivers, not loads).
+- H_id reads the 28 read channels (his LP, CR, BU_L, RHY, BRE masked), not r6's 15; b_read and sigma_id have the
+  same 28 entries. The adapter and H_id are trained and saved but not yet read by the body (it reads the
+  population reader alone).
+- E is restored to its set point (0.7) if it fell below it, never lowered; the spec says only "restored".
+- No replay step writes the cone's learned cross entries (§1.9 lists none); A6 is checked after replay anyway.
+- A deferred night leaves its sessions unreplayed, so the next night learns the completed steps on them again.
 
 ## How to run
 
