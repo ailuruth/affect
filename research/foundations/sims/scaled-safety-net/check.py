@@ -13,6 +13,7 @@ Sections:
   F  sensitivity: an absolute (not c-scaled) noise floor in the partner-caused part
   G  the cost when the counted routes themselves run above kappa_g c (an extreme partner)
   H  copies near the target, on top of the counted routes (where estimation noise matters most)
+  I  Lemma 0: exact homogeneity of the net in (c_k, r_k)
 """
 import sys
 import time
@@ -408,6 +409,16 @@ print("   chan   c    " + "".join(f"  g/c {gh:<4} raw->new" for gh in GH))
 for k in CAPPED:
     print(f"   {CODES[k]:<5} {CEIL[k]:.2f} " + "".join(f"   {rows[gh][0][k] / CEIL[k]:5.2f}->{rows[gh][1][k] / CEIL[k]:4.2f}" for gh in GH))
 print("   worst new: " + "  ".join(f"g/c {gh}: {max(rows[gh][1][k] / CEIL[k] for k in CAPPED):.2f} c" for gh in GH))
+print()
+
+# ---------------------------------------------------------------- I: Lemma 0 (homogeneity), exactly
+stamp("I. Lemma 0: scale every ceiling and the partner-caused part by lambda = 8 (a power of 2, so exact in floating point)")
+Ui = partners(4, 3, [False] * 4)[:6000]; ci = np.array([0.03, 0.05, 0.10, 0.35])
+Xi = np.stack([5 * ci[j] * (delay(Ui[:, j], 300) - Ui[:, j].mean()) for j in range(4)], 1)
+O1, _, _, A1 = run(Ui, Xi, ci, "new", record_a=True)
+O8, _, _, A8 = run(Ui, 8.0 * Xi, 8.0 * ci, "new", record_a=True)
+print(f"   max |out(8)/8 - out(1)| = {np.abs(O8 / 8.0 - O1).max():.3g}; max |a(8) - a(1)| = {np.abs(A8 - A1).max():.3g} "
+      f"(both nets, governor and ledger; max |out| {np.abs(O1).max():.3f})")
 print()
 
 stamp("done")

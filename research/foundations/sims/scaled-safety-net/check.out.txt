@@ -91,3 +91,77 @@ session 3600 s at 10 Hz; metric: worst block-mean slope over blocks 2/10/30/60 s
    0.35       0.86   0.78   0.89   0.74   0.89   0.77   0.82
 
 [  188 s] E. cost: natural partners, counted routes only (fast gear 0.45 s + held 2-min route 0.22 c_k), no unlisted route
+   seed 7: counted-route slope max 0.38 c | ledger frames changed old 0.0000, new 0.0000 | governor engaged (a<1) on 0.0000 of frames (worst channel), mean 0.0000
+   seed 8: counted-route slope max 0.42 c | ledger frames changed old 0.0459, new 0.0459 | governor engaged (a<1) on 0.0000 of frames (worst channel), mean 0.0000
+   seed 9: counted-route slope max 0.40 c | ledger frames changed old 0.0014, new 0.0014 | governor engaged (a<1) on 0.0000 of frames (worst channel), mean 0.0000
+   seed 10: counted-route slope max 0.36 c | ledger frames changed old 0.0827, new 0.0827 | governor engaged (a<1) on 0.0000 of frames (worst channel), mean 0.0000
+
+[  323 s] G. cost when the COUNTED routes themselves run high (a counted total of slope s c_k at 0.45 s, no unlisted route)
+   c 0.03  counted slope 0.500 c -> after 0.50 c  (governor a<1 on 0.006 of frames, final a 1.00; ledger stage changed 0.000)
+   c 0.03  counted slope 0.700 c -> after 0.61 c  (governor a<1 on 0.972 of frames, final a 0.86; ledger stage changed 0.000)
+   c 0.03  counted slope 0.850 c -> after 0.61 c  (governor a<1 on 0.996 of frames, final a 0.71; ledger stage changed 0.000)
+   c 0.03  counted slope 0.974 c -> after 0.60 c  (governor a<1 on 0.996 of frames, final a 0.62; ledger stage changed 0.000)
+   c 0.05  counted slope 0.500 c -> after 0.50 c  (governor a<1 on 0.000 of frames, final a 1.00; ledger stage changed 0.000)
+   c 0.05  counted slope 0.700 c -> after 0.59 c  (governor a<1 on 0.975 of frames, final a 0.86; ledger stage changed 0.020)
+   c 0.05  counted slope 0.850 c -> after 0.61 c  (governor a<1 on 0.996 of frames, final a 0.71; ledger stage changed 0.008)
+   c 0.05  counted slope 0.974 c -> after 0.60 c  (governor a<1 on 0.995 of frames, final a 0.62; ledger stage changed 0.003)
+   c 0.10  counted slope 0.500 c -> after 0.50 c  (governor a<1 on 0.000 of frames, final a 1.00; ledger stage changed 0.000)
+   c 0.10  counted slope 0.700 c -> after 0.62 c  (governor a<1 on 0.982 of frames, final a 0.86; ledger stage changed 0.000)
+   c 0.10  counted slope 0.850 c -> after 0.56 c  (governor a<1 on 0.996 of frames, final a 0.71; ledger stage changed 0.060)
+   c 0.10  counted slope 0.974 c -> after 0.61 c  (governor a<1 on 0.996 of frames, final a 0.62; ledger stage changed 0.000)
+   c 0.35  counted slope 0.500 c -> after 0.51 c  (governor a<1 on 0.000 of frames, final a 1.00; ledger stage changed 0.000)
+   c 0.35  counted slope 0.700 c -> after 0.60 c  (governor a<1 on 0.975 of frames, final a 0.86; ledger stage changed 0.005)
+   c 0.35  counted slope 0.850 c -> after 0.59 c  (governor a<1 on 0.996 of frames, final a 0.71; ledger stage changed 0.018)
+   c 0.35  counted slope 0.974 c -> after 0.60 c  (governor a<1 on 0.996 of frames, final a 0.62; ledger stage changed 0.000)
+
+[  338 s] F. sensitivity: gain-1.5 c copy (90 s) plus ABSOLUTE white noise sigma_abs in the partner-caused part
+[  357 s] F. NEW net, sigma_abs 0.0: residual / c (governor engaged on natural noise is the cost)
+   c \ g/c     1.2    1.5    2.0    3.0    5.0   10.0   33.0
+   0.03       0.60   0.61   0.61   0.61   0.59   0.84   0.61
+   0.05       0.60   0.61   0.63   0.51   0.71   0.62   0.76
+   0.10       0.61   0.61   0.61   0.62   0.62   0.65   0.61
+   0.35       0.61   0.60   0.63   0.62   0.62   0.61   0.71
+
+[  374 s] F. NEW net, sigma_abs 0.005: residual / c (governor engaged on natural noise is the cost)
+   c \ g/c     1.2    1.5    2.0    3.0    5.0   10.0   33.0
+   0.03       0.61   0.62   0.61   0.62   0.59   0.84   0.61
+   0.05       0.60   0.61   0.63   0.51   0.70   0.62   0.76
+   0.10       0.61   0.61   0.61   0.62   0.62   0.65   0.61
+   0.35       0.61   0.60   0.63   0.62   0.62   0.61   0.71
+
+[  393 s] F. NEW net, sigma_abs 0.02: residual / c (governor engaged on natural noise is the cost)
+   c \ g/c     1.2    1.5    2.0    3.0    5.0   10.0   33.0
+   0.03       0.68   0.74   0.64   0.62   0.57   0.84   0.61
+   0.05       0.63   0.67   0.64   0.50   0.69   0.61   0.76
+   0.10       0.61   0.62   0.60   0.61   0.62   0.65   0.61
+   0.35       0.61   0.60   0.63   0.62   0.62   0.61   0.71
+
+[  393 s] H. copies near and above the target ON TOP OF the counted routes (natural partner seed 8, delay 60 s): residual / c_k
+   chan   c      g/c 0.5  raw->new  g/c 0.8  raw->new  g/c 1.0  raw->new  g/c 1.2  raw->new  g/c 2.0  raw->new  g/c 5.0  raw->new
+   LP    0.35     0.71->0.71    1.01->0.70    1.21->0.67    1.41->0.66    2.21->0.66    5.23->0.60
+   CR    0.25     0.60->0.60    0.90->0.66    1.10->0.65    1.31->0.65    2.11->0.63    5.14->0.62
+   BU_L  0.35     0.70->0.70    1.00->0.70    1.20->0.68    1.40->0.67    2.20->0.65    5.20->0.64
+   RHY   0.30     0.62->0.62    0.92->0.65    1.12->0.64    1.32->0.63    2.13->0.62    5.14->0.61
+   BRE   0.15     0.70->0.70    1.00->0.74    1.21->0.71    1.41->0.68    2.22->0.65    5.24->0.63
+   BI    0.20     0.62->0.62    0.93->0.65    1.13->0.64    1.34->0.64    2.17->0.63    5.28->0.62
+   BO    0.10     0.70->0.70    1.00->0.68    1.20->0.66    1.40->0.65    2.20->0.64    5.21->0.63
+   LD    0.05     0.64->0.64    0.94->0.66    1.14->0.65    1.35->0.65    2.17->0.65    5.25->0.68
+   JO    0.10     0.64->0.64    0.95->0.68    1.15->0.67    1.35->0.67    2.16->0.68    5.21->0.73
+   HP    0.10     0.56->0.51    0.86->0.59    1.06->0.58    1.26->0.58    2.08->0.57    5.12->0.56
+   VG    0.05     0.65->0.65    0.95->0.69    1.16->0.66    1.36->0.66    2.18->0.64    5.24->0.66
+   YAW   0.03     0.60->0.58    0.91->0.65    1.11->0.64    1.31->0.63    2.13->0.62    5.20->0.61
+   TILT  0.03     0.65->0.65    0.95->0.68    1.16->0.65    1.36->0.64    2.17->0.63    5.21->0.62
+   HG    0.03     0.56->0.56    0.86->0.63    1.06->0.63    1.26->0.62    2.07->0.61    5.10->0.61
+   F0    0.05     0.65->0.50    0.95->0.52    1.15->0.53    1.35->0.52    2.16->0.52    5.19->0.51
+   FR    0.10     0.58->0.57    0.88->0.65    1.08->0.61    1.28->0.61    2.08->0.60    5.10->0.59
+   EN    0.05     0.66->0.66    0.96->0.69    1.16->0.66    1.37->0.66    2.17->0.65    5.18->0.61
+   RT    0.05     0.54->0.54    0.84->0.64    1.04->0.64    1.25->0.63    2.06->0.61    5.09->0.62
+   PAU   0.05     0.68->0.63    0.98->0.63    1.18->0.62    1.38->0.62    2.18->0.61    5.19->0.60
+   LAT   0.05     0.56->0.56    0.86->0.62    1.06->0.61    1.27->0.61    2.07->0.60    5.10->0.60
+   worst new: g/c 0.5: 0.71 c  g/c 0.8: 0.74 c  g/c 1.0: 0.71 c  g/c 1.2: 0.68 c  g/c 2.0: 0.68 c  g/c 5.0: 0.73 c
+
+[  531 s] done
+(section I was added after the full run and run on its own; its output is appended here)
+[    0 s] I. Lemma 0: scale every ceiling and the partner-caused part by lambda = 8 (a power of 2, so exact in floating point)
+   max |out(8)/8 - out(1)| = 0; max |a(8) - a(1)| = 0 (both nets, governor and ledger; max |out| 0.340)
+
