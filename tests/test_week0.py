@@ -231,7 +231,7 @@ def test_checks_refuse_before_the_operators_answer(monkeypatch, tmp_path, module
     assert not (tmp_path / "week0.md").exists()
 
 
-def test_m1_test_call_switch_is_unanswered_in_the_repository():
-    assert op.SWITCHES["claude_test_calls_m1"].answered is False
-    with pytest.raises(op.Unanswered):
-        op.require("claude_test_calls_m1")
+def test_m1_test_call_switch_is_answered_in_the_repository():
+    """Q34 item 1 answered 2026-11-28 (D97): a few week-0 test calls through his login are allowed."""
+    assert op.SWITCHES["claude_test_calls_m1"].answered is True
+    assert op.require("claude_test_calls_m1")["claude_test_calls_m1"] is True

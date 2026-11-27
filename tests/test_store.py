@@ -15,6 +15,11 @@ from engine.state import types as T
 from synth_store import DAY, answered, write_session
 
 
+def unanswered_switches() -> dict:
+    """The switches with every operator answer withdrawn (the state before the answers of 2026-11-28)."""
+    return {n: dataclasses.replace(s, answered=False, usable_before_answer=False) for n, s in op.SWITCHES.items()}
+
+
 @pytest.fixture
 def store(tmp_path):
     return Store(tmp_path / "st", answered())
@@ -22,7 +27,7 @@ def store(tmp_path):
 
 # ---------------------------------------------------------------------------------------------------- the writer
 def test_no_live_session_before_the_retention_answer(tmp_path):
-    s = Store(tmp_path / "st")                               # the repository's switches: unanswered
+    s = Store(tmp_path / "st", unanswered_switches())
     with pytest.raises(op.Unanswered, match="feature_retention_days"):
         s.open_session("s1", "op", 0.0)
     assert not s.live()
@@ -147,7 +152,7 @@ def _three_sessions(store):
 def test_retention_unanswered_keeps_everything_and_reports(tmp_path):
     st = Store(tmp_path / "st", answered())
     _three_sessions(st)
-    sw = dict(op.SWITCHES)                                   # unanswered, as in the repository
+    sw = unanswered_switches()
     rep = run_retention(st, 40 * DAY, sw)
     assert not rep.answered and rep.deleted == []
     assert rep.beyond_window == ["old1", "old2"] and "waiting for the operator" in rep.message

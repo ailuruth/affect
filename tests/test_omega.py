@@ -102,7 +102,9 @@ async def session(cfg, turns, **kw):
 # ------------------------------------------------------------------------------------------------ refusal
 def test_refuses_until_the_operator_answers(env):
     with pytest.raises(op.Unanswered) as err:
-        isolation.OmegaConfig.from_operator(FAKE, env.work, env.state, env.home)
+        isolation.OmegaConfig.from_operator(FAKE, env.work, env.state, env.home,
+                                            switches={n: dataclasses.replace(v, answered=False, usable_before_answer=False)
+                                                      for n, v in op.SWITCHES.items()})
     for name in ("send_text_to_anthropic", "send_snippets", "claude_daily_cap", "nonessential_traffic_off",
                  "account_training_use_checked", "overage_confirmed_off", "context_tokens_max",
                  "claude_text_approved"):
