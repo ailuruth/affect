@@ -1,0 +1,31 @@
+S1  partner port is isospectral and trace-preserving for any weights/signals
+    max |eig change| = 3.907985046680551e-14
+S2  Schur-Horn: diagonal stays in the permutohedron (check top-j partial sums)
+    partial sums diag <= eig: True  trace equal: True
+S3  leverage at rest: if M is diagonal, d diag/dt from any partner X is 0
+    |d diag| = 0.0
+S4  Larmor (so(3)): uniform weights conserve the overlap <mu,P>; per-expression weights do not
+    weights [1.0, 1.0, 1.0]  d<mu,P>/dt = -0.0
+    weights [1.0, 0.3, -0.5]  d<mu,P>/dt = 0.719302
+S5  fast partner rotation + own damping: does the agent copy the partner's sign?
+    block, own angle 0.000: y1 rest 3.000, partner +1 -> 2.962, partner -1 -> 2.962
+    block, own angle 0.393: y1 rest 2.561, partner +1 -> 2.770, partner -1 -> 2.298
+    block, own angle pi/8, gain 0.5: y1 = 2.672  (range of block 1: [0.000, 3.000])
+    block, own angle pi/8, gain 2.0: y1 = 2.922  (range of block 1: [0.000, 3.000])
+    block, own angle pi/8, gain 8.0: y1 = 1.824  (range of block 1: [0.000, 3.000])
+    mixed, partner ch1 +1: y = [2.75 2.75 2.  ] (rest [3.  2.5 2. ])
+    mixed, partner ch1 -1: y = [2.75 2.75 2.  ] (rest [3.  2.5 2. ])
+S6  Gelfand-Tsetlin: a rotation inside the leading j modes keeps the spectra of every
+    leading k x k submatrix with k >= j; Cauchy interlacing bounds the j-level ones
+    k=1: spectrum change 5.11e-01
+    k=2: spectrum change 2.22e-16
+    k=3: spectrum change 4.44e-16
+    k=4: spectrum change 2.00e-15
+    k=5: spectrum change 1.78e-15
+    k=6: spectrum change 1.33e-15
+    M11 within [eig_min, eig_max] of leading 2x2: True
+S7  pair orbit: Q = (U^T V)o(U^T V) is doubly stochastic, invariant under joint
+    conjugation, and tr(MP) = lam^T Q gam (von Neumann bound at a sorted permutation)
+    rows/cols sum to 1: True True  joint-conjugation invariant: True
+    tr(MP) = 4.250294  lam^T Q gam = 4.250294  bound sum lam_i gam_i (sorted) = 11.890923
+    copy (P = M): Q is the identity permutation: True
