@@ -1,0 +1,9 @@
+C1-C3: residual variance fraction (1 = partner fully kept, 0 = fully cancelled)
+own-act rho=0.50 excl=  1 tau=0.05 | mirror  0.11 | nonlin-answer  0.33 | indep-slow  1.02 | indep-fast  1.08
+own-act rho=0.50 excl=  1 tau=0.30 | mirror  0.35 | nonlin-answer  0.51 | indep-slow  0.95 | indep-fast  1.00
+own-act rho=0.50 excl= 60 tau=0.05 | mirror  0.11 | nonlin-answer  0.33 | indep-slow  1.08 | indep-fast  1.09
+own-act rho=0.50 excl= 60 tau=0.30 | mirror  0.35 | nonlin-answer  0.51 | indep-slow  1.00 | indep-fast  1.00
+own-act rho=0.98 excl=  1 tau=0.05 | mirror  0.09 | nonlin-answer  0.34 | indep-slow  0.47 | indep-fast  1.04
+own-act rho=0.98 excl=  1 tau=0.30 | mirror  0.35 | nonlin-answer  0.57 | indep-slow  0.88 | indep-fast  1.00
+own-act rho=0.98 excl= 60 tau=0.05 | mirror  0.24 | nonlin-answer  0.46 | indep-slow  1.37 | indep-fast  1.10
+own-act rho=0.98 excl= 60 tau=0.30 | mirror  0.44 | nonlin-answer  0.64 | indep-slow  1.10 | indep-fast  1.00
