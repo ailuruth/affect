@@ -243,6 +243,12 @@ def agent_text(reply: ChosenReply) -> TranscriptText:
     return TranscriptText("agent", reply.text, reply.t, _CHOSEN)
 
 
+def restored_text(speaker: str, text: str, t: float) -> TranscriptText:
+    """A transcript line read back from the feature store (engine/memory/store.py is the only caller; the store's
+    writer accepts only `TranscriptText`, so what it returns is what was made by `his_text` or `agent_text`)."""
+    return TranscriptText(speaker, str(text), float(t), _RECOGNISER if speaker == "his" else _CHOSEN)
+
+
 @dataclass(frozen=True)
 class Marker:
     """An observable-marker user turn for initiative: the INNATE marker template with the silence rounded to 5 s."""

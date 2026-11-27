@@ -129,6 +129,10 @@ class Learned:
         self.turns = TurnModel()
         self.appraisal = AppraisalNet()
         self.delta = DisplayDelta()
+        from engine.memory.retrieval_index import RetrievalQuery
+        self.head_id = {}                                   # identity -> R.HeadId (nightly, M8)
+        self.adapter = {}                                   # identity -> R.Adapter (nightly, M8)
+        self.retrieval_query = RetrievalQuery()
 
     def encode_his(self, u):
         return self.enc.encode(u.text_norm)
@@ -138,7 +142,7 @@ class Learned:
 
     def untrained(self) -> list:
         parts = ("enc", "lam", "pop", "word_v", "surprisal", "progress", "pname", "reader_his", "reader_own", "qhat",
-                 "ld", "turns", "appraisal", "delta")
+                 "ld", "turns", "appraisal", "delta", "retrieval_query")
         out = [p for p in parts if not getattr(self, p).trained]
         out += [f"gates.{n}" for n in ("g", "g_o") if not getattr(self.gates, n).trained]
         return out

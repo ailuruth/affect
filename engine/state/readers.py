@@ -172,3 +172,31 @@ def topic_code(slot: int, like=None):
     v = np.zeros(TOPIC_DIM)
     v[slot % TOPIC_DIM] = 1.0
     return _carry(v, tags_of(like)) if like is not None else v
+
+
+class HeadId:
+    """Face head H_id of one person (spec §1.3): his calibrated face on the read channels -> (V, A, T), ridge lambda 2,
+    trained nightly on the frozen population reader's decoding of his words (M8); used only after >= 400 of his
+    utterances (`head_id_min_utterances`). Knowing only. Untrained: 0."""
+
+    def __init__(self, n_in: int):
+        self.W = np.zeros((n_in, 3))
+        self.b = np.zeros(3)
+        self.trained = False
+
+    def __call__(self, x):
+        return np.clip(x @ self.W + self.b, 0.0, 1.0) if self.trained else x[..., :3] * 0.0
+
+
+class Adapter:
+    """The per-person adapter (spec §1.3): topic code[16] -> offset on the population reader's (V, A, T), in
+    [-0.15, 0.15] (`adapter_bound`), trained nightly only on separated, partner-initiated reports (S40). Untrained: 0."""
+
+    def __init__(self):
+        self.W = np.zeros((TOPIC_DIM, 3))
+        self.b = np.zeros(3)
+        self.bound = ENTRIES["adapter_bound"].value
+        self.trained = False
+
+    def __call__(self, topic):
+        return np.clip(topic @ self.W + self.b, -self.bound, self.bound)

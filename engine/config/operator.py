@@ -41,6 +41,9 @@ SWITCHES = {
     # SHA-256 of engine/omega/instruction.txt and the three fork lines, as he read and approved them (spec §6 M6 Ask;
     # engine/omega/lines.py `text_digest`). Any change to that text needs his approval again.
     "claude_text_approved": Switch(None, "Q34 (constant instruction and fork lines)", False, "Claude route off"),
+    # M8 Ask: when nightly replay may run (local hours of the window, and how long the Mac must have been idle).
+    "nightly_schedule": Switch({"start_hour": 2, "end_hour": 6, "idle_min_s": 1800.0}, "M8 Ask (nightly schedule)",
+                               False, "no nightly replay"),
     "hub_offline_after_download": Switch(True, "Q34 item 10", False, "always on at runtime", True),
     "tts_engine": Switch(None, "Q1", False, "speech off"),
     "voice": Switch(None, "Q1", False, "speech off"),
