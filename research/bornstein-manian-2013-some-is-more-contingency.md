@@ -1,0 +1,20 @@
+# Bornstein & Manian 2013, "Maternal responsiveness and sensitivity re-considered: Some is more" (Development and Psychopathology 25(4 Pt 1), 2013, doi:10.1017/S0954579413000308, PMC3831361)
+
+Source read: the full author manuscript from PubMed Central (introduction on under- and overcontingency, method and coding, Tables 1-5, the spline-regression results in text, discussion and clinical implications). Table 6 (knots and slopes per pair) and Figure 1 were not fully legible in the PMC rendering; their content is taken from the text. Read in place of Bigelow's contingency studies (Bigelow 1998; Bigelow & DeCoste 2003; Bigelow & Rochat 2006), none of which was reachable (no open copy; the SFU and Emory hosts are refused by the proxy); Bigelow is used below only as cited by this paper.
+
+Read for search pass 8 (topic 1: contingency; what level of partner contingency is normal and judged good).
+
+## Key claims
+- **Sample and measures.** 335 European American mother-infant dyads, infants 5.4 months, about 50 min of naturalistic home video coded to 0.1 s. Infant behaviours: look at mother, look at object, non-distress vocalisation, smile (smiles < 5 % of facial events, κ = .48). Maternal responses: encourage attention to herself, to an object, speech. Contingency = odds ratio that a maternal response begins within 3 s of the infant behaviour's onset (offset for vocalisation), per dyad and pair. Global sensitivity rated independently (Emotional Availability Scales, 1-9).
+- **Contingency is pervasive:** 11 of 12 response pairs were above chance; e.g. look at mother → mother encourages attention to herself, mean OR 8.52; smile → same, 4.50; vocalisation → speech, 1.35; look at object → encourage attention to herself, 0.79 (below chance). Raw-frequency correlations would have shown only 6 of 12 pairs as coordinated.
+- **Inverted relation to judged sensitivity:** linear correlations with sensitivity were mostly null; spline regressions showed sensitivity rising with contingency up to a knot at about "just significant" contingency (OR just above 1) and falling beyond it. 11 of 12 pairs followed this shape; 7 of 12 knots were significant, every post-knot slope negative and significant; grand mean of knots 1.46.
+- **Context cited (not read):** 3-month-olds prefer moderate over perfect contingency and learn novel actions fastest at moderate contingency; infant arousal peaks at moderate contingency (Watson 1979, 1985); infants respond less to strangers whose contingency is above or below their mother's (Bigelow 1998; Bigelow & Rochat 2006); mid-range vocal coordination predicts secure attachment, very high and very low predict insecure (Jaffe et al. 2001; Beebe et al.).
+- **Clinical reading:** overcontingency is "intrusive", "hovering"; undercontingency is the depressed-mother pattern.
+
+## What it means for the engine
+1. **A human norm for the agent's own responsiveness.** Mothers judged most sensitive answer just above chance; answering more contingently is judged worse. For the agent's own responding (not its learning), an engine that answers every user act within 3 s would be the "hovering" end. The build core's ceilings bound how much the agent follows; this paper adds that how often it answers at all has an optimum well below "always". Not a rule to write: it is an evaluation range for the battery (agent-to-user OR distribution over a session).
+2. **Infants learn the partner's contingency level as an expectation** (Bigelow, as cited): a relationship-specific statistic that later shapes their responsiveness to others. In the engine, a per-relationship contingency level is a slow statistic of the agent's own prediction errors about being answered (pass 7, Direction 1), not a target.
+3. **Nothing here is a learning signal for expression.** The measured quantity is the mother's behaviour and how adults judge it.
+
+## Verdict
+- **background (norm for the agent's own contingency; stands in for unreachable Bigelow).** Large N, careful sequential method; judged sensitivity is an adult rating, not an infant outcome.

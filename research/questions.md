@@ -672,6 +672,8 @@ Q24 (the concern look before words) is still open and can be answered alongside;
 
 **Update (2026-11-27T14:28:53Z):** a seventh pass read eight sources on training goals (predicting one's own senses, curiosity, keeping options open, learning progress). A short rule came out of it: a training goal keeps your reactions out of how the agent learns its expressions only if it scores nothing you can move. Goals that only shape the inner state pass; every curiosity, options or learning-progress goal fails once a partner is present, and the fix for that is the shadow run the build core already has. Nothing new enough to count; the most useful product is a typed own-body prediction goal for the build core's inner state (research/new-core-search-7-synthesis.md).
 
+**Update (2026-11-27T18:21:30Z):** an eighth pass read seven studies of how infants learn to respond to a caregiver without copying. The finding: babies are not protected from copying by how they learn; they learn what to show from how the caregiver changes their own state, which is exactly the route the agent must not have, and with a withdrawn or low caregiver they converge on the caregiver's state. Ordinary babies are protected by the caregiver, who mirrors selectively, marks the mirroring as not her own, and answers only partly contingently. In the engine the per-expression limits play that role. Nothing new enough to count; the products are refinements to tests (research/new-core-search-8-synthesis.md).
+
 **What it blocks:** nothing now.
 
 **Answer (operator; dated 2026-11-27 by the operator, recorded 2026-11-26T20:40:42Z): keep searching for a new core in the background, alongside building.** The operator will allow arxiv.org in this environment's network settings.
