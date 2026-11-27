@@ -125,17 +125,16 @@ def job_R2(chunk):
         for b in (2.0, 10.0, 30.0, 60.0):
             nb = int(b * FS); xb = block_means(np.abs(X), nb); ub = block_means(U, nb)
             Lam = np.maximum(Lam, np.sqrt((xb ** 2).mean(0)) / (ub.std(0) * np.maximum(Bs, 1e-12)))
-        eta = gov.se_over_c()
-        eps = np.zeros(n); qcl = np.zeros(n); qtr = np.zeros(n)
-        changed = np.abs(On - A.astype(float) * X) > 1e-9 * np.maximum(np.abs(X), 1e-12)
+        eta = gov.se_over_c() * gov.a          # a_T z_n se / (z c): the unlatched band, at the final gain
+        eps = np.zeros(n); qcl = np.zeros(n); qtr = np.zeros(n); EPS = 0.10
+        changed = np.abs(On - A * X) > 1e-9 * np.maximum(np.abs(X), 1e-12)
         ub = block_means(U, 100); cb = block_means(changed.astype(float), 100) > 0
         for j in range(n):
-            td = gov.first[j]
-            if td < 0:
+            if gov.first[j] < 0:
                 eps[j] = np.nan; continue
-            i0 = int(td * FS); eps[j] = A[i0:, j].max() / A[-1, j] - 1
-            dv = (ub[:, j] - ub[:, j].mean()) ** 2; S0 = dv.sum()
-            bi = int(td * FS) // 100
+            # settle time: a within (1 + EPS) of its final value (a is non-increasing, so it stays there)
+            ts = int(np.argmax(A[:, j] <= (1 + EPS) * A[-1, j])); eps[j] = A[ts:, j].max() / A[-1, j] - 1
+            dv = (ub[:, j] - ub[:, j].mean()) ** 2; S0 = dv.sum(); bi = ts // 100
             qcl[j] = dv[bi:][cb[bi:, j]].sum() / S0
             span = slice(int(onset * FS) // 100, bi + 1)
             qtr[j] = np.sqrt(((ub[span, j] - u0[j]) ** 2).sum() * dv[span].sum()) / S0
@@ -287,11 +286,14 @@ if __name__ == "__main__":
             print("     " + "  ".join(f"({r['c'][j]:.2f},{r['g'][j]:4.1f}) {r['raw'][j]:5.1f}->{r['old'][j]:.2f}->{r['new'][j]:.2f}"
                                     f"[{r['rm'][j]:.2f}]{{{r['det'][j]:.0f}}}" + ("\n    " if j % 4 == 3 else "")
                                     for j in range(len(r["c"]))))
-        print("\n   theorem constants per scenario (max over cells): R, Lambda, eta, eps_a, q_cl, g q_tr; bound vs measured")
+        print("\n   Theorem 1' constants per scenario (max over engaged cells): R, Lambda, eta, eps_a (settle at 1.10 a_T), q_cl, g Q_tr;"
+              " first term c(kappa_g + z eta)(R + Lambda(eps_a + sqrt(q_cl)(1 + eps_a))) and the whole bound vs measured")
         for r in rows:
             ok = ~np.isnan(r["eps"])
-            print(f"   {r['name']:<46} R {r['R'].max():.2f}  Lam {r['Lam'].max():.2f}  eta {r['eta'].max():.3f}  eps_a "
-                  f"{np.nanmax(r['eps']) if ok.any() else np.nan:.2f}  q_cl {r['qcl'].max():.3f}  g q_tr {(r['g'] * r['qtr']).max():.3f}"
+            first = r['bound'] - r['g'] * r['qtr']
+            print(f"   {r['name']:<46} R {r['R'][ok].max():.2f}  Lam {r['Lam'][ok].max():.2f}  eta {r['eta'][ok].max():.3f}  eps_a "
+                  f"{np.nanmax(r['eps']) if ok.any() else np.nan:.2f}  q_cl {r['qcl'][ok].max():.3f}  g Q_tr {(r['g'] * r['qtr'])[ok].max():.2f}"
+                  f"  | first term max {first[ok].max():.2f} c"
                   f"  | bound max {np.nanmax(np.where(ok, r['bound'], np.nan)) if ok.any() else np.nan:.2f} c,"
                   f" measured max {r['new'].max():.2f} c, bound >= measured in {int((r['bound'][ok] >= r['new'][ok] - 1e-9).sum())}/{int(ok.sum())} engaged cells")
         print(flush=True)
@@ -300,7 +302,7 @@ if __name__ == "__main__":
         for f in f5:
             print(f.result(), flush=True)
         print("R6. the unchanged ledger's own binding rate on the counted routes (test_counted_routes_untouched's exact recipe,"
-              " seeds 7-14), worst capped channel; E0 = an evidence floor on the ledger's E (variant, not in the build)")
+              " seeds 7-14), worst capped channel; E0 = an evidence floor on the ledger's E (a separate, proposed change to the ledger)")
         for f in f6:
             print(f.result(), flush=True)
     print(f"\n[{time.time() - T0:5.0f} s] done")

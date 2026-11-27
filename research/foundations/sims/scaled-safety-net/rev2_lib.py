@@ -3,7 +3,7 @@
 Synthetic-signal check of the mathematics only; not evidence about people or behaviour. numpy only.
 Reuses check.py's definitions verbatim (signals, the block-mean metric and the current Ledger), as critique_check.py
 does, and adds:
-  Governor2      the revised governor (level keys with an intercept, batch-sandwich evidence, two memories, ratchet)
+  Governor2      the revised governor (step and level keys, batch-sandwich evidence with a t test, three memories, ratchet)
   partners_fast  check.py's partner recipe with the same RNG call order, low-passes batched (identical signals)
   engine_baseline  an engine-like neutral input b_id: the 6-session exponential average of earlier session means of
                  the same synthetic partner (engine/config/innate.py cone_baseline_tau_sessions = 6), not today's mean
@@ -64,15 +64,15 @@ GOV2 = dict(
     kappa_g=0.60,          # target, fraction of c_k (ceiling)
     z=3.0,                 # confidence level, as a normal multiplier (one-sided p = 0.00135)
     t_crit=True,           # small-sample: the multiplier is Student's t at that level with n_eff - 1 degrees of freedom
-    n_req=4.0,             # evidence: effective number of independent batches of his movement before a key may engage
+    n_req=2.0,             # evidence floor: effective number of independent batches of his movement before a key may engage
     sigma0=0.01,           # floor on his window-mean SD (his units), as revision 1
-    taus=(1800.0, 300.0),  # two memories: the ledger's budget time and a short one; their latches combine by max slope
+    taus=(1800.0, 300.0, 60.0),  # three memories: the ledger's budget time and two short ones; latches combine by max slope
     # key sets: (window W s, kind, lag step s), lags 0..300 s. 'step': change of the W-window mean over one window
     # (revision 1's keys; they weight his faster movement); 'level': the W-window mean itself, regressed WITH an
     # intercept (the metric's own block means; they carry his slow movement).
     sets=((10.0, "step", 5.0), (10.0, "level", 5.0), (60.0, "level", 10.0)),
     batch_W=2.0,           # batch length for the sandwich and the evidence count = batch_W * W
-    start_W=3.0,           # a key counts frames only from t >= L + start_W * W (no pre-session history in its sums)
+    start_W=2.0,           # a key counts frames only from t >= L + start_W * W (no pre-session history in its sums)
     max_lag_s=300.0,
     ratchet=True,          # a_k never rises within a session once lowered
 )
@@ -173,7 +173,7 @@ class Governor2:
                 enough = neff >= p["n_req"]
                 zz = t_mult(p["z"], neff - 1.0) if p.get("t_crit") else p["z"]
                 s["latch"] = (enough & (beta - zz * se > tgt)) | (s["latch"] & (beta > tgt))
-                s["beta"], s["se"], s["neff"] = beta, se, neff
+                s["beta"], s["se"], s["neff"], s["zz"] = beta, se, neff, zz
                 bmax = np.maximum(bmax, np.max(np.where(s["latch"], beta, 0.0), 1))
         target = np.clip(np.where(bmax > 0, tgt[:, 0] / np.where(bmax > 0, bmax, 1.0), 1.0), 0.0, 1.0)
         self.a = np.minimum(self.a, target) if p["ratchet"] else target
@@ -184,12 +184,13 @@ class Governor2:
         return self.a * r
 
     def se_over_c(self):
-        """Largest se / c_k among keys whose slope lies in (kappa_g c, kappa_g c + z se] (eta of the theorem)."""
+        """Largest z_n se / (z c_k) among keys with enough evidence whose slope lies in (kappa_g c, kappa_g c + z_n se]
+        (keys the engagement test may leave unlatched). Times a_k, this is eta of Theorem 1'."""
         tgt = (self.p["kappa_g"] * self.c)[:, None]; eta = np.zeros(self.n)
         for S in self.sets:
             for s in S["mem"]:
-                m = (s["beta"] > tgt) & (s["beta"] <= tgt + self.p["z"] * s["se"]) & (s["neff"] >= self.p["n_req"])
-                eta = np.maximum(eta, np.max(np.where(m, s["se"], 0.0), 1) / np.where(self.c > 0, self.c, 1))
+                m = (s["beta"] > tgt) & (s["beta"] <= tgt + s["zz"] * s["se"]) & (s["neff"] >= self.p["n_req"])
+                eta = np.maximum(eta, np.max(np.where(m, s["zz"] * s["se"] / self.p["z"], 0.0), 1) / np.where(self.c > 0, self.c, 1))
         return eta
 
 
