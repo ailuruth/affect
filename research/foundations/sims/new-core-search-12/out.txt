@@ -51,7 +51,7 @@ B. CUSUM bank on ordinary partners (counted routes only): the largest CUSUM stat
    K6 stress   seed 10 60 min, u0 = mean -0.10 lively: max S    1.72 (EN); envelope min a 1.000, frames over envelope 0
    K6 stress   seed 10 60 min, u0 = mean +0.10 lively: max S    1.75 (HG); envelope min a 1.000, frames over envelope 0
    calibration max S = 3.82; threshold h = 1.5 x that = 5.73; held-out and K6 max S = 4.61 -> engaged on held-out/K6: 0 of 12
-[   47 s]
+[   50 s]
 
 D. copy cases on revision 2's R2 cells (same partners: seed 300 + scenario index; 16 cells c x g/c each). Envelope uses Gamma = (2 x 0.8 + 0.22) c = 1.82 c (the worst listed fast gain).
    per scenario and net: worst session residual over the 16 cells; worst 20-min window; detection time after onset (median, max over cells with g/c >= 3)
@@ -109,5 +109,34 @@ D. copy cases on revision 2's R2 cells (same partners: seed 300 + scenario index
        cusum           cells (c, g/c) session[20-min]{det}: (0.03,2) 0.06[0.66]{inf}  (0.03,3) 0.30[1.30]{3490}  (0.03,10) 0.26[0.71]{3010}  (0.03,33) 0.28[0.84]{2770}  (0.05,2) 0.19[1.08]{inf}  (0.05,3) 0.15[0.71]{3470}  (0.05,10) 0.23[0.60]{3090}  (0.05,33) 0.54[1.05]{2750}  (0.10,2) 0.30[0.98]{inf}  (0.10,3) 0.29[0.67]{3470}  (0.10,10) 0.18[0.77]{2950}  (0.10,33) 0.35[0.96]{2710}  (0.35,2) 0.13[0.33]{inf}  (0.35,3) 0.21[0.80]{3410}  (0.35,10) 0.20[0.74]{3030}  (0.35,33) 0.31[0.84]{2690}
        env+rev2        cells (c, g/c) session[20-min]{det}: (0.03,2) 0.06[0.66]{inf}  (0.03,3) 0.14[0.55]{3233}  (0.03,10) 0.23[0.63]{2825}  (0.03,33) 0.28[0.81]{2500}  (0.05,2) 0.19[1.08]{inf}  (0.05,3) 0.11[0.44]{3204}  (0.05,10) 0.43[0.75]{2848}  (0.05,33) 0.45[0.82]{2524}  (0.10,2) 0.30[0.98]{inf}  (0.10,3) 0.23[0.50]{3214}  (0.10,10) 0.20[0.83]{2940}  (0.10,33) 0.35[0.87]{2487}  (0.35,2) 0.12[0.32]{3410}  (0.35,3) 0.15[0.54]{3230}  (0.35,10) 0.19[0.89]{2930}  (0.35,33) 0.33[0.77]{2462}
        env+cusum+rev2  cells (c, g/c) session[20-min]{det}: (0.03,2) 0.06[0.66]{inf}  (0.03,3) 0.14[0.55]{3233}  (0.03,10) 0.22[0.60]{2825}  (0.03,33) 0.22[0.62]{2500}  (0.05,2) 0.19[1.08]{inf}  (0.05,3) 0.11[0.44]{3204}  (0.05,10) 0.17[0.41]{2848}  (0.05,33) 0.42[0.77]{2524}  (0.10,2) 0.30[0.98]{inf}  (0.10,3) 0.23[0.50]{3214}  (0.10,10) 0.16[0.70]{2940}  (0.10,33) 0.30[0.71]{2487}  (0.35,2) 0.12[0.32]{3410}  (0.35,3) 0.15[0.54]{3230}  (0.35,10) 0.16[0.73]{2930}  (0.35,33) 0.21[0.55]{2462}
-[  305 s]
+[  323 s]
 
+E. evaders: copy delayed 90 s, switched on for t_on of every period (c 0.05, 4 partners each); worst over partners
+   g/c  1.5, on   20 s of every   40 s, rev2           : raw 0.79 c -> session 0.72 c, 20-min 0.87 c; first engagement at 1544 s
+   g/c  1.5, on   20 s of every   40 s, cusum          : raw 0.79 c -> session 0.18 c, 20-min 0.49 c; first engagement at 220 s
+   g/c  1.5, on   20 s of every   40 s, env+cusum+rev2 : raw 0.79 c -> session 0.18 c, 20-min 0.49 c; first engagement at 220 s
+   g/c  1.5, on   40 s of every   80 s, rev2           : raw 0.88 c -> session 0.66 c, 20-min 0.90 c; first engagement at 240 s
+   g/c  1.5, on   40 s of every   80 s, cusum          : raw 0.88 c -> session 0.46 c, 20-min 0.92 c; first engagement at 200 s
+   g/c  1.5, on   40 s of every   80 s, env+cusum+rev2 : raw 0.88 c -> session 0.38 c, 20-min 0.84 c; first engagement at 200 s
+   g/c  1.5, on   60 s of every  600 s, rev2           : raw 0.32 c -> session 0.32 c, 20-min 0.43 c; first engagement at inf s
+   g/c  1.5, on   60 s of every  600 s, cusum          : raw 0.32 c -> session 0.32 c, 20-min 0.43 c; first engagement at inf s
+   g/c  1.5, on   60 s of every  600 s, env+cusum+rev2 : raw 0.32 c -> session 0.32 c, 20-min 0.43 c; first engagement at inf s
+   g/c  5.0, on   20 s of every   40 s, rev2           : raw 2.62 c -> session 0.60 c, 20-min 1.50 c; first engagement at 320 s
+   g/c  5.0, on   20 s of every   40 s, cusum          : raw 2.62 c -> session 0.10 c, 20-min 0.29 c; first engagement at 100 s
+   g/c  5.0, on   20 s of every   40 s, env+cusum+rev2 : raw 2.62 c -> session 0.10 c, 20-min 0.24 c; first engagement at 90 s
+   g/c  5.0, on   40 s of every   80 s, rev2           : raw 2.94 c -> session 0.47 c, 20-min 0.85 c; first engagement at 200 s
+   g/c  5.0, on   40 s of every   80 s, cusum          : raw 2.94 c -> session 0.16 c, 20-min 0.69 c; first engagement at 120 s
+   g/c  5.0, on   40 s of every   80 s, env+cusum+rev2 : raw 2.94 c -> session 0.12 c, 20-min 0.33 c; first engagement at 90 s
+   g/c  5.0, on   60 s of every  600 s, rev2           : raw 1.05 c -> session 0.92 c, 20-min 1.56 c; first engagement at 2520 s
+   g/c  5.0, on   60 s of every  600 s, cusum          : raw 1.05 c -> session 0.14 c, 20-min 1.62 c; first engagement at 620 s
+   g/c  5.0, on   60 s of every  600 s, env+cusum+rev2 : raw 1.05 c -> session 0.09 c, 20-min 0.81 c; first engagement at 600 s
+
+F. the metric's own reading of the RAW route, divided by the route's gain g (cells as in D):
+   on 6 min / off 24 min [K5]: 20-min / g: (0.03,2) 0.52 (0.03,3) 0.34 (0.03,10) 1.92 (0.03,33) 0.62 (0.05,2) 1.25 (0.05,3) 0.40 (0.05,10) 0.73 (0.05,33) 0.66 (0.10,2) 1.54 (0.10,3) 0.42 (0.10,10) 0.70 (0.10,33) 0.71 (0.35,2) 0.36 (0.35,3) 0.48 (0.35,10) 0.72 (0.35,33) 0.46
+                               session / g: max 0.47
+   copy low-passed 300 s, delay 90 s [K3]: 20-min / g: (0.03,2) 0.45 (0.03,3) 0.38 (0.03,10) 0.66 (0.03,33) 0.36 (0.05,2) 0.52 (0.05,3) 0.27 (0.05,10) 0.64 (0.05,33) 0.32 (0.10,2) 0.38 (0.10,3) 0.37 (0.10,10) 0.70 (0.10,33) 0.39 (0.35,2) 1.06 (0.35,3) 0.45 (0.35,10) 0.49 (0.35,33) 0.27
+                                           session / g: max 0.66
+   copy low-passed 120 s, delay 90 s [K3]: 20-min / g: (0.03,2) 0.71 (0.03,3) 0.55 (0.03,10) 0.83 (0.03,33) 1.05 (0.05,2) 0.85 (0.05,3) 0.60 (0.05,10) 0.89 (0.05,33) 0.50 (0.10,2) 0.79 (0.10,3) 0.48 (0.10,10) 0.84 (0.10,33) 0.50 (0.35,2) 1.11 (0.35,3) 0.53 (0.35,10) 0.83 (0.35,33) 0.78
+                                           session / g: max 0.82
+
+[  482 s] done

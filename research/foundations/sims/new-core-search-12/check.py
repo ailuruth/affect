@@ -1,7 +1,7 @@
 """Pass 12 check: the detection lever of the scaled safety net, seen as quickest change detection.
 
 A CHECK OF ALGEBRA ON SYNTHETIC SIGNALS ONLY. It is NOT evidence about people, behaviour or the engine.
-numpy only (plus the standard library's process pool, 4 workers). Run:  python3 -I check.py > out.txt
+numpy only (plus the standard library's process pool, 4 workers). Run:  python3 -I -B check.py > out.txt   (about 8 min on 4 cores)
 
 It reuses, read-only, the reference implementation of revision 2 (../scaled-safety-net/rev2_lib.py: partner recipe,
 engine-like baseline b_id, counted routes, Governor2, the unchanged Ledger and the block-mean metric).
@@ -19,6 +19,9 @@ Parts
   D  the copy cases of revision 2's R2 grid (same partners, same cells): rev2 alone, CUSUM bank, envelope + rev2,
      envelope + CUSUM + rev2; session residual / c, worst 20-min window, detection time.
   E  an evader: a copy switched on and off with short on-periods, at a gain below the envelope.
+  F  the metric itself: the raw (unattenuated) route's worst 20-min window and session slope divided by its own gain
+     g, on the cells of D. A value above 1 means the windowed metric reads more than the route's gain (the pathwise
+     inflation of pass 10's Observation 4); no detector removes that part.
 """
 import os
 import sys
@@ -243,6 +246,15 @@ def job_E(args):
     return gc, on_s, period_s, netname, raw.max(), (wbs(U, O) / c).max(), (running(U, O) / c).max(), np.nanmin(np.where(np.isfinite(first), first, np.nan)) if np.isfinite(first).any() else np.inf
 
 
+def job_F(si):
+    name, f, onset = SCEN[si]
+    cols = [(cc, gg) for cc in CS for gg in GR]; n = len(cols)
+    U = partners_fast(n, 300 + si, T=T); u0 = engine_baseline(n, 300 + si)
+    c = np.array([cc for cc, _ in cols]); g = np.array([gg for _, gg in cols])
+    X = np.stack([g[j] * c[j] * f(U[:, j], u0[j]) for j in range(n)], 1)
+    return name, c, g, running(U, X) / c / g, wbs(U, X) / c / g
+
+
 if __name__ == "__main__":
     T0 = time.time()
     print("PASS 12 CHECK: ALGEBRA ON SYNTHETIC SIGNALS ONLY (not evidence about people, behaviour or the engine).")
@@ -316,4 +328,9 @@ if __name__ == "__main__":
         for gc, on, per, nm, raw, ses, rm, fst in rE:
             print(f"   g/c {gc:4.1f}, on {on:4.0f} s of every {per:4.0f} s, {nm:<15}: raw {raw:.2f} c -> session {ses:.2f} c,"
                   f" 20-min {rm:.2f} c; first engagement at {fst:.0f} s")
+        rF = list(ex.map(job_F, (9, 6, 5)))
+        print("\nF. the metric's own reading of the RAW route, divided by the route's gain g (cells as in D):")
+        for name, c, g, rm, ss in rF:
+            print(f"   {name}: 20-min / g: " + " ".join(f"({c[j]:.2f},{g[j]:.0f}) {rm[j]:.2f}" for j in range(16)))
+            print(f"   {' ' * len(name)}  session / g: max {ss.max():.2f}")
     print(f"\n[{time.time() - T0:5.0f} s] done")
