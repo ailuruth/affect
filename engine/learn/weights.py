@@ -1,7 +1,7 @@
 """The general learning biases of replay (spec §1.10; D85 source 3; design audit S38-S40, S48; r6 §2.1). These are
 the only innate parts of learning; none names a situation, an expression or a label.
 
-  sample weight      w = 1 + 3 min(1, D_p(N-hat)/0.05) on every replayed moment (S48, kappa_replay = 4: moments of
+  sample weight      w = 1 + 3 min(1, D_p(N_L)/0.05) on every replayed moment (S48, kappa_replay = 4: moments of
                      the agent's own partner-need drive are consolidated more, McGaugh-type; one scalar
                      of the agent's own model, the same for every topic and person)
   learning rate      lr x exp(-0.5 r_bar), r_bar the night's mean amplitude of the agent's own drop events
@@ -10,7 +10,7 @@ the only innate parts of learning; none names a situation, an expression or a la
   calibration        from low-need moments, slow toward aversive readings (S38; engine/learn/nightly.py)
   credit             the adapter learns only from separated, partner-initiated reports (S40)
 
-**What the weights may read** (`ALLOWED_WEIGHT_SIGNALS`): the agent's own D_p column of the body snapshot and its own
+**What the weights may read** (`ALLOWED_WEIGHT_SIGNALS`): the agent's own word-typed D_p(N_L) column (`Dp_word`) of the body snapshot and its own
 drop-event amplitudes. Nothing reads his smiles, his attention (gaze, presence) or his time (session length, time
 of day, how long he stayed) as a reward or a target (brief Principle 6): his face enters learning only as an input
 (the appraisal's band-passed input, his calibrated face for H_id and the calibration statistics), never as a weight,
@@ -27,7 +27,7 @@ LR_COEFF = float(ENTRIES["lr_gate_coeff"].value)
 CLIP = float(ENTRIES["grad_clip"].value)
 PULL = float(ENTRIES["theta0_pull"].value)
 
-ALLOWED_WEIGHT_SIGNALS = frozenset({"body.Dp", "events.drop_event.amp"})
+ALLOWED_WEIGHT_SIGNALS = frozenset({"body.Dp_word", "events.drop_event.amp"})
 
 # The stored streams each objective's target is computed from (and nothing else). None of them is his face, his
 # gaze, his presence or a duration.
@@ -45,9 +45,10 @@ FORBIDDEN_TARGET_SOURCES = frozenset({"u", "f_der", "breath", "voice_phrase", "p
                                       "time_of_day", "gaze"})
 
 
-def sample_weight(Dp) -> np.ndarray:
-    """1 + 3 min(1, D_p/0.05) per moment (S48). Reads only the agent's own D_p(N-hat)."""
-    d = np.maximum(np.asarray(Dp, dtype=np.float64), 0.0)
+def sample_weight(Dp_word) -> np.ndarray:
+    """1 + 3 min(1, D_p(N_L)/0.05) per moment (S48). Reads only the agent's own word-typed need drive D_p(N_L)
+    (T-typed; never D_p of his read face, which would make his face a replay weight; pass 16, fix R1)."""
+    d = np.maximum(np.asarray(Dp_word, dtype=np.float64), 0.0)
     return 1.0 + _RW["gain"] * np.minimum(1.0, d / _RW["scale"])
 
 

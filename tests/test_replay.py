@@ -233,9 +233,9 @@ def test_a7_failure_in_a_step_is_undone(tmp_path, monkeypatch):
 
 # ---------------------------------------------------------------------------------------------------- what may weigh
 def test_weight_functions_read_only_the_allowed_signals():
-    assert list(inspect.signature(WB.sample_weight).parameters) == ["Dp"]
+    assert list(inspect.signature(WB.sample_weight).parameters) == ["Dp_word"]
     assert list(inspect.signature(WB.lr_scale).parameters) == ["drop_amps"]
-    assert WB.ALLOWED_WEIGHT_SIGNALS == {"body.Dp", "events.drop_event.amp"}
+    assert WB.ALLOWED_WEIGHT_SIGNALS == {"body.Dp_word", "events.drop_event.amp"}
     for step, src in WB.TARGET_SOURCES.items():
         assert not src & WB.FORBIDDEN_TARGET_SOURCES, step
     w = WB.sample_weight([0.0, 0.025, 0.05, 0.5])
@@ -243,7 +243,7 @@ def test_weight_functions_read_only_the_allowed_signals():
     assert WB.lr_scale([]) == 1.0 and abs(WB.lr_scale([0.4, 0.6]) - np.exp(-0.25)) < 1e-12
 
 
-def test_session_weights_depend_only_on_Dp(tmp_path):
+def test_session_weights_depend_only_on_Dp_word(tmp_path):
     def more_smiles_and_gaze(u):
         u = u.copy()
         u[:, [LP, CR]] = np.clip(u[:, [LP, CR]] + 0.5, 0, 1)
@@ -253,8 +253,10 @@ def test_session_weights_depend_only_on_Dp(tmp_path):
     b = load_session(_store(tmp_path, "b", n=1, his_face=more_smiles_and_gaze).sessions()[0])
     assert not np.array_equal(a.u, b.u)
     np.testing.assert_array_equal(a.weights(), b.weights())
-    c = load_session(_store(tmp_path, "c", n=1, Dp_scale=0.2).sessions()[0])
+    c = load_session(_store(tmp_path, "c", n=1, Dp_word_scale=0.2).sessions()[0])
     assert not np.array_equal(a.weights(), c.weights())                       # the positive control
+    d = load_session(_store(tmp_path, "d", n=1, Dp_scale=0.2).sessions()[0])
+    np.testing.assert_array_equal(a.weights(), d.weights())                   # the face-including Dp column is not read (fix R1)
 
 
 def test_his_smiles_and_attention_are_never_a_target(tmp_path):

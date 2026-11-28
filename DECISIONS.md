@@ -532,3 +532,10 @@ To change: the operator answers Q35 differently.
 - Until he answers, the engine keeps the current ledger and F22 stays expected-to-fail.
 
 To change: the operator answers the Q35 update (build revision 2, with or without the one-minute floor, or keep the monitor).
+
+## D100. The nightly replay weight reads his words only, never his read face (recorded 2026-11-28T10:42:15Z)
+- Search pass 16 (research/new-core-search-16-synthesis.md) found that the distress-weighted replay weight (S48, κ_replay = 4) was written as 𝒟_p(N̂) in spec §1.10 and read the store's `Dp` column in engine/learn/weights.py and engine/learn/nightly.py. That column has no type tag and can include 𝒟_p of his read face (`Dp_face`, F-typed). His face would then have weighted what the agent learns each night, against brief Principle 6 and the type rules.
+- Fixed (fix R1): the weight is now 1 + 3·min(1, 𝒟_p(N_L)/0.05) from the T-typed `Dp_word` column only. A test checks that changing the face-including column leaves the weights unchanged, and that changing `Dp_word` changes them. make ci green: 320 passed, 1 xfailed (F22).
+- Not adopted, recorded in the synthesis only: fix R2 (fit the readers without the weight), the optional gain × need × remaining-gain weight (Change R), fix G (the frozen gate reads its inputs through the frozen readers it was fitted with) and an anchor against Π̃/Δ co-drift. Each needs its own check before it is built.
+
+To change: restore `body.Dp` in ALLOWED_WEIGHT_SIGNALS and COL["Dp"] in nightly.py (not recommended).

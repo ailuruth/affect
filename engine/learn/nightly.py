@@ -93,7 +93,7 @@ class SessionData:
         return self.body.shape[0]
 
     def weights(self) -> np.ndarray:
-        return WB.sample_weight(self.body[:, COL["Dp"]])
+        return WB.sample_weight(self.body[:, COL["Dp_word"]])
 
     def tick(self, t: float) -> int:
         return int(np.clip(round((t - self.t0) * SLOW_HZ), 0, max(self.n - 1, 0)))

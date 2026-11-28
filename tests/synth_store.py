@@ -32,7 +32,7 @@ def smooth(n, w, r, tau_rows=5.0, lo=0.0, hi=1.0):
 
 
 def write_session(store: Store, sid: str, identity: str = "op", t0: float = 0.0, seconds: float = 60.0, seed: int = 0,
-                  flag=None, his_face=None, Dp_scale: float = 0.04, extra_quiet_s: float = 0.0):
+                  flag=None, his_face=None, Dp_scale: float = 0.04, Dp_word_scale: float = 0.08, extra_quiet_s: float = 0.0):
     """One closed session. `his_face(u)` may rewrite his face stream before it is stored (e.g. more smiling)."""
     r = np.random.default_rng(seed)
     n2 = int(seconds * 2)
@@ -58,7 +58,7 @@ def write_session(store: Store, sid: str, identity: str = "op", t0: float = 0.0,
     body[:, 1:6] = smooth(n2, 5, r) * 0.3
     body[:, 6] = 0.05                                       # D
     body[:, 7] = smooth(n2, 1, r)[:, 0] * Dp_scale          # Dp
-    body[:, 8] = smooth(n2, 1, r)[:, 0] * 0.08              # Dp_word
+    body[:, 8] = smooth(n2, 1, r)[:, 0] * Dp_word_scale     # Dp_word
     body[:, 9] = smooth(n2, 1, r)[:, 0] * 0.1               # h_word
     body[:, 10] = (r.uniform(size=n2) > 0.9) * r.uniform(0.2, 0.8, n2)   # V_F
     body[:, 11] = (r.uniform(size=n2) > 0.95) * 0.5         # drop_amp

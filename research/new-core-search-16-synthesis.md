@@ -6,7 +6,7 @@
 - **What the evidence says about weighting hard moments.**
   - Pooled over 36 datasets, people remember emotional, mostly negative, material better than neutral material, and they do so about equally after sleep and after waking. The sleep-specific advantage appears only in some designs, and only for negative material.
   - Pooled over 24 studies, sleep does not take the charge out of hard memories: physiological reactivity is unchanged and rated arousal to negative pictures goes slightly *up*.
-  - What selective offline consolidation does track, in the studies read, is *expected future use*: an announced test or reward. And human rest replays the *weakly learned* items more. [[SCHAPIRO-PLAIN]]
+  - What selective offline consolidation does track, in the studies read, is *expected future use*: an announced test or reward. The repo's Hayes note also reports that human rest replays *weakly learned* items more (Schapiro 2018, which this pass could not reach, so it is not relied on here).
   - The normative account (Mattar & Daw) says a memory is worth replaying in proportion to how much replaying it would still change what the agent does (gain), times how likely the situation is to come up again (need). Neither term is valence. A bad outcome is replayed strongly, but only while replaying it still changes behaviour. Replaying what no longer teaches anything is their model of rumination.
 - **So κ_replay = 4 is a declared constraint with thin support.** It is not wrong to have it, but it is not what the biology shows, and it costs something:
   - With 10 % of moments at full weight, they make up 31 % of what is learned each night.
@@ -50,12 +50,16 @@ Words: "hard moment" means a 2-Hz moment with high partner-need load 𝒟_p; "hi
 | shumailov-2023-curse-of-recursion-model-collapse.md | model collapse when trained on own samples | arXiv v3 main text in full; the *Nature* 2024 version not read |
 | gerstgrasser-2024-accumulating-data-avoids-collapse.md | accumulate vs replace; bounded error with accumulation | arXiv v2 main text in full |
 | mattar-daw-2018-prioritized-memory-access.md | priority = gain × need, derived; replay asymmetries; familiarity | bioRxiv v4 in full (Methods and derivation included); the *Nature Neuroscience* typeset text not read |
-[[SOURCES-ROWS]]
 
 **Used as their notes state:** memory-replay-synthesis.md, sleep-emotional-memory-walker-payne-kensinger.md, schaul-2016-prioritized-experience-replay.md, hayes-2021-replay-missing-biology.md, mcgaugh-2004-amygdala-modulates-consolidation.md, rolnick-2019-experience-replay-continual.md, van-de-ven-2020-brain-inspired-replay.md.
 
 **Not reachable, so not read and not cited for any claim:**
-[[UNREACHABLE]]
+- **Schapiro, McDevitt, Rogers, Mednick & Norman 2018** (*Nat Commun* 9:3920, human rest replay prioritises weakly learned items). nature.com is outside this session's network, PMC served a bot check, and the bioRxiv preprint (10.1101/173021) returned HTTP 429 on every one of about ten retries over roughly 12 minutes. Its finding is mentioned only as the Hayes 2021 note reports it.
+- **Liu, Dolan, Kurth-Nelson & Behrens 2019** (*Cell*, human replay sequences). cell.com and PMC were not reachable.
+- **Baran et al. 2012** (*J Neurosci*). jneurosci.org and PMC were not reachable. **Cunningham, Crowell, Alger et al. 2014** (*Neurobiol Learn Mem*) was not reachable either; the Frontiers Cunningham 2014 paper was read instead.
+- **Davidson & Pace-Schott 2021** (*Curr Sleep Med Rep*) and **Davidson, Jönsson, Carlsson & Pace-Schott 2021** (*Nat Sci Sleep*). Springer, dovepress and PMC were not reachable; Lipinska et al. 2022 was read in their place.
+- **Oudiette & Paller 2013** (*TiCS*), **Oudiette et al. 2013** (*J Neurosci*), **Feld & Born 2017** and **Joensen et al. 2022** (*Learn Mem*). These were paywalled or on blocked hosts; Barner et al. 2023 was read in their place.
+- **The published versions of Shumailov et al. 2024** (*Nature*) **and Mattar & Daw 2018** (*Nat Neurosci*). nature.com was not reachable, so the arXiv and bioRxiv preprints were read instead.
 
 **Checks.** No simulation. The weight shares, the 30-night totals and the pull's stationary variance were computed by hand and checked in a few lines of Python (`python3 -I -c`). They are algebra, not evidence.
 
@@ -82,7 +86,6 @@ Words: "hard moment" means a 2-Hz moment with high partner-need load 𝒟_p; "hi
 | What sleep selects is expected future use | Announced test plus reward: relevant > irrelevant overall; sleep × relevance short of significance (p = .096 at 1 week) (Barner 2023). An announced test produces in wake the selectivity sleep produces without it (Cunningham 2014) | **supported, modest** |
 | Selection is capacity-limited; unprioritised items can be rescued by cueing | Oudiette 2013 as reported by Barner; Barner's own TMR null with a descriptive trend for the irrelevant set | **watch** |
 | Priority should be gain × need, not salience or surprise | Derived exactly (EVB = Need × Gain); reproduces forward/reverse balance, reward asymmetries, aversive-zone replay when it changes behaviour, decline with familiarity; only gain is reduced by replay (Mattar & Daw 2018) | **adopt as the normative frame** |
-[[EVIDENCE-ROWS]]
 
 Taken with what the repo already holds:
 - McGaugh's modulator is *valence-free* arousal, and it acts after the event, awake as well as asleep (mcgaugh note). Lipinska 2019 fits that: arousal at encoding helps both sleep and wake memory.
@@ -261,9 +264,9 @@ No designs.md line.
 ## 8. What remains open
 
 - **A computable gain for the engine.** Mattar & Daw's gain needs each backup's effect on the policy before it is made. The engine has no world model yet (step 1 not built). Change R uses a replay count as a stand-in; a policy-effect gain for the scorer, computed from T-only targets, is open.
-- **Human replay of weak items in the engine's terms.** Change R's remaining-gain term is a count, not a prediction error. A prediction-error gain would be closer to the biology [[OPEN-SCHAPIRO]], but it would have to be computed from T-only targets to stay clear of A-iii. Whether such a version can be built before 𝓜 exists is open.
+- **Human replay of weak items in the engine's terms.** Change R's remaining-gain term is a count, not a prediction error. A prediction-error gain would be closer to the biology (Schapiro et al. 2018, as reported by Hayes 2021: weakly learned items replayed more; primary not read), but it would have to be computed from T-only targets to stay clear of A-iii. Whether such a version can be built before 𝓜 exists is open.
 - **The windowed slope of the appraisal display under a learned selection** (pass-14 B-ii) is still unproved. Steps 1 and 4 feed it.
 - **Whether z_T in 𝒜's input is 𝓜's state** (engine/learn/nightly.py) or the latched T values (r5 §2.6). The answer decides whether step 1's teacher reaches a gain on his input.
-- **The Nature version of Shumailov et al.**, Davidson & Pace-Schott 2021, Baran et al. 2012, Oudiette & Paller 2013 and Feld & Born were not read.
+- **Not read** (see Sources): Schapiro 2018, Liu 2019, Baran 2012, Davidson & Pace-Schott 2021, Oudiette & Paller 2013, Feld & Born, and the published versions of Shumailov and of Mattar & Daw.
 - **Positive moments.** Every human study here used negative material, or found effects only for it. Whether good moments should be consolidated preferentially has no direct evidence in what was read. Change R weights them equally by construction, which is a choice, not a finding.
 - **The relationship beyond 30 days.** With feature deletion and the θ₀ pull, what the engine knows of him after a month is the weights' slow memory plus slots and snippets. Whether that is enough for S6 is untested.

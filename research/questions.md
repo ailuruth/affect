@@ -716,6 +716,13 @@ Thirteen passes, no new core (research/new-core-search-13-synthesis.md).
 
 **Update (2026-11-28T09:17:22Z):** a fifteenth pass read how people's voices come to resemble a partner's over a conversation. Loudness, speaking rate and pauses move toward the partner's a little. Mean pitch mostly stays a person's own. The effect varies widely between people. The agent already moves its voice with your changes from your own usual level, within each setting's limit. It deliberately does not drift toward your habitual level, because that would be a copy of you; this is kept as a testable difference from people. A study with a robot that matched children's voices found more smiles but no closer feelings and worse recall, which is why the agent must never learn its voice coupling from your reactions. No change proposed; fifteen passes, no new core (research/new-core-search-15-synthesis.md).
 
+**Update (2026-11-28T10:42:15Z):** a sixteenth pass read on what the agent's nightly learning should replay most. Sleep does not favour bad memories overall, and it does not take the charge out of hard memories. What decides what gets replayed is how useful it still is. The agent's current rule gives its own hard moments four times the weight, every night for 30 nights, so it risks dwelling on hard days. Better rules are recorded but not built. The pass also found a real fault: as written, that weight could read your face, which would let your face shape what the agent learns. I fixed it so the weight reads only your words, and all checks pass (D100). Sixteen passes, no new core.
+
+**For the nightly schedule you still need to set:** the evidence does not make the hour matter. What matters is one learning block a day, run between sessions. The options:
+- **Overnight in idle hours.** This needs the Mac left on.
+- **Soon after the day's last session.** The agent learns the same thing earlier, and this suits a Mac you shut at night.
+- **After every session.** Not recommended: nothing supports it, and it changes what the learning rates mean.
+
 **What it blocks:** nothing now.
 
 **Answer (operator; dated 2026-11-27 by the operator, recorded 2026-11-26T20:40:42Z): keep searching for a new core in the background, alongside building.** The operator will allow arxiv.org in this environment's network settings.
