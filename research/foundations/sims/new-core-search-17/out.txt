@@ -1,0 +1,41 @@
+
+======== C1 share of the weighted loss, and 30-night totals
+p = 0.02: share 4p/(1+3p) = 0.0755
+p = 0.05: share 4p/(1+3p) = 0.1739
+p = 0.10: share 4p/(1+3p) = 0.3077
+p = 0.20: share 4p/(1+3p) = 0.5000
+Change R nightly weights at nights 1,2,4,8,15,30: [4.     3.25   2.5    1.9    1.5294 1.2812]
+totals over 30 nights: kappa 120, Change R 53.026, uniform 30; ratio R/uniform 1.768
+BUT as built (engine/memory/replay.py loads only sessions not yet replayed, then marks them): every moment is replayed once, so c_k = 0 always and gamma = 1: totals kappa 4, Change R 1 + 3 s u, uniform 1
+per-night contraction of the theta_0 pull alone: (1 - lr*lam)^steps = 0.3670 (so a sum of weights over nights is not a sum of influence: night n's step is shrunk by rho^(30-n))
+pull-discounted influence at night 30 (whole-window replay): kappa 6.319, Change R 2.033, uniform 1.580; ratio kappa/uniform 4.00, R/uniform 1.29
+
+======== C2 stationary spread of theta under theta <- theta - eta (clip(g) + lam (theta - theta0))
+i.i.d. noise per step: simulated var 0.2513, eta sig^2/(2 lam) = 0.2500, exact eta sig^2/(lam (2 - eta lam)) = 0.2506
+noise fixed within a night (200 full-batch steps): simulated var 45.7910; AR(1) prediction (sig/lam)^2 (1-r)/(1+r) = 46.3103; eta sig^2/(2 lam) = 0.2500
+deterministic bound with clip norm 1: |theta - theta0| <= clip/lam = 10.0 per parameter group
+
+======== C3 reader fitted with a weight that is a function of its own target (H_id-like)
+share of moments at full weight 0.094; weighted share 0.211
+unweighted fit (slopes, intercept): [ 0.0809  0.0408 -0.      0.1346]
+S48-weighted fit                  : [ 0.088   0.0446 -0.0001  0.1567]
+weighted then 1/w importance-corr.: [ 0.0809  0.0408 -0.      0.1346] (identical to unweighted: full-batch, no sampling)
+mean read V on ordinary moments: unweighted 0.1344, weighted 0.1565, true 0.1242
+
+======== C4 u = 0.25 + 0.75 x fraction of his last 7 sessions in which the topic was addressed
+   5 utterances per session, same topic mix: P(addressed in a session) = 0.276, E[u] = 0.457
+  10 utterances per session, same topic mix: P(addressed in a session) = 0.476, E[u] = 0.607
+  25 utterances per session, same topic mix: P(addressed in a session) = 0.801, E[u] = 0.851
+  50 utterances per session, same topic mix: P(addressed in a session) = 0.960, E[u] = 0.970
+ 100 utterances per session, same topic mix: P(addressed in a session) = 0.998, E[u] = 0.999
+ 200 utterances per session, same topic mix: P(addressed in a session) = 1.000, E[u] = 1.000
+length-invariant variant: u = 0.25 + 0.75 min(1, share of his last 200 utterances on the topic / s_ref); it depends on the topic mix only, not on how long or how often he stays
+
+======== C5 linear Pi-tilde / Delta alternation, with and without the Pi_0 data anchor
+anchor share 0.00: |W P0 - I| = 1.080 (on Pi_0's span), |W P_perp| = 0.047, mean |reading of his face - newborn reading| = 0.126
+anchor share 0.25: |W P0 - I| = 0.966 (on Pi_0's span), |W P_perp| = 0.019, mean |reading of his face - newborn reading| = 0.112
+anchor share 0.50: |W P0 - I| = 0.764 (on Pi_0's span), |W P_perp| = 0.015, mean |reading of his face - newborn reading| = 0.092
+(in this linear toy the drift is mostly on the span, from the noisy own face (errors in variables), not a private off-span code; the anchor reduces it but does not remove it at 0.25)
+alpha 0.25: off-span weights with the anchor 0.0161; without it at pull lam/(1-alpha) = 0.133: 0.0161; no anchor, pull lam: 0.0190
+alpha 0.5: off-span weights with the anchor 0.0124; without it at pull lam/(1-alpha) = 0.200: 0.0124; no anchor, pull lam: 0.0190
+reading: off the span the anchor is worth a pull of lam/(1 - alpha) (x1.33 at a quarter share), nothing more; on the span it pins Pi-tilde toward the innate inverse with weight alpha

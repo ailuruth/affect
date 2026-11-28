@@ -2,6 +2,20 @@
 
 Decisions that are yours (visual identity, data leaving this Mac, new paid services, changes to existing Ailurini behavior). Work that these block is not built; work they do not block continues.
 
+## Report 16: four more passes, two faults found and fixed (2026-11-28T11:47:17Z)
+
+- **Two real faults in the built engine were found and fixed.** Each was found by a reading pass and confirmed by an independent check, and all tests pass after the fix.
+  - **The nightly learning weight (D100).** As written, the weight that decides how much each moment counts in nightly learning could read your face. It now reads only your words.
+  - **The gates on the agent's quick smile return (D101).** These read your face through parts that are retrained every night, so a frozen gate was slowly changing what it saw. They now read through frozen copies, so a night of learning can't change them.
+- **What the four passes covered:**
+  - **Partner-specific reactions (pass 13):** people learn partner-specific reactions in about 15 minutes, while the agent needs about 60 sessions.
+  - **Its independent check (pass 14):** this found that one proposed fix would have turned the agent's smile return into a held copy of you. That route is ruled out.
+  - **Voices drifting toward a partner's (pass 15):** this happens weakly. The agent follows your changes but deliberately not your habitual level.
+  - **Nightly replay and its check (passes 16–17):** the agent's own hard moments are weighted too heavily. Better rules and two latent faults are recorded but not built.
+- **A small open point:** as built, each conversation is learned from on one night only, not on every night it is kept. That is a reasonable default. Replaying it every night would need a decision about how fast older moments should count less, so I've left it as built.
+- **No new core:** seventeen passes.
+- **Still open:** Q1 (voice), Q35 (safety net), Q28 (whether to keep searching), the nightly schedule (options in the Q28 updates) and your approval of the fixed text the agent sends Claude.
+
 ## Report 15: the new safety net, the voice options, and four more searches (choices in Q1 and Q35; 2026-11-28T07:00:44Z)
 
 - **Your answers are built in.** The agent can now learn head pose, gaze and voice sound from the recorded conversations, and every check passes (320 tests, plus the one known failure that waits on Q35).

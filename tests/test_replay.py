@@ -325,3 +325,22 @@ def test_retrieval_index_over_retained_transcripts(night):
     assert 0 < len(got) <= 3 and got[0].t >= got[-1].t
     assert retrieve(cands, now_s=3 * DAY, send_snippets=False) == ()
     assert SnippetIndex.build(st, L.enc, "someone_else").entries == []
+
+
+# ------------------------------------------------------------------------------------- fix G (D101): frozen gate readers
+def test_replay_never_changes_what_the_gates_read(tmp_path):
+    """The gates g and g_o read his and the agent's own face only through frozen copies of the readers they were
+    fitted with. A replay night retrains reader_his / reader_own but must leave the gate readers bit-identical, and
+    no replay-writable array may be (or alias) a gate reader."""
+    st = _store(tmp_path, "g", n=2)
+    L = Learned()
+    before = {n: (getattr(L, n).W.copy(), getattr(L, n).b.copy()) for n in ("gate_reader_his", "gate_reader_own")}
+    _replay(st, L).run(now_s=2 * DAY, **NIGHT)
+    for n, (W, b) in before.items():
+        np.testing.assert_array_equal(getattr(L, n).W, W)
+        np.testing.assert_array_equal(getattr(L, n).b, b)
+    gate_arrays = [getattr(L, n).W for n in before] + [getattr(L, n).b for n in before]
+    for name, (obj, attr) in NL.param_items(L).items():
+        arr = getattr(obj, attr)
+        assert not any(np.shares_memory(arr, g) for g in gate_arrays if isinstance(arr, np.ndarray)), name
+    assert L.gate_reader_his is not L.reader_his and L.gate_reader_own is not L.reader_own

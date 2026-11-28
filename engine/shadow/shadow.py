@@ -112,7 +112,7 @@ class Run:
 
     def slow_tick(self, inp: SlowInputs, u_read) -> None:
         self.body.tick(dataclasses.replace(inp, V_F=float(self.V_F)))
-        self.gi.slow(self.L.reader_his, self.L.reader_own, u_read, BUS_READ)
+        self.gi.slow(self.L.gate_reader_his, self.L.gate_reader_own, u_read, BUS_READ)   # frozen (fix G, D101)
         if self.held_D_tau is not None:
             self.gi.D_tau = self.held_D_tau
         b = self.body

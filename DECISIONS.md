@@ -539,3 +539,10 @@ To change: the operator answers the Q35 update (build revision 2, with or withou
 - Not adopted, recorded in the synthesis only: fix R2 (fit the readers without the weight), the optional gain × need × remaining-gain weight (Change R), fix G (the frozen gate reads its inputs through the frozen readers it was fitted with) and an anchor against Π̃/Δ co-drift. Each needs its own check before it is built.
 
 To change: restore `body.Dp` in ALLOWED_WEIGHT_SIGNALS and COL["Dp"] in nightly.py (not recommended).
+
+## D101. The echo gates read his and the agent's own face only through frozen readers (recorded 2026-11-28T11:47:17Z)
+- The pass-17 critique (research/new-core-search-16-synthesis.md §9) confirmed in the code that the gates g and g_o read his masked face (V_his, D_tau) and the agent's own face (V_own) through `L.reader_his` and `L.reader_own`, which nightly replay step 2 retrains every night. A frozen gate fitted on one reader was therefore reading through a different, learned one, a slowly varying gain on his input (the pass-13/14 failure).
+- Fixed (fix G): `Learned` keeps frozen copies `gate_reader_his` and `gate_reader_own` (taken when the readers are set up, and again only when the gates themselves are refitted). They are outside replay's writable parameters, and the shadow/factual slow tick passes them to the gate inputs. A test runs a replay night and requires the gate readers to be bit-identical and unaliased with any replay-writable array. make ci green: 321 passed, 1 xfailed (F22).
+- Recorded, not built (each needs its own step): the untyped `Dp` store column (remove or tag F); `own_loads` has no typed writer and must not be taught by his face (latent, same pattern as D100); fix R2 (fit the readers unweighted); Change R (waits on whether replay should cover the whole retention window: as built, each moment is replayed on one night only); the co-drift anchor and probe monitor (probes must not keep his faces beyond 30 days).
+
+To change: pass `L.reader_his`, `L.reader_own` back to `GateInputs.slow` in engine/shadow/shadow.py (not recommended), or call `freeze_gate_readers()` after refitting the gates.

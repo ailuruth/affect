@@ -169,6 +169,7 @@ class Learned:
         self.pname = R.PNameMap()
         self.reader_his = R.PiTilde0(n_read)
         self.reader_own = R.PiTilde0(len(OWN_READ_IDX))
+        self.freeze_gate_readers()
         self.gates = Gates()
         self.qhat = QHat()
         self.ld = ListenerDisplay()
@@ -179,6 +180,16 @@ class Learned:
         self.head_id = {}                                   # identity -> R.HeadId (nightly, M8)
         self.adapter = {}                                   # identity -> R.Adapter (nightly, M8)
         self.retrieval_query = RetrievalQuery()
+
+    def freeze_gate_readers(self) -> None:
+        """Fix G (pass 16, adopted by the pass-17 critique): the gates g and g_o read his and the agent's own face
+        only through frozen copies of the readers they were fitted with (Pi-tilde_0 at M3). Nightly replay retrains
+        reader_his / reader_own (step 2) but never these copies, so a night of replay cannot change what the frozen
+        gates see; otherwise a slowly learned reader would become a slowly varying gain on his input (pass 14).
+        Call again only when the gates themselves are refitted."""
+        import copy
+        self.gate_reader_his = copy.deepcopy(self.reader_his)
+        self.gate_reader_own = copy.deepcopy(self.reader_own)
 
     def encode_his(self, u):
         return self.enc.encode(u.text_norm)
@@ -219,4 +230,5 @@ def randomise_for_trace(L: Learned, seed: int = 0, scale: float = 0.05) -> Learn
     L.appraisal.W1 = scale * r.standard_normal(L.appraisal.W1.shape)
     L.appraisal.W2 = scale * r.standard_normal(L.appraisal.W2.shape)
     L.appraisal.Wsel = r.standard_normal(L.appraisal.Wsel.shape)
+    L.freeze_gate_readers()
     return L
