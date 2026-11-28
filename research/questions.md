@@ -714,6 +714,8 @@ Thirteen passes, no new core (research/new-core-search-13-synthesis.md).
 
 **Update (2026-11-28T08:06:36Z):** an independent check of the pass-13 sketch found one serious flaw. If the within-session record also set the agent's fast smile return, a slow change in your mood could turn that return into a held copy of you, and only the safety net would catch it. So the record may only shape which of the agent's own displays it chooses, never the speed or size of its smile return. Your face could also still reach the record indirectly, through the agent's own words. Both are written down with general fixes; nothing is built (research/new-core-search-13-synthesis.md §9).
 
+**Update (2026-11-28T09:17:22Z):** a fifteenth pass read how people's voices come to resemble a partner's over a conversation. Loudness, speaking rate and pauses move toward the partner's a little. Mean pitch mostly stays a person's own. The effect varies widely between people. The agent already moves its voice with your changes from your own usual level, within each setting's limit. It deliberately does not drift toward your habitual level, because that would be a copy of you; this is kept as a testable difference from people. A study with a robot that matched children's voices found more smiles but no closer feelings and worse recall, which is why the agent must never learn its voice coupling from your reactions. No change proposed; fifteen passes, no new core (research/new-core-search-15-synthesis.md).
+
 **What it blocks:** nothing now.
 
 **Answer (operator; dated 2026-11-27 by the operator, recorded 2026-11-26T20:40:42Z): keep searching for a new core in the background, alongside building.** The operator will allow arxiv.org in this environment's network settings.
