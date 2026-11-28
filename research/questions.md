@@ -676,6 +676,8 @@ Q24 (the concern look before words) is still open and can be answered alongside;
 
 **Update (2026-11-27T21:33:41Z):** a ninth pass read seven studies of how infants (and young marmoset monkeys) learn their own sounds from a parent's responses. In every one, what shapes the young one's output is how the parent's response follows its own output, which is the route the agent must not have; marmoset parents steer their young by timing alone. The version that keeps the parent out (responses not tied to the young one's output) teaches nothing partner-shaped in any study. Nothing new enough to count; the product is one more test for the battery (responsive versus unrelated replies, and what the agent does when responsive replies stop). Nine passes have now found no candidate; Q28 still asks whether to keep searching (research/new-core-search-9-synthesis.md).
 
+**Update (2026-11-28T00:50:12Z):** a tenth pass (seven sources on networks with proved limits on how strongly they respond to input) found no new core, but a useful build component: learned parts with a proved per-expression limit on following you (see the Q35 note). Ten passes, no new core.
+
 **What it blocks:** nothing now.
 
 **Answer (operator; dated 2026-11-27 by the operator, recorded 2026-11-26T20:40:42Z): keep searching for a new core in the background, alongside building.** The operator will allow arxiv.org in this environment's network settings.
@@ -784,4 +786,6 @@ In addition, a few test calls to Claude through his login are allowed for week 0
 - **Build the revised net as the safety net, with the one-minute fix** (my recommendation): copies are held below the limit in almost all tested cases; the two edge cases stay as visible warnings in the tests.
 - **Build the revised net without the one-minute fix:** same, but the agent's own responses are trimmed more often early in a session.
 - **Keep the current net as a monitor only** (your earlier first option): nothing changes; small-limit expressions can be copied up to about 3 times their limit by a route nobody listed.
+
+**Note (2026-11-28T00:50:12Z):** a tenth reading pass found a way to make the agent's learned parts unable, by their construction, to follow your face beyond each expression's limit, measured over longer stretches of time: each learned part is built so its response to your movement has a fixed, proved maximum. That closes the slow, switched and growing copies for those parts. It does not cover a partner who times movements exactly to the net's checks, the agent's word route through Claude, or routes nobody listed, so the safety net is still needed alongside. The cost is that learned parts see your face only as changes, not as held levels, and cannot keep a memory your face writes into. This could be added to whichever option you choose; I have not built it (research/new-core-search-10-synthesis.md).
 

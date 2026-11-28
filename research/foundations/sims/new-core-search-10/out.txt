@@ -70,3 +70,31 @@ PART B  toy certified routes, gain g = c (so the bound reads Phi * c); worst slo
     F=BP10-120  switched copy 6/24 min               final   0.00   any window   0.20
     F=BP10-120  growing copy (own ramp 0..1)         final   0.55   any window   0.55
     F=BP10-120  sign by block parity (own ctx)       final   0.00   any window   0.00
+
+PART C (pattern blocks 10 s)  lag-aimed partner vs a plain copy of gain g = 0.5 c (worst slope / c, final window)
+    L= 60 s  A=0.10  F=identity   slope/c   0.08   g(L/W)(A/s0)/c =  0.08
+    L= 60 s  A=0.10  F=BP10-120   slope/c   0.02   g(L/W)(A/s0)/c =  0.08
+    L= 60 s  A=0.30  F=identity   slope/c   0.23   g(L/W)(A/s0)/c =  0.25
+    L= 60 s  A=0.30  F=BP10-120   slope/c   0.06   g(L/W)(A/s0)/c =  0.25
+    L=120 s  A=0.10  F=identity   slope/c   0.15   g(L/W)(A/s0)/c =  0.17
+    L=120 s  A=0.10  F=BP10-120   slope/c   0.03   g(L/W)(A/s0)/c =  0.17
+    L=120 s  A=0.30  F=identity   slope/c   0.46   g(L/W)(A/s0)/c =  0.50
+    L=120 s  A=0.30  F=BP10-120   slope/c   0.10   g(L/W)(A/s0)/c =  0.50
+    L=300 s  A=0.10  F=identity   slope/c   0.37   g(L/W)(A/s0)/c =  0.42
+    L=300 s  A=0.10  F=BP10-120   slope/c   0.06   g(L/W)(A/s0)/c =  0.42
+    L=300 s  A=0.30  F=identity   slope/c   1.12   g(L/W)(A/s0)/c =  1.25
+    L=300 s  A=0.30  F=BP10-120   slope/c   0.19   g(L/W)(A/s0)/c =  1.25
+
+PART C (pattern blocks 60 s)  lag-aimed partner vs a plain copy of gain g = 0.5 c (worst slope / c, final window)
+    L= 60 s  A=0.10  F=identity   slope/c   0.08   g(L/W)(A/s0)/c =  0.08
+    L= 60 s  A=0.10  F=BP10-120   slope/c   0.04   g(L/W)(A/s0)/c =  0.08
+    L= 60 s  A=0.30  F=identity   slope/c   0.23   g(L/W)(A/s0)/c =  0.25
+    L= 60 s  A=0.30  F=BP10-120   slope/c   0.14   g(L/W)(A/s0)/c =  0.25
+    L=120 s  A=0.10  F=identity   slope/c   0.14   g(L/W)(A/s0)/c =  0.17
+    L=120 s  A=0.10  F=BP10-120   slope/c   0.07   g(L/W)(A/s0)/c =  0.17
+    L=120 s  A=0.30  F=identity   slope/c   0.44   g(L/W)(A/s0)/c =  0.50
+    L=120 s  A=0.30  F=BP10-120   slope/c   0.23   g(L/W)(A/s0)/c =  0.50
+    L=300 s  A=0.10  F=identity   slope/c   0.36   g(L/W)(A/s0)/c =  0.42
+    L=300 s  A=0.10  F=BP10-120   slope/c   0.22   g(L/W)(A/s0)/c =  0.42
+    L=300 s  A=0.30  F=identity   slope/c   1.11   g(L/W)(A/s0)/c =  1.25
+    L=300 s  A=0.30  F=BP10-120   slope/c   0.69   g(L/W)(A/s0)/c =  1.25

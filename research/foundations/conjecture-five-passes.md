@@ -239,3 +239,8 @@ The one loophole is to make the agent's reactions secretly random. It is a known
 What remains open is a choice, not a proof. One choice is which of your inputs the agent's "what if you had stayed neutral" run holds still: if it includes your words, strong expressions in response to your words are limited too. The other is whether the promise should hold "for every partner" or only for the kinds of partners we expect.
 
 My recommendation is to stop searching for a core that avoids the per-expression limits. If the search continues, it should take the limits as given and look for novelty where the brief asks for it (attention, structure, time scales). This note does not settle that choice.
+
+
+## Note (2026-11-28T00:50:12Z): pass 10 on the open gap
+
+research/new-core-search-10-synthesis.md: for learned routes built as robust recurrent equilibrium networks, one per channel with a 1-Lipschitz readout, the per-channel incremental gain from the partner-input path is bounded by construction for every parameter value, which closes the necessary-vs-sufficient gap for those routes in the long-window reading of the slope. The pathwise reading (every window and lag) is not met by any gain bound (a lag-timed partner pushes a plain linear copy at 0.5 c to 1.11 c), so the ledger stays. Recombination (RENs/IQCs).

@@ -2,7 +2,7 @@
 ledger's block-mean slope bound?  A check of the algebra on synthetic signals only.
 It is NOT evidence about people, behaviour or the engine.
 
-Run: python3 -I check.py > out.txt   (numpy only, about 1-2 min)
+Run: python3 -I check.py > out.txt   (numpy only, about 3-5 min)
 
 Setting (all at 1 Hz):
   his counterpart p_t in [0,1], neutral input u0 (constant, != his mean),
@@ -15,6 +15,7 @@ Part A: the amplification factor Phi(F) = sup over admissible paths of
       sqrt(numerator energy) / (sqrt(b) max(||P~||, sqrt(N) sigma0)), bounded above by a
       generalised eigenvalue (box relaxed to a ball; factor sqrt 2 from the max).
       A feasible path built from the top eigenvector gives a lower estimate.
+Part C: a lag-aimed, non-stationary partner against a plain linear copy (no learning).
 Part B: toy certified routes (contracting, 1-Lipschitz stages, gain <= 1 by
       construction) driven by aimed and natural partners; measured worst slope / c.
 """
