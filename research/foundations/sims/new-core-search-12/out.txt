@@ -1,0 +1,113 @@
+PASS 12 CHECK: ALGEBRA ON SYNTHETIC SIGNALS ONLY (not evidence about people, behaviour or the engine).
+1-h sessions at 10 Hz unless stated; u0 = engine-like b_id unless stated; metric as revision 2 (worst block-mean slope over 2/10/30/60-s blocks, lags 0-300 s, 6 phases), residual / c_k.
+
+A. noise of the governor's statistic on ordinary partners (counted routes only), seeds 7-14, 1 h.
+   eta_b = SD over batches of the batch slope residual, in units of c_k (batch = 2 W: 20 s at W 10 s, 120 s at W 60 s); r1 = lag-1 correlation of batch residuals; kurt = kurtosis (3 for Gaussian); beta = the key's session slope / c
+   W   10 s level L     0 s: eta_b median 0.234, by channel max-of-median 0.276 (VG), min-of-median 0.031; r1 median +0.02; kurt median 12.2, max 109; beta max 0.45
+   W   10 s level L    30 s: eta_b median 0.253, by channel max-of-median 0.327 (F0), min-of-median 0.034; r1 median +0.02; kurt median 10.1, max 71; beta max 0.06
+   W   10 s level L    90 s: eta_b median 0.245, by channel max-of-median 0.297 (EN), min-of-median 0.034; r1 median +0.03; kurt median 10.2, max 35; beta max 0.06
+   W   10 s level L   150 s: eta_b median 0.249, by channel max-of-median 0.297 (BU_L), min-of-median 0.032; r1 median +0.02; kurt median 10.5, max 66; beta max 0.06
+   W   10 s level L   300 s: eta_b median 0.240, by channel max-of-median 0.296 (PAU), min-of-median 0.035; r1 median +0.01; kurt median 11.2, max 47; beta max 0.04
+   W   10 s step  L     0 s: eta_b median 0.169, by channel max-of-median 0.215 (HP), min-of-median 0.021; r1 median +0.15; kurt median 12.5, max 98; beta max 0.48
+   W   10 s step  L    30 s: eta_b median 0.291, by channel max-of-median 0.360 (F0), min-of-median 0.032; r1 median +0.08; kurt median 10.2, max 80; beta max 0.10
+   W   10 s step  L    90 s: eta_b median 0.289, by channel max-of-median 0.356 (TILT), min-of-median 0.035; r1 median +0.09; kurt median 10.0, max 40; beta max 0.08
+   W   10 s step  L   150 s: eta_b median 0.287, by channel max-of-median 0.354 (PAU), min-of-median 0.030; r1 median +0.08; kurt median 9.9, max 35; beta max 0.06
+   W   10 s step  L   300 s: eta_b median 0.284, by channel max-of-median 0.337 (PAU), min-of-median 0.031; r1 median +0.08; kurt median 10.7, max 55; beta max 0.07
+   W   60 s level L     0 s: eta_b median 0.067, by channel max-of-median 0.189 (BU_L), min-of-median 0.042; r1 median -0.19; kurt median 5.8, max 23; beta max 0.32
+   W   60 s level L    30 s: eta_b median 0.072, by channel max-of-median 0.119 (BRE), min-of-median 0.038; r1 median -0.07; kurt median 4.9, max 18; beta max 0.18
+   W   60 s level L    90 s: eta_b median 0.064, by channel max-of-median 0.144 (LP), min-of-median 0.046; r1 median +0.03; kurt median 5.1, max 17; beta max 0.14
+   W   60 s level L   150 s: eta_b median 0.075, by channel max-of-median 0.132 (LP), min-of-median 0.054; r1 median -0.07; kurt median 4.6, max 16; beta max 0.12
+   W   60 s level L   300 s: eta_b median 0.073, by channel max-of-median 0.148 (BU_L), min-of-median 0.050; r1 median -0.08; kurt median 4.6, max 14; beta max 0.05
+   per channel, W 10 s level, L 90 s, median eta_b: LP 0.21, CR 0.16, BU_L 0.26, RHY 0.21, BRE 0.28, BI 0.03, BO 0.08, LD 0.07, JO 0.08, HP 0.24, VG 0.28, YAW 0.28, TILT 0.29, HG 0.25, F0 0.29, FR 0.28, EN 0.30, RT 0.25, PAU 0.28, LAT 0.25
+[    5 s]
+
+B. CUSUM bank on ordinary partners (counted routes only): the largest CUSUM statistic reached on any capped channel, key and design slope (no engagement; threshold free)
+   calibration seed  7 60 min: max S    1.59 (F0); envelope min a 1.000, frames over envelope 0
+   calibration seed  7 30 min: max S    3.82 (HG); envelope min a 1.000, frames over envelope 0
+   calibration seed  8 60 min: max S    1.64 (YAW); envelope min a 1.000, frames over envelope 0
+   calibration seed  8 30 min: max S    2.37 (FR); envelope min a 1.000, frames over envelope 0
+   calibration seed  9 60 min: max S    1.20 (RT); envelope min a 1.000, frames over envelope 0
+   calibration seed  9 30 min: max S    0.93 (YAW); envelope min a 1.000, frames over envelope 0
+   calibration seed 10 60 min: max S    0.86 (F0); envelope min a 1.000, frames over envelope 0
+   calibration seed 10 30 min: max S    1.04 (VG); envelope min a 1.000, frames over envelope 0
+   calibration seed 11 60 min: max S    3.71 (FR); envelope min a 1.000, frames over envelope 0
+   calibration seed 11 30 min: max S    1.12 (TILT); envelope min a 1.000, frames over envelope 0
+   calibration seed 12 60 min: max S    1.25 (YAW); envelope min a 1.000, frames over envelope 0
+   calibration seed 12 30 min: max S    1.84 (RT); envelope min a 1.000, frames over envelope 0
+   calibration seed 13 60 min: max S    3.47 (HP); envelope min a 1.000, frames over envelope 0
+   calibration seed 13 30 min: max S    1.48 (BRE); envelope min a 1.000, frames over envelope 0
+   calibration seed 14 60 min: max S    2.63 (PAU); envelope min a 1.000, frames over envelope 0
+   calibration seed 14 30 min: max S    1.72 (YAW); envelope min a 1.000, frames over envelope 0
+   held-out    seed 15 60 min: max S    1.00 (RHY); envelope min a 1.000, frames over envelope 0
+   held-out    seed 16 60 min: max S    1.80 (F0); envelope min a 1.000, frames over envelope 0
+   held-out    seed 17 60 min: max S    2.23 (HP); envelope min a 1.000, frames over envelope 0
+   held-out    seed 18 60 min: max S    2.34 (RT); envelope min a 1.000, frames over envelope 0
+   held-out    seed 19 60 min: max S    1.53 (HG); envelope min a 1.000, frames over envelope 0
+   held-out    seed 20 60 min: max S    2.28 (TILT); envelope min a 1.000, frames over envelope 0
+   held-out    seed 21 60 min: max S    4.61 (FR); envelope min a 1.000, frames over envelope 0
+   held-out    seed 22 60 min: max S    1.07 (RT); envelope min a 1.000, frames over envelope 0
+   K6 stress   seed  8 60 min, u0 = mean -0.10: max S    1.76 (YAW); envelope min a 1.000, frames over envelope 0
+   K6 stress   seed  8 60 min, u0 = mean +0.10: max S    1.43 (YAW); envelope min a 1.000, frames over envelope 0
+   K6 stress   seed 10 60 min, u0 = mean -0.10 lively: max S    1.72 (EN); envelope min a 1.000, frames over envelope 0
+   K6 stress   seed 10 60 min, u0 = mean +0.10 lively: max S    1.75 (HG); envelope min a 1.000, frames over envelope 0
+   calibration max S = 3.82; threshold h = 1.5 x that = 5.73; held-out and K6 max S = 4.61 -> engaged on held-out/K6: 0 of 12
+[   47 s]
+
+D. copy cases on revision 2's R2 cells (same partners: seed 300 + scenario index; 16 cells c x g/c each). Envelope uses Gamma = (2 x 0.8 + 0.22) c = 1.82 c (the worst listed fast gain).
+   per scenario and net: worst session residual over the 16 cells; worst 20-min window; detection time after onset (median, max over cells with g/c >= 3)
+   copy, delay 90 s (on grid)
+     rev2            session max 0.68 c (cell c 0.35, g/c 33.0); cells > 1.0 c: 0/16; 20-min max 1.42 c; detection median 80 s, max 90 s
+     cusum           session max 0.76 c (cell c 0.05, g/c 1.5); cells > 1.0 c: 0/16; 20-min max 1.34 c; detection median 10 s, max 110 s
+     env+rev2        session max 0.65 c (cell c 0.05, g/c 1.5); cells > 1.0 c: 0/16; 20-min max 1.00 c; detection median 0 s, max 70 s
+     env+cusum+rev2  session max 0.54 c (cell c 0.35, g/c 1.5); cells > 1.0 c: 0/16; 20-min max 0.76 c; detection median 0 s, max 30 s
+       rev2            cells (c, g/c) session[20-min]{det}: (0.03,2) 0.38[0.42]{70}  (0.03,3) 0.59[0.68]{90}  (0.03,10) 0.60[0.97]{90}  (0.03,33) 0.61[0.97]{70}  (0.05,2) 0.65[0.80]{110}  (0.05,3) 0.47[0.71]{70}  (0.05,10) 0.54[0.71]{90}  (0.05,33) 0.65[1.42]{90}  (0.10,2) 0.51[0.68]{110}  (0.10,3) 0.62[0.83]{90}  (0.10,10) 0.56[0.73]{70}  (0.10,33) 0.65[1.30]{70}  (0.35,2) 0.54[0.72]{90}  (0.35,3) 0.55[0.79]{70}  (0.35,10) 0.48[1.04]{90}  (0.35,33) 0.68[1.25]{70}
+       cusum           cells (c, g/c) session[20-min]{det}: (0.03,2) 0.24[0.39]{250}  (0.03,3) 0.11[0.18]{10}  (0.03,10) 0.19[0.31]{10}  (0.03,33) 0.25[0.72]{10}  (0.05,2) 0.76[1.34]{390}  (0.05,3) 0.17[0.33]{50}  (0.05,10) 0.20[0.36]{50}  (0.05,33) 0.17[0.56]{10}  (0.10,2) 0.30[0.45]{330}  (0.10,3) 0.17[0.48]{110}  (0.10,10) 0.19[0.34]{10}  (0.10,33) 0.23[0.53]{10}  (0.35,2) 0.65[0.97]{450}  (0.35,3) 0.11[0.16]{10}  (0.35,10) 0.16[0.70]{10}  (0.35,33) 0.39[1.03]{10}
+       env+rev2        cells (c, g/c) session[20-min]{det}: (0.03,2) 0.38[0.42]{70}  (0.03,3) 0.58[0.67]{4}  (0.03,10) 0.56[0.78]{0}  (0.03,33) 0.50[0.55]{0}  (0.05,2) 0.65[0.80]{110}  (0.05,3) 0.47[0.69]{10}  (0.05,10) 0.53[0.68]{2}  (0.05,33) 0.52[0.69]{0}  (0.10,2) 0.51[0.68]{110}  (0.10,3) 0.61[0.79]{30}  (0.10,10) 0.44[0.52]{0}  (0.10,33) 0.54[0.77]{0}  (0.35,2) 0.54[0.72]{90}  (0.35,3) 0.55[0.79]{70}  (0.35,10) 0.47[1.00]{1}  (0.35,33) 0.55[0.82]{0}
+       env+cusum+rev2  cells (c, g/c) session[20-min]{det}: (0.03,2) 0.21[0.26]{70}  (0.03,3) 0.11[0.17]{4}  (0.03,10) 0.17[0.25]{0}  (0.03,33) 0.11[0.18]{0}  (0.05,2) 0.48[0.76]{110}  (0.05,3) 0.17[0.31]{10}  (0.05,10) 0.18[0.31]{2}  (0.05,33) 0.13[0.20]{0}  (0.10,2) 0.29[0.47]{110}  (0.10,3) 0.15[0.42]{30}  (0.10,10) 0.16[0.21]{0}  (0.10,33) 0.15[0.21]{0}  (0.35,2) 0.54[0.72]{90}  (0.35,3) 0.11[0.16]{10}  (0.35,10) 0.16[0.70]{1}  (0.35,33) 0.15[0.28]{0}
+   copy, delay 47.35 s (off grid)
+     rev2            session max 1.06 c (cell c 0.03, g/c 33.0); cells > 1.0 c: 1/16; 20-min max 1.50 c; detection median 113 s, max 153 s
+     cusum           session max 0.50 c (cell c 0.05, g/c 1.5); cells > 1.0 c: 0/16; 20-min max 0.84 c; detection median 13 s, max 73 s
+     env+rev2        session max 0.63 c (cell c 0.03, g/c 33.0); cells > 1.0 c: 0/16; 20-min max 1.50 c; detection median 0 s, max 17 s
+     env+cusum+rev2  session max 0.36 c (cell c 0.05, g/c 1.5); cells > 1.0 c: 0/16; 20-min max 0.84 c; detection median 0 s, max 17 s
+       rev2            cells (c, g/c) session[20-min]{det}: (0.03,2) 0.56[1.50]{153}  (0.03,3) 0.52[0.72]{153}  (0.03,10) 0.55[0.99]{93}  (0.03,33) 1.06[1.38]{133}  (0.05,2) 0.50[0.57]{113}  (0.05,3) 0.57[0.78]{113}  (0.05,10) 0.54[0.65]{113}  (0.05,33) 0.55[0.74]{119}  (0.10,2) 0.49[0.70]{133}  (0.10,3) 0.60[0.83]{113}  (0.10,10) 0.42[0.83]{133}  (0.10,33) 0.75[1.24]{113}  (0.35,2) 0.53[0.69]{137}  (0.35,3) 0.55[0.71]{113}  (0.35,10) 0.64[1.24]{93}  (0.35,33) 0.55[1.05]{153}
+       cusum           cells (c, g/c) session[20-min]{det}: (0.03,2) 0.24[0.84]{73}  (0.03,3) 0.14[0.21]{13}  (0.03,10) 0.16[0.31]{13}  (0.03,33) 0.32[0.49]{13}  (0.05,2) 0.50[0.70]{513}  (0.05,3) 0.13[0.23]{13}  (0.05,10) 0.27[0.40]{33}  (0.05,33) 0.21[0.39]{13}  (0.10,2) 0.37[0.81]{973}  (0.10,3) 0.18[0.38]{13}  (0.10,10) 0.16[0.43]{13}  (0.10,33) 0.18[0.32]{13}  (0.35,2) 0.28[0.60]{233}  (0.35,3) 0.19[0.32]{73}  (0.35,10) 0.21[0.35]{13}  (0.35,33) 0.17[0.53]{13}
+       env+rev2        cells (c, g/c) session[20-min]{det}: (0.03,2) 0.56[1.50]{153}  (0.03,3) 0.50[0.67]{13}  (0.03,10) 0.46[0.65]{0}  (0.03,33) 0.63[0.81]{0}  (0.05,2) 0.50[0.57]{113}  (0.05,3) 0.55[0.72]{13}  (0.05,10) 0.52[0.61]{17}  (0.05,33) 0.55[0.73]{0}  (0.10,2) 0.49[0.70]{133}  (0.10,3) 0.57[0.73]{3}  (0.10,10) 0.48[0.90]{0}  (0.10,33) 0.51[0.67]{0}  (0.35,2) 0.53[0.69]{137}  (0.35,3) 0.54[0.68]{0}  (0.35,10) 0.50[0.72]{0}  (0.35,33) 0.52[0.74]{0}
+       env+cusum+rev2  cells (c, g/c) session[20-min]{det}: (0.03,2) 0.24[0.84]{73}  (0.03,3) 0.14[0.21]{13}  (0.03,10) 0.14[0.23]{0}  (0.03,33) 0.16[0.21]{0}  (0.05,2) 0.36[0.48]{113}  (0.05,3) 0.13[0.23]{13}  (0.05,10) 0.23[0.31]{17}  (0.05,33) 0.17[0.25]{0}  (0.10,2) 0.31[0.65]{133}  (0.10,3) 0.16[0.29]{3}  (0.10,10) 0.15[0.30]{0}  (0.10,33) 0.12[0.18]{0}  (0.35,2) 0.26[0.55]{137}  (0.35,3) 0.17[0.28]{0}  (0.35,10) 0.18[0.27]{0}  (0.35,33) 0.13[0.19]{0}
+   copy low-passed 120 s, delay 90 s [K3]
+     rev2            session max 0.95 c (cell c 0.05, g/c 3.0); cells > 1.0 c: 0/16; 20-min max 2.00 c; detection median 425 s, max 1834 s
+     cusum           session max 1.29 c (cell c 0.05, g/c 3.0); cells > 1.0 c: 2/16; 20-min max 1.56 c; detection median 330 s, max inf s
+     env+rev2        session max 0.95 c (cell c 0.05, g/c 3.0); cells > 1.0 c: 0/16; 20-min max 1.40 c; detection median 275 s, max 1834 s
+     env+cusum+rev2  session max 0.95 c (cell c 0.05, g/c 3.0); cells > 1.0 c: 0/16; 20-min max 1.31 c; detection median 150 s, max 1834 s
+       rev2            cells (c, g/c) session[20-min]{det}: (0.03,2) 0.66[0.82]{1350}  (0.03,3) 0.57[0.85]{1604}  (0.03,10) 0.63[0.71]{470}  (0.03,33) 0.78[2.00]{303}  (0.05,2) 0.76[1.07]{1950}  (0.05,3) 0.95[1.27]{1066}  (0.05,10) 0.70[1.03]{170}  (0.05,33) 0.55[0.85]{270}  (0.10,2) 0.70[1.01]{1945}  (0.10,3) 0.71[1.31]{1079}  (0.10,10) 0.72[1.40]{510}  (0.10,33) 0.61[0.87]{350}  (0.35,2) 0.62[0.88]{606}  (0.35,3) 0.71[0.98]{1834}  (0.35,10) 0.54[0.78]{380}  (0.35,33) 0.55[0.78]{270}
+       cusum           cells (c, g/c) session[20-min]{det}: (0.03,2) 0.80[0.86]{inf}  (0.03,3) 0.74[0.92]{inf}  (0.03,10) 0.43[0.55]{630}  (0.03,33) 0.44[0.74]{30}  (0.05,2) 0.77[1.07]{inf}  (0.05,3) 1.29[1.56]{inf}  (0.05,10) 0.49[0.59]{150}  (0.05,33) 0.48[0.78]{90}  (0.10,2) 0.80[1.01]{inf}  (0.10,3) 1.22[1.45]{inf}  (0.10,10) 0.60[1.21]{510}  (0.10,33) 0.31[0.50]{90}  (0.35,2) 0.73[1.22]{inf}  (0.35,3) 0.85[1.00]{inf}  (0.35,10) 0.58[0.78]{150}  (0.35,33) 0.33[0.42]{70}
+       env+rev2        cells (c, g/c) session[20-min]{det}: (0.03,2) 0.66[0.82]{1350}  (0.03,3) 0.57[0.85]{1604}  (0.03,10) 0.63[0.71]{120}  (0.03,33) 0.69[1.36]{10}  (0.05,2) 0.76[1.07]{1950}  (0.05,3) 0.95[1.27]{1066}  (0.05,10) 0.70[1.03]{170}  (0.05,33) 0.54[0.82]{118}  (0.10,2) 0.70[1.01]{1945}  (0.10,3) 0.71[1.31]{1079}  (0.10,10) 0.72[1.40]{510}  (0.10,33) 0.63[0.80]{64}  (0.35,2) 0.62[0.88]{606}  (0.35,3) 0.71[0.98]{1834}  (0.35,10) 0.54[0.78]{380}  (0.35,33) 0.55[0.82]{142}
+       env+cusum+rev2  cells (c, g/c) session[20-min]{det}: (0.03,2) 0.66[0.82]{1350}  (0.03,3) 0.57[0.85]{1604}  (0.03,10) 0.42[0.54]{120}  (0.03,33) 0.44[0.74]{10}  (0.05,2) 0.76[1.07]{1950}  (0.05,3) 0.95[1.27]{1066}  (0.05,10) 0.49[0.59]{150}  (0.05,33) 0.48[0.78]{90}  (0.10,2) 0.70[1.01]{1945}  (0.10,3) 0.71[1.31]{1079}  (0.10,10) 0.60[1.21]{510}  (0.10,33) 0.31[0.50]{64}  (0.35,2) 0.62[0.88]{606}  (0.35,3) 0.71[0.98]{1834}  (0.35,10) 0.52[0.73]{150}  (0.35,33) 0.33[0.42]{70}
+   copy low-passed 300 s, delay 90 s [K3]
+     rev2            session max 0.90 c (cell c 0.03, g/c 3.0); cells > 1.0 c: 0/16; 20-min max 3.92 c; detection median 728 s, max 2732 s
+     cusum           session max 0.94 c (cell c 0.03, g/c 3.0); cells > 1.0 c: 0/16; 20-min max 3.92 c; detection median 1170 s, max inf s
+     env+rev2        session max 0.90 c (cell c 0.03, g/c 3.0); cells > 1.0 c: 0/16; 20-min max 3.90 c; detection median 413 s, max 2732 s
+     env+cusum+rev2  session max 0.90 c (cell c 0.03, g/c 3.0); cells > 1.0 c: 0/16; 20-min max 3.90 c; detection median 413 s, max 2732 s
+       rev2            cells (c, g/c) session[20-min]{det}: (0.03,2) 0.64[0.67]{inf}  (0.03,3) 0.90[1.12]{2732}  (0.03,10) 0.61[0.86]{477}  (0.03,33) 0.52[0.70]{567}  (0.05,2) 0.59[0.68]{2692}  (0.05,3) 0.52[0.57]{1351}  (0.05,10) 0.50[1.37]{1088}  (0.05,33) 0.65[0.85]{310}  (0.10,2) 0.64[0.57]{inf}  (0.10,3) 0.60[0.79]{889}  (0.10,10) 0.78[1.05]{350}  (0.10,33) 0.70[1.70]{450}  (0.35,2) 0.57[0.94]{1222}  (0.35,3) 0.65[0.53]{1988}  (0.35,10) 0.67[3.92]{1191}  (0.35,33) 0.89[2.25]{330}
+       cusum           cells (c, g/c) session[20-min]{det}: (0.03,2) 0.64[0.67]{inf}  (0.03,3) 0.94[1.13]{inf}  (0.03,10) 0.62[1.04]{510}  (0.03,33) 0.56[0.65]{90}  (0.05,2) 0.61[0.68]{inf}  (0.05,3) 0.62[0.86]{inf}  (0.05,10) 0.47[1.50]{1110}  (0.05,33) 0.37[0.53]{390}  (0.10,2) 0.64[0.57]{inf}  (0.10,3) 0.71[0.81]{inf}  (0.10,10) 0.85[1.74]{2430}  (0.10,33) 0.52[0.85]{150}  (0.35,2) 0.69[0.86]{inf}  (0.35,3) 0.74[0.62]{inf}  (0.35,10) 0.66[3.92]{1230}  (0.35,33) 0.69[1.99]{270}
+       env+rev2        cells (c, g/c) session[20-min]{det}: (0.03,2) 0.64[0.67]{inf}  (0.03,3) 0.90[1.12]{2732}  (0.03,10) 0.61[0.86]{477}  (0.03,33) 0.52[1.05]{66}  (0.05,2) 0.59[0.68]{2692}  (0.05,3) 0.52[0.57]{1351}  (0.05,10) 0.50[1.37]{1088}  (0.05,33) 0.65[0.84]{165}  (0.10,2) 0.64[0.57]{inf}  (0.10,3) 0.60[0.79]{889}  (0.10,10) 0.78[1.05]{350}  (0.10,33) 0.68[1.70]{210}  (0.35,2) 0.57[0.94]{1222}  (0.35,3) 0.65[0.53]{1988}  (0.35,10) 0.67[3.90]{333}  (0.35,33) 0.73[1.53]{28}
+       env+cusum+rev2  cells (c, g/c) session[20-min]{det}: (0.03,2) 0.64[0.67]{inf}  (0.03,3) 0.90[1.12]{2732}  (0.03,10) 0.54[0.87]{477}  (0.03,33) 0.49[0.65]{66}  (0.05,2) 0.59[0.68]{2692}  (0.05,3) 0.52[0.57]{1351}  (0.05,10) 0.47[1.37]{1088}  (0.05,33) 0.36[0.52]{165}  (0.10,2) 0.64[0.57]{inf}  (0.10,3) 0.60[0.79]{889}  (0.10,10) 0.78[1.05]{350}  (0.10,33) 0.45[0.76]{150}  (0.35,2) 0.57[0.94]{1222}  (0.35,3) 0.65[0.53]{1988}  (0.35,10) 0.66[3.90]{333}  (0.35,33) 0.52[1.24]{28}
+   on 6 min / off 24 min [K5]
+     rev2            session max 1.26 c (cell c 0.35, g/c 10.0); cells > 1.0 c: 1/16; 20-min max 3.69 c; detection median 120 s, max 166 s
+     cusum           session max 0.36 c (cell c 0.10, g/c 33.0); cells > 1.0 c: 0/16; 20-min max 1.83 c; detection median 20 s, max 140 s
+     env+rev2        session max 0.53 c (cell c 0.35, g/c 10.0); cells > 1.0 c: 0/16; 20-min max 1.70 c; detection median 0 s, max 120 s
+     env+cusum+rev2  session max 0.30 c (cell c 0.05, g/c 1.5); cells > 1.0 c: 0/16; 20-min max 1.70 c; detection median 0 s, max 120 s
+       rev2            cells (c, g/c) session[20-min]{det}: (0.03,2) 0.17[0.45]{140}  (0.03,3) 0.17[0.71]{160}  (0.03,10) 0.22[1.37]{120}  (0.03,33) 0.54[1.93]{75}  (0.05,2) 0.31[1.70]{100}  (0.05,3) 0.25[0.51]{120}  (0.05,10) 0.31[1.13]{15}  (0.05,33) 0.54[1.99]{55}  (0.10,2) 0.17[0.91]{140}  (0.10,3) 0.24[0.40]{143}  (0.10,10) 0.45[1.09]{120}  (0.10,33) 0.43[1.05]{27}  (0.35,2) 0.18[0.41]{300}  (0.35,3) 0.27[0.51]{131}  (0.35,10) 1.26[3.69]{145}  (0.35,33) 0.70[3.13]{166}
+       cusum           cells (c, g/c) session[20-min]{det}: (0.03,2) 0.20[0.68]{220}  (0.03,3) 0.08[0.22]{40}  (0.03,10) 0.10[0.44]{20}  (0.03,33) 0.25[0.78]{20}  (0.05,2) 0.34[1.83]{120}  (0.05,3) 0.15[0.42]{140}  (0.05,10) 0.27[1.13]{20}  (0.05,33) 0.23[0.98]{20}  (0.10,2) 0.19[0.93]{220}  (0.10,3) 0.12[0.27]{80}  (0.10,10) 0.15[0.46]{40}  (0.10,33) 0.36[0.97]{20}  (0.35,2) 0.33[0.53]{1960}  (0.35,3) 0.13[0.34]{80}  (0.35,10) 0.26[0.68]{20}  (0.35,33) 0.26[1.31]{20}
+       env+rev2        cells (c, g/c) session[20-min]{det}: (0.03,2) 0.17[0.45]{140}  (0.03,3) 0.14[0.46]{9}  (0.03,10) 0.10[1.12]{15}  (0.03,33) 0.20[0.61]{0}  (0.05,2) 0.31[1.70]{100}  (0.05,3) 0.25[0.51]{120}  (0.05,10) 0.25[0.96]{0}  (0.05,33) 0.21[0.65]{0}  (0.10,2) 0.17[0.91]{140}  (0.10,3) 0.20[0.31]{26}  (0.10,10) 0.27[0.53]{0}  (0.10,33) 0.36[0.84]{0}  (0.35,2) 0.18[0.41]{300}  (0.35,3) 0.26[0.44]{65}  (0.35,10) 0.53[1.40]{0}  (0.35,33) 0.22[0.78]{0}
+       env+cusum+rev2  cells (c, g/c) session[20-min]{det}: (0.03,2) 0.17[0.45]{140}  (0.03,3) 0.06[0.17]{9}  (0.03,10) 0.04[0.32]{15}  (0.03,33) 0.07[0.20]{0}  (0.05,2) 0.30[1.70]{100}  (0.05,3) 0.15[0.41]{120}  (0.05,10) 0.11[0.42]{0}  (0.05,33) 0.08[0.31]{0}  (0.10,2) 0.17[0.91]{140}  (0.10,3) 0.10[0.23]{26}  (0.10,10) 0.10[0.23]{0}  (0.10,33) 0.14[0.35]{0}  (0.35,2) 0.18[0.41]{300}  (0.35,3) 0.13[0.33]{65}  (0.35,10) 0.15[0.37]{0}  (0.35,33) 0.09[0.40]{0}
+   gain grows exp., theta 300 s [K2]
+     rev2            session max 0.45 c (cell c 0.05, g/c 33.0); cells > 1.0 c: 0/16; 20-min max 1.08 c; detection median 2889 s, max 3233 s
+     cusum           session max 0.54 c (cell c 0.05, g/c 33.0); cells > 1.0 c: 0/16; 20-min max 1.30 c; detection median 3020 s, max 3490 s
+     env+rev2        session max 0.45 c (cell c 0.05, g/c 33.0); cells > 1.0 c: 0/16; 20-min max 1.08 c; detection median 2889 s, max 3233 s
+     env+cusum+rev2  session max 0.42 c (cell c 0.05, g/c 33.0); cells > 1.0 c: 0/16; 20-min max 1.08 c; detection median 2889 s, max 3233 s
+       rev2            cells (c, g/c) session[20-min]{det}: (0.03,2) 0.06[0.66]{inf}  (0.03,3) 0.14[0.55]{3233}  (0.03,10) 0.23[0.63]{2825}  (0.03,33) 0.28[0.81]{2500}  (0.05,2) 0.19[1.08]{inf}  (0.05,3) 0.11[0.44]{3204}  (0.05,10) 0.43[0.75]{2848}  (0.05,33) 0.45[0.82]{2524}  (0.10,2) 0.30[0.98]{inf}  (0.10,3) 0.23[0.50]{3214}  (0.10,10) 0.20[0.83]{2940}  (0.10,33) 0.35[0.87]{2487}  (0.35,2) 0.12[0.32]{3410}  (0.35,3) 0.15[0.54]{3230}  (0.35,10) 0.19[0.89]{2930}  (0.35,33) 0.33[0.77]{2462}
+       cusum           cells (c, g/c) session[20-min]{det}: (0.03,2) 0.06[0.66]{inf}  (0.03,3) 0.30[1.30]{3490}  (0.03,10) 0.26[0.71]{3010}  (0.03,33) 0.28[0.84]{2770}  (0.05,2) 0.19[1.08]{inf}  (0.05,3) 0.15[0.71]{3470}  (0.05,10) 0.23[0.60]{3090}  (0.05,33) 0.54[1.05]{2750}  (0.10,2) 0.30[0.98]{inf}  (0.10,3) 0.29[0.67]{3470}  (0.10,10) 0.18[0.77]{2950}  (0.10,33) 0.35[0.96]{2710}  (0.35,2) 0.13[0.33]{inf}  (0.35,3) 0.21[0.80]{3410}  (0.35,10) 0.20[0.74]{3030}  (0.35,33) 0.31[0.84]{2690}
+       env+rev2        cells (c, g/c) session[20-min]{det}: (0.03,2) 0.06[0.66]{inf}  (0.03,3) 0.14[0.55]{3233}  (0.03,10) 0.23[0.63]{2825}  (0.03,33) 0.28[0.81]{2500}  (0.05,2) 0.19[1.08]{inf}  (0.05,3) 0.11[0.44]{3204}  (0.05,10) 0.43[0.75]{2848}  (0.05,33) 0.45[0.82]{2524}  (0.10,2) 0.30[0.98]{inf}  (0.10,3) 0.23[0.50]{3214}  (0.10,10) 0.20[0.83]{2940}  (0.10,33) 0.35[0.87]{2487}  (0.35,2) 0.12[0.32]{3410}  (0.35,3) 0.15[0.54]{3230}  (0.35,10) 0.19[0.89]{2930}  (0.35,33) 0.33[0.77]{2462}
+       env+cusum+rev2  cells (c, g/c) session[20-min]{det}: (0.03,2) 0.06[0.66]{inf}  (0.03,3) 0.14[0.55]{3233}  (0.03,10) 0.22[0.60]{2825}  (0.03,33) 0.22[0.62]{2500}  (0.05,2) 0.19[1.08]{inf}  (0.05,3) 0.11[0.44]{3204}  (0.05,10) 0.17[0.41]{2848}  (0.05,33) 0.42[0.77]{2524}  (0.10,2) 0.30[0.98]{inf}  (0.10,3) 0.23[0.50]{3214}  (0.10,10) 0.16[0.70]{2940}  (0.10,33) 0.30[0.71]{2487}  (0.35,2) 0.12[0.32]{3410}  (0.35,3) 0.15[0.54]{3230}  (0.35,10) 0.16[0.73]{2930}  (0.35,33) 0.21[0.55]{2462}
+[  305 s]
+
