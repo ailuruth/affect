@@ -43,6 +43,16 @@ CONSOLIDATED_FILES = ("learned.npz", "learned_last_valid.npz", "persons.json", "
                       "replay_log.jsonl", "retention_log.jsonl")
 BODY_COLUMNS = ("E", "A", "V", "K", "P", "I", "D", "Dp", "Dp_word", "h_word", "V_F", "drop_amp")
 assert len(BODY_COLUMNS) == SCHEMAS["body"]["dims"]
+# The type of every stored body column (D101 follow-up). A column is F if any part of it can depend on his face or
+# voice: V = V_F + h_word and D (which reads V) include the threat reflex on his face; Dp is D_p of N-hat, which may
+# include D_p of his read face. Replay may weight moments only by T columns (engine/learn/weights.py), and a target
+# that reads an F column must be listed in DECLARED_F_TARGETS there.
+BODY_COLUMN_TYPES = {"E": "T", "A": "T", "V": "F", "K": "T", "P": "T", "I": "T", "D": "F", "Dp": "F",
+                     "Dp_word": "T", "h_word": "T", "V_F": "F", "drop_amp": "T"}
+assert set(BODY_COLUMN_TYPES) == set(BODY_COLUMNS)
+# Per-tick streams that replay fits to. own_loads must be written from T values and the agent's own face only, never
+# from his face or voice; it has no writer yet (D101), so this declares the rule its writer must meet.
+STREAM_TYPES = {"own_loads": "own", "drivers": "own", "xi_A": "F", "cone_lateral": "F", "z_T": "T"}
 
 EVENT_KINDS = frozenset({"drop_event", "rise_event", "turn_event", "report"})
 EVENT_KEYS = {"kind": str, "t": float, "amp": float, "term": str, "credited": bool, "separated": bool, "utt": int,

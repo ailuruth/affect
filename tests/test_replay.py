@@ -344,3 +344,24 @@ def test_replay_never_changes_what_the_gates_read(tmp_path):
         arr = getattr(obj, attr)
         assert not any(np.shares_memory(arr, g) for g in gate_arrays if isinstance(arr, np.ndarray)), name
     assert L.gate_reader_his is not L.reader_his and L.gate_reader_own is not L.reader_own
+
+
+# ------------------------------------------------------------------- D101 follow-up: typed store columns and streams
+def test_replay_weights_and_targets_respect_column_types():
+    """Every stored body column has a type; replay weights read only T columns; a target that reads an F column is
+    declared (omega's D, bounded by Lemma S*); the per-tick streams the readers are fitted to are never F."""
+    from engine.memory import store as S
+    from engine.memory.replay import TICK_STREAMS
+    assert set(S.BODY_COLUMN_TYPES) == set(S.BODY_COLUMNS)
+    for sig in WB.ALLOWED_WEIGHT_SIGNALS:
+        if sig.startswith("body."):
+            assert S.BODY_COLUMN_TYPES[sig[5:]] == "T", sig
+    declared_f = {("omega", "body.D"), ("word_v", "body.V_F")}   # both declared routes (Lemma S*; pass 16 table)
+    for step, srcs in WB.TARGET_SOURCES.items():
+        for src in srcs:
+            if src.startswith("body.") and S.BODY_COLUMN_TYPES.get(src[5:]) == "F":
+                assert (step, src) in declared_f, (step, src)
+    assert set(TICK_STREAMS) <= set(S.STREAM_TYPES)
+    for step in ("pi_tilde", "delta"):
+        for src in WB.TARGET_SOURCES[step]:
+            assert S.STREAM_TYPES.get(src) in ("own", "T"), (step, src)
