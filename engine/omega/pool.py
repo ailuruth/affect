@@ -342,30 +342,45 @@ class Pool:
         self.log = []
         self._interrupt = asyncio.Event()
         self.killed_pids = []
+        self._model_blocked = None
 
     # ---------------------------------------------------------------- the model behind the voice (Fix P, D102)
-    def _model_ok(self, model) -> bool:
-        """The exact model id that speaks is recorded the first time it is seen. If a later turn reports a different id
-        (an alias such as "haiku" resolving to a new model), the change is logged and the agent stays silent until the
-        operator sets `claude_model` to the new exact id, so a model change can never alter the agent's words
-        unnoticed."""
-        if not model:
-            return True
+    def _model_check(self, models) -> str | None:
+        """None if the exact model that would speak is the recorded one, else the reason the turn stays silent.
+
+        Fix P (D102), hardened after the pass-19 critique (D103): every compared draft must report the same non-empty
+        model id ("model_unknown" otherwise); the first id is recorded atomically on a first run (no record file);
+        a later different id, or a damaged record, is "model_changed" unless the operator has set `claude_model` to
+        that exact id; a record that cannot be written is "model_unrecorded". The check fails closed."""
+        ids = {m for m in models}
+        if len(ids) != 1 or not next(iter(ids)):
+            self._note("model_unknown", models=sorted(str(m) for m in ids))
+            return "model_unknown"
+        model = next(iter(ids))
         path = self.cfg.state_dir / "claude_model_seen.json"
-        try:
-            prev = json.loads(path.read_text()).get("model")
-        except (OSError, ValueError):
-            prev = None
-        if prev is None or model == self.cfg.model:
-            if prev != model:
-                path.parent.mkdir(parents=True, exist_ok=True)
-                path.write_text(json.dumps({"model": model}))
-                self._note("model_recorded", model=model, was=prev)
-            return True
+        prev, damaged = None, False
+        if path.exists():
+            try:
+                rec = json.loads(path.read_text())
+                prev = rec.get("model") if isinstance(rec, dict) else None
+                damaged = not (isinstance(prev, str) and prev)
+            except (OSError, ValueError):
+                damaged = True
         if model == prev:
-            return True
-        self._note("model_changed", was=prev, now=model)
-        return False
+            return None
+        if (prev is None and not damaged) or model == self.cfg.model:
+            try:
+                path.parent.mkdir(parents=True, exist_ok=True)
+                tmp = path.with_suffix(".tmp")
+                tmp.write_text(json.dumps({"model": model}))
+                os.replace(tmp, path)
+            except OSError as err:
+                self._note("model_unrecorded", model=model, error=str(err))
+                return "model_unrecorded"
+            self._note("model_recorded", model=model, was=prev)
+            return None
+        self._note("model_changed", was=prev, now=model, damaged_record=damaged)
+        return "model_changed"
 
     # ---------------------------------------------------------------- lifecycle
     def _note(self, what: str, **kw) -> None:
@@ -462,6 +477,8 @@ class Pool:
             return TurnResult(None, "silent:route_stopped")
         if self.sizer.silent():
             return await self._silent(new, "limit")
+        if self._model_blocked is not None:                 # blocked turns spend no calls (D103)
+            return await self._silent(new, self._model_blocked)
         try:
             self.canonical.verify()
         except TR.IntegrityError as err:
@@ -570,9 +587,11 @@ class Pool:
                     self.killed_pids.append(f.proc.pid)
                 await f.reap()
         self._replace_in_background()
-        # ---- the model that would speak must be the recorded one (Fix P, D102)
-        if not self._model_ok(win.draft.model):
-            return await self._silent(new, "model_changed")
+        # ---- the model that would speak must be the recorded one (Fix P, D102; D103)
+        why = self._model_check([f.draft.model for f in cands])
+        if why is not None:
+            self._model_blocked = why
+            return await self._silent(new, why)
         # ---- A11 on the winner's own session file, before any word goes out
         try:
             self._check_fork(win, final=False)

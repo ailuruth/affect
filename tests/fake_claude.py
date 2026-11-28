@@ -95,7 +95,8 @@ def main():
         u = str(uuid.uuid4())
         fh.write(json.dumps({"type": "user", "sessionId": sid, "uuid": u, "parentUuid": parent,
                              "message": {"role": "user", "content": [{"type": "text", "text": recorded}]}}) + "\n")
-    emit({"type": "system", "subtype": "init", "session_id": sid, "model": os.environ.get("FAKE_CLAUDE_MODEL") or arg(argv, "--model"),
+    emit({"type": "system", "subtype": "init", "session_id": sid, "model": (None if os.environ.get("FAKE_CLAUDE_MODEL") == "-" else
+                    os.environ.get("FAKE_CLAUDE_MODEL") or arg(argv, "--model")),
           "tools": []})
     if mode == "limit":
         emit({"type": "rate_limit_event", "rate_limit_info": {"status": "rejected"}})

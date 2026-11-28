@@ -543,3 +543,42 @@ def test_a_model_change_silences_the_agent_until_pinned(env):
     assert any(e["event"] == "model_changed" and e["was"] == "m-a" and e["now"] == "m-b" for e in p2.log)
     r3, p3 = run(session(env.cfg(base_env={"FAKE_CLAUDE_MODEL": "m-b"}, claude_model="m-b"), [(his("Now?"), ())]))
     assert r3[0].reply is not None
+
+
+# --------------------------------------------------------------- D103: the model check fails closed (pass-19 critique)
+def test_model_check_fails_closed(env):
+    env.set({"text": "Hello there. Second."})
+    spoken = []
+
+    async def on_text(t):
+        spoken.append(t)
+
+    async def one(cfg, msg, n=1):
+        pool = P.Pool(cfg)
+        try:
+            await pool.start()
+            rs = [await pool.turn(his(msg), (), on_text=on_text) for _ in range(n)]
+            return rs, pool
+        finally:
+            await pool.close()
+
+    # no model id reported: silent, nothing spoken, his turn committed; a second turn spends no call
+    rs, pool = run(one(env.cfg(base_env={"FAKE_CLAUDE_MODEL": "-"}), "Hi?", n=2))
+    assert [r.reason for r in rs] == ["silent:model_unknown"] * 2 and not spoken
+    assert pool.entries[-1].text == his("Hi?").text
+    sends = len(env.log("recv"))
+    # a damaged record is not a first run
+    rec = env.state / "claude_model_seen.json"
+    rec.parent.mkdir(parents=True, exist_ok=True)
+    rec.write_text("{")
+    rs, pool = run(one(env.cfg(base_env={"FAKE_CLAUDE_MODEL": "m-b"}), "Hello?"))
+    assert rs[0].reason == "silent:model_changed" and not spoken
+    # a record holding a non-object, and a record that is a directory: silent, no exception, turn committed
+    rec.write_text("null")
+    rs, pool = run(one(env.cfg(base_env={"FAKE_CLAUDE_MODEL": "m-b"}), "Again?"))
+    assert rs[0].reply is None and pool.entries[-1].text == his("Again?").text
+    rec.unlink()
+    rec.mkdir()
+    rs, pool = run(one(env.cfg(base_env={"FAKE_CLAUDE_MODEL": "m-b"}), "Still?"))
+    assert rs[0].reply is None and pool.entries[-1].text == his("Still?").text
+    assert not spoken and len(env.log("recv")) >= sends

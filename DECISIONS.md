@@ -553,3 +553,10 @@ To change: pass `L.reader_his`, `L.reader_own` back to `GateInputs.slow` in engi
 - Recorded, not built: Rule I (rollouts hold his presence fixed), Rule M (Claude never gets a profile or a personalisation instruction), Monitor W (chosen vs rejected first sentences on his logged turns), Change U (a weekly usage log the engine never reads). New operator questions Q36 (the fixed text, options A/B/C) and Q37 (daily use, U0–U3); Q4 gained options I0–I3.
 
 To change: delete `claude_model_seen.json` to accept whatever model next speaks, or remove the `_model_ok` check in engine/omega/pool.py (not recommended).
+
+## D103. The model check fails closed (recorded 2026-11-28T14:41:52Z)
+- The pass-19 critique (research/new-core-search-18-synthesis.md, "Critique (pass 19)") found that Fix P (D102) failed open: a draft with no model id spoke unchecked; a damaged record file was treated as a first run; a record that was not a JSON object, or could not be read or written, raised out of the turn and dropped his message; only the winner's model was checked; and blocked turns still spent calls.
+- Fixed: every compared draft must report the same non-empty id ("model_unknown" otherwise); a damaged record is not a first run ("model_changed" unless the operator has set `claude_model` to that exact id); the record is written atomically and a failed write is "model_unrecorded"; all of these are silent turns that still commit his turn; once blocked, later turns in the pool are silent without spending calls. Test: tests/test_omega.py::test_model_check_fails_closed. make ci green: 324 passed, 1 xfailed (F22).
+- Not built (recorded in the critique): showing model notices to the operator outside the in-memory log (D5); Rule I widened to hold his whole turn schedule in rollouts, not only e(t); Rule M reworded with an AST caller test for `restored_text`; Monitor W compared against the untrained rule's pick; Change U as a write-only `reports/usage.jsonl` with an AST test.
+
+To change: revert the `_model_check` hardening in engine/omega/pool.py (not recommended).

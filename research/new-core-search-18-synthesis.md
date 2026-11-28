@@ -300,3 +300,195 @@ Each is an operator decision or an M6 text decision. Two small construction rule
 - **Perspective mirroring through raw snippets** (Jain) is unbounded by the engine; only the probe measures it.
 - **Long-term HRI primaries** (Kanda 2004, Leite 2013) were not reachable. The novelty-decline evidence used here is one clinical study of children.
 - **Hurt and own-distress displays** (H5, body) are recorded as vulnerability displays; no data say whether they engender protectiveness over months.
+
+## Critique (pass 19, independent; 2026-11-28T14:35:30Z)
+
+Written by a critic who did not write the sections above. Those sections are not edited. Read for this critique:
+- brief.md (Principles 4, 6, 10);
+- questions.md Report 17, Q4, Q18, Q35, Q36 and Q37;
+- DECISIONS.md D88 and D100–D102;
+- design-cayley-ledger.md 9.2 (§2.1, §2.9, audit rows S26 and S34–S37);
+- r3 §2.11 (𝓜's heads) and r4 §2.8–§2.10 (the rollout rule);
+- spec §1.3 and §1.8.
+
+Code read:
+- engine/omega/: pool.py, isolation.py, transcript.py, lines.py, instruction.txt, retrieval.py, scorer.py;
+- engine/state/: types.py, body.py;
+- engine/memory/: store.py, retrieval_index.py, retention.py;
+- engine/learn/: nightly.py (step 8), weights.py;
+- tests/: test_omega.py, fake_claude.py, test_replay.py.
+
+Checks run:
+- research/foundations/sims/new-core-search-19/check_rules_iw.py: numpy only, synthetic draws and spec constants. **It is not evidence about people or about the engine.**
+- A probe that called `Pool._model_ok` directly against a temporary directory. It was run from the session scratchpad and is not kept in the repository.
+
+No file under engine/ or tests/ was changed.
+
+### In plain terms
+
+- **Fix P (built).** It catches the case it was built for: a later turn reports a different model id, and the agent stays silent. It fails open in other cases:
+  - When the CLI reports no model id, the agent speaks with no check.
+  - When the record file is damaged, it silently accepts whatever model speaks next. A crash while the file is being written causes exactly this, because the write is not atomic.
+  - When the record cannot be written, or holds valid JSON that is not an object, an exception escapes the turn and his words drop out of the transcript.
+  - The "model changed" notice exists only in memory, so he would hear silence with no reason given.
+  - The fixes and the tests that would catch these are below.
+- **Rule I** is needed, and its bound on the total pull is correct. Two of its claims are wrong:
+  - **The duration.** "At most about 69 s" holds only for a fully familiar person who is both in view and talking. At the lowest familiarity that has a contact drive (f_id = 0.3), with his face in view but no speech, the pull lasts about 7.6 minutes.
+  - **The scope.** Holding e(t) fixed is not enough. The play drive P and the curiosity drive I are also relieved at his turns. A rollout that predicts *whether and when* he speaks can still prefer drafts, and moments to speak, that draw him out. The rule must hold the timing of his turns, not only e(t).
+  - The rule also removes contact K from the choice to speak first and from "greeting first", both named in design 9.2. That change must be recorded.
+- **Rule M** is right in substance, but the claim that it is "enforced by type" is too strong:
+  - The type rule checks the form of what reaches the prompt builder. Any code can still build a transcript line from any string.
+  - As worded, the rule contradicts itself: raw snippets contain the agent's own past turns, and those can describe him.
+  - The fix is a rewording and one AST test.
+- **Monitor W** is well defined, but the raw "winners minus losers" contrast is confounded by the fork lines and by draft speed. In a synthetic case with no scorer at all, it raises a flag about half the time. The fix is to compare the scorer's pick with the draft the untrained rule would have picked on the same turn; both are in the log. The switch must only ever turn the scorer off, and the monitor must never be used to choose between scorer versions.
+- **Change U**, as proposed, writes the usage rows into the Ω records. Nightly step 7 is specified to read those records, so "never read" does not hold. The fix is a separate stream that only the store writes, plus an AST test.
+- **Three "closed" verdicts are too strong given the code:** H4 (memory sent raw), H6 (initiative) and §3's "disclosure: none". The table says why.
+- **The draft options** for Q4, Q36 and Q37 are general and reward nothing. U1 does read his time, but only to reduce what the agent does. The I and U constants belong among the operator's switches, not in INNATE.lock, because D88 limits innate parts to the body, reflexes, newborn patterns and copy ceilings.
+- **Novelty:** component, not core. Agreed.
+
+### Per-item verdicts
+
+| # | Item | Verdict | Evidence |
+|---|---|---|---|
+| 1 | Rule I premise: rollouts let e(t) or K respond to the draft | **True, and wider than stated.** r4/r5 §2.10 impute F, the act → Q edge and the partner's *content*, not the occurrence or timing of his turns. Spec §1.8 does not say how the K and P parts of b̂ evolve in a rollout. In r3 §2.11, 𝓜's own-body head covers E, I and own A only, so K and P can only come from the body equations driven by predicted partner events. 𝓜 is not built, so as built nothing responds | r4 §2.10; r3 §2.11 row 15; spec §1.8 l. 233; scorer.py `untrained` |
+| 2 | Prop. 1: total 𝒟 drop ≤ 0.6 f_id (K₀ − 0.1)² per session | **Correct.** The K term is 0.6 f_id ψ((K − 0.10)₊) with ψ = x². In session, K only decays. The table reproduces to three digits | body.py `d_term`, l. 287–290; innate `drive_terms`; check script §1 |
+| 3 | "Lasting at most about 69 s" | **Wrong as a general bound.** The time to the band is 30 ln(10 K₀)/(f_id e) s. For a 7-day gap it is 69 s (f_id 1, e 1), 138 s (f_id 1, e 0.5), 229 s (f_id 0.3, e 1) and 459 s (f_id 0.3, e 0.5). The table's footnote says f_id = 1. The plain-terms text ("at most about a minute") and the index line ("≤ 69 s") drop that condition. The size bound still holds, and is smaller at low f_id (0.143 at f_id 0.3) | check script §1 |
+| 4 | Would holding e(t) break anything? | **Nothing in the factual body.** The real e(t) still drives K relief, the contact-relief smile, its E1 events and ω, so the agent's response to his arrival is unchanged. **It does change the design:** the K term becomes identical across "speak now / wait" and across drafts. Contact K therefore leaves the initiative tilt (design 9.2 §2.9: "contact K entering through the 𝓜 rollout") and the "greet first through the initiative choice" path (§2.9, greeting). This is the intended effect under Principle 6, but it must be written into §2.9, along with K's ablation prediction (a K lesion no longer changes initiative timing). Greeting first still comes from the learned hazard h(t) | design 9.2 §2.9 (initiative, greeting) |
+| 5 | Is e(t) the only partner-driven term? | **No (a missed route).** P ← P(1 − 0.15 q̂) fires *at each of his turns*. q̂ reads his words (λ of his last two utterances, his surprisal) as well as the agent's last turn. I is relieved at each *partner-initiated* utterance. With content imputed but turn timing predicted, the P and I terms still depend on whether and when 𝓜 expects him to speak (C1, C2). §2.1's "q̂ reads the agent's own words" is incomplete | body.py l. 236–243 |
+| 6 | Rule M: a current path for a profile or a personalising instruction? | **None today.** The instruction, the three lines, the snippet template, `build_turn` (only TranscriptText / Marker / Snippet), `retrieve` and retention all carry raw stored turns only. The instruction asks for no personalisation | instruction.txt; lines.py; transcript.py; retrieval.py; retention.py l. 71–94 |
+| 7 | Rule M "already enforced by type" | **Overstated: the type enforces form, not provenance.** `restored_text(speaker, text, t)` is public and accepts any string. Its docstring says the store is its only caller, but retrieval_index.py l. 58 also calls it. `consolidated/snippets.jsonl` is written with untyped dicts (`Store.write_lines`). `Utterance` is a plain record (shadow.py l. 335 builds one). No test restricts these constructors, as test_f19 does for `_chosen_reply`. OwnHeard and A15 do not bear on this: OwnHeard is the state's input, and A15 checks INNATE.lock categories | types.py l. 246–249; store.py l. 317; test_omega.py l. 508–527 |
+| 8 | Rule M wording | **Self-contradictory.** "Never a description of him written by … Claude" is broken by the raw snippets themselves, which include the agent's past turns ("You: you always take on too much"). The rule should forbid text *composed to describe him*, not descriptions inside verbatim turns | lines.py `SPEAKER_AGENT` |
+| 9 | Monitor W: well defined and computable | **Yes, with two logging gaps.** The Ω records hold drafts and the winner (`OMEGA_KEYS`). Per-draft first-sentence time and fork line are also needed (item 10). The pool's `timings["first_s"]` is a list, and `append_omega` accepts only numbers in `timings`, so the omega entry point (not built) must flatten it. W reads his words only to judge stance (T) and is never an input to the engine | store.py l. 63, 176–184; pool.py `timings` |
+| 10 | Is W's threshold (0.05 over 500 turns) meaningful? | **Moderately sensitive, but confounded.** Synthetic draws (p = 0.3, 3 drafts, 2,000 bootstrap resamples, 400 windows): a preference of 0.5 log-odds gives a true difference of +0.106 and is flagged in 99 % of windows (82 % with a judge of sensitivity 0.8 and specificity 0.9). At 0.25 log-odds (+0.057) the rates are 60 % and 27 %. The best-of-3 ceiling is +0.357. **The confound:** with no scorer, if the "how he seems to feel" line agrees more (0.45 against 0.25) and wins half the turns by speed, W reads +0.050 and flags in 47 % of windows. A flag would then switch off a scorer that is not responsible | check script §2 |
+| 11 | What switching off does to Q18 and to the shadow | **Q18: nothing.** The scorer chooses words. Words reach the face only through Λ_V(own) in g and g_o, which attenuate only (≤ 1), so no Q18 quantity or bound moves. **The shadow:** factual and shadow both receive the same OwnHeard, so the shadow can never detect a leak from state into draft choice. Switching off makes draft choice state-free (it removes ≤ log₂ 3 bits per turn), which strengthens the shadow's guarantee. W does not cover the initiative tilt, which uses the same rollout | design 9.2 rule 12′; scorer.py docstring |
+| 12 | Could W become a route by which his reactions select drafts? | **Only through misuse, so the misuse must be forbidden.** Off-only, operator-confirmed, W is a one-bit alarm with no gradient. It becomes a filter (Williams's failure case) if it is used to select or early-stop scorer versions, to re-enable a retrained scorer automatically, or as a training label | §2.2 "Why not a filter" |
+| 13 | Change U: can "never read" be guaranteed by type? | **Not as proposed.** §3 writes the rows "to the Ω records". Spec §1.9 and nightly step 7 read the Ω records (drafts and winners) to train the scorer. The proposed test ("no `engine/` module imports the report") does not catch a file read. Minimal guard: Fixes, U-a | §2.2, §3 above; store.py `omega_records` |
+| 14 | Fix P | **Works for its main case; six defects (D1–D6)**, listed below | probe; pool.py l. 346–366, 548–550 |
+| 15 | Q36 A/B/C | **General; no reward.** The sentences apply at every turn, in Claude's regulation path, which D88 names as the place for situational appropriateness | D88 |
+| 16 | Q4 I0–I3 | **General, reduce-only, T-typed** (presence is T: types.py `"present": "T"`; I2 reads turn order). **Placement error:** §5.2 says "tagged in INNATE.lock", but D88 limits innate parts to the body, reflexes, newborn patterns and copy ceilings. These are operator switches in config/operator.py, like `claude_daily_cap`, and his choice is recorded as a D88 exception | D88; isolation.py `SWITCHES_NEEDED` |
+| 17 | Q37 U1 reads his time | **Yes. The use is bounded and does not reward.** It reads one count (minutes his face is present today) against one threshold (30, 60 or 120). Its only effect is to mask initiative to zero, which can only reduce what the agent does. Nothing in J, 𝓜 or any learner sees it, provided it is built as an action mask. Same placement point as item 16. Guard: the count enters only the mask (an AST test that it reaches no 𝓜 input, J term, scorer input or replay target; `FORBIDDEN_TARGET_SOURCES` already lists `session_length` for targets) | weights.py l. 44 |
+| 18 | H1 "the only term his presence relieves is K_id" | **Wrong in detail.** P and I are relieved by his turns (item 5). Separately, K, P and I drop events feed ω every night (`step_omega`, `CREDIT_TERMS = ("K", "P", "I")`) and the learning-rate factor (`lr_scale`). His presence therefore does reach a learned per-person value. It is bounded (Prop. 1 per session; ρ saturates at 0.6) and is not a reward for duration. weights.py's "nothing reads his presence as a target" passes its name-based check only because presence arrives as K drop events | nightly.py l. 472–483; weights.py |
+| 19 | H3 body "closed" | **Stands, with a qualifier.** K never rises in a session, and no goodbye rule exists (lint_stems lists "goodbye" and "farewell"). "No learner sees whether he stayed": ω's target grows with his turns until K, P and I are satiated. Staying beyond satiation is unseen | body.py; tests/lint_stems.py l. 30 |
+| 20 | H4 "closed" (memory raw, by type) | **Downgrade to "closed by convention".** See items 7 and 8 | — |
+| 21 | H6 "closed as a harm" | **Downgrade to open** until Rule I covers the timing of his turns (item 5) | — |
+| 22 | §3 "disclosure: none" | **Bounded, not none.** P relief counts his turns (≤ 0.15 P per turn, satiable). I relief counts his partner-initiated turns (total ≤ 0.1). Neither reads how much he says, only how often | body.py l. 239–243 |
+| 23 | Novelty: "component, not core" | **Agreed.** Nothing here changes J or its structure | — |
+
+### Counterexamples
+
+- **C1 (Rule I, P).** Draft A ends with a question, and 𝓜 predicts his reply 3 s later. Draft B does not, and 𝓜 predicts it 12 s later. Content is imputed and e(t) held. With P = 0.6 and q̂ = 0.25, his turn lowers 𝒟_P = 0.5 (P − 0.1)² from 0.125 to 0.114, 9 s earlier under A. A gains about 0.10 𝒟·s over the 30-s rollout. That is a question-asking bias earned by predicting that he will answer, which imputation is meant to block.
+- **C2 (Rule I, I).** Speak now against wait. Speaking makes his next utterance a reply (`agent_before` = 1, no I relief). Waiting leaves room for him to start one (I relief). So I tilts toward waiting, and how strongly depends on 𝓜's prediction of his initiative. This contradicts S35's intent ("the bored agent speaks").
+- **C3 (duration).** f_id = 0.3, a 7-day gap, his face present and silent: the K pull lasts 459 s.
+- **C4 (Monitor W).** C4 is the fork-line confound in item 10: with no scorer, it flags in 47 % of 500-turn windows.
+- **C5 (Change U).** A usage row in `omega.jsonl` is read by step 7's loader along with the drafts.
+- **C6 (Rule M).** A later nightly step writes `{"speaker": "agent", "text": "He is a perfectionist who …", …}` to `snippets.jsonl` through `Store.write_lines`. `SnippetIndex.build` turns it into a `Snippet` through `restored_text`. It passes every type check, reaches Claude as "You: He is a perfectionist …", and no test fails.
+- **C7 (Fix P).** Probe results:
+  - (4) `_model_ok("")` and `_model_ok(None)` return True after "m-a" was recorded.
+  - (5) With the file damaged to `{not json`, "m-b" returns True and is recorded as `model_recorded`, `was=None`.
+  - (6) A record file holding `null` raises AttributeError.
+
+### Fix P: defects in the built code
+
+What holds:
+- No path speaks before the check. A phase-1 interrupt returns through `_end_interrupted(new, forks, None, "")` with nothing sent. `on_text` is first called after `_model_ok`, and streaming-phase interrupts come after it.
+- The silent path commits his turn: `_silent(new, "model_changed")` with `commit=True` appends `new` and rewrites the window.
+- An alias in `cfg.model` never equals the reported id. That is intended: the operator must pin the exact `now` value.
+
+Defects:
+- **D1. A missing model id fails open.** `if not model: return True`. A CLI that drops or renames the init field, or a draft whose init event was not parsed, speaks unchecked for good.
+- **D2. A damaged record re-baselines silently.** `except (OSError, ValueError): prev = None` treats a damaged file as a first run and records the new model, with only a `model_recorded` note. The write is a plain `write_text`, not tmp + `os.replace` as in `DailyCap.take`, so a crash mid-write produces this state. The model change that Fix P exists to catch then goes unnoticed.
+- **D3. Exceptions escape the turn.**
+  - A record holding valid JSON that is not an object (`null`, a list) raises AttributeError.
+  - An unwritable record raises OSError from `write_text`. This was read from the code, not shown: the container runs as root, which bypasses permissions.
+  - Both escape `Pool.turn` after the losers are reaped, without `_silent`. His message is missing from `self.entries`, the canonical window is not rewritten, and the background refill task keeps running.
+- **D4. Only the winner is checked.** Drafts from different models in one turn are compared with each other. On a first run, the fastest draft (under the untrained rule) sets the baseline. A change seen only on a losing fork is not logged.
+- **D5. The notice lives only in `Pool.log`, in memory.** No omega entry point exists yet, and `OMEGA_KEYS` has no field for it. He would hear silence with no reason given. Strictly, this is a requirement on the entry point rather than a defect in the pool.
+- **D6. Calls are spent while blocked.** Each blocked turn still takes up to `pool_size` calls from the daily cap. `cfg` is frozen per Pool, so nothing can unblock the agent within the session.
+
+**Minimal general change** (engine/omega/pool.py). In `_select_and_stream`, call the check with every compared draft's model, `self._model_ok([f.draft.model for f in cands])`, then:
+
+```python
+    def _model_ok(self, models) -> bool:
+        path = self.cfg.state_dir / "claude_model_seen.json"
+        seen = set(models)
+        if len(seen) != 1 or not next(iter(seen)):          # D1, D4: missing or mixed ids are not checkable
+            self._note("model_unknown", models=sorted(str(m) for m in seen))
+            return False
+        (model,) = seen
+        try:
+            rec = json.loads(path.read_text())
+            prev = rec.get("model") if isinstance(rec, dict) else ""
+        except FileNotFoundError:
+            prev = None                                      # a true first run
+        except (OSError, ValueError):
+            prev = ""                                        # D2, D3: damaged, so not a first run
+        if prev == model:
+            return True
+        if prev is None or model == self.cfg.model:
+            try:                                             # D2: atomic write, as DailyCap
+                tmp = path.with_suffix(".tmp")
+                tmp.write_text(json.dumps({"model": model}))
+                os.replace(tmp, path)
+            except OSError as err:                           # D3
+                self._note("model_unrecorded", model=model, error=str(err))
+                return False
+            self._note("model_recorded", model=model, was=prev or None)
+            return True
+        self._note("model_changed", was=prev or None, now=model)
+        return False
+```
+
+Two further changes:
+- **D6.** On a False result, set `self._model_block = True`. At the top of `turn()`, `if self._model_block: return await self._silent(new, "model_changed")`. This commits his turn and spends no call.
+- **D5.** The omega entry point writes `model_changed`, `model_unknown` and `model_unrecorded` to a record the operator sees.
+
+**Tests that would catch these** (tests/test_omega.py, using the fake CLI):
+- **(a) Missing id.** Add a fake mode `no_model` that leaves out `"model"` from the init event. Assert `silent:model_unknown`, and that an `on_text` collector stays empty.
+- **(b) Damaged record.** Record "m-a", overwrite `state/claude_model_seen.json` with `{`, then run with "m-b". Assert `silent:model_changed` and no `model_recorded`.
+- **(c) Record that cannot be read or written.**
+  - Write `null` to the record. Assert the turn returns `silent:*` without raising, and that `pool.entries[-1]` is his message.
+  - Replace the record with a directory, which fails even as root, and assert the same.
+- **(d) The existing test, extended.**
+  - In the `m-b` run, pass an `on_text` collector and assert it is empty.
+  - Assert `pool.entries[-1].text == "Still there?"`.
+  - Run a second blocked turn and assert from the fake's log that no message was sent.
+
+### Fixes to the proposals
+
+- **I-a.** Restate Rule I as follows. In every 𝓜 rollout used for draft scoring or for ΔĴ, all partner events form one draft-independent imputed schedule: his presence, whether and when he speaks, the content of what he says, and his face. The simplest such schedule has no new partner turn in the horizon.
+  - The K and P parts of b̂ come from the body equations under that schedule, never from a learned head.
+  - Extend the assertion: two drafts whose rollouts differ only in predicted partner speech get equal K, P and I terms (tolerance 1e-9).
+- **I-b.** Replace "≤ 69 s" with 30 ln(10 K₀)/(f_id e) s, which is at most 459 s.
+- **I-c.** Record in design §2.9 that contact K no longer tilts initiative or greeting first, and give the changed ablation prediction.
+- **M-a.** Reword Rule M: "Claude receives earlier conversation only as verbatim stored turns, his and the agent's, as they were said. It never receives text composed to describe him, by anyone, nor an instruction to personalise."
+- **M-b.** Extend test_f19's AST walk:
+  - `restored_text` may be called only in engine/memory/store.py and engine/memory/retrieval_index.py;
+  - `snippet` may be called only in retrieval_index.py;
+  - `write_lines("snippets.jsonl", …)` may be called only in retention.py.
+  - Add a schema check on snippets.jsonl records (exact keys; text equal to a stored transcript line at write time).
+- **M-c.** Add a week-0 check that no Claude Code memory file (user CLAUDE.md, auto-memory) reaches a fork, given `--setting-sources ""`. This is unverified here.
+- **W-a.** Use the paired counterfactual: on the same turns, take A(scorer's winner) − A(the draft with the earliest first sentence among the same candidates). This is identically 0 under the untrained rule, so neither the fork lines nor speed can confound it. Log `t_first` and the fork line per draft.
+- **W-b.** `scorer_enabled` is an operator switch. A flag can only propose turning it off, and only the operator turns it back on.
+- **W-c.** W is never used to select, early-stop or filter scorer versions, or as a label. Its judge runs in eval/ on calls the operator has approved.
+- **W-d.** State that W does not watch the initiative tilt.
+- **U-a.** Change U gets its own stream, `reports/usage.jsonl`, outside `sessions/` and `consolidated/`.
+  - It is written only by a store method `append_usage(day, face_minutes, agent_turns, initiative_turns, calls)` with an exact numeric schema. There is no reader in `Store`.
+  - AST test: in engine/, the string `"usage.jsonl"` and the name `append_usage` occur only in store.py and at the logger call sites, and no engine/ module opens a path under `reports/`. eval/ reads the file by path.
+  - The same guard covers U3's questionnaire.
+- **Q-a.** Put the I and U constants in config/operator.py, not INNATE.lock, and record his choice as a D88 exception.
+
+### Final verdicts
+
+- **Rule I: adopt with named fixes** I-a, I-b and I-c. Without I-a, H6 stays open once 𝓜 is trained.
+- **Rule M: adopt with named fixes** M-a, M-b and M-c.
+- **Monitor W: adopt with named fixes** W-a to W-d. The raw winner–loser contrast alone is not adopted.
+- **Change U: adopt with named fixes**: U-a. As written, the "never read" claim fails.
+- **Fix P (D102): keep, with fixes for D1–D4 and D6 and the D5 requirement**, and the four tests above. As built it is better than nothing, but it fails open in the cases most likely after a CLI update: a missing field, or a damaged record.
+
+### What remains open
+
+- How b̂ is computed in rollouts: the body equations under imputed partner events, or a learned head. Spec §1.8 does not say.
+- Whether a judge can tell support from flattery in short first sentences (W's labels).
+- In-context perspective mirroring through raw snippets.
+- The drift of ω driven by reunions (bounded, but nobody watches it).
+- Whether a daily limit that shows only as silence is read by him as withdrawal.
