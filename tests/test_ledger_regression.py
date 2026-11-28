@@ -111,6 +111,28 @@ def test_bit_identical_inside_33_channels(ref):
         assert (hk, grk, flk) == (h[k], gr[k], fl[k])
 
 
+def test_evidence_floor_matches_rev2_lib_and_zero_floor_is_today(ref):
+    """The ledger's evidence floor (design-scaled-safety-net.md §7.5; D104): with E0 = 0.54 the engine's ledger equals
+    rev2_lib.LedgerE0 (E starts at 1e-9 + E0) bit for bit; E0 = 0 is the ledger of revision 9.2 (the tests above),
+    and the floor changes the output (it admits more early in the session, never more than its input)."""
+    import refsims
+    from engine.shadow.governor import evidence_floor
+    R = refsims.rev2_lib()
+    assert evidence_floor(FS) == ENTRIES["ledger_evidence_floor"].value == 0.54
+    uu = ref["u"][:N30]
+    x = ref["delay"](uu, 240 * FS) - uu.mean()
+    led_ref = R.LedgerE0([C_LP], 0.54)
+    o_ref = np.array([led_ref.step(uu[t:t + 1], x[t:t + 1])[0] for t in range(N30)])
+    o, h, gr, fl = L.run(uu, x, [C_LP], FS, evidence_floor=0.54)
+    assert np.array_equal(o, o_ref), np.max(np.abs(o - o_ref))
+    assert float(led_ref.hits[0]) / N30 == h
+    assert gr == 0.0 and fl == 0.0
+    o0, h0, *_ = L.run(uu, x, [C_LP], FS)
+    assert not np.array_equal(o, o0) and h < h0
+    o00, *_ = L.run(uu, x, [C_LP], FS, evidence_floor=0.0)
+    assert np.array_equal(o00, o0)
+
+
 # ------------------------------------------------------------------------------------------- full 2 h (slow)
 def _printed(name):
     rows = {}

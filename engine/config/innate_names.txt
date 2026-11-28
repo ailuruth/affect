@@ -73,6 +73,18 @@ g0_glare_traces
 gate_basis
 gate_m_ref_percentile
 gate_shape
+governor_batch_W
+governor_frame_budget_ms
+governor_kappa
+governor_keys
+governor_n_req
+governor_ratchet
+governor_rate_hz
+governor_sigma0
+governor_start_W
+governor_t_test
+governor_taus_s
+governor_z
 grad_clip
 h_word_tau_s
 hazard_without_fit_per_s
@@ -89,6 +101,7 @@ laugh_synth_floor
 learn_progress_gain
 learn_progress_rise_tau_h
 learn_progress_windows
+ledger_evidence_floor
 ledger_floor
 ledger_frame_budget_ms
 ledger_kappa

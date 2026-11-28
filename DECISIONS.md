@@ -572,3 +572,25 @@ To change: revert the `_model_check` hardening in engine/omega/pool.py (not reco
 - make ci green after the switch changes: 325 passed, 1 xfailed.
 
 To change: the operator answers again; each answer is one switch in engine/config/operator.py.
+
+## D105. The scaled safety net, revision 2, with the ledger's one-minute evidence floor, is built (recorded 2026-11-28T15:40:11Z)
+- Built as the operator answered Q35 (D104):
+  - `engine/shadow/governor.py`: a per-channel, attenuate-only governor in front of the unchanged ledger, as design-scaled-safety-net.md §7.2 specifies. It has three memories and a ratchet, and every threshold scales with c_k.
+  - The ledger takes an evidence floor of one minute (E₀ = 0.54 at 10 Hz, scaled with the frame rate).
+  - Both are wired through the `safety_net` switch (scaled_rev2_with_floor). The ledger-only path stays reachable for tests.
+  - A new assert, A4g.
+  - Spec §1.6, §4.1, A4/A4g and the §5.1 F22 row are updated.
+  - Regression tests show the governor and the net are bit-for-bit equal to the reference sim (rev2_lib).
+- F22's injected-copy test now passes: worst channel 0.73 c (the ledger alone gave 2.01 c); its xfail is removed. Two strict expected failures remain, as §7.7 said they would:
+  - causal b_id copies over the whole hour (BO 1.26 c; ≤ 0.56 c from 10 min on);
+  - the switched 6-min-on, 24-min-off copy.
+- make ci green: 343 passed, 2 xfailed (498 s; close to the 590-s limit, so slow fixtures may be marked later).
+- Builder's choices where the design was silent:
+  - E₀ is added to the ledger's starting evidence, which decays, as in the reference, not as §7.5's formula reads.
+  - E₀ is applied by the net, not as the Ledger default.
+  - At 30 Hz the sums update every third frame.
+  - The counted-routes test asserts the ledger's ≤ 1 % only on the original recipe. With b_id the ledger reaches 0.97 % and 4.61 % on two seeds, the §7.5 figures.
+- **Open design finding:** on zero-ceiling channels (BL, LT), the governor's target is 0, so any partner-caused part, including the away magnitudes A3/S31 allow, is cut to 0 for the session within 5–17 min. Recorded under Q35; not changed.
+- Not built: per-minute logging of the binding key (`latched_key()` exposes it). Governor update takes about 0.8 ms per 33 channels every third frame (0.27 ms per frame on average, under budget; spikes above 0.5 ms).
+
+To change: set `safety_net` to "ledger_only" or "scaled_rev2" in engine/config/operator.py.

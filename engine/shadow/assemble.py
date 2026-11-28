@@ -2,8 +2,9 @@
 
   y = sat(g y_f|smile_laugh + y_f|others + y_C + y_A + g_o y_o|smile_laugh + y_o|others) + visemes,
 
-then the attenuate-only ledger (engine/shadow/ledger.py, in engine/shadow/shadow.py), then the muscle filter M (4 Hz,
-zeta 0.8; second-order, bilinear transform, numpy only) on the face and head channels: M * (y + blink reflex).
+then the safety net (the governor, engine/shadow/governor.py, then the attenuate-only ledger, engine/shadow/ledger.py;
+wired in engine/shadow/shadow.py), then the muscle filter M (4 Hz, zeta 0.8; second-order, bilinear transform, numpy
+only) on the face and head channels: M * (y + blink reflex).
 sat clips each channel to its nominal range: one-sided and zero-ceiling channels [0, 1], signed channels [-1, 1].
 Visemes and the blink reflex come with the rig at M5 (zero here). The laugh synthesizer reads only y_BU_L, y_RHY,
 y_BRE (`laugh_synth_input`); there is no sob source (y_BU_S = 0; A9).

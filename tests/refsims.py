@@ -59,3 +59,18 @@ def g7_gate() -> dict:
     ret = _lines(p, "    return lambda x, b=b, m_ref=m_ref, drop=drop:").strip()
     ns["gate_expr"] = ret[len("return "):]
     return ns
+
+
+def rev2_lib():
+    """research/foundations/sims/scaled-safety-net/rev2_lib.py as a module (numpy only; it reads check.py's
+    definitions itself): `Governor2`, `LedgerE0`, the partner recipe, `engine_baseline`, `causal_copy`,
+    `counted_routes`. Loaded once."""
+    import importlib.util
+    import sys
+    name = "_rev2_lib_ref"
+    if name not in sys.modules:
+        spec = importlib.util.spec_from_file_location(name, SIMS / "scaled-safety-net" / "rev2_lib.py")
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        sys.modules[name] = mod
+    return sys.modules[name]

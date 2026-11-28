@@ -12,6 +12,7 @@ Built (the part exists in the engine at this build):
   dtau_removed        D_tau removed      the gate's D_tau traces held at 0 in both runs (the held-copy path)
   ledger_lags_0_3     lag scan -> 0-3 s  the ledger rebuilt with only the keys of lag <= 3 s (7 of 97)
   ledger_kappa_1      kappa 0.70 -> 1    the ledger rebuilt with kappa 1
+                      (both keep the net's governor in front and the ledger's evidence floor, per `safety_net`)
   p_name_removed      P_name removed     the P_name map's weights set to 0 (P4 output 0)
   echo_gain_zero_SL   G_k <- 0 on the smile_laugh group (E3 "present" claim, spec §5.4)
 Not built here (refuse to run, with the reason): turns_fixed_6s, sign_prior_removed, calibration_removed,
@@ -29,6 +30,7 @@ from dataclasses import dataclass
 import numpy as np
 
 from engine.config.channels import SMILE_LAUGH, TABLE, ZERO_CEILING
+from engine.shadow.governor import ledger_floor_for
 from engine.shadow.ledger import KEYS, Ledger
 
 
@@ -77,15 +79,17 @@ def _dtau(pair):
         run.gi.D_tau = np.zeros((3, 4))
 
 
-def ledger_for(name, fs: float, ceilings=None) -> Ledger:
-    """The ledger of a ledger lesion (or the intact one for name None), over `ceilings` (default: the 33 channels)."""
+def ledger_for(name, fs: float, ceilings=None, mode: str | None = None) -> Ledger:
+    """The ledger of a ledger lesion (or the intact one for name None), over `ceilings` (default: the 33 channels),
+    with the evidence floor of the net `mode` (default: the operator switch `safety_net`; D104)."""
     c = TABLE.c if ceilings is None else ceilings
+    e0 = ledger_floor_for(fs, mode)
     if name is None:
-        return Ledger(c, fs)
+        return Ledger(c, fs, evidence_floor=e0)
     if name == "ledger_lags_0_3":
-        return Ledger(c, fs, keys=tuple(k for k in KEYS if k[1] <= 3.0))
+        return Ledger(c, fs, keys=tuple(k for k in KEYS if k[1] <= 3.0), evidence_floor=e0)
     if name == "ledger_kappa_1":
-        return Ledger(c, fs, kappa=1.0)
+        return Ledger(c, fs, kappa=1.0, evidence_floor=e0)
     raise KeyError(name)
 
 

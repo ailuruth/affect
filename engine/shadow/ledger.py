@@ -17,6 +17,16 @@ bit-identical to the reference (tests/test_ledger_regression.py). The key order 
 (it lists the 10-s lags 125-300 s last); every per-key quantity is independent and combined only by min, max and
 any, so the order does not change a bit.
 
+Evidence floor (design-scaled-safety-net.md §7.5; Q35, D104): E starts at 1e-9 + E0 on every key and decays with the
+budget time like the rest of E, so early in a session the bound kappa c_k E carries about one minute of his movement
+(E0 = 0.54 at 10 Hz) instead of a ratio of near-zero sums. E0 is on his signal (the regressor), so the bound stays a
+multiple of c_k (Lemma 0). E0 = 0, the default here, is bit-identical to revision 9.2; the engine's net
+(engine/shadow/governor.py `build_net`) passes the floor when the operator switch `safety_net` asks for it. This is
+`LedgerE0` of research/foundations/sims/scaled-safety-net/rev2_lib.py.
+
+Input: the governor's output x = a r (engine/shadow/governor.py), or the raw partner-caused part r when the ledger
+runs alone (`safety_net` = ledger_only, tests and lesions).
+
 Budgets are per session: reset() at session start; EMAs of u start at the first frame, as the reference.
 History of u is one ring of max-lag + 1 frames shared by all keys (the reference reads u[t - L], u[0] before t = L).
 """
@@ -39,8 +49,9 @@ class Ledger:
     reference's `kappa * c`)."""
 
     def __init__(self, ceilings, fs: float, kappa: float = KAPPA, keys=KEYS, tau_budget: float = TAU_BUDGET,
-                 tau_centre: float = TAU_CENTRE, floor: float = FLOOR):
+                 tau_centre: float = TAU_CENTRE, floor: float = FLOOR, evidence_floor: float = 0.0):
         self.fs = float(fs)
+        self.E0 = float(evidence_floor)
         c = np.asarray(ceilings, dtype=np.float64)
         self.n = c.shape[0]
         self.bound = np.array([kappa * float(ck) for ck in c], dtype=np.float64)
@@ -67,7 +78,7 @@ class Ledger:
         self.rW = np.zeros((n, len(self.wins)))
         self.rC = np.zeros(n)
         self.S = np.zeros((n, K))
-        self.E = np.full((n, K), 1e-9)
+        self.E = np.full((n, K), 1e-9) + self.E0
         self.Q = np.full((n, K), 1e-12)
         self.buf = None
         self.ptr = -1
@@ -79,7 +90,8 @@ class Ledger:
         self.last_hold = np.zeros(n, dtype=bool)
 
     def step(self, u, r) -> np.ndarray:
-        """One frame. u: his channels [n]; r: partner-caused part [n]. Returns x2 [n], the admitted part."""
+        """One frame. u: his channels [n]; r: partner-caused part [n] (the governor's output when it runs). Returns
+        x2 [n], the admitted part."""
         u = np.asarray(u, dtype=np.float64)
         x = np.asarray(r, dtype=np.float64)
         if self.buf is None:

@@ -97,6 +97,21 @@ def check_a4_frame(r: np.ndarray, x2: np.ndarray, S: np.ndarray, E: np.ndarray, 
     return bad
 
 
+def check_a4g_frame(r: np.ndarray, x: np.ndarray, a: np.ndarray, a_prev: np.ndarray, ever_latched: np.ndarray,
+                    zero_rows) -> np.ndarray:
+    """A4g, per frame (the scaled safety net's governor, engine/shadow/governor.py): 0 <= a_k <= 1; a_k(t) <=
+    a_k(t - 1) within the session (ratchet); x_k = a_k r_k exactly; a_k = 1 until some key of the channel has
+    latched; a_k in {0, 1} on zero-ceiling channels. Returns the mask of failing channels."""
+    a = np.asarray(a, dtype=np.float64)
+    bad = (a < 0.0) | (a > 1.0) | (a > np.asarray(a_prev, dtype=np.float64))
+    bad |= np.asarray(x, dtype=np.float64) != a * np.asarray(r, dtype=np.float64)
+    bad |= (a != 1.0) & ~np.asarray(ever_latched, dtype=bool)
+    z = np.zeros(a.shape[0], dtype=bool)
+    z[list(zero_rows)] = True
+    bad |= z & (a != 0.0) & (a != 1.0)
+    return bad
+
+
 # ---------------------------------------------------------------------------------------------------- A10
 def check_a10(lock_path: Path | None = None, learned: dict | None = None) -> str:
     """A10 (start): INNATE.lock equals the canonical serialisation of config/innate.py and its recorded SHA-256

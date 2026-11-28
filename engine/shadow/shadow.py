@@ -11,9 +11,12 @@ identity and session are the same objects in both runs, so the shadow's T state 
 no F value leaks into T: A5 compares them (digest of every T field at 2 Hz; the T-only free display y_o at 30 Hz)
 and checks the held copies.
 
-Per frame: y = assemble(factual), ybar = assemble(shadow), r = y - ybar, x2 = ledger(u, r), rendered = ybar + x2,
-then the muscle filter on the face channels. Fail-safes (spec §4.3), for the rest of the session:
-  A1, A3, A4  channel k renders ybar_k;          A2  the failing gate -> its context-free constant (reads nothing);
+Per frame: y = assemble(factual), ybar = assemble(shadow), r = y - ybar, x = governor(u, r) = a r (the scaled
+safety net, engine/shadow/governor.py, started at the shadow's own input b_id), x2 = ledger(u, x), rendered =
+ybar + x2, then the muscle filter on the face channels. The operator switch `safety_net` picks the net (D104:
+governor, then the ledger with its evidence floor); `net_mode="ledger_only"` keeps the ledger alone for tests.
+Fail-safes (spec §4.3), for the rest of the session:
+  A1, A3, A4, A4g  channel k renders ybar_k;          A2  the failing gate -> its context-free constant (reads nothing);
   A5          the whole output -> ybar, the factual T state overwritten by the shadow's, learning off, build failed;
   A6          cone -> last valid latch, else G0 and the diagonal;   A7  learned appraisal bases and Delta -> 0;
   A8          L_d -> 0;    A9  laugh synth gated to 0, neutral prosody;    A14  body frozen, learning off (in Body).
@@ -41,7 +44,7 @@ from engine.routes.free_display import FreeDisplay
 from engine.routes.gates import GateInputs, g_vector, go_vector
 from engine.routes.learned_t import OWN_READ_IDX, READ_IDX, Learned
 from engine.shadow.assemble import MuscleFilter, assemble, laugh_synth_input
-from engine.shadow.ledger import Ledger
+from engine.shadow.governor import build_net
 from engine.state.body import Body, Session, SlowInputs
 
 N = len(TABLE.codes)
@@ -151,7 +154,7 @@ class Output:
 
 class ShadowPair:
     def __init__(self, session: Session, b_id, learned: Learned | None = None, fs: float = 30.0, dyad_prior=None,
-                 seed: int = 0, b_read=None, sigma_id=None):
+                 seed: int = 0, b_read=None, sigma_id=None, net_mode: str | None = None):
         self.L = Learned() if learned is None else learned
         self.fs = float(fs)
         self.b_id = np.asarray(b_id, dtype=np.float64)
@@ -160,7 +163,7 @@ class ShadowPair:
         self.session = session
         self.factual = Run(self.L, session, self.b_id, self.fs, dyad_prior)
         self.shadow = Run(self.L, session, self.b_id, self.fs, dyad_prior)
-        self.ledger = Ledger(TABLE.c, self.fs)
+        self.governor, self.ledger = build_net(TABLE.c, self.fs, self.b_id[:N], net_mode)
         self.muscle = MuscleFilter(self.fs)
         self.rng = np.random.default_rng(seed)
         self.safety = Safety()
@@ -267,11 +270,16 @@ class ShadowPair:
             self._a5(t, ["fast-loop T inputs (y_o)" if not np.array_equal(Tf.y_o, Ts.y_o) else "held:g"])
 
         r = y - ybar
-        x2 = self.ledger.step(fr.u, r)
+        gov = self.governor
+        x = gov.step(fr.u, r) if gov is not None else r
+        x2 = self.ledger.step(fr.u, x)
         led = self.ledger
-        a3 = A.check_a3_frame(ZERO_CEILING, x2, led.S, led.last_active)
-        a4 = A.check_a4_frame(r, x2, led.S, led.E, led.bound, led.last_active, led.last_hold)
-        for aid, m in (("A3", a3), ("A4", a4)):
+        checks = []
+        if gov is not None:
+            checks.append(("A4g", A.check_a4g_frame(r, x, gov.a, gov.prev_a, gov.ever_latched, ZERO_CEILING)))
+        checks.append(("A3", A.check_a3_frame(ZERO_CEILING, x2, led.S, led.last_active)))
+        checks.append(("A4", A.check_a4_frame(x, x2, led.S, led.E, led.bound, led.last_active, led.last_hold)))
+        for aid, m in checks:
             if m.any():
                 S.fail(t, aid, [TABLE.codes[k] for k in np.nonzero(m & ~S.channel_ybar)[0]])
                 S.channel_ybar |= m

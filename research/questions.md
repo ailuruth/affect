@@ -890,6 +890,11 @@ In addition, a few test calls to Claude through his login are allowed for week 0
 
 **Answer (operator, 2026-11-28; recorded 2026-11-28T14:53:34Z):** build the revised net as the safety net, with the one-minute fix. Recorded as D104. The current ledger stays until the build passes its tests; then the expected F22 failure should pass.
 
+
+**Built (2026-11-28T15:40:11Z, D105):** the revised safety net and the one-minute fix are in, and all checks pass.
+- The test copy of your face that the old net let through at twice the limit now stays at 0.73 of the limit at worst.
+- Two known gaps remain, as the design said they would: a copy switched on and off, and copies built from your own usual level in the first ten minutes.
+- One finding, not changed: on the expressions whose limit is zero, the net cuts to zero for the whole session any part your face causes. That includes the small opposite-direction displays the design otherwise allows. A design question to take up later; nothing needed from you now.
 ## Q36. The fixed text the agent sends Claude: three options (asked 2026-11-28T13:37:33Z; needed before the Claude route turns on)
 Claude writes the agent's words, so the fixed instruction is the main guard against two known companion-AI harms. One is manipulative goodbyes, such as asking you to stay or saying your leaving hurts. The other is agreeing with you to please you. Today's text does not forbid either and calls the agent "a companion" (research/new-core-search-18-synthesis.md).
 - **A. Approve the text as it is.**

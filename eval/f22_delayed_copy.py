@@ -2,15 +2,20 @@
 1.0 c_k by the block-mean metric at 2-s, 10-s or 1-min windows (worst over lags 0-300 s); and the ledger must change
 <= 1 % of frames of the counted routes alone.
 
-Ledger only (§5.5 step 1): the copy is injected after assembly, so the engine's routes are computed once per person
-(their partner-caused part r = y - ybar, stored) and only the ledger and the metric are re-run.
+Net only (§5.5 step 1): the copy is injected after assembly, so the engine's routes are computed once per person
+(their partner-caused part r = y - ybar, stored) and only the safety net and the metric are re-run. The net is the
+engine's, per the operator switch `safety_net` (D104): the scaled governor (engine/shadow/governor.py) in front of the
+ledger, which keeps its evidence floor; `net="ledger_only"` re-runs the ledger alone. The governor starts at the
+neutral input the shadow was fed (the person's b_id, `u_neutral`); without one it falls back to his session mean (the
+construction of tests/test_ledger_injected.py) and says so in the result. F22 is judged on sessions of at least 1 h
+(design-scaled-safety-net.md §7.6: the governor needs 70-220 s of his movement after a route starts).
 Batched (step 2): one ledger instance carries every delay of a channel at once (each delay is one ledger "channel"
 with the same ceiling c_k), so one frame step updates (delays x 97 keys) in numpy. The copy is the sims' gain-1
 uncounted route: the onset lobe (x_d - lp4 x_d)+ plus the 60-s low-pass of x_d, x_d his channel delayed by L.
 
 Data: recorded partners only (Seamless test people for LP, CR, BI, BO, LD, JO; his M2 recordings for the other 14
 capped channels; live monitor at M7). None is in this session: here it runs on synthetic stand-ins as a harness test
-(`make eval-dry`), never as F22. `python -m eval.f22_delayed_copy --pilot` times the batched ledger and prints the
+(`make eval-dry`), never as F22. `python -m eval.f22_delayed_copy --pilot` times the batched net and prints the
 §5.5 plan for the full run.
 """
 from __future__ import annotations
@@ -24,6 +29,7 @@ import numpy as np
 from eval import config as C
 from eval import planner
 from eval.metrics import worst_block_slope
+from engine.shadow.governor import Governor, net_mode
 from eval.switches import ledger_for
 from eval.synthetic import lp
 
@@ -41,30 +47,41 @@ def copy_of(u, delay_s: float, fs: float) -> np.ndarray:
 
 
 def ledger_only(u, c_k: float, fs: float, delays=C.F22_DELAYS_S, r_routes=None, lesion=None,
-                max_lag_s: float = C.F22_MAX_LAG_S, lag_step_s: float = 1.0, windows=C.WINDOWS_S) -> dict:
+                max_lag_s: float = C.F22_MAX_LAG_S, lag_step_s: float = 1.0, windows=C.WINDOWS_S,
+                u_neutral=None, net: str | None = None) -> dict:
     """One channel of one person: worst slope / c_k per (window, delay) of the rendered partner-caused part with the
     copy (rendered - ybar = x2, the conditioned metric: the shadow's output ybar never sees his channel), and the
-    fraction of frames the ledger changes on the counted routes alone (r_routes: the stored partner-caused part)."""
+    fraction of frames the net changes on the counted routes alone (r_routes: the stored partner-caused part).
+    The governor (unless net = 'ledger_only') runs before the ledger, both batched over (delays + 1) columns."""
     u = np.asarray(u, float)
     T = u.shape[0]
     r0 = np.zeros(T) if r_routes is None else np.asarray(r_routes, float)
     n = len(delays)
     X = r0[:, None] + np.stack([copy_of(u, d, fs) for d in delays], 1)
-    led = ledger_for(lesion, fs, np.full(n + 1, c_k))
+    mode = net_mode() if net is None else net
+    led = ledger_for(lesion, fs, np.full(n + 1, c_k), mode)
+    u0 = float(np.mean(u)) if u_neutral is None else float(u_neutral)
+    gov = None if mode == "ledger_only" else Governor(np.full(n + 1, c_k), fs, np.full(n + 1, u0))
     O = np.zeros((T, n + 1))
     for t in range(T):
-        O[t] = led.step(np.full(n + 1, u[t]), np.concatenate([X[t], r0[t:t + 1]]))
+        ut = np.full(n + 1, u[t])
+        x = np.concatenate([X[t], r0[t:t + 1]])
+        if gov is not None:
+            x = gov.step(ut, x)
+        O[t] = led.step(ut, x)
     rendered = O[:, :n]                               # the conditioned metric: rendered - ybar = x2
     lags = np.arange(0.0, max_lag_s + 1e-9, lag_step_s)
     ws = worst_block_slope(np.repeat(u[:, None], n, 1), rendered, fs, lags, windows)
     changed = float(np.mean(np.abs(O[:, n] - r0) > 1e-12))
     return {"worst_c": ws / c_k if c_k > 0 else ws, "frames_changed_counted": changed, "delays": list(delays),
-            "windows": list(windows)}
+            "windows": list(windows), "net": mode, "u_neutral": "b_id" if u_neutral is not None else "session mean",
+            "governor_final_a": None if gov is None else gov.a[:n].tolist(), "seconds": T / fs}
 
 
 def run_people(people, c_k: float, fs: float, **kw) -> dict:
     """people: list of dicts with u (and optionally r_routes) for one channel. Worst over people."""
-    res = [ledger_only(p["u"], c_k, fs, r_routes=p.get("r_routes"), **kw) for p in people]
+    res = [ledger_only(p["u"], c_k, fs, r_routes=p.get("r_routes"), u_neutral=p.get("u_neutral"), **kw)
+           for p in people]
     worst = np.fmax.reduce(np.stack([r["worst_c"] for r in res]), 0)
     return {"worst_c": float(np.fmax.reduce(worst, axis=None)), "worst_c_by_window_delay": worst.tolist(),
             "frames_changed_counted": max(r["frames_changed_counted"] for r in res), "people": len(people),
@@ -72,16 +89,19 @@ def run_people(people, c_k: float, fs: float, **kw) -> dict:
 
 
 def pilot_cost(fs: float = 30.0, seconds: float = 60.0, batches=(12, 48)) -> dict:
-    """Per-frame cost of the batched ledger step at two batch sizes (people x delays), for f22_plan."""
-    from engine.shadow.ledger import Ledger
+    """Per-frame cost of the batched net step (governor, if the switch has one, then the ledger) at two batch sizes
+    (people x delays), for f22_plan."""
+    mode = net_mode()
     out = {}
     for b in batches:
-        led = Ledger(np.full(b, 0.1), fs)
+        led = ledger_for(None, fs, np.full(b, 0.1), mode)
+        gov = None if mode == "ledger_only" else Governor(np.full(b, 0.1), fs, np.full(b, 0.5))
         r = np.random.default_rng(0)
         U = r.uniform(0, 1, (int(seconds * fs), b))
         t0 = time.perf_counter()
         for t in range(U.shape[0]):
-            led.step(U[t], 0.1 * U[t])
+            x = 0.1 * U[t] if gov is None else gov.step(U[t], 0.1 * U[t])
+            led.step(U[t], x)
         out[b] = (time.perf_counter() - t0) / U.shape[0]
     return out
 
@@ -99,19 +119,20 @@ def plan_full(fs: float = 30.0, seconds: float = 60.0) -> planner.Plan:
     """The §5.5 plan from two pilots: the batched ledger step (cost per frame at two batch sizes, extrapolated
     linearly to 50 people x 12 delays) plus the block-mean metric (cost per frame and series)."""
     cost = pilot_cost(fs, seconds)
+    mode = net_mode()
     (b1, c1), (b2, c2) = sorted(cost.items())
     slope = max(0.0, (c2 - c1) / (b2 - b1))
     m = metric_cost(fs)
     scale = lambda b: (c1 + slope * (b - b1) + m * b) / c1
     p = planner.f22_plan(c1, fs=fs, batch_scale=scale)
-    p.notes.insert(0, f"pilot: ledger {c1 * 1e3:.3f} ms/frame at batch {b1}, {c2 * 1e3:.3f} ms/frame at batch {b2}; "
+    p.notes.insert(0, f"pilot: net ({mode}) {c1 * 1e3:.3f} ms/frame at batch {b1}, {c2 * 1e3:.3f} ms/frame at batch {b2}; "
                       f"metric {m * 1e6:.2f} us per frame and series")
     return p
 
 
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    ap.add_argument("--pilot", action="store_true", help="time the batched ledger; print the §5.5 plan")
+    ap.add_argument("--pilot", action="store_true", help="time the batched net; print the §5.5 plan")
     ap.add_argument("--fs", type=float, default=30.0)
     a = ap.parse_args(argv)
     if a.pilot:
