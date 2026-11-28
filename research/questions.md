@@ -712,6 +712,8 @@ Q24 (the concern look before words) is still open and can be answered alongside;
 
 Thirteen passes, no new core (research/new-core-search-13-synthesis.md).
 
+**Update (2026-11-28T08:06:36Z):** an independent check of the pass-13 sketch found one serious flaw. If the within-session record also set the agent's fast smile return, a slow change in your mood could turn that return into a held copy of you, and only the safety net would catch it. So the record may only shape which of the agent's own displays it chooses, never the speed or size of its smile return. Your face could also still reach the record indirectly, through the agent's own words. Both are written down with general fixes; nothing is built (research/new-core-search-13-synthesis.md §9).
+
 **What it blocks:** nothing now.
 
 **Answer (operator; dated 2026-11-27 by the operator, recorded 2026-11-26T20:40:42Z): keep searching for a new core in the background, alongside building.** The operator will allow arxiv.org in this environment's network settings.

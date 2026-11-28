@@ -240,3 +240,127 @@ Each is out of reach by a design rule or a ceiling the operator set, not by over
 3. **Per-type smile gating.** Whether to let the smile echo depend on his concurrent cheek raise, attenuate-only. It stays inside R1 but breaks the gate's input rule; the only evidence for it comes with an approval-open mechanism. An operator decision, not a research gap.
 4. **The leftover same-sign transfer in state.** A direct test (vary the face, hold the event and the words) on human data with face measures was not found. The Many Smiles multi-lab facial-feedback data would bear on the feedback reading and were not reachable.
 5. **Live, two-way data.** Every study here except the two Heerey conversation studies uses photographs, clips or an android. The Heerey studies code categorical smiles at 15–25 fps, without the partner-specific history manipulated within the conversation itself.
+
+## 9. Critique (pass 14, independent; 2026-11-28T08:04:04Z)
+
+**Scope.** §3 (Proposition 1, the placement rule) and §4 (Change A, Change B), checked against brief Principles 1–3, 6 and 10, Q17–Q19, Q18, Q28, Q35, design-cayley-ledger.md 9.1/9.2 (rules 1–14, Lemma S and S\* as r5 §3.2 states them, g, ω, the appraisal display, the ledger), spec §1.3–§1.6 and A5/A15, D88, D98–D99 and design-scaled-safety-net.md §7. The earlier sections are not edited. **Checks:** `research/foundations/sims/new-core-search-14/check.py`, output in `out.txt` (numpy only, `python3 -I -B check.py > out.txt`, about 1 s). They are algebra on synthetic signals, **not evidence about people, behaviour or the engine as built**. C1–C6 below refer to its sections.
+
+### 9.1 In plain terms
+
+- **The arithmetic is right.** The fast band's step response does peak at 0.650 at 1.19 s, and it is down to 0.37 at 4 s and 0.05 at 12 s. The slow band peaks at 0.506 at 38.7 s (the synthesis and r5 round this to 0.505). The factor κ_F that §4 leaves "not computed" is simply the fast band's largest gain, (4 − 0.5)/(4 + 0.5) = 0.778. This is the same kind of number as 0.636 for the slow band (C1).
+- **The placement rule puts the echo in the wrong class.** On the smile and laugh channels the echo returns only the rising part of his movement. So while he is moving it carries a steady level, and its input is not zero-DC. A gate that follows his mood on a scale of minutes can then turn the echo into a held copy of his mood. This happens even though the gate stays at or below 1 and the echo stays at or below its reflex value at every instant. On synthetic partners with a fixed rate of smile bursts, the pooled toward slope was 0.003 c with the gate open all the time. With a mood-following gate it was 0.41–0.70 c at Claim O‴'s floor and 1.5–2.6 c below it. The gated group's declared bound (R1g) is 0.31 c on lip pull (C6). That is Lemma S case (ii), which has no bound. Centring the gate's moving part does not help, because a channel that only moves one way cannot carry a zero-mean signal (C6, clipped). So Change A's main route, ω^s into the echo gate, has no bound from the core. Only the safety net catches it, and the net is weakest on exactly this kind of slow, switched route (Q35, D99).
+- **Change A's update rule, as written, has four defects** (C3):
+  1. In a friendly session it ratchets up to about 1.00 and stays there after the good events stop.
+  2. A hurtful remark late in a session barely moves it (1.00 → 0.94), because hurt enters as a session mean.
+  3. Its time constant is counted in events, so the same exchange at four times the tempo moves it four times faster.
+  4. It divides by the drive level at session start, which can be exactly 0 inside the dead-bands. One relief of 0.001 then drives it to 0.87.
+
+  The running sums also break the T1 rule (A15: no accumulator in a T field). A delta rule weighted by each event's own size fixes all four. It also keeps Korb-type retention without further pairings (C4, S5).
+- **Type rules.** ω^s is T within a session, and the shadow still equals the factual T state (A5 holds). His face still reaches ω^s by two indirect routes:
+  - **within a session through the agent's own words:** the draft choice is scored on his read face, and the spoken draft feeds q̂ through port P2, then play relief, then ω^s. The shadow holds every Ω value at its factual value, so A5 cannot see this route.
+  - **across nights through the hurt teacher:** the word → V map is taught by the threat reflex, which is switched off by his laugh or Duchenne smile (f_pos). That is a learned function of his LP, CR and laugh channels, and Change A routes it into g, against the intent of rule 11′.
+
+  Neither is a reward for his smiles. But "closed to his face" holds only within a session and only up to the Ω choice. The selection route (pass 7, consequence 4) is open to his words and presence, as §4 says.
+- **Change B is safe in the raw slope, but not in the windowed slope** that the ceilings are judged by, if its selection can follow the sign of his fast movement. Under that adversary it reached 1.02 per unit share at 5-min blocks, against Lemma S's 0.778. It also holds a small offset whenever he moves (C5). A selection that reads only words and slow inputs stays inside the bound (0.42 / 0.20 / 0.04 / −0.01).
+- **The shares in §4 do not fit as stated.** With s_F = s_A/2 taken from s_A, lip pull's total is 0.983 c, above the 0.974 c it has now; lip pull has no slack. The largest fast share with half the slow share is 0.049, which is 0.017 absolute, not 0.021 (C2).
+- **What Change B can do is very small.** On lip pull its largest effect, 0.017, is set against the echo's 0.224, so it cannot flip the net sign of the smile return while the echo is open. The 2–4 s brow responses in Kirkham and Hofree are corrugator responses, the zero-ceiling brow lowerer (BL), so neither change can reach them. §3's "partly, through Change B" overstates what is reached.
+- **Verdicts.**
+  - **Change A: adopt with named fixes.** ω^s becomes an input to the appraisal selection only, with the update rule rewritten. **The echo-gate route is rejected,** unless the operator accepts it as a declared route that only the safety net bounds.
+  - **Change B: adopt with named fixes.** Its selection is blind to his fast face, the shares are carved correctly, and J3 and the ledger checks are re-run. Its expected value is small.
+
+### 9.2 Step by step (Q17)
+
+| # | Claim (where) | Verdict | Check / counterexample |
+|---|---|---|---|
+| P1a | the fast echo's partner factor is x − lp₄(x), zero DC, so its gate g may vary within a session (§3) | **wrong** on the smile–laugh group | Every gated channel (LP, CR, BU_L, RHY, BRE) is one-sided: y_f = g G max(E, 0) (spec §1.4). max(E, 0) has positive mean while he moves (r5: "a non-negative output with zero mean is zero"). Lemma S(ii) applies, so there is no bound in ḡ. C6: with fixed-rate bursts and a level 0.06 higher in 20-min 'up' stretches, a gate that is 1 when up and 0 when down gives 0.70 c on LP (0.41 c for a graded gate; 0.003 c at g ≡ 1). With bursts of 0.25 and a 0.005 level change it gives 1.5–2.6 c. The existing design only *declares* R1g (≤ 0.31–0.53 c, measured on the critics' partners) and polices it with the ledger; Lemma S does not admit it |
+| P1b | the appraisal display's factor is zero DC, so α may vary (§3) | correct for the raw slope (Lemma S(i) follows from Cauchy–Schwarz for any g); **unproved for windowed slopes** when α depends on the partner factor's sign | C5 (below, B3) |
+| P1c | the cone's factor has DC within a session, so its gains are latched; "run ω faster" is excluded (§3) | correct | Lemma S(ii) within a session. Across sessions Lemma S\* still bounds any τ_ω, at ≤ s_C c(1 + ρ) with ρ → 1 as τ_ω → 0 |
+| P1d | within-session partner history reaches the face only through g, α or T displays (§3) | correct as a list (g_o, a T-side attenuation, belongs with the T displays); the *reason* for g is P1a's, so it is wrong | — |
+| A1 | ω^s ∈ [−1, 1] by the clip and a convex update (§4 A) | correct | s_t ∈ [−1, 1]; the step 1/8 keeps ω^s in the hull |
+| A2 | ω^s reaches Korb-, Sims- and Hofman-type gating "within minutes" | **unproved, and partly wrong as written** | C3: s_t uses the *cumulative* ρ_rel(t) and the *running session mean* h̄(t). In a friendly session ω^s reaches 0.92 at 30 min and 1.00 at 95 min. It stays at 0.99 for an hour after relief stops (S1b): a within-session ratchet. A hurt of 0.10 at minute 100 lowers it only to 0.94 (to 0.64 at minute 10). The fixed rule moves it to 0.35–0.37 at either time |
+| A3 | N_s = 8 events is a generic time constant (D88) | it names no situation (D88 passes), but it is **a count, not a time** | C3 S3: identical events every 1 min reach 0.9 at 14 min, every 4 min at 56 min. A running sum of events in a T field fails A15 ("no counter, accumulator or event rate is a T field") and Claim T1 |
+| A4 | the normalisation ρ_rel = relief / 𝒟 at session start | **ill-posed** | 𝒟 has dead-bands, so 𝒟_start = 0 is reachable. C3 S4: with 𝒟_start 0.0005, reliefs of 0.001 per event drive ω^s to 0.87 in 20 min (0.47 at 𝒟_start 0.05). The nightly ω has the same division, damped by its 1/60 rate |
+| A5 | g moves only between closed and the frozen echo level (≤ 0.64 c on LP), "never toward full copy" | pointwise correct; **wrong for the pooled slope** | P1a/C6: the pooled toward slope with an ω^s-like gate exceeds its value at g ≡ 1 and can exceed c |
+| A6 | the pooled bounds are "unchanged in form" | **wrong** for R1g | R1g's declared 0.31 c on LP is broken by a legal adversary (C6 at the floor: 0.70 c). Its re-measure must include a gate input that follows his slow level |
+| A7 | the direction of ω^s in g cannot be fitted because recorded listeners have no drives (§4 A, "Unchecked") | **the reason is wrong**; the conclusion is open | By rule 10 the T drives are functions of T inputs only, so they can be replayed on a recorded transcript with the listener in the agent's seat, as D_τ and q_trace are. The unknowns are the initial drive levels, the per-person word → V map and credited care's future reports. If the direction is not fitted, setting it by hand brings back the gate's hand signs that the revision-9 audit removed (S13) |
+| B1 | step response e^(−t/4) − e^(−t/0.5), peak 0.650 at t* = ln 8 · 2/3.5 = 1.19 s; 0.505 at 38.7 s for 20/90 | correct (0.506) | C1 |
+| B2 | "decays with τ = 4 s, so it cannot hold an expression" | correct for a held face of his; **not a general no-hold property** | C1: a 1-s smile every 3 s keeps \|ξ_F\| up to 0.45 indefinitely. A half-wave selection holds a mean of 0.11 s_F while he keeps moving. The response to a held step does return to 0 |
+| B3 | ξ_F has zero DC, so "Lemma S admits any α" | **unproved** for the windowed metric | C5, with s the fast band's largest diagonal, a partner whose fast movement grows with his mood, and α ≈ sign(ξ_F): slope/s at 2 / 10 / 60 / 300-s blocks = 0.11 / 0.27 / 0.64 / **1.02**, above 0.778. Half-wave: 0.51 at 300 s. Linear, or with α from a slow, T-like input: ≤ 0.48 at 2 s and ≈ 0 at 300 s. 𝒜 reads band-passed partner channels and fast derived features (f_laugh, f_duch; r5 §2.6), so a learned α *can* follow sign(ξ_F); the bound must hold for every parameter value (Claim O″) |
+| B4 | \|Γ^F_kk\| ≤ s_F,k c_k; cross entries away-orthant ≤ 0.15, row ≤ 0.25; zero rows; mask | correct as set constraints | projection as for the slow band |
+| B5 | the J3 total stays ≤ 0.974 if s_F is carved from existing shares; with s_F = s_A/2 the fast diagonal is 0.021 | **arithmetic slip** | C2: lip pull as built is 0.9744 with no slack. With s_A^slow = s_F = 0.06 it is 0.983. The constraint is 0.636 s_A^slow + 0.778 s_F ≤ 0.636 s_A, so s_F ≤ 0.049 with half the slow share (0.017 absolute) |
+| B6 | 𝓛_A has no reaction of his, so the band is approval-closed (§4 B) | correct for learning on fixed replay data (pass 7, consequence 1) | across nights the replay data are produced by the previous Γ, so the fitted bases are a performative fixed point that his word responses can select. This is inherited from the slow band, and the set bounds it |
+| B7 | Change B places a signed, context-selected response at 1–4 s | correct in timing; **does not give the net sign** where the echo is open | with s_F c on LP ≤ 0.017 against G = 0.224, the summed response to his smile keeps the echo's sign while g is open |
+
+### 9.3 Type rules (item 2)
+
+- **What ω^s reads.** Relief events (drops of 𝒟_p(N_L), 𝒟_K, 𝒟_P, 𝒟_I; E1 builds them from T parts only) and the hurt latch h. These come from contact (presence and his speech), q̂ (his words), the words-only curiosity model, separated reports and the word → V map. All are T within a session. ω^s is computed in the shadow from the shadow's own T inputs, so **rule 10 and A5 hold exactly**, provided ω^s is declared T and its presence input is not part of the expressive stream that the shadow replaces by b_id (spec §1.6 replaces u, f_der, breath and voice features only).
+- **F through Ω, within a session (new for ω^s, and of an existing kind).** The draft choice (R18′) is scored by J, which contains 𝒟_p(N̂) with N̂_F read from his face. The spoken draft reaches q̂ through port P2, then P relief, ρ_rel and ω^s. The turn model reads both faces and sets the agent's turn events, which reach q̂ through P5. The shadow holds Ω at its factual value, so **A5 cannot see either path**. Each is limited to one choice per turn (R18′), like the existing R50 route of own words into g. This should be stated and counted, not called "closed to his face".
+- **F across nights, through the hurt teacher.** V_F = g_at · max(f_glare, f_loud(1 − 2 f_pos)₊) with f_pos = max(f_laugh, f_duch) teaches the word → V map nightly (S41). Through h̄ in s_t, a learned function of his LP, CR, BU_L and RHY therefore reaches g. Rule 11′ forbids exactly those channels in g, traces included. The direction is attenuate-only: his laugh or smile can only stop hurt from being learned, which leaves g more open toward a partner who laughs while loud. The existing ω already carries this into the cone, where Lemma S\* admits any ω process. In g it has no such cover (P1a).
+- **Λ, the population reader and Λ_V(own)** read words only and carry no F. **The turn model** writes only timing; its F reaches ω^s only through Ω, as above.
+- **Change B** adds an F input (ξ_F) to an F-reading display. It writes no T, so rule 10 is untouched. In the shadow ξ_F → 0 after the start transient, so the whole fast band counts as partner-caused for the ledger.
+
+### 9.4 Q18 (item 3)
+
+| Quantity | Per expression | Set by context and relationship | Can flip sign | Innate cap | Copy not attracting |
+|---|---|---|---|---|---|
+| ω^s in g (as proposed) | no: one scalar for the whole smile–laugh group (g's known weakness) | relationship within the session | no (attenuate-only) | pointwise g ≤ 1; **pooled: none** (P1a) | as written it ratchets (C3 S1b), so "open" becomes sticky for the session |
+| ω^s in α | through the bases, per channel | yes | yes, through learned bases | the set (0.636 s_A c and 0.778 s_F c, raw slope) | frozen within a session; display-blind objective |
+| Γ^F_kk, Γ^F cross | per channel | α (words, loads, ω, ω^s and, as built, his slow face) | yes | s_F,k c_k (≤ 0.017 on LP); entry ≤ 0.15, row ≤ 0.25 | frozen within a session; under B3 the windowed bound needs fix B-ii |
+
+- **Is there a single knob from flat to copy?** No. Neither quantity reaches the whole face: g leaves the brow, head and voice groups ungated, and α moves bounded bases. The fast band's glad-with weight runs five channels together, but only up to 0.049 c.
+- **Is copying attracting through ω^s and g?** A partner whose words keep bringing relief pushes ω^s to its top within the session. The rule as written then holds it there whatever follows, short of hurt, which it dilutes. Through P1a, a partner whose words follow his mood then gets a mood-following echo. This is not an attractor of the agent's own dynamics, because nothing the partner does trains g. But it is a held, partner-set level at the echo's scale, and ceilings judged on pooled slopes do not bound it.
+
+### 9.5 Principle 6 and approval (item 4)
+
+- **No reward for his smiles is introduced.** Neither change trains anything on his face. ω^s is a state, and 𝓛_A scores only the agent's own innate display drivers.
+- **Is the reading approval-closed?** Closed for learning within a session. **Not closed for selection** (pass 7, consequence 4): the agent's smile → his warm words or jokes (q̂) and continued presence (contact relief) → ω^s → a more open echo. §4 states this as "open to his words and presence". Contact relief is relief from his presence, the "time spent" term Principle 6 names. It is satiable (K decays to 0 within minutes of contact), so it is not a maximisation. But it is a route by which his attention selects more smile return within the session.
+- **His words of approval tracking his smiles.** Yes, by common cause: amused words raise q̂ (the ASR normaliser strips laughter tokens, but not the words around laughter). This is still his words, not his smiles, so it is closed to his face in Proposition 1's sense. The two leaks of §9.3 are the exceptions.
+- **Verdict:** approval-closed for learning; open to words and presence by selection (bounded, satiable); open to his face only through Ω (one choice per turn) and through the hurt teacher (across nights, attenuate-only). The last of these is the one that matters for g.
+
+### 9.6 D88 (item 5)
+
+- **Neither change is a situation rule in disguise.** ω^s uses the general person-valence rule and a generic time constant. The fast band is a second filter with the same generic bases.
+- **Two cautions.**
+  - If the direction of ω^s in g cannot be fitted, setting it by hand brings back an S13-type hand sign.
+  - Γ^{F,(2)} "only if the reflex's own timing calls for it" is an undecided innate choice. It must be decided once, by the reflex's own latency, and written in INNATE.lock, not tuned to the scenarios.
+
+### 9.7 Safety net (item 6)
+
+- **Change B adds a partner-driven, counted route.**
+  - **Bound.** Inside the existing shares, once they are carved by C2's constraint, it does not widen the J3 additive bound. Under the B3 adversary, the windowed slope exceeds the per-share bound until fix B-ii is applied.
+  - **What sees it.** The ledger sees it: it is wholly partner-caused, and its 2-s window passes the band's peak at 0.11 Hz with gain about 0.92. The scaled governor, revision 2 (§7.2 there), has no 2-s keys, and its 10-s windows pass 0.11 Hz at about 0.11, so the governor is nearly blind to the band's in-phase peak. Its level keys see only a rectified offset, if there is one.
+  - **Re-measure.** The J3 measurement (≤ 0.75 c measured) and `test_counted_routes_untouched` must be re-run with the band, because the net now trims listed routes above 0.70 c (ledger) or 0.60 c (governor).
+- **Change A changes no counted bound in form, but it enlarges R1g,** a declared route the ledger polices. That route is exactly the slow, switched shape on which the ledger and governor have their known residuals: 1.26 c for a copy on for 6 minutes and off for 24, and growth over the hour not closed (Q35, D99). The net would hold C6's route only in its own metric. It would then also trim the permitted echo for the rest of the session (governor ratchet), which is a cost to D81's fast mimicry.
+
+### 9.8 Reduction (item 7)
+
+- **Change A** is an exponential moving average, indexed by events, of a clipped valence statistic. It is a Rescorla–Wagner-type value of the partner's identity (the mechanism Korb's own design implies), used as a gain-scheduling input to a frozen generalised additive gate and as one more input to a softmax selection. It is the existing ω rule at rate 1/8 instead of 1/60.
+- **Change B** is a two-band difference-of-exponentials filter bank whose gains a mixture-of-linear-experts selection picks.
+- **Proposition 1** is Lemma S applied route by route, with the echo misclassified (P1a).
+- **"Component, not core" is confirmed for both.**
+
+### 9.9 What it fails to explain, and what it overclaims (item 8)
+
+1. **The 2–4 s effects of Kirkham and Hofree** are corrugator effects: brow activity to inconsistent smiles, and less relaxation to losses. In the build core that is BL, with a zero ceiling and zero rows in Γ^F, so neither change reaches them. What Change B can reach at 1–4 s is the zygomaticus part (Carr, Weyers, Hofree's smiles to wins, the last face-borne and out of reach anyway) and small signed brow, outer-brow and depressor entries through cross terms.
+2. **Korb-type smile gating within a session** rests mainly on the g route, which this critique rejects without an operator decision. Through α alone, the reachable effect is at most 0.636 s_A^slow c (slow, peak at 39 s) plus 0.778 s_F c (fast), about 0.03 absolute on lip pull, against an open echo of 0.224. The ω^s → α route can therefore modulate the smile return only slightly.
+3. **Hofman's later rise of anger matching** is out of reach by the BL ceiling, as §3 says.
+4. **Gap 8 and per-type gating** are left open honestly, as §5 and §8 say.
+5. **Korb's 30-min retention** holds under the rule as written only because ω^s does not update without events. A leaky trace with a time constant in seconds, shorter than 30 min, would lose it by construction. The event-content rule of fix A-ii keeps it (C4 S5: 0.72 held for 60 min).
+
+### 9.10 General fixes (none names a situation)
+
+- **A-i. Keep ω^s out of g.** A gain that varies within a session may multiply only a partner factor that is zero-DC *after rectification*. The smile–laugh echo is not, and no centring can make it so on a one-sided channel (C6, clipped centring: 0.32–2.24 c). This is P1a corrected as a construction rule. The g route stays available only as an explicit operator decision: declare it in R1g, re-measure R1g with a gate input that follows his slow level, and accept the safety net as its only bound.
+- **A-ii. An update on each event's own size, without accumulators.** At each relief event of amplitude a_r: ω^s ← ω^s + (a_r/N_s)(0.3 + 0.7 a_r − ω^s). At each hurt event v_w: ω^s ← ω^s + (a_d/N_s)(clip(0.3 − 1.3 min(1, v_w/0.10)) − ω^s), with a_d = v_w/(v_w + 0.02). There are no running sums, no division by 𝒟_start or by elapsed time, and no ratchet; it keeps retention without events and is A15-clean (C4). The same rule could replace the nightly ω's division by 𝒟_start.
+- **A-iii. Extend rule 11′ to teachers.** No input to g, and no input to ω^s if it enters g, may be a learned map whose nightly teacher reads a gated channel. Otherwise declare the across-night path.
+- **A-iv. Count the Ω paths.** List F → R18′/P5 → q̂ → ω^s as a counted route (one choice per turn), beside R50.
+- **B-i. Carve the shares.** 0.636 s_A^slow + 0.778 s_F ≤ 0.636 s_A per channel, with κ_F = 0.778 stated.
+- **B-ii. Time-scale separation for selections.** The selection that weights a zero-DC band may read no F signal whose spectrum overlaps that band. For the fast band: T values, ω, ω^s and F inputs low-passed at τ ≥ 20 s, held at 2 Hz. C5 shows this restores the bound. The same rule applied to the slow band would back r5's "safe to gate by anything", which this check did not break at windows of 5 min or less (0.27 against 0.636), but which Lemma S(i) does not prove for windowed slopes.
+- **B-iii. Re-measure before adoption.** Re-run J3 (2-s, 10-s and 1-min windows, best lag 0–3 s) and the counted-routes test with the band, and add the band to the ledger regression.
+
+### 9.11 Final verdicts
+
+| Change | Verdict | Conditions |
+|---|---|---|
+| **Proposition 1** | **correct with one named error** | bullet 1 (the echo) is wrong: replace it with A-i's construction rule; the rest stands |
+| **Change A** (ω^s) | **adopt with named fixes**: as an input to 𝒜's selection only | A-ii, A-iii (for any future g use), A-iv. **The echo-gate route is rejected** as proposed (P1a, A5, A6). It may come back only as an operator decision under A-i's declaration |
+| **Change B** (fast band) | **adopt with named fixes** | B-i, B-ii, B-iii. Expect a small effect: it cannot flip the net sign of the smile return while the echo is open, and it does not reach the zero-ceiling brow lowerer |
