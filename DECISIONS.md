@@ -560,3 +560,15 @@ To change: delete `claude_model_seen.json` to accept whatever model next speaks,
 - Not built (recorded in the critique): showing model notices to the operator outside the in-memory log (D5); Rule I widened to hold his whole turn schedule in rollouts, not only e(t); Rule M reworded with an AST caller test for `restored_text`; Monitor W compared against the untrained rule's pick; Change U as a write-only `reports/usage.jsonl` with an AST test.
 
 To change: revert the `_model_check` hardening in engine/omega/pool.py (not recommended).
+
+## D104. Operator answers of 2026-11-28 (second set) (recorded 2026-11-28T14:53:34Z)
+- **Q35:** build the scaled safety net revision 2 (design-scaled-safety-net.md §7) as the safety net, with the ledger's one-minute evidence floor. Switch `safety_net` = scaled_rev2_with_floor. Until the build is green, the current ledger stays and F22 stays expected-to-fail.
+- **Q36 A:** the fixed instruction and fork lines are approved as they are (`claude_text_approved` = their SHA-256). No situation-specific bans and no hand-coded behaviour rules in Claude's instructions. Pin an exact model: set `claude_model` to the exact id the first week-0 test call reports (until then D102/D103 silence the agent on any change). Week-0 test calls check the text against published manipulation and flattery prompts; findings are reported to him.
+- **Q37 U0:** a weekly usage report for him only, never read by the engine (`usage_report`; Change U's write-only file, to be built with an AST guard).
+- **Q4 I0:** no hand-written limits on speaking first (`speak_first_limits` = None).
+- **Q28:** keep searching, at most one search pass a day.
+- **Q1:** still open; he will listen to the Kokoro voices and pick one.
+- **General (extends Q29/D88):** no hand-coded rules applies also to the agent's outward behaviour and to Claude's instructions. Behaviour rules are not to be proposed as recommendations. Data-flow guards (types, tests) are not behaviour rules.
+- make ci green after the switch changes: 325 passed, 1 xfailed.
+
+To change: the operator answers again; each answer is one switch in engine/config/operator.py.

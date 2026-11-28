@@ -5,8 +5,8 @@ from engine.config import operator as op
 
 
 def test_unanswered_refuses():
-    with pytest.raises(op.Unanswered, match="claude_text_approved"):
-        op.require("claude_text_approved", "dyad_streams")
+    with pytest.raises(op.Unanswered, match="nightly_schedule"):
+        op.require("nightly_schedule", "dyad_streams")
     with pytest.raises(op.Unanswered, match="tts_engine"):
         op.require("tts_engine")
 
@@ -19,3 +19,14 @@ def test_answers_of_2026_11_28():
     assert sw["claude_daily_cap"] == 450 and sw["conversation_language"] == "en"
     assert sw["claude_test_calls_m1"] is True and sw["feature_retention_days"] == 30
     assert sw["account_training_use_checked"]
+
+
+def test_answers_of_2026_11_28_second_set():
+    """D104: Q36 A (text kept, approved by digest), Q35 revision 2 with the floor, Q4 I0, Q37 U0; Q1 still open."""
+    from engine.omega import lines as L
+    sw = op.require("claude_text_approved", "safety_net", "speak_first_limits", "usage_report")
+    assert sw["claude_text_approved"] == L.text_digest()
+    assert sw["safety_net"] == "scaled_rev2_with_floor"
+    assert sw["speak_first_limits"] is None and sw["usage_report"] == "weekly_operator_only"
+    with pytest.raises(op.Unanswered):
+        op.require("voice")

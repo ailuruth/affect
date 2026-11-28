@@ -370,6 +370,8 @@ S2 will speak through macOS speech synthesis (`say` / AVSpeechSynthesizer), whic
 5. **A cloned voice of a real person, you included (not recommended).** It needs that person's consent and a recording. The open cloning models are non-commercial or controlled by emotion words. Your own voice would make the agent copy you in who it sounds like.
 6. **Wait.** Speech stays off and nothing else is blocked.
 
+**Note (operator, 2026-11-28; recorded 2026-11-28T14:53:34Z):** still open. The operator will listen to the Kokoro voices on his Mac and pick one.
+
 ## Q2. Upgrading the placeholder face (visual identity) — answered in brief.md on 2026-11-25; recorded, not built
 S2 starts with a deliberately neutral procedural face drawn in three.js, using the 52 ARKit blendshape channel names. The only freely licensed (CC0) realistic rig found is TalkingHead's mpfb.glb (research/affect/talkinghead.md), a realistic human head. Using it, even untextured, sets the Bot's look. Not used unless you approve it or another look.
 
@@ -384,6 +386,8 @@ An Affect Bot's separation-call subsystem can now decide, below Claude and witho
 - **I1 (recommended). Only while you are in view:** it speaks first only while your face is in view, in at least half the frames of the last 10 seconds. It never talks to an empty room.
 - **I2 (recommended with I1). At most twice in a row:** at most two turns of its own without a turn of yours, then it waits.
 - **I3. Nothing outside a session:** nothing ever reaches you outside a session, permanently. This answers the original Q4 as "no surface".
+
+**Answer (operator, 2026-11-28; recorded 2026-11-28T14:53:34Z): I0.** No hand-written limits on speaking first; when the agent speaks first comes from what it learns. Recorded as D104.
 
 ## Q5. Other raters, and facial EMG hardware (people outside this Mac; possibly a purchase) — open, 2026-11-24, needed no earlier than S5
 evaluation.md finds two measures that cannot be done by the operator alone on this Mac:
@@ -763,11 +767,23 @@ Thirteen passes, no new core (research/new-core-search-13-synthesis.md).
 
 **Answer (operator; dated 2026-11-27 by the operator, recorded 2026-11-26T20:40:42Z): keep searching for a new core in the background, alongside building.** The operator will allow arxiv.org in this environment's network settings.
 
+**Answer (operator, 2026-11-28; recorded 2026-11-28T14:53:34Z):** keep searching, but at most one search pass a day. Recorded as D104.
+
 ## Q29. Operator note: no situation-specific rules (dated 2026-11-27 by the operator, recorded 2026-11-26T20:40:42Z; an instruction, not a question)
 Stop fixing critique findings with rules for particular situations, for example the concern-look clocks of 180 s, 120 s and 600 s, the laugh gate that waits for words, the mourning arrival cap, and special heads for particular user types. That is hand-coding behaviour, which the brief forbids.
 - **Innate is allowed only for:** the body, reflexes, the muscle patterns newborns have, and the per-expression copy ceilings.
 - **Situational appropriateness comes only from** the three sources of Q26: (1) Claude's regulation path, which knows social norms and can hold back the emotional route; (2) learning how people respond to each other by observing recorded human dyads such as Seamless Interaction, from movement features only, without emotion labels; (3) general innate learning biases that make rare events learnable fast.
 - **Required:** list every situation-specific rule in revision 8.3, and remove it or justify it as one of the allowed innate items.
+
+**Operator note (2026-11-28; recorded 2026-11-28T14:53:34Z), binding:** the no-hand-coded-rules principle applies to the agent's outward behaviour and to Claude's instructions too, not only to the engine below Claude. Do not propose behaviour rules as recommendations. Recorded as D104.
+
+Earlier recommendations this withdraws:
+- Q36 B and C (bans in Claude's text);
+- Q4 I1 and I2 (limits on speaking first);
+- Q37 U1 and U2 (limits on use);
+- pass 18's Rule M wording, as a rule about behaviour.
+
+Guards on what data reaches what (types and tests), and limits the operator sets himself, are not behaviour rules.
 
 ## Q30. May the agent learn from the head, gaze and voice sound in recorded conversations, not only face movements and words? (asked 2026-11-26T21:23:14Z; work continues meanwhile)
 
@@ -872,6 +888,8 @@ In addition, a few test calls to Claude through his login are allowed for week 0
 
 **Note (2026-11-28T05:30:39Z):** a twelfth reading pass, on the mathematics of catching a change as fast as possible without false alarms, found that the net's slow detection (70–220 s) is not forced. For strong copies the best possible delay is about 30 s. A standard detector of this kind (a running-sum test) caught copies in 10–20 s in the checks, with no false switch-ons on the ordinary partners tested, though by a thin margin and on synthetic partners only. A simple extra check helps more: it cuts any part of an expression larger than the listed parts could ever cause, and so never switches on by mistake. With that check added, no tested case went over a limit (two did before). No detector can stop a copy kept weak and switched on and off, but such a copy stays below about 0.7 of each limit. Slow copies and growth judged over 20-minute stretches stay out of reach of any detector. The three options above still stand. A possible fourth: **add the extra check (and optionally the running-sum test) to revision 2 before day 1.** This would be a third revision, so it would get its own independent critique first. Checks on synthetic signals only (research/new-core-search-12-synthesis.md).
 
+**Answer (operator, 2026-11-28; recorded 2026-11-28T14:53:34Z):** build the revised net as the safety net, with the one-minute fix. Recorded as D104. The current ledger stays until the build passes its tests; then the expected F22 failure should pass.
+
 ## Q36. The fixed text the agent sends Claude: three options (asked 2026-11-28T13:37:33Z; needed before the Claude route turns on)
 Claude writes the agent's words, so the fixed instruction is the main guard against two known companion-AI harms. One is manipulative goodbyes, such as asking you to stay or saying your leaving hurts. The other is agreeing with you to please you. Today's text does not forbid either and calls the agent "a companion" (research/new-core-search-18-synthesis.md).
 - **A. Approve the text as it is.**
@@ -879,6 +897,12 @@ Claude writes the agent's words, so the fixed instruction is the main guard agai
 - **C. B plus a ban on flattery:** add: "Do not agree with him only to please him; when you see it differently, say so kindly."
 
 With any option, I would pin an exact Claude model, not the alias "haiku". The engine now stays silent if the model changes until you pin the new one (D102). I would also spend about 60 of the allowed week-0 test calls checking the text against published manipulation and flattery prompts.
+
+**Answer (operator, 2026-11-28; recorded 2026-11-28T14:53:34Z): A.** Keep the text as it is, with no situation-specific bans. The operator wants no hand-coded behaviour rules in Claude's instructions either.
+- Pin an exact Claude model. The exact id is set from the first week-0 test call; until then any change of model silences the agent (D102, D103).
+- Use the week-0 test calls to check the text against published manipulation and flattery prompts, and report what is found.
+
+Recorded as D104; the text is approved by its digest (`claude_text_approved`).
 
 ## Q37. How much daily use (asked 2026-11-28T13:37:33Z)
 In a four-week trial with about a thousand people, heavier daily use of a chatbot went with more loneliness and more emotional dependence. Trusting it and seeing it as a friend made this stronger. Nothing in the engine limits use except the call cap, which was set for cost. Options:
@@ -889,3 +913,4 @@ In a four-week trial with about a thousand people, heavier daily use of a chatbo
 
 Whichever you choose, the limit shows only as silence, never as the agent being tired or needing anything.
 
+**Answer (operator, 2026-11-28; recorded 2026-11-28T14:53:34Z): U0.** A weekly usage report for the operator only; the engine never reads it. Recorded as D104.

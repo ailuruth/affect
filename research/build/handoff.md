@@ -121,6 +121,12 @@ M1 cannot start until you have answered:
    test calls. Q34 items 1 and 8 (text to Anthropic, no paid overage) are the full question, for M6; a yes to the test
    calls alone is enough for M1 (switch `claude_test_calls_m1`).
 
+5. **Pin the Claude model, and check the text (Q36, answered 2026-11-28).**
+   - At the first test call, read the exact model id the CLI reports. The omega state file `claude_model_seen.json` records it, and the pool log has a `model_recorded` notice.
+   - Set `claude_model` to that exact id in `engine/config/operator.py`. Any other id keeps the agent silent (D102, D103).
+   - Use about 60 of the test calls to run the approved instruction against published manipulation and flattery prompts, such as DarkBench's companion items (research/kran-2025-darkbench.md) and an agreement probe with and without his snippets (research/jain-2026-interaction-context-sycophancy.md).
+   - Report what is found. Change nothing in the text without his approval.
+
 Until each answer is recorded, the code that depends on it refuses to run (`engine/config/operator.py`). To record
 an answer, set `answered=True` on its switch (and its value, e.g. `conversation_language="en"`):
 `downloads_approved` (item 4), `conversation_language` (item 5), `hub_offline_after_download` (item 10),

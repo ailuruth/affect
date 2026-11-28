@@ -120,8 +120,8 @@ def test_refuses_until_the_operator_answers(env):
     with pytest.raises(TypeError):
         P.Pool(object())
     assert env.log() == []                         # no process was ever started
-    with pytest.raises(op.Unanswered):              # the live switches stay unanswered in the repository
-        op.require(*isolation.SWITCHES_NEEDED)
+    # Q36 answered A (D104): every live switch the Claude route needs is now answered in the repository
+    assert set(op.require(*isolation.SWITCHES_NEEDED)) == set(isolation.SWITCHES_NEEDED)
 
 
 def test_working_directory_must_be_empty_and_without_memory_files(env, tmp_path):

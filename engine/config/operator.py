@@ -25,7 +25,10 @@ SWITCHES = {
     "own_display_mask": Switch(True, "Q31", True, "built as recommended", True),
     "own_rise_brow": Switch(True, "Q33", True, "built as recommended", True),
     "restore_lost_behaviours": Switch((), "Q32", True, "none", True),
-    "claude_model": Switch("haiku", "D84", True, "as listed"),
+    # Q36 (answer of 2026-11-28): pin an exact model. The exact id is not known before the first call; the first id
+    # the CLI reports is recorded and any other id silences the agent (D102, D103). At the week-0 test calls the
+    # operator sets this to that exact id (research/build/handoff.md).
+    "claude_model": Switch("haiku", "D84; Q36 (pin the exact id at week 0)", True, "as listed"),
     "effort": Switch("low", "D84", True, "as listed"),
     "pool_size": Switch(3, "D84", True, "as listed"),
     "send_text_to_anthropic": Switch(True, "Q34 item 1", True, "Claude route off"),
@@ -45,7 +48,15 @@ SWITCHES = {
     "context_tokens_max": Switch(4000, "Q34 item 9", True, "Claude route off"),
     # SHA-256 of engine/omega/instruction.txt and the three fork lines, as he read and approved them (spec §6 M6 Ask;
     # engine/omega/lines.py `text_digest`). Any change to that text needs his approval again.
-    "claude_text_approved": Switch(None, "Q34 (constant instruction and fork lines)", False, "Claude route off"),
+    # Q36 answered A (2026-11-28): the text is kept as it is, with no situation-specific bans.
+    "claude_text_approved": Switch("92d88de4df4f2042679e05576efc8a4e3cc585f0f99c158ee48d8cd349e1d1f2",
+                                   "Q36 (constant instruction and fork lines)", True, "Claude route off"),
+    # Q35 answered (2026-11-28): the scaled safety net, revision 2, with the ledger's one-minute evidence floor.
+    "safety_net": Switch("scaled_rev2_with_floor", "Q35", True, "current ledger only"),
+    # Q4 answered I0 (2026-11-28): no hand-written limits on speaking first; it comes from what the agent learns.
+    "speak_first_limits": Switch(None, "Q4", True, "none"),
+    # Q37 answered U0 (2026-11-28): a weekly usage report for the operator only; the engine never reads it.
+    "usage_report": Switch("weekly_operator_only", "Q37", True, "none"),
     # M8 Ask: when nightly replay may run (local hours of the window, and how long the Mac must have been idle).
     "nightly_schedule": Switch({"start_hour": 2, "end_hour": 6, "idle_min_s": 1800.0}, "M8 Ask (nightly schedule)",
                                False, "no nightly replay"),
