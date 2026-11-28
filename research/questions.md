@@ -313,6 +313,14 @@ S2 will speak through macOS speech synthesis (`say` / AVSpeechSynthesizer), whic
 
 **Note (operator; dated 2026-11-28 by the operator, recorded 2026-11-27T15:30:29Z):** still open; the operator will pick the voice later. Speech stays off until then.
 
+**Update (2026-11-28T04:04:17Z): options for when you pick.** A reading pass on speech synthesis (research/new-core-search-11-synthesis.md) found that the voice plan already built is the right shape. Any synthesiser says the words in a fixed voice, then the engine re-renders the sound and sets pitch level, pitch range, loudness, rate, pauses and reply latency as six separate numbers, each under its own limit. Learned "style" controls, which move several of these at once and are learned from actors' emotional speech, are ruled out. The only choice left is whose voice it is:
+1. **A Kokoro voice you pick by listening, or a blend of two, through the existing re-rendering step (recommended).** Free licence (Apache-2.0), runs on your Mac after one download, sounds more natural than most macOS voices, and no real person's voice is copied. Whether it is fast enough on your Mac is measured in week 0 (M5); if not, option 2 takes over.
+2. **A macOS voice through the same step.** Works today with nothing to download and keeps the same limits. The compact voices sound robotic. Apple's terms for this use were not checked.
+3. **Option 1, plus the engine writing Kokoro's own internal pitch, loudness and timing curves.** Probably the most natural intonation. It needs a small code change and a week-0 test, and still checks every limit after rendering. The voice is the same as option 1, so this can come later.
+4. **A Piper voice.** Works and runs locally, but its code licence (GPL-3) and each voice's licence chain need auditing, and many of its voices are one recorded person. It offers nothing over option 1.
+5. **A cloned voice of a real person, you included (not recommended).** It needs that person's consent and a recording. The open cloning models are non-commercial or controlled by emotion words. Your own voice would make the agent copy you in who it sounds like.
+6. **Wait.** Speech stays off and nothing else is blocked.
+
 ## Q2. Upgrading the placeholder face (visual identity) — answered in brief.md on 2026-11-25; recorded, not built
 S2 starts with a deliberately neutral procedural face drawn in three.js, using the 52 ARKit blendshape channel names. The only freely licensed (CC0) realistic rig found is TalkingHead's mpfb.glb (research/affect/talkinghead.md), a realistic human head. Using it, even untextured, sets the Bot's look. Not used unless you approve it or another look.
 

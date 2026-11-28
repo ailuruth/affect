@@ -26,3 +26,6 @@ Sources read: github.com/OHF-Voice/piper1-gpl README, docs/LICENSING.md, docs/CO
 
 ## Role in S2
 - none now (candidate voice)
+
+## Update (2026-11-28)
+- Still active: commits on 2026-11-19 to 2026-11-23 list more voices as commercially usable (en_US sam, en_GB aru, en_GB vctk, en_GB northern_english_male and others), read from the GitHub commit list. The README now carries a "Looking for Maintainers" notice from the Open Home Foundation. The Python API (docs/API_PYTHON.md, re-read) is unchanged: `volume`, `length_scale`, `noise_scale`, `noise_w_scale`, `normalize_audio`; still no pitch input. Verdict unchanged (watch); Kokoro is now preferred as Plan A (new-core-search-11-synthesis.md).

@@ -51,12 +51,25 @@ One line per item: note, year, verdict, reason. Verdicts are measured against th
 - [pitchy](pitchy.md) — v4.1.0 — adopt — 0BSD, measured ~0.12 ms/frame, pitch plus clarity as voicing.
 - [Meyda](meyda.md) — 2024 — watch — MIT, no pitch, deprecated ScriptProcessorNode, spectralFlux throws in 5.6.3.
 - [macOS speech synthesis](macos-speech-synthesis.md) — current — adopt as S2 voice — local, per-word pitch base, range, rate, volume; f0 measured to follow pitch base.
-- [Kokoro-82M](kokoro-82m.md) — 2025 — watch — Apache-2.0, ~0.6x real time on CPU, speed is its only prosody control.
+- [Kokoro-82M](kokoro-82m.md) — 2025 — adopt as recommended Q1 candidate (updated 2026-11-28) — Apache-2.0, ~0.6x real time on CPU; public API has speed only, but its StyleTTS 2 decoder takes explicit F0, energy and duration curves that the engine could write.
 - [Piper TTS](piper-tts.md) — 2025-2026 — watch — local, GPL-3, no pitch control; per-voice license chains.
 - [Chatterbox](chatterbox.md) — 2025 — reject — retired Aug 2026; label-like exaggeration control; voice cloned from a clip.
 - [Loom3](loom3.md) — 2025 — watch — MIT three.js setAU/transitionAU, presets only for CC4 rigs.
 - [TalkingHead](talkinghead.md) — 2023-2026 — watch (asset only) — mpfb.glb is the only CC0 ARKit-52 rig found; the class runs mood presets and defaults to Google TTS.
 - [aniface](aniface.md) — 2025 — reject — maps the user's tracked face straight onto the avatar.
+- [Style Tokens: unsupervised style modeling, control and transfer (Wang et al.)](wang-2018-global-style-tokens.md) — 2018 — reject — 10 unsupervised style tokens in Tacotron learned from one emotive narrator; tokens bundle pitch and rate ("a low-pitched token can also encode a slower speaking rate") and are named by listening, so no per-channel ceilings; reference mode copies prosody.
+- [Towards end-to-end prosody transfer with Tacotron (Skerry-Ryan et al.)](skerry-ryan-2018-prosody-transfer-tacotron.md) — 2018 — reject — 128-d learned prosody embedding copies a reference's contour (FFE 53 → 28 %); transfer is pitch-absolute and carries identity (speaker ID picks the reference speaker 61 % vs target 21 %).
+- [FastSpeech 2 (Ren et al.)](ren-2020-fastspeech-2.md) — 2020 — adopt (design pattern) — explicit duration, pitch (WORLD-extracted, wavelet-predicted) and energy inputs to the decoder; F0 scaled 0.75–1.5× stays high quality; output fidelity per channel not measured; no official weights.
+- [StyleTTS 2 (Li et al.)](li-2023-styletts-2.md) — 2023 — watch (architecture, via Kokoro) — decoder takes explicit F0 and energy curves; the diffusion-sampled style vector bundles pitch, energy, pauses and rate and clusters by text emotion (rejected for the voice channels); MIT code, cloning-conditioned checkpoints.
+- [Hierarchical generative modeling for controllable speech synthesis, GMVAE-Tacotron (Hsu et al.)](hsu-2018-gmvae-tacotron.md) — 2018 — reject — the best case of unsupervised prosody axes: one dimension moves F0 178 → 204 Hz at fixed duration, but the "rate" dimension also moves F0 197 → 183 Hz; axes named after training, valid only within the training range.
+- [Parler-TTS](parler-tts.md) — 2024 — reject — voice and delivery set by a free-text description built from keyword bins ("very slowly" … "very fast", pitch relative to gender); label-like and all channels at once.
+- [F5-TTS / E2 TTS](f5-tts.md) — 2024–2025 — reject — voice cloned from a reference clip; speed only; weights CC-BY-NC.
+- [MeloTTS](melotts.md) — 2024 — watch — MIT, fixed accent speakers, CPU real time; speed only, identity carrier.
+- [Coqui TTS / XTTS v2](coqui-xtts.md) — 2023 — reject — cloning from a 3-s clip; weights under the Coqui Public Model License (text not read).
+- [VoxCPM2](voxcpm2.md) — 2026 — reject — Apache-2.0, 2B; controls are natural-language instructions naming emotion and pace, identity by description or cloning; RTF ≈ 1.76 on an M4 Pro.
+- [WordVoice (Nie et al.)](wordvoice-2026.md) — 2026 — watch — abstract only: explicit word-level duration, boundary, energy, pitch and tone in an LLM TTS; licence, binning and cloning unknown.
+- [MAGIC-TTS (Mai et al.)](magic-tts-2026.md) — 2026 — watch — abstract only: explicit token-level duration and pause control; timing channels only.
+- [Searching for a new core mechanism, eleventh pass: the voice (synthesis)](new-core-search-11-synthesis.md) — 2026 — synthesis — no new core; per-channel ceilings on the six voice channels hold by construction only when each channel is a separate rendered quantity checked after rendering (WORLD resynthesis, or Kokoro's internal F0/energy/duration curves plus a check); learned style latents bundle channels and import human expressive statistics; draft Q1 options, recommendation a fixed Kokoro voice with WORLD.
 
 ## Evaluation instruments (S0, for evaluation.md)
 
