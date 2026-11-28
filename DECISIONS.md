@@ -546,3 +546,10 @@ To change: restore `body.Dp` in ALLOWED_WEIGHT_SIGNALS and COL["Dp"] in nightly.
 - Recorded, not built (each needs its own step): the untyped `Dp` store column (remove or tag F); `own_loads` has no typed writer and must not be taught by his face (latent, same pattern as D100); fix R2 (fit the readers unweighted); Change R (waits on whether replay should cover the whole retention window: as built, each moment is replayed on one night only); the co-drift anchor and probe monitor (probes must not keep his faces beyond 30 days).
 
 To change: pass `L.reader_his`, `L.reader_own` back to `GateInputs.slow` in engine/shadow/shadow.py (not recommended), or call `freeze_gate_readers()` after refitting the gates.
+
+## D102. The exact Claude model is recorded, and a change silences the agent until pinned (recorded 2026-11-28T13:37:33Z)
+- Search pass 18 (research/new-core-search-18-synthesis.md) found that `claude_model` defaults to the alias "haiku" and the pool dropped the model id the CLI reports, so a change of model behind the alias would change the agent's whole manner of speaking with no record.
+- Fixed (Fix P): each draft records the init event's model id; the first id seen is kept in the omega state directory (`claude_model_seen.json`); a winning draft from a different id is not spoken: the turn is silent, `model_changed` (was, now) is logged, until the operator sets `claude_model` to the new exact id. Test: tests/test_omega.py::test_a_model_change_silences_the_agent_until_pinned. make ci green: 323 passed, 1 xfailed (F22).
+- Recorded, not built: Rule I (rollouts hold his presence fixed), Rule M (Claude never gets a profile or a personalisation instruction), Monitor W (chosen vs rejected first sentences on his logged turns), Change U (a weekly usage log the engine never reads). New operator questions Q36 (the fixed text, options A/B/C) and Q37 (daily use, U0–U3); Q4 gained options I0–I3.
+
+To change: delete `claude_model_seen.json` to accept whatever model next speaks, or remove the `_model_ok` check in engine/omega/pool.py (not recommended).

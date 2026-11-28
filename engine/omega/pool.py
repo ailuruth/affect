@@ -167,6 +167,7 @@ class Draft:
     first: str | None = None
     score: float | None = None
     session_id: str | None = None
+    model: str | None = None       # the exact model id the CLI reports in its init event (Fix P, D102)
     usage: dict = field(default_factory=dict)
     duration_ms: float | None = None
     ended: bool = False
@@ -236,6 +237,7 @@ class Fork:
                 if kind == "system":
                     if ev.get("subtype") == "init":
                         d.session_id = ev.get("session_id")
+                        d.model = ev.get("model")
                     elif ev.get("subtype") == "compact_boundary":
                         d.compact = True
                 elif kind == "stream_event":
@@ -340,6 +342,30 @@ class Pool:
         self.log = []
         self._interrupt = asyncio.Event()
         self.killed_pids = []
+
+    # ---------------------------------------------------------------- the model behind the voice (Fix P, D102)
+    def _model_ok(self, model) -> bool:
+        """The exact model id that speaks is recorded the first time it is seen. If a later turn reports a different id
+        (an alias such as "haiku" resolving to a new model), the change is logged and the agent stays silent until the
+        operator sets `claude_model` to the new exact id, so a model change can never alter the agent's words
+        unnoticed."""
+        if not model:
+            return True
+        path = self.cfg.state_dir / "claude_model_seen.json"
+        try:
+            prev = json.loads(path.read_text()).get("model")
+        except (OSError, ValueError):
+            prev = None
+        if prev is None or model == self.cfg.model:
+            if prev != model:
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text(json.dumps({"model": model}))
+                self._note("model_recorded", model=model, was=prev)
+            return True
+        if model == prev:
+            return True
+        self._note("model_changed", was=prev, now=model)
+        return False
 
     # ---------------------------------------------------------------- lifecycle
     def _note(self, what: str, **kw) -> None:
@@ -544,6 +570,9 @@ class Pool:
                     self.killed_pids.append(f.proc.pid)
                 await f.reap()
         self._replace_in_background()
+        # ---- the model that would speak must be the recorded one (Fix P, D102)
+        if not self._model_ok(win.draft.model):
+            return await self._silent(new, "model_changed")
         # ---- A11 on the winner's own session file, before any word goes out
         try:
             self._check_fork(win, final=False)

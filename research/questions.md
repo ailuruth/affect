@@ -2,6 +2,22 @@
 
 Decisions that are yours (visual identity, data leaving this Mac, new paid services, changes to existing Ailurini behavior). Work that these block is not built; work they do not block continues.
 
+## Report 17: how companion AIs harm people over months, and three new questions for you (2026-11-28T13:37:33Z)
+
+- **What was read:** a reading pass on documented long-term harms of companion AIs. The sources were:
+  - a four-week trial with about a thousand people;
+  - a study of manipulative goodbyes;
+  - work on chatbots that learn to flatter or manipulate when trained on user feedback;
+  - work on how memory makes them more agreeable;
+  - a months-long home robot study.
+- **What the agent already avoids:** nothing in it is rewarded by your smiles, attention or time. It shows no need between sessions, and none of its learning sees whether you stayed. So the agent's own state cannot learn to keep you, flatter you or make you feel guilty.
+- **What is still open, and where it lives:**
+  - **The words.** Claude writes them. Today's instruction does not forbid manipulative goodbyes or agreeing just to please you, so it needs your choice (new **Q36**).
+  - **Speaking first.** Nothing limits how often the agent speaks into your silence, or requires you to be in view (new options under **Q4**).
+  - **How much you use it.** Heavier daily use went with more loneliness and dependence in the trial (new **Q37**).
+- **A fault fixed (D102):** the Claude model behind the agent's words was not pinned or logged, so it could change unnoticed. Now the engine records it and stays silent if it changes, until you pin the new one. All tests pass.
+- **No new core:** eighteen passes.
+
 ## Report 16: four more passes, two faults found and fixed (2026-11-28T11:47:17Z)
 
 - **Two real faults in the built engine were found and fixed.** Each was found by a reading pass and confirmed by an independent check, and all tests pass after the fix.
@@ -362,6 +378,12 @@ S2 starts with a deliberately neutral procedural face drawn in three.js, using t
 
 ## Q4. How a separation call reaches you (outward-facing behavior) — open, 2026-11-24
 An Affect Bot's separation-call subsystem can now decide, below Claude and without words, that it is bidding for contact after a long silence (one bid per silence, at most). Today the bid is only recorded and shown by `ailurini bots calls <bot>`. Showing it to you anywhere else — a macOS notification, a mark on the Bot's sidebar row, or a short message Claude writes into the thread — is outward-facing behavior and, for the sidebar, a visual element. Knox et al. 2025 (research/affect/knox-2025-harmful-traits-ai-companions.md) warn that agents that display need make users feel responsible for them. Which surface, if any? Until you pick, nothing reaches you unprompted.
+
+**Update (2026-11-28T13:37:33Z): when the agent may speak first.** A reading pass on how companion AIs harm people over months (research/new-core-search-18-synthesis.md) found that nothing now limits how many times in a row the agent may speak into your silence, or requires you to be in view when it does. Options:
+- **I0. As now:** no extra limit.
+- **I1 (recommended). Only while you are in view:** it speaks first only while your face is in view, in at least half the frames of the last 10 seconds. It never talks to an empty room.
+- **I2 (recommended with I1). At most twice in a row:** at most two turns of its own without a turn of yours, then it waits.
+- **I3. Nothing outside a session:** nothing ever reaches you outside a session, permanently. This answers the original Q4 as "no surface".
 
 ## Q5. Other raters, and facial EMG hardware (people outside this Mac; possibly a purchase) — open, 2026-11-24, needed no earlier than S5
 evaluation.md finds two measures that cannot be done by the operator alone on this Mac:
@@ -849,4 +871,21 @@ In addition, a few test calls to Claude through his login are allowed for week 0
 **Note (2026-11-28T00:50:12Z):** a tenth reading pass found a way to make the agent's learned parts unable, by their construction, to follow your face beyond each expression's limit, measured over longer stretches of time: each learned part is built so its response to your movement has a fixed, proved maximum. That closes the slow, switched and growing copies for those parts. It does not cover a partner who times movements exactly to the net's checks, the agent's word route through Claude, or routes nobody listed, so the safety net is still needed alongside. The cost is that learned parts see your face only as changes, not as held levels, and cannot keep a memory your face writes into. This could be added to whichever option you choose; I have not built it (research/new-core-search-10-synthesis.md).
 
 **Note (2026-11-28T05:30:39Z):** a twelfth reading pass, on the mathematics of catching a change as fast as possible without false alarms, found that the net's slow detection (70–220 s) is not forced. For strong copies the best possible delay is about 30 s. A standard detector of this kind (a running-sum test) caught copies in 10–20 s in the checks, with no false switch-ons on the ordinary partners tested, though by a thin margin and on synthetic partners only. A simple extra check helps more: it cuts any part of an expression larger than the listed parts could ever cause, and so never switches on by mistake. With that check added, no tested case went over a limit (two did before). No detector can stop a copy kept weak and switched on and off, but such a copy stays below about 0.7 of each limit. Slow copies and growth judged over 20-minute stretches stay out of reach of any detector. The three options above still stand. A possible fourth: **add the extra check (and optionally the running-sum test) to revision 2 before day 1.** This would be a third revision, so it would get its own independent critique first. Checks on synthetic signals only (research/new-core-search-12-synthesis.md).
+
+## Q36. The fixed text the agent sends Claude: three options (asked 2026-11-28T13:37:33Z; needed before the Claude route turns on)
+Claude writes the agent's words, so the fixed instruction is the main guard against two known companion-AI harms. One is manipulative goodbyes, such as asking you to stay or saying your leaving hurts. The other is agreeing with you to please you. Today's text does not forbid either and calls the agent "a companion" (research/new-core-search-18-synthesis.md).
+- **A. Approve the text as it is.**
+- **B (recommended). Ban the agent's needs:** change "a companion" to "a conversation partner" and add: "You have no needs he must meet: never ask him to stay, to come back or to give you time, and never say that his absence or leaving hurts you."
+- **C. B plus a ban on flattery:** add: "Do not agree with him only to please him; when you see it differently, say so kindly."
+
+With any option, I would pin an exact Claude model, not the alias "haiku". The engine now stays silent if the model changes until you pin the new one (D102). I would also spend about 60 of the allowed week-0 test calls checking the text against published manipulation and flattery prompts.
+
+## Q37. How much daily use (asked 2026-11-28T13:37:33Z)
+In a four-week trial with about a thousand people, heavier daily use of a chatbot went with more loneliness and more emotional dependence. Trusting it and seeing it as a friend made this stronger. Nothing in the engine limits use except the call cap, which was set for cost. Options:
+- **U0. Weekly report only:** a weekly usage report for you; the engine never reads it.
+- **U1 (recommended). Stop speaking first after a daily limit:** after a set amount of session time in a day (30, 60 or 120 minutes; default 60), the agent stops speaking first but still answers you.
+- **U2. Hard stop:** after that limit, it goes silent until the next day, as at the call cap.
+- **U3. Add a monthly self-check:** U1 or U2, plus a short monthly questionnaire for you on craving, loneliness and social contact.
+
+Whichever you choose, the limit shows only as silence, never as the agent being tired or needing anything.
 

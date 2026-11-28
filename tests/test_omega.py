@@ -528,3 +528,18 @@ def test_f19_reply_text_reaches_the_state_only_as_own_heard():
                  ports.own_turn_events, lambda x: ports.turn_question_bit(x, True)):
         with pytest.raises(TypeError):
             port(reply)
+
+
+# ------------------------------------------------------------------------- Fix P (D102): the model is pinned and logged
+def test_a_model_change_silences_the_agent_until_pinned(env):
+    """The exact model id the CLI reports is recorded; a different id later makes the turn silent and is logged, until
+    the operator sets claude_model to the new exact id."""
+    env.set({"text": "Hello there. Second."})
+    r1, p1 = run(session(env.cfg(base_env={"FAKE_CLAUDE_MODEL": "m-a"}), [(his("Hi."), ()), (his("Again."), ())]))
+    assert all(r.reply is not None for r in r1)
+    assert any(e["event"] == "model_recorded" and e["model"] == "m-a" for e in p1.log)
+    r2, p2 = run(session(env.cfg(base_env={"FAKE_CLAUDE_MODEL": "m-b"}), [(his("Still there?"), ())]))
+    assert r2[0].reply is None and r2[0].reason == "silent:model_changed"
+    assert any(e["event"] == "model_changed" and e["was"] == "m-a" and e["now"] == "m-b" for e in p2.log)
+    r3, p3 = run(session(env.cfg(base_env={"FAKE_CLAUDE_MODEL": "m-b"}, claude_model="m-b"), [(his("Now?"), ())]))
+    assert r3[0].reply is not None
