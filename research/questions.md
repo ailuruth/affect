@@ -2,6 +2,25 @@
 
 Decisions that are yours (visual identity, data leaving this Mac, new paid services, changes to existing Ailurini behavior). Work that these block is not built; work they do not block continues.
 
+## Report 15: the new safety net, the voice options, and four more searches (choices in Q1 and Q35; 2026-11-28T07:00:44Z)
+
+- **Your answers are built in.** The agent can now learn head pose, gaze and voice sound from the recorded conversations, and every check passes (320 tests, plus the one known failure that waits on Q35).
+- **The new safety net (Q35):**
+  - **What it does:** it cuts any expression in which your face is showing up too strongly, with a limit that scales with that expression's own limit.
+  - **Checks:** it was designed, critiqued by an independent reviewer and revised once. It now holds 206 of 208 test cases, and it never switched on by mistake for an ordinary partner.
+  - **Where it falls short:** it still misses the goal of holding every case at the limit. A copy of your face that is switched on and off, or that sits between the net's checkpoints, slips through for a minute or two.
+  - **Tuning stopped:** this was the second miss of that goal, so I stopped tuning.
+  - **The choice is yours:** the options are in Q35.
+- **Four more searches for a new core, all finding components, not a core:**
+  - **Learned parts with a proved limit:** the agent's learned parts can be built so that, by construction, they can never follow your face beyond each expression's limit over long stretches of time. This is an option to add to the safety net (Q35 note).
+  - **The voice:** the voice plan already built is the right one. Six voice settings are each set separately, under their own limit. Learned "style" controls are ruled out because they move several settings at once and are learned from actors' emotional speech. What is left is whose voice it is; the options are in Q1, and I recommend a Kokoro voice you pick by listening.
+  - **Faster detection:**
+    - the net's slow detection is not forced, since the best possible delay for strong copies is about 30 s;
+    - a simple extra check stopped every tested case from going over a limit;
+    - this is an optional fourth line in Q35, and it would need its own review first.
+  - **Partner-specific reactions:** people stop returning a disliked partner's smiles within about 15 minutes. The agent learns the same thing, but over about 60 sessions. A fix that reads only your words, never your face, is sketched but not built.
+- **Still open:** Q1 (voice), Q35 (safety net), Q28 (whether to keep searching; thirteen passes, no new core), the nightly replay schedule, and your approval of the fixed text the agent sends Claude.
+
 ## Report 14: your answers of 2026-11-28 and what they change (recorded 2026-11-27T15:30:29Z)
 
 - **Recorded conversations:** the starting model may be fitted on them (Q25), and head pose, gaze and voice sound (pitch, loudness and timing as numbers) may now be learned from them, on your Mac only, no labels (Q30). Nods, head tilts, gaze for turn-taking and the sound of the voice become learnable instead of staying at reflex level.
