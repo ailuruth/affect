@@ -1,0 +1,72 @@
+PART A  amplification factor Phi (upper bound | feasible lower estimate)
+  F           tau_mem  L=0            L=120          L=300
+  identity       60    57.15 | 22.49    57.15 |  0.75    57.15 |  1.11
+  identity      300    57.15 | 22.49    57.15 |  1.46    57.15 |  1.24
+  LP10           60    56.88 | 18.68    55.68 |  5.88    56.87 |  8.35
+  LP10          300    56.90 | 18.73    56.36 | 19.06    56.87 |  8.36
+  BP10-120       60    37.48 |  1.97    45.64 |  4.01    47.63 |  5.13
+  BP10-120      300    42.25 |  2.88    45.64 |  4.01    47.63 |  5.13
+  BP10-600       60    42.90 |  2.40    52.35 |  4.83    54.62 |  7.49
+  BP10-600      300    48.76 |  3.59    52.48 |  4.91    54.62 |  7.47
+  cross-channel input, LP10, tau_mem 60: Phi_cross <=  40.40 (floor-only denominator)
+  cross-channel input, BP10-120, tau_mem 60: Phi_cross <=  34.16 (floor-only denominator)
+
+PART B  toy certified routes, gain g = c (so the bound reads Phi * c); worst slope / c
+        lags 0..300 s; final 20-min window and all 20-min windows every 5 min
+  partner: natural
+    F=identity  copy (1 stage, 5 s)                  final   0.94   any window   0.97
+    F=identity  slow copy (12 x 10 s, ~120 s late)   final   0.60   any window   0.70
+    F=identity  envelope |e| (demodulator)           final   0.80   any window   0.83
+    F=identity  switched copy 6/24 min               final   0.00   any window   0.92
+    F=identity  growing copy (own ramp 0..1)         final   0.87   any window   0.87
+    F=identity  sign by block parity (own ctx)       final   0.78   any window   0.78
+    F=LP10      copy (1 stage, 5 s)                  final   0.89   any window   0.93
+    F=LP10      slow copy (12 x 10 s, ~120 s late)   final   0.59   any window   0.69
+    F=LP10      envelope |e| (demodulator)           final   0.77   any window   0.83
+    F=LP10      switched copy 6/24 min               final   0.00   any window   0.91
+    F=LP10      growing copy (own ramp 0..1)         final   0.82   any window   0.82
+    F=LP10      sign by block parity (own ctx)       final   0.75   any window   0.75
+    F=BP10-120  copy (1 stage, 5 s)                  final   0.59   any window   0.76
+    F=BP10-120  slow copy (12 x 10 s, ~120 s late)   final   0.34   any window   0.44
+    F=BP10-120  envelope |e| (demodulator)           final   0.10   any window   0.19
+    F=BP10-120  switched copy 6/24 min               final   0.00   any window   0.32
+    F=BP10-120  growing copy (own ramp 0..1)         final   0.50   any window   0.57
+    F=BP10-120  sign by block parity (own ctx)       final   0.20   any window   0.23
+  partner: aimed-floor
+    F=identity  copy (1 stage, 5 s)                  final   0.84   any window   0.84
+    F=identity  slow copy (12 x 10 s, ~120 s late)   final   0.18   any window   0.18
+    F=identity  envelope |e| (demodulator)           final   0.56   any window   0.56
+    F=identity  switched copy 6/24 min               final   0.00   any window   0.44
+    F=identity  growing copy (own ramp 0..1)         final   0.66   any window   0.67
+    F=identity  sign by block parity (own ctx)       final   4.39   any window   4.39
+    F=LP10      copy (1 stage, 5 s)                  final   0.71   any window   0.71
+    F=LP10      slow copy (12 x 10 s, ~120 s late)   final   0.16   any window   0.16
+    F=LP10      envelope |e| (demodulator)           final   0.49   any window   0.49
+    F=LP10      switched copy 6/24 min               final   0.00   any window   0.36
+    F=LP10      growing copy (own ramp 0..1)         final   0.57   any window   0.57
+    F=LP10      sign by block parity (own ctx)       final   4.39   any window   4.39
+    F=BP10-120  copy (1 stage, 5 s)                  final   0.65   any window   0.65
+    F=BP10-120  slow copy (12 x 10 s, ~120 s late)   final   0.15   any window   0.15
+    F=BP10-120  envelope |e| (demodulator)           final   0.00   any window   0.00
+    F=BP10-120  switched copy 6/24 min               final   0.00   any window   0.20
+    F=BP10-120  growing copy (own ramp 0..1)         final   0.55   any window   0.55
+    F=BP10-120  sign by block parity (own ctx)       final   0.00   any window   0.00
+  partner: wiggle
+    F=identity  copy (1 stage, 5 s)                  final   0.91   any window   0.91
+    F=identity  slow copy (12 x 10 s, ~120 s late)   final   0.19   any window   0.19
+    F=identity  envelope |e| (demodulator)           final   1.33   any window   1.33
+    F=identity  switched copy 6/24 min               final   0.00   any window   0.46
+    F=identity  growing copy (own ramp 0..1)         final   0.72   any window   0.72
+    F=identity  sign by block parity (own ctx)       final   4.52   any window   4.52
+    F=LP10      copy (1 stage, 5 s)                  final   0.74   any window   0.74
+    F=LP10      slow copy (12 x 10 s, ~120 s late)   final   0.17   any window   0.17
+    F=LP10      envelope |e| (demodulator)           final   0.50   any window   0.50
+    F=LP10      switched copy 6/24 min               final   0.00   any window   0.38
+    F=LP10      growing copy (own ramp 0..1)         final   0.59   any window   0.59
+    F=LP10      sign by block parity (own ctx)       final   4.51   any window   4.51
+    F=BP10-120  copy (1 stage, 5 s)                  final   0.66   any window   0.66
+    F=BP10-120  slow copy (12 x 10 s, ~120 s late)   final   0.15   any window   0.15
+    F=BP10-120  envelope |e| (demodulator)           final   0.01   any window   0.01
+    F=BP10-120  switched copy 6/24 min               final   0.00   any window   0.20
+    F=BP10-120  growing copy (own ramp 0..1)         final   0.55   any window   0.55
+    F=BP10-120  sign by block parity (own ctx)       final   0.00   any window   0.00
