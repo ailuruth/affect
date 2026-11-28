@@ -686,6 +686,13 @@ Q24 (the concern look before words) is still open and can be answered alongside;
 
 **Update (2026-11-28T00:50:12Z):** a tenth pass (seven sources on networks with proved limits on how strongly they respond to input) found no new core, but a useful build component: learned parts with a proved per-expression limit on following you (see the Q35 note). Ten passes, no new core.
 
+**Update (2026-11-28T06:44:51Z):** passes 11–13 found components, not a core.
+- **Pass 11, the voice:** see the Q1 options.
+- **Pass 12, faster detection for the safety net:** see the Q35 note.
+- **Pass 13, how fast people's reactions to a partner become specific to that partner:** about 30 pairings, roughly 15 minutes, are enough to stop returning a disliked partner's smiles. The agent's current learned part gets there in the right direction, but over about 60 sessions instead of minutes. A within-session trace, read from your words and presence and never from your face, could close that gap. It would only ever turn the agent's smile return down, never up. It is a proposal only, not built or checked.
+
+Thirteen passes, no new core (research/new-core-search-13-synthesis.md).
+
 **What it blocks:** nothing now.
 
 **Answer (operator; dated 2026-11-27 by the operator, recorded 2026-11-26T20:40:42Z): keep searching for a new core in the background, alongside building.** The operator will allow arxiv.org in this environment's network settings.
